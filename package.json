@@ -5,12 +5,12 @@
   "main": "index.js",
   "private": true,
   "scripts": {
+    "start": "npm run prettier && webpack serve --mode=development",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",
     "watch": "webpack --watch",
-    "serve": "webpack serve --mode=development",
     "prettier": "prettier --write ./src ./*.json ./*js"
   },
   "keywords": [
@@ -28,6 +28,7 @@
     "autoprefixer": "^10.3.2",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
+    "copy-webpack-plugin": "^9.0.1",
     "css-loader": "^6.2.0",
     "eslint-plugin-react": "^7.24.0",
     "eslint-webpack-plugin": "^3.0.1",
@@ -44,7 +45,10 @@
     "workbox-webpack-plugin": "^6.2.4"
   },
   "dependencies": {
+    "core-js": "^3.16.2",
     "react": "^17.0.2",
-    "react-dom": "^17.0.2"
+    "react-dom": "^17.0.2",
+    "regenerator-runtime": "^0.13.9",
+    "three": "^0.131.3"
   }
 }

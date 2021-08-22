@@ -1,14 +1,18 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
+
 import ReactDOM from "react-dom";
 
 import React from "react";
 import { GameWidget } from "./common/ui/GameWidget.js";
 
+import "./index.css";
+
 console.info(GameWidget);
 
-ReactDOM.render(
-  <div>
-    <h1>Hello World</h1>
-    <GameWidget name="Gravity Game" />
-  </div>,
-  document.body
-);
+var divRootElement = document.createElement("div");
+divRootElement.id = "root";
+
+document.body.appendChild(divRootElement);
+
+ReactDOM.render(<GameWidget />, divRootElement);

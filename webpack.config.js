@@ -4,6 +4,7 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
 const ESLintPlugin = require("eslint-webpack-plugin");
+const CopyPlugin = require("copy-webpack-plugin");
 
 const isProduction = process.env.NODE_ENV == "production";
 
@@ -21,7 +22,10 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin(),
-    new ESLintPlugin(),
+    new CopyPlugin({
+      patterns: [{ context: "src", from: "res/*" }],
+    }),
+    new ESLintPlugin()
 
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
