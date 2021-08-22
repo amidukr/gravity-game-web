@@ -25,7 +25,7 @@ const config = {
     new CopyPlugin({
       patterns: [{ context: "src", from: "res/*" }],
     }),
-    new ESLintPlugin()
+    new ESLintPlugin(),
 
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/

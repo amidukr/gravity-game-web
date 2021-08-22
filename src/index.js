@@ -4,7 +4,7 @@ import "regenerator-runtime/runtime";
 import ReactDOM from "react-dom";
 
 import React from "react";
-import { GameWidget } from "./common/ui/GameWidget.js";
+import { GameWidget } from "./common/ui/GameWidget";
 
 import "./index.css";
 
