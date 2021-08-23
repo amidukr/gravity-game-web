@@ -41,8 +41,8 @@ export class GameWidget extends React.Component {
       const controls = new OrbitControls(camera, renderer.domElement);
 
       renderer.physicallyCorrectLights = true;
-      scene.getChildByName("SunLight_Orientation").intensity = 20;
-      window.scene = gameScene.scene;
+      //scene.getObjectByName("SunLight_Orientation").intensity = 20;
+      //window.scene = gameScene.scene;
 
       console.info(
         gameScene.scene.children[1].children[6].children[0].children[0]
