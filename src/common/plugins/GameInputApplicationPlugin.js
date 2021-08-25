@@ -1,18 +1,17 @@
-import { ApplicationGlobalFunctions } from "../app/lookup/ApplicationGlobalFunctions";
+import { ApplicationComponentMeta } from "../app/lookup/ApplicationComponentMeta";
 
-import { GameKeyActionMap } from "../framework/input/GameKeyActionMap";
-import { GameKeyboardInput } from "../framework/input/GameKeyboardInput";
-import { GameMouseInput } from "../framework/input/GameMouseInput";
+import { GameButtonActionMap } from "../framework/game/input/GameButtonActionMap";
+import { GameButtonDeviceInput } from "../framework/game/input/GameButtonDeviceInput";
+import { GameAxisDeviceInput } from "../framework/game/input/GameAxisDeviceInput";
 
 export class GameInputApplicationPlugin {
   constructor() {
-    ApplicationGlobalFunctions.registerFunction(
-      this,
-      function registerPluginComponents(application) {
-        application.registerComponent(new GameKeyActionMap());
-        application.registerComponent(new GameKeyboardInput());
-        application.registerComponent(new GameMouseInput());
-      }
-    );
+    ApplicationComponentMeta.bindComponentFunctionToGlobal(this);
+  }
+
+  registerPluginComponents(application) {
+    application.registerComponent(new GameButtonActionMap());
+    application.registerComponent(new GameButtonDeviceInput());
+    application.registerComponent(new GameAxisDeviceInput());
   }
 }

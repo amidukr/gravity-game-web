@@ -1,12 +1,13 @@
-import { ApplicationGlobalFunctions } from "./lookup/ApplicationGlobalFunctions";
+import { ApplicationComponentMeta } from "./lookup/ApplicationComponentMeta";
 import { Promise } from "bluebird";
 
 export class Application {
-  __components = {};
+  __components = [];
+  __componentByInterface = {};
   __plugins = [];
 
   constructor() {
-    this.registerComponent({ component: this });
+    this.registerComponent(this);
     this.__resetCache();
   }
 
@@ -18,13 +19,25 @@ export class Application {
   registerComponent(component) {
     this.__resetCache();
 
-    this.__components[component.constructor.name] = component;
+    this.__components.push(component);
+
+    this.__componentByInterface[component.constructor.name] = component;
+
+    ApplicationComponentMeta.getInterfaceNames(component).forEach(
+      (name) => (this.__componentByInterface[name] = component)
+    );
+
+    ApplicationComponentMeta.invokeGlobalFunction(
+      component,
+      "onComponentRegistered",
+      [this]
+    );
   }
 
   getComponentsWithGlobalFunctions(functionName) {
     if (!this.__withGlobalFunctionsCache) {
       this.__withGlobalFunctionsCache = Object.values(this.__components).filter(
-        (component) => ApplicationGlobalFunctions.getInterface(component)
+        (component) => ApplicationComponentMeta.getGlobalFunctions(component)
       );
     }
 
@@ -32,7 +45,7 @@ export class Application {
       this.__globalFunctionsCache[functionName] =
         this.__withGlobalFunctionsCache.filter(
           (component) =>
-            ApplicationGlobalFunctions.getInterface(component)[functionName]
+            ApplicationComponentMeta.getGlobalFunctions(component)[functionName]
         );
     }
 
@@ -42,7 +55,11 @@ export class Application {
   invokeGlobalFunctions(functionName, ...args) {
     return this.getComponentsWithGlobalFunctions(functionName).map(
       (component) =>
-        ApplicationGlobalFunctions.invoke(component, functionName, args)
+        ApplicationComponentMeta.invokeGlobalFunction(
+          component,
+          functionName,
+          args
+        )
     );
   }
 
@@ -61,6 +78,10 @@ export class Application {
   }
 
   getComponentByType(type) {
-    return this.__components[type.name];
+    return this.getComponentByInterfaceName(type.name);
+  }
+
+  getComponentByInterfaceName(interfaceName) {
+    return this.__componentByInterface[interfaceName];
   }
 }

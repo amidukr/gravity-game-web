@@ -1,12 +1,11 @@
-import { ApplicationGlobalFunctions } from "../app/lookup/ApplicationGlobalFunctions";
+import { ApplicationComponentMeta } from "../app/lookup/ApplicationComponentMeta";
 
 export class ApplicationWindowVariablePlugin {
   constructor() {
-    ApplicationGlobalFunctions.registerFunction(
-      this,
-      function registerPluginComponents(application) {
-        window.application = application;
-      }
-    );
+    ApplicationComponentMeta.bindComponentFunctionToGlobal(this);
+  }
+
+  registerPluginComponents(application) {
+    window.application = application;
   }
 }

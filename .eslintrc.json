@@ -4,6 +4,7 @@
   "env": {
     "browser": true
   },
+  "plugins": ["spellcheck"],
   "rules": {
     // Override our default settings just for this directory
     "eqeqeq": "warn",

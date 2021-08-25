@@ -8,10 +8,11 @@ import { GameWidget } from "./common/ui/GameWidget";
 
 import { Application } from "./common/app/Application.js";
 
-import { GameInputApplicationPlugin } from "./common/plugins/GameInputApplicationPlugin";
 import { ApplicationWindowVariablePlugin } from "./common/plugins/ApplicationWindowVariablePlugin";
 
 import "./index.css";
+import { GameBootstrapPlugin } from "./common/plugins/GameBootstrapPlugin";
+import { GravityGameEnginePlugin } from "./game/gravity/plugins/GravityGamePlugin";
 
 function createRootWidget() {
   var divRootElement = document.createElement("div");
@@ -25,15 +26,27 @@ function createRootWidget() {
 async function createApplication() {
   const application = new Application();
 
-  application.registerComponent(new GameInputApplicationPlugin());
   application.registerComponent(new ApplicationWindowVariablePlugin());
+  application.registerComponent(new GameBootstrapPlugin());
+  application.registerComponent(new GravityGameEnginePlugin());
 
   await application.start();
+
+  return application;
+}
+
+async function startGame(application) {
+  const gameLoader = application.getComponentByInterfaceName("GameLoader");
+  const gameEngine = application.getComponentByInterfaceName("GameEngine");
+
+  await gameLoader.loadGame({ levelName: "Planet System3.glb" });
+  gameEngine.start();
 }
 
 async function main() {
   createRootWidget();
-  await createApplication();
+  const application = await createApplication();
+  startGame(application);
 }
 
 main();
