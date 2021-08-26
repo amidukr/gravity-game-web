@@ -1,5 +1,5 @@
-/*export class GameModel {
-  shared = {};
+export class GameModel {
+  /*  shared = {};
   local = {};
   transient = {};
 
@@ -17,5 +17,5 @@
 
   setTransient(transient) {
     this.transient = transient;
-  }
-}*/
+  }*/
+}

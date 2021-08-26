@@ -1,3 +1,4 @@
+import { Promise } from "bluebird";
 import { ApplicationComponentMeta } from "../../app/lookup/ApplicationComponentMeta";
 import { GameEvent } from "./GameEvent";
 
@@ -5,14 +6,11 @@ export class GameEngine {
   controllers = [];
 
   constructor() {
-    const self = this;
+    ApplicationComponentMeta.bindToGlobalFunctions(this);
+  }
 
-    ApplicationComponentMeta.registerGlobalFunction(
-      this,
-      function autowire(application) {
-        self.application = application;
-      }
-    );
+  autowire(application) {
+    this.application = application;
   }
 
   __gameLoop() {
@@ -40,6 +38,10 @@ export class GameEngine {
   }
 
   start() {
+    Promise.all(
+      this.controllers.map((x) => x.start && x.start(this.application))
+    );
+
     this.__gameLoop();
   }
 }

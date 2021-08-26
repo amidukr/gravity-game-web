@@ -80,18 +80,24 @@ export class Application {
   }
 
   getComponent(descriptor) {
+    let component;
+
     if (typeof descriptor === "string") {
-      return this.getComponentByInterfaceName(descriptor);
+      component = this.getComponentByInterfaceName(descriptor);
+    } else if (typeof descriptor === "function") {
+      component = this.getComponentByType(descriptor);
+    } else {
+      throw Error(
+        "Unrecognized descriptor type: " +
+          typeof descriptor +
+          " should be string or function"
+      );
     }
 
-    if (typeof descriptor === "function") {
-      return this.getComponentByType(descriptor);
+    if (!component) {
+      throw Error("Can't find component for descriptor: " + descriptor);
     }
 
-    throw Error(
-      "Unrecognized descriptor type: " +
-        typeof descriptor +
-        " should be string or function"
-    );
+    return component;
   }
 }

@@ -3,24 +3,16 @@ import { GravityRenderingController } from "../controllers/GravityRenderingContr
 
 export class GravityGameLoader {
   constructor() {
-    const self = this;
-
     ApplicationComponentMeta.bindInterfaceName(this, "GameLoader");
+    ApplicationComponentMeta.bindToGlobalFunctions(this);
+  }
 
-    ApplicationComponentMeta.registerGlobalFunction(
-      this,
-      function autowire(application) {
-        self.gameLevelRepository = application.getComponent(
-          "GameLevelRepository"
-        );
-        self.gameVisualResources = application.getComponent(
-          "GameVisualResources"
-        );
-        self.gameEngine = application.getComponent("GameEngine");
-      }
-    );
+  autowire(application) {
+    this.application = application;
 
-    console.info(this);
+    this.gameLevelRepository = application.getComponent("GameLevelRepository");
+    this.gameVisualResources = application.getComponent("GameVisualResources");
+    this.gameEngine = application.getComponent("GameEngine");
   }
 
   async loadGame(levelDescriptor) {

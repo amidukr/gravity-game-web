@@ -14,6 +14,6 @@ export class GravityGameLevelRepository {
       loader.load("res/" + levelName, r)
     );
 
-    return { rootScene: gameScene };
+    return { rootScene: gameScene.scene };
   }
 }

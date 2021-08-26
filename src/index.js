@@ -8,26 +8,21 @@ import { GameWidget } from "./common/ui/GameWidget";
 
 import { Application } from "./common/app/Application.js";
 
-import { ApplicationWindowVariablePlugin } from "./common/plugins/ApplicationWindowVariablePlugin";
-
 import "./index.css";
-import { GameBootstrapPlugin } from "./common/plugins/GameBootstrapPlugin";
 import { GravityGameEnginePlugin } from "./game/gravity/plugins/GravityGamePlugin";
 
-function createRootWidget() {
+function createRootWidget(application) {
   var divRootElement = document.createElement("div");
   divRootElement.id = "root";
 
   document.body.appendChild(divRootElement);
 
-  ReactDOM.render(<GameWidget />, divRootElement);
+  ReactDOM.render(<GameWidget application={application} />, divRootElement);
 }
 
 async function createApplication() {
   const application = new Application();
 
-  application.registerComponent(new ApplicationWindowVariablePlugin());
-  application.registerComponent(new GameBootstrapPlugin());
   application.registerComponent(new GravityGameEnginePlugin());
 
   await application.start();
@@ -44,8 +39,8 @@ async function startGame(application) {
 }
 
 async function main() {
-  createRootWidget();
   const application = await createApplication();
+  createRootWidget(application);
   startGame(application);
 }
 
