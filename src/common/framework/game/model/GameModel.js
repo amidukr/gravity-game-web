@@ -1,5 +1,6 @@
-export class GameModel {
-  persistent = {};
+/*export class GameModel {
+  shared = {};
+  local = {};
   transient = {};
 
   getPersistent() {
@@ -17,4 +18,4 @@ export class GameModel {
   setTransient(transient) {
     this.transient = transient;
   }
-}
+}*/

@@ -27,11 +27,9 @@ export class Application {
       (name) => (this.__componentByInterface[name] = component)
     );
 
-    ApplicationComponentMeta.invokeGlobalFunction(
-      component,
-      "onComponentRegistered",
-      [this]
-    );
+    ApplicationComponentMeta.invokeGlobalFunction(component, "setApplication", [
+      this,
+    ]);
   }
 
   getComponentsWithGlobalFunctions(functionName) {
@@ -64,17 +62,13 @@ export class Application {
   }
 
   async start() {
-    await Promise.all(
-      this.invokeGlobalFunctions("registerPluginComponents", this)
-    );
+    await Promise.all(this.invokeGlobalFunctions("register", this));
 
-    this.invokeGlobalFunctions("autowireApplicationComponent", this);
+    this.invokeGlobalFunctions("autowire", this);
 
-    await Promise.all(
-      this.invokeGlobalFunctions("startApplicationComponent", this)
-    );
+    await Promise.all(this.invokeGlobalFunctions("start", this));
 
-    this.invokeGlobalFunctions("applicationStarted", this);
+    this.invokeGlobalFunctions("onApplicationStarted", this);
   }
 
   getComponentByType(type) {
@@ -83,5 +77,21 @@ export class Application {
 
   getComponentByInterfaceName(interfaceName) {
     return this.__componentByInterface[interfaceName];
+  }
+
+  getComponent(descriptor) {
+    if (typeof descriptor === "string") {
+      return this.getComponentByInterfaceName(descriptor);
+    }
+
+    if (typeof descriptor === "function") {
+      return this.getComponentByType(descriptor);
+    }
+
+    throw Error(
+      "Unrecognized descriptor type: " +
+        typeof descriptor +
+        " should be string or function"
+    );
   }
 }

@@ -1,4 +1,3 @@
-import { Application } from "../../app/Application";
 import { ApplicationComponentMeta } from "../../app/lookup/ApplicationComponentMeta";
 import { GameEvent } from "./GameEvent";
 
@@ -10,8 +9,8 @@ export class GameEngine {
 
     ApplicationComponentMeta.registerGlobalFunction(
       this,
-      function autowireApplicationComponent(application) {
-        self.application = application.getComponentByType(Application);
+      function autowire(application) {
+        self.application = application;
       }
     );
   }

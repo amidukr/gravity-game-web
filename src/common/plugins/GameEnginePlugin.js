@@ -5,10 +5,10 @@ import { GameVisualResources } from "../framework/game/rendering/GameVisualResou
 
 export class GameEnginePlugin {
   constructor() {
-    ApplicationComponentMeta.bindComponentFunctionToGlobal(this);
+    ApplicationComponentMeta.bindToGlobalFunctions(this);
   }
 
-  registerPluginComponents(application) {
+  register(application) {
     application.registerComponent(new GameEngine());
     application.registerComponent(new GameModel());
     application.registerComponent(new GameVisualResources());

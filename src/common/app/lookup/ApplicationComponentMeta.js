@@ -8,7 +8,7 @@ export class ApplicationComponentMeta {
     );
   }
 
-  static bindToInterfaceName(component, name) {
+  static bindInterfaceName(component, name) {
     const extension = ApplicationComponentMeta.__registerExtension(component);
 
     const interfacesNames =
@@ -25,7 +25,7 @@ export class ApplicationComponentMeta {
     return component[PROPERTY_APPLICATION_EXTENSION]?.globalFunctions;
   }
 
-  static bindComponentFunctionToGlobal(component) {
+  static bindToGlobalFunctions(component) {
     const extension = ApplicationComponentMeta.__registerExtension(component);
 
     const globalFunctions =

@@ -5,18 +5,18 @@ export class GravityGameLoader {
   constructor() {
     const self = this;
 
-    ApplicationComponentMeta.bindToInterfaceName(this, "GameLoader");
+    ApplicationComponentMeta.bindInterfaceName(this, "GameLoader");
 
     ApplicationComponentMeta.registerGlobalFunction(
       this,
-      function autowireApplicationComponent(application) {
-        self.gameLevelRepository = application.getComponentByInterfaceName(
+      function autowire(application) {
+        self.gameLevelRepository = application.getComponent(
           "GameLevelRepository"
         );
-        self.gameVisualResources = application.getComponentByInterfaceName(
+        self.gameVisualResources = application.getComponent(
           "GameVisualResources"
         );
-        self.gameEngine = application.getComponentByInterfaceName("GameEngine");
+        self.gameEngine = application.getComponent("GameEngine");
       }
     );
 

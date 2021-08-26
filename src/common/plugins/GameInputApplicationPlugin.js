@@ -6,10 +6,10 @@ import { GameAxisDeviceInput } from "../framework/game/input/GameAxisDeviceInput
 
 export class GameInputApplicationPlugin {
   constructor() {
-    ApplicationComponentMeta.bindComponentFunctionToGlobal(this);
+    ApplicationComponentMeta.bindToGlobalFunctions(this);
   }
 
-  registerPluginComponents(application) {
+  register(application) {
     application.registerComponent(new GameButtonActionMap());
     application.registerComponent(new GameButtonDeviceInput());
     application.registerComponent(new GameAxisDeviceInput());

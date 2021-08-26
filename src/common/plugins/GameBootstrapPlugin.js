@@ -4,10 +4,10 @@ import { GameInputApplicationPlugin } from "./GameInputApplicationPlugin";
 
 export class GameBootstrapPlugin {
   constructor() {
-    ApplicationComponentMeta.bindComponentFunctionToGlobal(this);
+    ApplicationComponentMeta.bindToGlobalFunctions(this);
   }
 
-  onComponentRegistered(application) {
+  setApplication(application) {
     application.registerComponent(new GameInputApplicationPlugin());
     application.registerComponent(new GameEnginePlugin());
   }

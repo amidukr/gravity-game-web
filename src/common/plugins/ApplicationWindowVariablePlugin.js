@@ -2,10 +2,10 @@ import { ApplicationComponentMeta } from "../app/lookup/ApplicationComponentMeta
 
 export class ApplicationWindowVariablePlugin {
   constructor() {
-    ApplicationComponentMeta.bindComponentFunctionToGlobal(this);
+    ApplicationComponentMeta.bindToGlobalFunctions(this);
   }
 
-  registerPluginComponents(application) {
+  register(application) {
     window.application = application;
   }
 }

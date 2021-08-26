@@ -4,10 +4,10 @@ import { GravityGameLoader } from "../level/GravityGameLoader";
 
 export class GravityGameEnginePlugin {
   constructor() {
-    ApplicationComponentMeta.bindComponentFunctionToGlobal(this);
+    ApplicationComponentMeta.bindToGlobalFunctions(this);
   }
 
-  registerPluginComponents(application) {
+  register(application) {
     application.registerComponent(new GravityGameLoader());
     application.registerComponent(new GravityGameLevelRepository());
   }

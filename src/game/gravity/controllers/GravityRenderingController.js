@@ -1,9 +1,11 @@
-import { GameVisualResources } from "../../../common/framework/game/rendering/GameVisualResources"
+import { GameVisualResources } from "../../../common/framework/game/rendering/GameVisualResources";
 
 export class GravityRenderingController {
   execute(event) {
-      const gameResources = event.application.getComponentByType(GameVisualResources).get()
+    const gameResources = event.application
+      .getComponent(GameVisualResources)
+      .get();
 
-      gameResources.rootScene.
+    //gameResources.rootScene.
   }
 }

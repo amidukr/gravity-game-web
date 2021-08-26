@@ -4,7 +4,7 @@ import { ApplicationComponentMeta } from "../../../common/app/lookup/Application
 
 export class GravityGameLevelRepository {
   constructor() {
-    ApplicationComponentMeta.bindToInterfaceName(this, "GameLevelRepository");
+    ApplicationComponentMeta.bindInterfaceName(this, "GameLevelRepository");
   }
 
   async loadLevel(levelName) {
