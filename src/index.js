@@ -34,7 +34,7 @@ async function startGame(application) {
   const gameLoader = application.getComponent("GameLoader");
   const gameEngine = application.getComponent("GameEngine");
 
-  await gameLoader.loadGame({ levelName: "Planet System3.glb" });
+  await gameLoader.loadGame({ levelName: "demo" });
   gameEngine.start();
 }
 

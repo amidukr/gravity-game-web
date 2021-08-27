@@ -1,9 +1,9 @@
 export class GameVisualResources {
   set(visualResourcesOjbect) {
-    this.visualResourcesOjbect = visualResourcesOjbect;
+    this.__visualResourcesOjbect = visualResourcesOjbect;
   }
 
   get() {
-    return this.visualResourcesOjbect;
+    return this.__visualResourcesOjbect;
   }
 }

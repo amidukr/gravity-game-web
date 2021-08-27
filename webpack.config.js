@@ -1,5 +1,3 @@
-// Generated using webpack-cli https://github.com/webpack/webpack-cli
-
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
@@ -10,6 +8,12 @@ const isProduction = process.env.NODE_ENV == "production";
 
 const stylesHandler = "style-loader";
 
+chromeBrowserNamesByPlatform = {
+  win32: "chrome",
+  darwin: "Google Chrome",
+  linux: "google-chrome",
+};
+
 const config = {
   entry: "./src/index.js",
   output: {
@@ -17,13 +21,21 @@ const config = {
   },
   devtool: "inline-source-map",
   devServer: {
-    open: true,
     host: "localhost",
+    open: {
+      app: {
+        name: chromeBrowserNamesByPlatform[process.platform],
+      },
+    },
   },
   plugins: [
     new HtmlWebpackPlugin(),
     new CopyPlugin({
-      patterns: [{ context: "src", from: "res/*" }],
+      patterns: [
+        {
+          from: "resources/**",
+        },
+      ],
     }),
     new ESLintPlugin(),
 

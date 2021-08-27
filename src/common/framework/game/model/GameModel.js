@@ -1,21 +1,35 @@
 export class GameModel {
-  /*  shared = {};
-  local = {};
-  transient = {};
+  __persistentShared = {};
+  __persistentLocal = {};
+  __transient = {};
 
-  getPersistent() {
-    return this.persistent;
+  getPersistentShared() {
+    return this.__persistentShared;
   }
 
-  setPersistent(persistent) {
-    this.persistent = persistent;
+  setPersistentShared(persistentShared) {
+    return (this.__persistentShared = persistentShared || {});
+  }
+
+  getPersistentLocal() {
+    return this.__persistentLocal;
+  }
+
+  setPersistentLocal(persistentLocal) {
+    return (this.__persistentLocal = persistentLocal || {});
   }
 
   getTransient() {
-    return this.transient;
+    return this.__transient;
   }
 
   setTransient(transient) {
-    this.transient = transient;
-  }*/
+    return (this.__transient = transient || {});
+  }
+
+  reset() {
+    this.__persistentShared = {};
+    this.__persistentLocal = {};
+    this.__transient = {};
+  }
 }

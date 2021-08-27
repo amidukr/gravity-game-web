@@ -1,11 +1,11 @@
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 
 export class GravityRenderingController {
   start(application) {
     this.renderer = application
       .getComponent("ThreeJsRenderer")
       .getThreeJsWebGlRenderer();
+
     const gameResources = application.getComponent("GameVisualResources");
 
     this.scene = new THREE.Scene();
@@ -18,15 +18,20 @@ export class GravityRenderingController {
       1000
     );
 
-    this.camera.position.z = 5;
-
-    this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-
     this.renderer.physicallyCorrectLights = true;
   }
 
-  execute() {
-    this.controls.update();
+  execute(event) {
+    const gameModel = event.application.getComponent("GameModel");
+
+    const persistentShared = gameModel.getPersistentShared();
+
+    this.camera.position.fromArray(persistentShared.spaceShips.player.position);
+    this.camera.setRotationFromQuaternion(
+      new THREE.Quaternion()
+        .fromArray(persistentShared.spaceShips.player.quaternion)
+        .normalize()
+    );
 
     this.renderer.render(this.scene, this.camera);
   }

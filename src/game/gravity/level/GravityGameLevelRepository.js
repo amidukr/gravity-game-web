@@ -8,12 +8,23 @@ export class GravityGameLevelRepository {
   }
 
   async loadLevel(levelName) {
+    const levelFolder = `resources/game/gravity/levels/${levelName}`;
+
+    const levelFilePath = `${levelFolder}/level.json`;
+
+    const levelData = await (await fetch(levelFilePath)).json();
+
+    console.debug("GravityGameLevelRepository", "levelData", levelData);
+
     const loader = new GLTFLoader();
 
     const gameScene = await new Promise((r) =>
-      loader.load("res/" + levelName, r)
+      loader.load(`${levelFolder}/${levelData.levelSceneFile}`, r)
     );
 
-    return { rootScene: gameScene.scene };
+    return {
+      data: levelData,
+      rootScene: gameScene.scene,
+    };
   }
 }

@@ -5,15 +5,15 @@ export class ThreeJsRenderer {
   constructor() {
     ApplicationComponentMeta.bindInterfaceName(this, "GameRenderer");
 
-    this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setSize(window.innerWidth, window.innerHeight);
+    this.__renderer = new THREE.WebGLRenderer();
+    this.__renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
   getCanvasDomElement() {
-    return this.renderer.domElement;
+    return this.__renderer.domElement;
   }
 
   getThreeJsWebGlRenderer() {
-    return this.renderer;
+    return this.__renderer;
   }
 }
