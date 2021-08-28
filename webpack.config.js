@@ -15,7 +15,7 @@ chromeBrowserNamesByPlatform = {
 };
 
 const config = {
-  entry: "./src/index.js",
+  entry: "./src/index.tsx",
   output: {
     path: path.resolve(__dirname, "dist"),
   },
@@ -42,6 +42,12 @@ const config = {
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
   ],
+
+  resolve: {
+    // Add `.ts` and `.tsx` as a resolvable extension.
+    extensions: [".ts", ".tsx", ".js"],
+  },
+
   module: {
     rules: [
       {
@@ -53,14 +59,8 @@ const config = {
         type: "asset",
       },
       {
-        test: /\.?js$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader",
-          options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
-          },
-        },
+        test: /\.tsx?$/,
+        use: [{ loader: "ts-loader" }],
       },
 
       // Add your rules for custom modules here

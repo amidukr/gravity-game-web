@@ -1,7 +1,9 @@
 import * as THREE from "three";
 import { ApplicationComponentMeta } from "../../../app/lookup/ApplicationComponentMeta";
 
-export class ThreeJsRenderer {
+export class ThreeJsRenderer implements GameRenderer {
+  private __renderer: THREE.WebGLRenderer;
+
   constructor() {
     ApplicationComponentMeta.bindInterfaceName(this, "GameRenderer");
 

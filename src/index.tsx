@@ -6,12 +6,12 @@ import ReactDOM from "react-dom";
 import React from "react";
 import { GameWidget } from "./common/ui/GameWidget";
 
-import { Application } from "./common/app/Application.js";
+import { Application } from "./common/app/Application";
 
 import "./index.css";
 import { GravityGameEnginePlugin } from "./game/gravity/plugins/GravityGamePlugin";
 
-function createRootWidget(application) {
+function createRootWidget(application: Application) {
   var divRootElement = document.createElement("div");
   divRootElement.id = "root";
 
@@ -30,7 +30,7 @@ async function createApplication() {
   return application;
 }
 
-async function startGame(application) {
+async function startGame(application: Application) {
   const gameLoader = application.getComponent("GameLoader");
   const gameEngine = application.getComponent("GameEngine");
 

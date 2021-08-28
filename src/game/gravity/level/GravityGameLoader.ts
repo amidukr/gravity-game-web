@@ -1,15 +1,26 @@
 import * as THREE from "three";
+import { Application } from "../../../common/app/Application";
 import { ApplicationComponentMeta } from "../../../common/app/lookup/ApplicationComponentMeta";
+import { GameEngine } from "../../../common/framework/game/GameEngine";
+import { GameModel } from "../../../common/framework/game/model/GameModel";
+import { GameVisualResources } from "../../../common/framework/game/rendering/GameVisualResources";
 import { GravityRenderingController } from "../controllers/GravityRenderingController";
 import { SpaceShipPhysicsController } from "../controllers/SpaceShipPhysicsController";
+import { GravityGameLevelRepository } from "./GravityGameLevelRepository";
 
 export class GravityGameLoader {
+  private application!: Application;
+  private gameLevelRepository!: GravityGameLevelRepository;
+  private gameVisualResources!: GameVisualResources;
+  private gameEngine!: GameEngine;
+  private gameModel!: GameModel;
+
   constructor() {
     ApplicationComponentMeta.bindInterfaceName(this, "GameLoader");
     ApplicationComponentMeta.bindToGlobalFunctions(this);
   }
 
-  autowire(application) {
+  autowire(application: Application) {
     this.application = application;
 
     this.gameLevelRepository = application.getComponent("GameLevelRepository");
@@ -18,8 +29,8 @@ export class GravityGameLoader {
     this.gameModel = application.getComponent("GameModel");
   }
 
-  preprocess(gameModel) {
-    const persistentShared = gameModel.getPersistentShared();
+  preprocess(gameModel: GameModel) {
+    const persistentShared = gameModel.persistentShared;
 
     const playerSpaceShip = persistentShared.spaceShips.player;
 
@@ -31,17 +42,17 @@ export class GravityGameLoader {
       .toArray();
   }
 
-  async loadGame(levelDescriptor) {
+  async loadGame(levelDescriptor: any) {
     const level = await this.gameLevelRepository.loadLevel(
       levelDescriptor.levelName
     );
 
     this.gameModel.reset();
-    this.gameModel.setPersistentShared(level.data.persistentShared);
+    this.gameModel.persistentShared = level.data.persistentShared;
 
     this.preprocess(this.gameModel);
 
-    this.gameVisualResources.set({ rootScene: level.rootScene });
+    this.gameVisualResources.value = { rootScene: level.rootScene };
 
     this.gameEngine.registerController(new GravityRenderingController());
     this.gameEngine.registerController(new SpaceShipPhysicsController());

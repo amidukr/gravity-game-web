@@ -2,21 +2,22 @@ import { ApplicationComponentMeta } from "./lookup/ApplicationComponentMeta";
 import { Promise } from "bluebird";
 
 export class Application {
-  __components = [];
-  __componentByInterface = {};
-  __plugins = [];
+  private __components: Array<any> = [];
+  private __componentByInterface: { [name: string]: any } = {};
+  private __withGlobalFunctionsCache: Array<any> | undefined = [];
+  private __globalFunctionsCache: { [name: string]: Array<any> } = {};
 
   constructor() {
     this.registerComponent(this);
     this.__resetCache();
   }
 
-  __resetCache() {
+  private __resetCache() {
     this.__withGlobalFunctionsCache = undefined;
     this.__globalFunctionsCache = {};
   }
 
-  registerComponent(component) {
+  registerComponent(component: any) {
     this.__resetCache();
 
     this.__components.push(component);
@@ -32,7 +33,7 @@ export class Application {
     ]);
   }
 
-  getComponentsWithGlobalFunctions(functionName) {
+  getComponentsWithGlobalFunctions(functionName: string): Array<any> {
     if (!this.__withGlobalFunctionsCache) {
       this.__withGlobalFunctionsCache = Object.values(this.__components).filter(
         (component) => ApplicationComponentMeta.getGlobalFunctions(component)
@@ -50,7 +51,7 @@ export class Application {
     return this.__globalFunctionsCache[functionName];
   }
 
-  invokeGlobalFunctions(functionName, ...args) {
+  invokeGlobalFunctions(functionName: string, ...args: any): any {
     return this.getComponentsWithGlobalFunctions(functionName).map(
       (component) =>
         ApplicationComponentMeta.invokeGlobalFunction(
@@ -71,15 +72,15 @@ export class Application {
     this.invokeGlobalFunctions("onApplicationStarted", this);
   }
 
-  getComponentByType(type) {
+  getComponentByType(type: Function): any {
     return this.getComponentByInterfaceName(type.name);
   }
 
-  getComponentByInterfaceName(interfaceName) {
+  getComponentByInterfaceName(interfaceName: string): any {
     return this.__componentByInterface[interfaceName];
   }
 
-  getComponent(descriptor) {
+  getComponent(descriptor: string | Function): any {
     let component;
 
     if (typeof descriptor === "string") {

@@ -7,7 +7,7 @@ export class GravityGameLevelRepository {
     ApplicationComponentMeta.bindInterfaceName(this, "GameLevelRepository");
   }
 
-  async loadLevel(levelName) {
+  async loadLevel(levelName: string): Promise<any> {
     const levelFolder = `resources/game/gravity/levels/${levelName}`;
 
     const levelFilePath = `${levelFolder}/level.json`;
@@ -18,7 +18,7 @@ export class GravityGameLevelRepository {
 
     const loader = new GLTFLoader();
 
-    const gameScene = await new Promise((r) =>
+    const gameScene: any = await new Promise((r) =>
       loader.load(`${levelFolder}/${levelData.levelSceneFile}`, r)
     );
 

@@ -1,0 +1,3 @@
+interface GameRenderer {
+  getCanvasDomElement(): HTMLCanvasElement;
+}

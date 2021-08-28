@@ -1,14 +1,16 @@
 const PROPERTY_APPLICATION_EXTENSION = "__amid_ukr__application__extension";
 
+type GlobalFunctions = { [functionName: string]: Function };
+
 export class ApplicationComponentMeta {
-  static __registerExtension(component) {
+  static __registerExtension(component: any) {
     return (
       component[PROPERTY_APPLICATION_EXTENSION] ||
       (component[PROPERTY_APPLICATION_EXTENSION] = {})
     );
   }
 
-  static bindInterfaceName(component, name) {
+  static bindInterfaceName(component: any, name: string) {
     const extension = ApplicationComponentMeta.__registerExtension(component);
 
     const interfacesNames =
@@ -17,15 +19,15 @@ export class ApplicationComponentMeta {
     interfacesNames.push(name);
   }
 
-  static getInterfaceNames(component) {
+  static getInterfaceNames(component: any): Array<string> {
     return component[PROPERTY_APPLICATION_EXTENSION]?.interfacesNames || [];
   }
 
-  static getGlobalFunctions(component) {
+  static getGlobalFunctions(component: any): GlobalFunctions {
     return component[PROPERTY_APPLICATION_EXTENSION]?.globalFunctions;
   }
 
-  static bindToGlobalFunctions(component) {
+  static bindToGlobalFunctions(component: any) {
     const extension = ApplicationComponentMeta.__registerExtension(component);
 
     const globalFunctions =
@@ -44,7 +46,7 @@ export class ApplicationComponentMeta {
     }
   }
 
-  static registerGlobalFunction(component, callback) {
+  static registerGlobalFunction(component: any, callback: Function) {
     const extension = ApplicationComponentMeta.__registerExtension(component);
 
     const globalFunctions =
@@ -53,9 +55,14 @@ export class ApplicationComponentMeta {
     globalFunctions[callback.name] = callback;
   }
 
-  static invokeGlobalFunction(component, functionName, args) {
+  static invokeGlobalFunction(
+    component: any,
+    functionName: string,
+    args: Array<any>
+  ) {
     const globalFunctions =
       ApplicationComponentMeta.getGlobalFunctions(component);
+
     return (
       globalFunctions && globalFunctions[functionName]?.apply(component, args)
     );

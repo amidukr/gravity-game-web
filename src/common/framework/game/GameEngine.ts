@@ -1,15 +1,18 @@
 import { Promise } from "bluebird";
+import { Application } from "../../app/Application";
 import { ApplicationComponentMeta } from "../../app/lookup/ApplicationComponentMeta";
+import { GameController } from "./controllers/GameController";
 import { GameEvent } from "./GameEvent";
 
 export class GameEngine {
-  controllers = [];
+  private controllers: Array<GameController> = [];
+  private application!: Application;
 
   constructor() {
     ApplicationComponentMeta.bindToGlobalFunctions(this);
   }
 
-  autowire(application) {
+  autowire(application: Application) {
     this.application = application;
   }
 
@@ -33,7 +36,7 @@ export class GameEngine {
     });
   }
 
-  registerController(controller) {
+  registerController(controller: GameController) {
     this.controllers.push(controller);
   }
 

@@ -1,3 +1,4 @@
+import { Application } from "../../../common/app/Application";
 import { ApplicationComponentMeta } from "../../../common/app/lookup/ApplicationComponentMeta";
 import { ThreeJsRenderer } from "../../../common/framework/game/rendering/ThreeJsRenderer";
 import { ApplicationWindowVariablePlugin } from "../../../common/plugins/ApplicationWindowVariablePlugin";
@@ -10,7 +11,7 @@ export class GravityGameEnginePlugin {
     ApplicationComponentMeta.bindToGlobalFunctions(this);
   }
 
-  setApplication(application) {
+  setApplication(application: Application) {
     application.registerComponent(new GravityGameLoader());
     application.registerComponent(new GravityGameLevelRepository());
     application.registerComponent(new ThreeJsRenderer());
