@@ -10,6 +10,8 @@ import { Application } from "./common/app/Application";
 
 import "./index.css";
 import { GravityGameEnginePlugin } from "./game/gravity/plugins/GravityGamePlugin";
+import { GameEngine } from "./common/framework/game/GameEngine";
+import { GravityGameLoader } from "./game/gravity/level/GravityGameLoader";
 
 function createRootWidget(application: Application) {
   var divRootElement = document.createElement("div");
@@ -31,8 +33,8 @@ async function createApplication() {
 }
 
 async function startGame(application: Application) {
-  const gameLoader = application.getComponent("GameLoader");
-  const gameEngine = application.getComponent("GameEngine");
+  const gameLoader = application.getComponent(GravityGameLoader);
+  const gameEngine = application.getComponent(GameEngine);
 
   await gameLoader.loadGame({ levelName: "demo" });
   gameEngine.start();

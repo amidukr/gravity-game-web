@@ -11,11 +11,11 @@ export class ThreeJsRenderer implements GameRenderer {
     this.__renderer.setSize(window.innerWidth, window.innerHeight);
   }
 
-  getCanvasDomElement() {
+  getCanvasDomElement(): HTMLCanvasElement {
     return this.__renderer.domElement;
   }
 
-  getThreeJsWebGlRenderer() {
+  getThreeJsWebGlRenderer(): THREE.WebGLRenderer {
     return this.__renderer;
   }
 }

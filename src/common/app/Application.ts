@@ -1,5 +1,6 @@
 import { ApplicationComponentMeta } from "./lookup/ApplicationComponentMeta";
 import { Promise } from "bluebird";
+import { Newable, TypeIdentifier } from "./lookup/TypeIdentifier";
 
 export class Application {
   private __components: Array<any> = [];
@@ -80,7 +81,7 @@ export class Application {
     return this.__componentByInterface[interfaceName];
   }
 
-  getComponent(descriptor: string | Function): any {
+  getComponent<T>(descriptor: TypeIdentifier<T> | Newable<T>): T {
     let component;
 
     if (typeof descriptor === "string") {

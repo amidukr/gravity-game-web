@@ -4,8 +4,8 @@ import { ApplicationComponentMeta } from "../../../common/app/lookup/Application
 import { GameEngine } from "../../../common/framework/game/GameEngine";
 import { GameModel } from "../../../common/framework/game/model/GameModel";
 import { GameVisualResources } from "../../../common/framework/game/rendering/GameVisualResources";
-import { GravityRenderingController } from "../controllers/GravityRenderingController";
-import { SpaceShipPhysicsController } from "../controllers/SpaceShipPhysicsController";
+import { GravityRenderingLooper } from "../controllers/GravityRenderingLooper";
+import { SpaceShipPhysicsLooper } from "../controllers/SpaceShipPhysicsLooper";
 import { GravityGameLevelRepository } from "./GravityGameLevelRepository";
 
 export class GravityGameLoader {
@@ -54,7 +54,7 @@ export class GravityGameLoader {
 
     this.gameVisualResources.value = { rootScene: level.rootScene };
 
-    this.gameEngine.registerController(new GravityRenderingController());
-    this.gameEngine.registerController(new SpaceShipPhysicsController());
+    this.gameEngine.registerController(new GravityRenderingLooper());
+    this.gameEngine.registerController(new SpaceShipPhysicsLooper());
   }
 }

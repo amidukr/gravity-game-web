@@ -1,17 +1,19 @@
 import * as THREE from "three";
 import { Application } from "../../../common/app/Application";
 import { GameEvent } from "../../../common/framework/game/GameEvent";
+import { GameLooper } from "../../../common/framework/game/looper/GameLooper";
 import { GameModel } from "../../../common/framework/game/model/GameModel";
 import { GameVisualResources } from "../../../common/framework/game/rendering/GameVisualResources";
+import { ThreeJsRenderer } from "../../../common/framework/game/rendering/ThreeJsRenderer";
 
-export class GravityRenderingController {
-  private renderer!: THREE.WebGL1Renderer;
+export class GravityRenderingLooper implements GameLooper {
+  private renderer!: THREE.WebGLRenderer;
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
 
   start(application: Application) {
     this.renderer = application
-      .getComponent("ThreeJsRenderer")
+      .getComponent(ThreeJsRenderer)
       .getThreeJsWebGlRenderer();
 
     const gameResources: GameVisualResources = application.getComponent(
