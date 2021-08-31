@@ -31,7 +31,7 @@ export class GravityRenderingController {
     this.renderer.physicallyCorrectLights = true;
   }
 
-  execute(event: GameEvent) {
+  run(event: GameEvent) {
     const gameModel: GameModel = event.application.getComponent("GameModel");
 
     const persistentShared = gameModel.persistentShared;

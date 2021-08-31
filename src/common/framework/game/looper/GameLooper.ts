@@ -1,7 +1,7 @@
 import { Application } from "../../../app/Application";
 import { GameEvent } from "../GameEvent";
 
-export interface GameController {
+export interface GameLooper {
   start?(application: Application): void;
-  execute(event: GameEvent): void;
+  run(event: GameEvent): void;
 }

@@ -1,11 +1,11 @@
 import { Promise } from "bluebird";
 import { Application } from "../../app/Application";
 import { ApplicationComponentMeta } from "../../app/lookup/ApplicationComponentMeta";
-import { GameController } from "./controllers/GameController";
+import { GameLooper } from "./looper/GameLooper";
 import { GameEvent } from "./GameEvent";
 
 export class GameEngine {
-  private controllers: Array<GameController> = [];
+  private controllers: Array<GameLooper> = [];
   private application!: Application;
 
   constructor() {
@@ -29,14 +29,14 @@ export class GameEngine {
 
     this.controllers.forEach((controller) => {
       try {
-        controller.execute(gameEvent);
+        controller.run(gameEvent);
       } catch (ex) {
         console.error("Game Engine", ex);
       }
     });
   }
 
-  registerController(controller: GameController) {
+  registerController(controller: GameLooper) {
     this.controllers.push(controller);
   }
 

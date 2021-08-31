@@ -1,3 +1,3 @@
 export class SpaceShipPhysicsController {
-  execute() {}
+  run() {}
 }
