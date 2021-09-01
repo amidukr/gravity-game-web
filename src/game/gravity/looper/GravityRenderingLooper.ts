@@ -24,9 +24,7 @@ export class GravityRenderingLooper implements GameLooper {
       .getComponent(ThreeJsRenderer)
       .getThreeJsWebGlRenderer();
 
-    const gameResources: GameVisualResources = application.getComponent(
-      "GameVisualResources"
-    );
+    const gameResources = application.getComponent(GameVisualResources);
 
     this.scene = new THREE.Scene();
     this.scene.add(gameResources.value.rootScene);
@@ -42,7 +40,7 @@ export class GravityRenderingLooper implements GameLooper {
   }
 
   run(event: GameEvent) {
-    const gameModel: GameModel = event.application.getComponent("GameModel");
+    const gameModel = event.application.getComponent(GameModel);
 
     const persistentShared = gameModel.persistentShared;
 
