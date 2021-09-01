@@ -13,7 +13,11 @@ import { GravityGameModelPreprocessor } from "../level/GravityGameModelPreproces
 import { GravityRenderingLooper } from "../looper/GravityRenderingLooper";
 import { SpaceShipPhysicsLooper } from "../looper/SpaceShipPhysicsLooper";
 import { GravityGameStarter } from "../starters/GravityGameStarter";
-import { GravityGameRootWidget } from "../starters/GravityGameRootWidget";
+import {
+  ReactStarter,
+  TYPE_ReactRootWidget,
+} from "../../../common/ui/ReactStarter";
+import { GameWidget } from "../../../common/ui/GameWidget";
 
 export class GravityGameEnginePlugin implements ApplicationComponent {
   constructor() {
@@ -28,13 +32,20 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
     application.registerComponent(new GameBootstrapPlugin());
     application.registerComponent(new ThreeJsRenderer());
     application.registerComponent(new AutowiredGameEngineConfigurer());
+    application.registerComponent(new ReactStarter());
+
+    // UI Entry point
+    ApplicationComponentMeta.bindInterfaceName(
+      GameWidget,
+      TYPE_ReactRootWidget
+    );
+    application.registerComponent(GameWidget);
 
     // Register Gravity Game components
     application.registerComponent(new GravityGameLevelRepository());
     application.registerComponent(new GravityGameModelPreprocessor());
 
     // Starter
-    application.registerComponent(new GravityGameRootWidget());
     application.registerComponent(new GravityGameStarter());
 
     // Loopers
