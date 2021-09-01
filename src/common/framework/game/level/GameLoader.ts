@@ -17,13 +17,18 @@ import {
   ApplicationComponent,
   TYPE_ApplicationComponent,
 } from "../../../app/api/ApplicationComponent";
+import {
+  GameModelPreprocessor,
+  TYPE_GameModelPreprocessor,
+} from "./api/GameModelPreprocessor";
 
 export class GameLoader implements ApplicationComponent {
   private gameLevelRepository!: GameLevelRepository;
   private gameVisualResources!: GameVisualResources;
   private gameEngine!: GameEngine;
   private gameModel!: GameModel;
-  private gameEngineConfigurer!: GameEngineConfigurer;
+  private gameModelPreprocessorList!: Array<GameModelPreprocessor>;
+  private gameEngineConfigurerList!: Array<GameEngineConfigurer>;
 
   constructor() {
     ApplicationComponentMeta.bindInterfaceName<ApplicationComponent>(
@@ -39,22 +44,14 @@ export class GameLoader implements ApplicationComponent {
     this.gameVisualResources = application.getComponent(GameVisualResources);
     this.gameEngine = application.getComponent(GameEngine);
     this.gameModel = application.getComponent(GameModel);
-    this.gameEngineConfigurer = application.getComponent(
+
+    this.gameModelPreprocessorList = application.getComponentList(
+      TYPE_GameModelPreprocessor
+    );
+
+    this.gameEngineConfigurerList = application.getComponentList(
       TYPE_GameEngineConfigurer
     );
-  }
-
-  preprocess(gameModel: GameModel) {
-    const persistentShared = gameModel.persistentShared;
-
-    const playerSpaceShip = persistentShared.spaceShips.player;
-
-    playerSpaceShip.quaternion = new THREE.Quaternion()
-      .setFromUnitVectors(
-        new THREE.Vector3(0, 0, -1),
-        new THREE.Vector3().fromArray(playerSpaceShip.direction)
-      )
-      .toArray();
   }
 
   async loadGame(levelDescriptor: LevelDescriptor) {
@@ -67,10 +64,12 @@ export class GameLoader implements ApplicationComponent {
     this.gameModel.persistentLocal = level.data.persistentLocal;
     this.gameModel.transient = level.data.transient;
 
-    this.preprocess(this.gameModel);
+    this.gameModelPreprocessorList.forEach((x) =>
+      x.preprocess(this.gameModel, level)
+    );
 
     this.gameVisualResources.value = { rootScene: level.rootScene };
 
-    this.gameEngineConfigurer.configure(this.gameEngine);
+    this.gameEngineConfigurerList.forEach((x) => x.configure(this.gameEngine));
   }
 }

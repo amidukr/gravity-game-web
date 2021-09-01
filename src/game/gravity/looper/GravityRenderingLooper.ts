@@ -1,7 +1,11 @@
 import * as THREE from "three";
 import { Application } from "../../../common/app/Application";
+import { ApplicationComponentMeta } from "../../../common/app/lookup/ApplicationComponentMeta";
 import { GameEvent } from "../../../common/framework/game/GameEvent";
-import { GameLooper } from "../../../common/framework/game/looper/GameLooper";
+import {
+  GameLooper,
+  TYPE_GameLooper,
+} from "../../../common/framework/game/looper/GameLooper";
 import { GameModel } from "../../../common/framework/game/model/GameModel";
 import { GameVisualResources } from "../../../common/framework/game/rendering/GameVisualResources";
 import { ThreeJsRenderer } from "../../../common/framework/game/rendering/ThreeJsRenderer";
@@ -10,6 +14,10 @@ export class GravityRenderingLooper implements GameLooper {
   private renderer!: THREE.WebGLRenderer;
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
+
+  constructor() {
+    ApplicationComponentMeta.bindInterfaceName(this, TYPE_GameLooper);
+  }
 
   start(application: Application) {
     this.renderer = application
