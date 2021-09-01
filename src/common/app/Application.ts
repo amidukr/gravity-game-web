@@ -1,99 +1,107 @@
-import { ApplicationComponentMeta } from "./lookup/ApplicationComponentMeta";
-import { Promise } from "bluebird";
 import {
-  Newable,
-  TypeIdentifier,
-  typeIdentifierName,
-} from "./lookup/TypeIdentifier";
+  ApplicationComponentMeta,
+  BoundInterface,
+} from "./lookup/ApplicationComponentMeta";
+import { Promise } from "bluebird";
+import { TypeIdentifier, typeIdentifierName } from "./lookup/TypeIdentifier";
+import { TYPE_ApplicationComponent } from "./api/ApplicationComponent";
+
+type BoundInterfaceArray = {
+  sorted: boolean;
+  interfaces: Array<BoundInterface>;
+};
 
 export class Application {
   private __components: Array<any> = [];
-  private __componentByInterface: { [name: string]: any } = {};
-  private __withGlobalFunctionsCache: Array<any> | undefined = [];
-  private __globalFunctionsCache: { [name: string]: Array<any> } = {};
+  private __componentByInterface: { [name: string]: BoundInterfaceArray } = {};
 
   constructor() {
     this.registerComponent(this);
-    this.__resetCache();
   }
 
-  private __resetCache() {
-    this.__withGlobalFunctionsCache = undefined;
-    this.__globalFunctionsCache = {};
+  private __lazyGetBoundInterfaceByName(name: string) {
+    return (
+      this.__componentByInterface[name] ||
+      (this.__componentByInterface[name] = {
+        sorted: false,
+        interfaces: [],
+      })
+    );
+  }
+
+  private __addBoundInterface(boundInterface: BoundInterface) {
+    const boundInterfaceArray = this.__lazyGetBoundInterfaceByName(
+      boundInterface.name
+    );
+
+    boundInterfaceArray.sorted = false;
+    boundInterfaceArray.interfaces.push(boundInterface);
   }
 
   registerComponent(component: any) {
-    this.__resetCache();
-
     this.__components.push(component);
 
-    this.__componentByInterface[component.constructor.name] = component;
+    this.__addBoundInterface({
+      name: component.constructor.name,
+      component: component,
+      order: 0,
+    });
 
-    ApplicationComponentMeta.getInterfaceNames(component).forEach(
-      (name) => (this.__componentByInterface[name] = component)
+    ApplicationComponentMeta.getBoundInterfaces(component).forEach(
+      (boundInterface) => this.__addBoundInterface(boundInterface)
     );
 
-    ApplicationComponentMeta.invokeGlobalFunction(component, "setApplication", [
-      this,
-    ]);
-  }
-
-  getComponentsWithGlobalFunctions(functionName: string): Array<any> {
-    if (!this.__withGlobalFunctionsCache) {
-      this.__withGlobalFunctionsCache = Object.values(this.__components).filter(
-        (component) => ApplicationComponentMeta.getGlobalFunctions(component)
-      );
-    }
-
-    if (!this.__globalFunctionsCache[functionName]) {
-      this.__globalFunctionsCache[functionName] =
-        this.__withGlobalFunctionsCache.filter(
-          (component) =>
-            ApplicationComponentMeta.getGlobalFunctions(component)[functionName]
-        );
-    }
-
-    return this.__globalFunctionsCache[functionName];
-  }
-
-  invokeGlobalFunctions(functionName: string, ...args: any): any {
-    return this.getComponentsWithGlobalFunctions(functionName).map(
-      (component) =>
-        ApplicationComponentMeta.invokeGlobalFunction(
-          component,
-          functionName,
-          args
-        )
-    );
+    ApplicationComponentMeta.resolveInterface(
+      component,
+      TYPE_ApplicationComponent
+    )?.setApplication?.call(component, this);
   }
 
   async start() {
-    await Promise.all(this.invokeGlobalFunctions("register", this));
+    await Promise.all(
+      this.getComponentList(TYPE_ApplicationComponent).map(
+        (x) => x.register && x.register(this)
+      )
+    );
 
-    this.invokeGlobalFunctions("autowire", this);
+    this.getComponentList(TYPE_ApplicationComponent).forEach(
+      (x) => x.autowire && x.autowire(this)
+    );
 
-    await Promise.all(this.invokeGlobalFunctions("start", this));
+    await Promise.all(
+      this.getComponentList(TYPE_ApplicationComponent).map(
+        (x) => x.start && x.start(this)
+      )
+    );
 
-    this.invokeGlobalFunctions("onApplicationStarted", this);
+    this.getComponentList(TYPE_ApplicationComponent).forEach(
+      (x) => x.onApplicationStarted && x.onApplicationStarted(this)
+    );
   }
 
-  getComponentByType(type: Function): any {
-    return this.getComponentByInterfaceName(type.name);
-  }
+  getComponentList<T>(descriptor: TypeIdentifier<T>): Array<T> {
+    const boundInterfaceArray =
+      this.__componentByInterface[typeIdentifierName(descriptor)];
 
-  getComponentByInterfaceName(interfaceName: string): any {
-    return this.__componentByInterface[interfaceName];
+    if (!boundInterfaceArray) return [];
+
+    if (!boundInterfaceArray.sorted) {
+      boundInterfaceArray.interfaces.sort((a, b) => a.order - b.order);
+      boundInterfaceArray.sorted = true;
+    }
+
+    return boundInterfaceArray.interfaces.map((x) => x.component);
   }
 
   getComponent<T>(descriptor: TypeIdentifier<T>): T {
-    let component = this.getComponentByInterfaceName(
-      typeIdentifierName(descriptor)
-    );
+    const componentList = this.getComponentList(descriptor);
 
-    if (!component) {
-      throw Error("Can't find component with descriptor: " + descriptor);
+    const length = componentList.length;
+
+    if (length == 0) {
+      throw Error(`Can't find component with descriptor: ${descriptor}`);
     }
 
-    return component;
+    return componentList[length - 1];
   }
 }

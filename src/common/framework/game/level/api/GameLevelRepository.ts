@@ -1,7 +1,7 @@
 import { typeIdentifier } from "../../../../app/lookup/TypeIdentifier";
 
 export const TYPE_GameLevelRepository = typeIdentifier<GameLevelRepository>(
-  "GameLevelRepository"
+  "amid_ukr_ge_GameLevelRepository"
 );
 
 export type GameLevel = {

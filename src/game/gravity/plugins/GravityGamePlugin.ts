@@ -1,3 +1,7 @@
+import {
+  ApplicationComponent,
+  TYPE_ApplicationComponent,
+} from "../../../common/app/api/ApplicationComponent";
 import { Application } from "../../../common/app/Application";
 import { ApplicationComponentMeta } from "../../../common/app/lookup/ApplicationComponentMeta";
 import { ThreeJsRenderer } from "../../../common/framework/game/rendering/ThreeJsRenderer";
@@ -7,9 +11,12 @@ import { GravityGameEngineConfigurer } from "../level/GravityGameEngineConfigure
 import { GravityGameLevelRepository } from "../level/GravityGameLevelRepository";
 import { GravityGameModelPreprocessor } from "../level/GravityGameModelPreprocessor";
 
-export class GravityGameEnginePlugin {
+export class GravityGameEnginePlugin implements ApplicationComponent {
   constructor() {
-    ApplicationComponentMeta.bindToGlobalFunctions(this);
+    ApplicationComponentMeta.bindInterfaceName<ApplicationComponent>(
+      this,
+      TYPE_ApplicationComponent
+    );
   }
 
   setApplication(application: Application) {

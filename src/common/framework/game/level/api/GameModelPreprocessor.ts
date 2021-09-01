@@ -3,7 +3,7 @@ import { GameModel } from "../../model/GameModel";
 import { GameLevel } from "./GameLevelRepository";
 
 export const TYPE_GameModelPreprocessor = typeIdentifier<GameModelPreprocessor>(
-  "GameModelPreprocessor"
+  "amid_ukr_ge_GameModelPreprocessor"
 );
 
 export interface GameModelPreprocessor {

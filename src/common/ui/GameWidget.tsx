@@ -1,6 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Application } from "../app/Application";
+import {
+  GameRenderer,
+  TYPE_GameRenderer,
+} from "../framework/game/rendering/GameRenderer";
 
 export class GameWidget extends React.Component<
   { application: Application },
@@ -16,7 +20,7 @@ export class GameWidget extends React.Component<
 
   __setCanvasPlaceholder(canvasPlaceholder: HTMLElement | null) {
     const render: GameRenderer =
-      this.props.application.getComponent("GameRenderer");
+      this.props.application.getComponent(TYPE_GameRenderer);
 
     const canvasDomElement = render.getCanvasDomElement();
 
@@ -25,7 +29,7 @@ export class GameWidget extends React.Component<
     }
   }
 
-  render() {
+  override render() {
     return (
       <div
         ref={this.__setCanvasPlaceholder.bind(this)}

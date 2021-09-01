@@ -20,7 +20,7 @@ export function typeIdentifierName<T>(type: TypeIdentifier<T>): string {
   }
 
   if (!name) {
-    throw Error(`Can't recognize typeof: $type`);
+    throw Error(`Can't recognize typeof: ${type}`);
   }
 
   return name;
@@ -37,5 +37,5 @@ export function typeIdentifier<T>(
     return type;
   }
 
-  throw Error(`Unrecognized typeof $type`);
+  throw Error(`Unrecognized typeof ${type}`);
 }

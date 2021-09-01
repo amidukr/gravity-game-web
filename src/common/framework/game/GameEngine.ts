@@ -3,13 +3,20 @@ import { Application } from "../../app/Application";
 import { ApplicationComponentMeta } from "../../app/lookup/ApplicationComponentMeta";
 import { GameLooper } from "./looper/GameLooper";
 import { GameEvent } from "./GameEvent";
+import {
+  ApplicationComponent,
+  TYPE_ApplicationComponent,
+} from "../../app/api/ApplicationComponent";
 
-export class GameEngine {
+export class GameEngine implements ApplicationComponent {
   private controllers: Array<GameLooper> = [];
   private application!: Application;
 
   constructor() {
-    ApplicationComponentMeta.bindToGlobalFunctions(this);
+    ApplicationComponentMeta.bindInterfaceName<ApplicationComponent>(
+      this,
+      TYPE_ApplicationComponent
+    );
   }
 
   autowire(application: Application) {

@@ -1,72 +1,64 @@
-import { TypeIdentifier } from "./TypeIdentifier";
+import { TypeIdentifier, typeIdentifierName } from "./TypeIdentifier";
 
 const PROPERTY_APPLICATION_EXTENSION = "__amid_ukr__application__extension";
 
-type GlobalFunctions = { [functionName: string]: Function };
+export type BindInterfaceParameters = {
+  order?: number;
+};
+
+export type BoundInterface = {
+  name: string;
+  component: any;
+  order: number;
+};
+
+type ComponentExtension = {
+  interfacesNames: Array<BoundInterface>;
+};
 
 export class ApplicationComponentMeta {
-  static __registerExtension(component: any) {
+  private static __registerExtension(component: any): ComponentExtension {
     return (
       component[PROPERTY_APPLICATION_EXTENSION] ||
       (component[PROPERTY_APPLICATION_EXTENSION] = {})
     );
   }
 
-  static bindInterfaceName<T>(component: T, name: TypeIdentifier<T>) {
+  private static __getExtension(
+    component: any
+  ): ComponentExtension | undefined {
+    return component[PROPERTY_APPLICATION_EXTENSION];
+  }
+
+  static bindInterfaceName<T>(
+    component: T,
+    name: TypeIdentifier<T>,
+    parameters: BindInterfaceParameters = {}
+  ) {
     const extension = ApplicationComponentMeta.__registerExtension(component);
 
     const interfacesNames =
       extension.interfacesNames || (extension.interfacesNames = []);
 
-    interfacesNames.push(name);
+    const boundInterface: BoundInterface = {
+      name: typeIdentifierName(name),
+      component: component,
+      order: parameters.order || 0,
+    };
+
+    interfacesNames.push(boundInterface);
   }
 
-  static getInterfaceNames(component: any): Array<string> {
-    return component[PROPERTY_APPLICATION_EXTENSION]?.interfacesNames || [];
+  static getBoundInterfaces(component: any): Array<BoundInterface> {
+    return this.__getExtension(component)?.interfacesNames || [];
   }
 
-  static getGlobalFunctions(component: any): GlobalFunctions {
-    return component[PROPERTY_APPLICATION_EXTENSION]?.globalFunctions;
-  }
-
-  static bindToGlobalFunctions(component: any) {
-    const extension = ApplicationComponentMeta.__registerExtension(component);
-
-    const globalFunctions =
-      extension.globalFunctions || (extension.globalFunctions = {});
-
-    for (const prop of Object.getOwnPropertyNames(component)) {
-      if (typeof component[prop] === "function") {
-        globalFunctions[prop] = component[prop];
-      }
-    }
-
-    for (const prop of Object.getOwnPropertyNames(component.__proto__)) {
-      if (typeof component[prop] === "function") {
-        globalFunctions[prop] = component[prop];
-      }
-    }
-  }
-
-  static registerGlobalFunction(component: any, callback: Function) {
-    const extension = ApplicationComponentMeta.__registerExtension(component);
-
-    const globalFunctions =
-      extension.globalFunctions || (extension.globalFunctions = {});
-
-    globalFunctions[callback.name] = callback;
-  }
-
-  static invokeGlobalFunction(
+  static resolveInterface<T>(
     component: any,
-    functionName: string,
-    args: Array<any>
-  ) {
-    const globalFunctions =
-      ApplicationComponentMeta.getGlobalFunctions(component);
-
-    return (
-      globalFunctions && globalFunctions[functionName]?.apply(component, args)
-    );
+    type: TypeIdentifier<T>
+  ): T | undefined {
+    return this.getBoundInterfaces(component).find(
+      (x) => x.name == typeIdentifierName(type)
+    )?.component;
   }
 }

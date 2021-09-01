@@ -1,10 +1,17 @@
 import { Promise } from "bluebird";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { ApplicationComponentMeta } from "../../../common/app/lookup/ApplicationComponentMeta";
+import {
+  GameLevelRepository,
+  TYPE_GameLevelRepository,
+} from "../../../common/framework/game/level/api/GameLevelRepository";
 
-export class GravityGameLevelRepository {
+export class GravityGameLevelRepository implements GameLevelRepository {
   constructor() {
-    ApplicationComponentMeta.bindInterfaceName(this, "GameLevelRepository");
+    ApplicationComponentMeta.bindInterfaceName<GameLevelRepository>(
+      this,
+      TYPE_GameLevelRepository
+    );
   }
 
   async loadLevel(levelName: string): Promise<any> {

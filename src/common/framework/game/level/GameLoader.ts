@@ -13,8 +13,12 @@ import {
   GameEngineConfigurer,
   TYPE_GameEngineConfigurer,
 } from "./api/GameEngineConfigurer";
+import {
+  ApplicationComponent,
+  TYPE_ApplicationComponent,
+} from "../../../app/api/ApplicationComponent";
 
-export class GameLoader {
+export class GameLoader implements ApplicationComponent {
   private gameLevelRepository!: GameLevelRepository;
   private gameVisualResources!: GameVisualResources;
   private gameEngine!: GameEngine;
@@ -22,8 +26,10 @@ export class GameLoader {
   private gameEngineConfigurer!: GameEngineConfigurer;
 
   constructor() {
-    ApplicationComponentMeta.bindInterfaceName(this, "GameLoader");
-    ApplicationComponentMeta.bindToGlobalFunctions(this);
+    ApplicationComponentMeta.bindInterfaceName<ApplicationComponent>(
+      this,
+      TYPE_ApplicationComponent
+    );
   }
 
   autowire(application: Application) {

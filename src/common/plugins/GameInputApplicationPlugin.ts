@@ -4,10 +4,17 @@ import { GameButtonActionMap } from "../framework/game/input/GameButtonActionMap
 import { GameButtonDeviceInput } from "../framework/game/input/GameButtonDeviceInput";
 import { GameAxisDeviceInput } from "../framework/game/input/GameAxisDeviceInput";
 import { Application } from "../app/Application";
+import {
+  ApplicationComponent,
+  TYPE_ApplicationComponent,
+} from "../app/api/ApplicationComponent";
 
-export class GameInputApplicationPlugin {
+export class GameInputApplicationPlugin implements ApplicationComponent {
   constructor() {
-    ApplicationComponentMeta.bindToGlobalFunctions(this);
+    ApplicationComponentMeta.bindInterfaceName<ApplicationComponent>(
+      this,
+      TYPE_ApplicationComponent
+    );
   }
 
   register(application: Application) {

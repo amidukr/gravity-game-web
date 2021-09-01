@@ -1,12 +1,19 @@
+import {
+  ApplicationComponent,
+  TYPE_ApplicationComponent,
+} from "../app/api/ApplicationComponent";
 import { Application } from "../app/Application";
 import { ApplicationComponentMeta } from "../app/lookup/ApplicationComponentMeta";
 import { GameLoader } from "../framework/game/level/GameLoader";
 import { GameEnginePlugin } from "./GameEnginePlugin";
 import { GameInputApplicationPlugin } from "./GameInputApplicationPlugin";
 
-export class GameBootstrapPlugin {
+export class GameBootstrapPlugin implements ApplicationComponent {
   constructor() {
-    ApplicationComponentMeta.bindToGlobalFunctions(this);
+    ApplicationComponentMeta.bindInterfaceName<ApplicationComponent>(
+      this,
+      TYPE_ApplicationComponent
+    );
   }
 
   setApplication(application: Application) {

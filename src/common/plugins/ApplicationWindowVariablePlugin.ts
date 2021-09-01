@@ -1,3 +1,7 @@
+import {
+  ApplicationComponent,
+  TYPE_ApplicationComponent,
+} from "../app/api/ApplicationComponent";
 import { Application } from "../app/Application";
 import { ApplicationComponentMeta } from "../app/lookup/ApplicationComponentMeta";
 
@@ -7,9 +11,12 @@ declare global {
   }
 }
 
-export class ApplicationWindowVariablePlugin {
+export class ApplicationWindowVariablePlugin implements ApplicationComponent {
   constructor() {
-    ApplicationComponentMeta.bindToGlobalFunctions(this);
+    ApplicationComponentMeta.bindInterfaceName<ApplicationComponent>(
+      this,
+      TYPE_ApplicationComponent
+    );
   }
 
   register(application: Application) {
