@@ -36,7 +36,7 @@ export class GameEngine {
     });
   }
 
-  registerController(controller: GameLooper) {
+  registerLooper(controller: GameLooper) {
     this.controllers.push(controller);
   }
 

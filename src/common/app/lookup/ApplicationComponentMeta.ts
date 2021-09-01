@@ -1,3 +1,5 @@
+import { TypeIdentifier } from "./TypeIdentifier";
+
 const PROPERTY_APPLICATION_EXTENSION = "__amid_ukr__application__extension";
 
 type GlobalFunctions = { [functionName: string]: Function };
@@ -10,7 +12,7 @@ export class ApplicationComponentMeta {
     );
   }
 
-  static bindInterfaceName(component: any, name: string) {
+  static bindInterfaceName<T>(component: T, name: TypeIdentifier<T>) {
     const extension = ApplicationComponentMeta.__registerExtension(component);
 
     const interfacesNames =

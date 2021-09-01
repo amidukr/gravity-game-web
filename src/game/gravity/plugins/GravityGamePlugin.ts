@@ -3,8 +3,9 @@ import { ApplicationComponentMeta } from "../../../common/app/lookup/Application
 import { ThreeJsRenderer } from "../../../common/framework/game/rendering/ThreeJsRenderer";
 import { ApplicationWindowVariablePlugin } from "../../../common/plugins/ApplicationWindowVariablePlugin";
 import { GameBootstrapPlugin } from "../../../common/plugins/GameBootstrapPlugin";
+import { GravityGameEngineConfigurer } from "../level/GravityGameEngineConfigurer";
 import { GravityGameLevelRepository } from "../level/GravityGameLevelRepository";
-import { GravityGameLoader } from "../level/GravityGameLoader";
+import { GravityGameModelPreprocessor } from "../level/GravityGameModelPreprocessor";
 
 export class GravityGameEnginePlugin {
   constructor() {
@@ -12,10 +13,13 @@ export class GravityGameEnginePlugin {
   }
 
   setApplication(application: Application) {
-    application.registerComponent(new GravityGameLoader());
-    application.registerComponent(new GravityGameLevelRepository());
-    application.registerComponent(new ThreeJsRenderer());
-    application.registerComponent(new GameBootstrapPlugin());
     application.registerComponent(new ApplicationWindowVariablePlugin());
+
+    application.registerComponent(new GameBootstrapPlugin());
+    application.registerComponent(new ThreeJsRenderer());
+
+    application.registerComponent(new GravityGameLevelRepository());
+    application.registerComponent(new GravityGameEngineConfigurer());
+    application.registerComponent(new GravityGameModelPreprocessor());
   }
 }

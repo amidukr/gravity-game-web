@@ -1,6 +1,10 @@
 import { ApplicationComponentMeta } from "./lookup/ApplicationComponentMeta";
 import { Promise } from "bluebird";
-import { Newable, TypeIdentifier } from "./lookup/TypeIdentifier";
+import {
+  Newable,
+  TypeIdentifier,
+  typeIdentifierName,
+} from "./lookup/TypeIdentifier";
 
 export class Application {
   private __components: Array<any> = [];
@@ -81,23 +85,13 @@ export class Application {
     return this.__componentByInterface[interfaceName];
   }
 
-  getComponent<T>(descriptor: TypeIdentifier<T> | Newable<T>): T {
-    let component;
-
-    if (typeof descriptor === "string") {
-      component = this.getComponentByInterfaceName(descriptor);
-    } else if (typeof descriptor === "function") {
-      component = this.getComponentByType(descriptor);
-    } else {
-      throw Error(
-        "Unrecognized descriptor type: " +
-          typeof descriptor +
-          " should be string or function"
-      );
-    }
+  getComponent<T>(descriptor: TypeIdentifier<T>): T {
+    let component = this.getComponentByInterfaceName(
+      typeIdentifierName(descriptor)
+    );
 
     if (!component) {
-      throw Error("Can't find component for descriptor: " + descriptor);
+      throw Error("Can't find component with descriptor: " + descriptor);
     }
 
     return component;
