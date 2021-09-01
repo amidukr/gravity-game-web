@@ -28,6 +28,9 @@ const config = {
       },
     },
   },
+  optimization: {
+    usedExports: true,
+  },
   plugins: [
     new HtmlWebpackPlugin(),
     new CopyPlugin({
@@ -60,7 +63,8 @@ const config = {
       },
       {
         test: /\.tsx?$/,
-        use: [{ loader: "ts-loader" }],
+        use: ["babel-loader", "ts-loader"],
+        exclude: /node_modules/,
       },
 
       // Add your rules for custom modules here
