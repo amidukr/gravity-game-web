@@ -31,10 +31,7 @@ export class GameLoader implements ApplicationComponent {
   private gameEngineConfigurerList!: Array<GameEngineConfigurer>;
 
   constructor() {
-    ApplicationComponentMeta.bindInterfaceName<ApplicationComponent>(
-      this,
-      TYPE_ApplicationComponent
-    );
+    ApplicationComponentMeta.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
 
   autowire(application: Application) {

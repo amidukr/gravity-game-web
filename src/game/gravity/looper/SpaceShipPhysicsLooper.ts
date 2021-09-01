@@ -6,10 +6,7 @@ import {
 
 export class SpaceShipPhysicsLooper implements GameLooper {
   constructor() {
-    ApplicationComponentMeta.bindInterfaceName<GameLooper>(
-      this,
-      TYPE_GameLooper
-    );
+    ApplicationComponentMeta.bindInterfaceName(this, TYPE_GameLooper);
   }
 
   run() {}

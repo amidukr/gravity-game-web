@@ -14,16 +14,13 @@ import {
 } from "./api/GameEngineConfigurer";
 
 export class AutowiredGameEngineConfigurer
-  implements GameEngineConfigurer, ApplicationComponent
+  implements ApplicationComponent, GameEngineConfigurer
 {
   private loopers!: Array<GameLooper>;
 
   constructor() {
     ApplicationComponentMeta.bindInterfaceName(this, TYPE_GameEngineConfigurer);
-    ApplicationComponentMeta.bindInterfaceName<ApplicationComponent>(
-      this,
-      TYPE_ApplicationComponent
-    );
+    ApplicationComponentMeta.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
 
   autowire(application: Application) {

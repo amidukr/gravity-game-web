@@ -10,10 +10,7 @@ import { GameInputApplicationPlugin } from "./GameInputApplicationPlugin";
 
 export class GameBootstrapPlugin implements ApplicationComponent {
   constructor() {
-    ApplicationComponentMeta.bindInterfaceName<ApplicationComponent>(
-      this,
-      TYPE_ApplicationComponent
-    );
+    ApplicationComponentMeta.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
 
   setApplication(application: Application) {

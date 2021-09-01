@@ -10,10 +10,7 @@ import { GameVisualResources } from "../framework/game/rendering/GameVisualResou
 
 export class GameEnginePlugin implements ApplicationComponent {
   constructor() {
-    ApplicationComponentMeta.bindInterfaceName<ApplicationComponent>(
-      this,
-      TYPE_ApplicationComponent
-    );
+    ApplicationComponentMeta.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
 
   register(application: Application) {

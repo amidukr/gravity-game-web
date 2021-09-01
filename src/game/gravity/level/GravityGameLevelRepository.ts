@@ -8,10 +8,7 @@ import {
 
 export class GravityGameLevelRepository implements GameLevelRepository {
   constructor() {
-    ApplicationComponentMeta.bindInterfaceName<GameLevelRepository>(
-      this,
-      TYPE_GameLevelRepository
-    );
+    ApplicationComponentMeta.bindInterfaceName(this, TYPE_GameLevelRepository);
   }
 
   async loadLevel(levelName: string): Promise<any> {

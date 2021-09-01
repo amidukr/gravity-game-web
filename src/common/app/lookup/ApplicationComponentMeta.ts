@@ -30,8 +30,8 @@ export class ApplicationComponentMeta {
     return component[PROPERTY_APPLICATION_EXTENSION];
   }
 
-  static bindInterfaceName<T>(
-    component: T,
+  static bindInterfaceName<T, P extends T>(
+    component: P,
     name: TypeIdentifier<T>,
     parameters: BindInterfaceParameters = {}
   ) {
