@@ -12,6 +12,8 @@ export class GameEngine implements ApplicationComponent {
   private controllers: Array<GameLoop> = [];
   private application!: Application;
 
+  private lastTimeMills!: number;
+
   constructor() {
     Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
@@ -28,6 +30,10 @@ export class GameEngine implements ApplicationComponent {
 
   __playNext() {
     const gameEvent = new GameEvent();
+
+    const currentTimeMills = new Date().getTime();
+    gameEvent.elapsedTimeMills = currentTimeMills - this.lastTimeMills;
+    this.lastTimeMills = currentTimeMills;
 
     gameEvent.application = this.application;
 
@@ -48,6 +54,8 @@ export class GameEngine implements ApplicationComponent {
     Promise.all(
       this.controllers.map((x) => x.start && x.start(this.application))
     );
+
+    this.lastTimeMills = new Date().getTime() - 1;
 
     this.__gameLoop();
   }

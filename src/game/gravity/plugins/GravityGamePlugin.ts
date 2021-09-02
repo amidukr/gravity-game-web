@@ -9,8 +9,8 @@ import { ThreeJsRenderer } from "../../../common/framework/game/rendering/ThreeJ
 import { ApplicationWindowVariablePlugin } from "../../../common/plugins/ApplicationWindowVariablePlugin";
 import { GravityGameLevelRepository } from "../level/GravityGameLevelRepository";
 import { GravityGameModelPreprocessor } from "../level/GravityGameModelPreprocessor";
-import { GravityRenderingLoop } from "../looper/GravityRenderingLoop";
-import { SpaceShipPhysicsLoop } from "../looper/SpaceShipPhysicsLoop";
+import { GravityRenderingLoop } from "../loops/GravityRenderingLoop";
+import { SpaceShipPhysicsLoop } from "../loops/SpaceShipPhysicsLoop";
 import { GravityGameStarter } from "../starters/GravityGameStarter";
 import {
   ReactStarter,
@@ -18,6 +18,7 @@ import {
 } from "../../../common/ui/ReactStarter";
 import { GameWidget } from "../../../common/ui/GameWidget";
 import { GameEnginePlugin } from "../../../common/plugins/GameEnginePlugin";
+import { GravityGameModel } from "../model/GravityGameModel";
 
 export class GravityGameEnginePlugin implements ApplicationComponent {
   constructor() {
@@ -41,6 +42,7 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
     // Register Gravity Game components
     application.registerComponent(new GravityGameLevelRepository());
     application.registerComponent(new GravityGameModelPreprocessor());
+    application.registerComponent(new GravityGameModel());
 
     // Starter
     application.registerComponent(new GravityGameStarter());

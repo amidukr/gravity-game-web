@@ -9,8 +9,10 @@ import {
 import { GameModel } from "../../../common/framework/game/model/GameModel";
 import { GameVisualResources } from "../../../common/framework/game/rendering/GameVisualResources";
 import { ThreeJsRenderer } from "../../../common/framework/game/rendering/ThreeJsRenderer";
+import { GravityGameModel } from "../model/GravityGameModel";
 
 export class GravityRenderingLoop implements GameLoop {
+  private model!: GravityGameModel;
   private renderer!: THREE.WebGLRenderer;
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
@@ -20,6 +22,7 @@ export class GravityRenderingLoop implements GameLoop {
   }
 
   start(application: Application) {
+    this.model = application.getComponent(GravityGameModel);
     this.renderer = application
       .getComponent(ThreeJsRenderer)
       .getThreeJsWebGlRenderer();
@@ -40,14 +43,13 @@ export class GravityRenderingLoop implements GameLoop {
   }
 
   execute(event: GameEvent) {
-    const gameModel = event.application.getComponent(GameModel);
-
-    const persistentShared = gameModel.persistentShared;
+    const persistentShared = this.model.persistentShared;
+    const persistentLocal = this.model.persistentLocal;
 
     this.camera.position.fromArray(persistentShared.spaceShips.player.position);
     this.camera.setRotationFromQuaternion(
       new THREE.Quaternion()
-        .fromArray(persistentShared.spaceShips.player.quaternion)
+        .fromArray(persistentLocal.spaceShips.player.viewQuanterion)
         .normalize()
     );
 

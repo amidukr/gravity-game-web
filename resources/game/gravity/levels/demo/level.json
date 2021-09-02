@@ -5,7 +5,7 @@
     "spaceShips": {
       "player": {
         "position": [0,0, 5],
-        "direction": [0,0,-1]
+        "velocity": [0,0,-1]
       }
     }
   } 

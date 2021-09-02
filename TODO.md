@@ -3,6 +3,7 @@
 # BACKLOG
 
 1. Game logic 
+   1. Increase planet size to something more realistic
    1. Animate planet circle moving
    1. Animate startship moving
    1. GFX: Use startship model
