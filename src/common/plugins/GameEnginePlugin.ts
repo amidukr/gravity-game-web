@@ -3,7 +3,7 @@ import {
   TYPE_ApplicationComponent,
 } from "../app/api/ApplicationComponent";
 import { Application } from "../app/Application";
-import { ApplicationComponentMeta } from "../app/lookup/ApplicationComponentMeta";
+import { Introspection } from "../app/lookup/Introspection";
 import { GameEngine } from "../framework/game/GameEngine";
 import { GameAxisDeviceInput } from "../framework/game/input/GameAxisDeviceInput";
 import { GameButtonActionMap } from "../framework/game/input/GameButtonActionMap";
@@ -14,7 +14,7 @@ import { GameVisualResources } from "../framework/game/rendering/GameVisualResou
 
 export class GameEnginePlugin implements ApplicationComponent {
   constructor() {
-    ApplicationComponentMeta.bindInterfaceName(this, TYPE_ApplicationComponent);
+    Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
 
   setApplication(application: Application) {

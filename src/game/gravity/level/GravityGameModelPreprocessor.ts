@@ -1,4 +1,4 @@
-import { ApplicationComponentMeta } from "../../../common/app/lookup/ApplicationComponentMeta";
+import { Introspection } from "../../../common/app/lookup/Introspection";
 import { GameLevel } from "../../../common/framework/game/level/api/GameLevelRepository";
 import {
   GameModelPreprocessor,
@@ -9,10 +9,7 @@ import * as THREE from "three";
 
 export class GravityGameModelPreprocessor implements GameModelPreprocessor {
   constructor() {
-    ApplicationComponentMeta.bindInterfaceName(
-      this,
-      TYPE_GameModelPreprocessor
-    );
+    Introspection.bindInterfaceName(this, TYPE_GameModelPreprocessor);
   }
 
   preprocess(gameModel: GameModel, gameLevel: GameLevel): void {

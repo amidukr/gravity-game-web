@@ -5,9 +5,9 @@ import {
   TYPE_ApplicationComponent,
 } from "../../../app/api/ApplicationComponent";
 import { Application } from "../../../app/Application";
-import { ApplicationComponentMeta } from "../../../app/lookup/ApplicationComponentMeta";
+import { Introspection } from "../../../app/lookup/Introspection";
 import { GameEngine } from "../GameEngine";
-import { GameLooper, TYPE_GameLooper } from "../looper/GameLooper";
+import { GameLoop, TYPE_GameLooper } from "../looper/GameLoop";
 import {
   GameEngineConfigurer,
   TYPE_GameEngineConfigurer,
@@ -16,11 +16,11 @@ import {
 export class AutowiredGameEngineConfigurer
   implements ApplicationComponent, GameEngineConfigurer
 {
-  private loopers!: Array<GameLooper>;
+  private loopers!: Array<GameLoop>;
 
   constructor() {
-    ApplicationComponentMeta.bindInterfaceName(this, TYPE_GameEngineConfigurer);
-    ApplicationComponentMeta.bindInterfaceName(this, TYPE_ApplicationComponent);
+    Introspection.bindInterfaceName(this, TYPE_GameEngineConfigurer);
+    Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
 
   autowire(application: Application) {

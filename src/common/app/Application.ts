@@ -1,7 +1,4 @@
-import {
-  ApplicationComponentMeta,
-  BoundInterface,
-} from "./lookup/ApplicationComponentMeta";
+import { Introspection, BoundInterface } from "./lookup/Introspection";
 import { Promise } from "bluebird";
 import { TypeIdentifier, typeIdentifierName } from "./lookup/TypeIdentifier";
 import { TYPE_ApplicationComponent } from "./api/ApplicationComponent";
@@ -47,11 +44,11 @@ export class Application {
       order: 0,
     });
 
-    ApplicationComponentMeta.getBoundInterfaces(component).forEach(
-      (boundInterface) => this.__addBoundInterface(boundInterface)
+    Introspection.getBoundInterfaces(component).forEach((boundInterface) =>
+      this.__addBoundInterface(boundInterface)
     );
 
-    ApplicationComponentMeta.resolveInterface(
+    Introspection.resolveInterface(
       component,
       TYPE_ApplicationComponent
     )?.setApplication?.call(component, this);

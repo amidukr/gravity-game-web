@@ -1,22 +1,22 @@
 import * as THREE from "three";
 import { Application } from "../../../common/app/Application";
-import { ApplicationComponentMeta } from "../../../common/app/lookup/ApplicationComponentMeta";
+import { Introspection } from "../../../common/app/lookup/Introspection";
 import { GameEvent } from "../../../common/framework/game/GameEvent";
 import {
-  GameLooper,
+  GameLoop,
   TYPE_GameLooper,
-} from "../../../common/framework/game/looper/GameLooper";
+} from "../../../common/framework/game/looper/GameLoop";
 import { GameModel } from "../../../common/framework/game/model/GameModel";
 import { GameVisualResources } from "../../../common/framework/game/rendering/GameVisualResources";
 import { ThreeJsRenderer } from "../../../common/framework/game/rendering/ThreeJsRenderer";
 
-export class GravityRenderingLooper implements GameLooper {
+export class GravityRenderingLoop implements GameLoop {
   private renderer!: THREE.WebGLRenderer;
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
 
   constructor() {
-    ApplicationComponentMeta.bindInterfaceName(this, TYPE_GameLooper);
+    Introspection.bindInterfaceName(this, TYPE_GameLooper);
   }
 
   start(application: Application) {
@@ -39,7 +39,7 @@ export class GravityRenderingLooper implements GameLooper {
     this.renderer.physicallyCorrectLights = true;
   }
 
-  run(event: GameEvent) {
+  execute(event: GameEvent) {
     const gameModel = event.application.getComponent(GameModel);
 
     const persistentShared = gameModel.persistentShared;

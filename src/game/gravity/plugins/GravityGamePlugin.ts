@@ -3,14 +3,14 @@ import {
   TYPE_ApplicationComponent,
 } from "../../../common/app/api/ApplicationComponent";
 import { Application } from "../../../common/app/Application";
-import { ApplicationComponentMeta } from "../../../common/app/lookup/ApplicationComponentMeta";
+import { Introspection } from "../../../common/app/lookup/Introspection";
 import { AutowiredGameEngineConfigurer } from "../../../common/framework/game/level/AutowiredGameEnginerConfigurer";
 import { ThreeJsRenderer } from "../../../common/framework/game/rendering/ThreeJsRenderer";
 import { ApplicationWindowVariablePlugin } from "../../../common/plugins/ApplicationWindowVariablePlugin";
 import { GravityGameLevelRepository } from "../level/GravityGameLevelRepository";
 import { GravityGameModelPreprocessor } from "../level/GravityGameModelPreprocessor";
-import { GravityRenderingLooper } from "../looper/GravityRenderingLooper";
-import { SpaceShipPhysicsLooper } from "../looper/SpaceShipPhysicsLooper";
+import { GravityRenderingLoop } from "../looper/GravityRenderingLoop";
+import { SpaceShipPhysicsLoop } from "../looper/SpaceShipPhysicsLoop";
 import { GravityGameStarter } from "../starters/GravityGameStarter";
 import {
   ReactStarter,
@@ -21,7 +21,7 @@ import { GameEnginePlugin } from "../../../common/plugins/GameEnginePlugin";
 
 export class GravityGameEnginePlugin implements ApplicationComponent {
   constructor() {
-    ApplicationComponentMeta.bindInterfaceName(this, TYPE_ApplicationComponent);
+    Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
 
   setApplication(application: Application) {
@@ -35,10 +35,7 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
     application.registerComponent(new ReactStarter());
 
     // UI Entry point
-    ApplicationComponentMeta.bindInterfaceName(
-      GameWidget,
-      TYPE_ReactRootWidget
-    );
+    Introspection.bindInterfaceName(GameWidget, TYPE_ReactRootWidget);
     application.registerComponent(GameWidget);
 
     // Register Gravity Game components
@@ -49,7 +46,7 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
     application.registerComponent(new GravityGameStarter());
 
     // Loopers
-    application.registerComponent(new SpaceShipPhysicsLooper());
-    application.registerComponent(new GravityRenderingLooper());
+    application.registerComponent(new SpaceShipPhysicsLoop());
+    application.registerComponent(new GravityRenderingLoop());
   }
 }

@@ -3,7 +3,7 @@ import {
   TYPE_ApplicationComponent,
 } from "../app/api/ApplicationComponent";
 import { Application } from "../app/Application";
-import { ApplicationComponentMeta } from "../app/lookup/ApplicationComponentMeta";
+import { Introspection } from "../app/lookup/Introspection";
 
 declare global {
   interface Window {
@@ -13,7 +13,7 @@ declare global {
 
 export class ApplicationWindowVariablePlugin implements ApplicationComponent {
   constructor() {
-    ApplicationComponentMeta.bindInterfaceName(this, TYPE_ApplicationComponent);
+    Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
 
   register(application: Application) {

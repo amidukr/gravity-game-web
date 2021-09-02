@@ -16,7 +16,7 @@ type ComponentExtension = {
   interfacesNames: Array<BoundInterface>;
 };
 
-export class ApplicationComponentMeta {
+export class Introspection {
   private static __registerExtension(component: any): ComponentExtension {
     return (
       component[PROPERTY_APPLICATION_EXTENSION] ||
@@ -35,7 +35,7 @@ export class ApplicationComponentMeta {
     name: TypeIdentifier<T>,
     parameters: BindInterfaceParameters = {}
   ) {
-    const extension = ApplicationComponentMeta.__registerExtension(component);
+    const extension = Introspection.__registerExtension(component);
 
     const interfacesNames =
       extension.interfacesNames || (extension.interfacesNames = []);

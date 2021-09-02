@@ -2,7 +2,7 @@ import ReactDOM from "react-dom";
 import React from "react";
 import { GameWidget } from "./GameWidget";
 import { Application } from "../app/Application";
-import { ApplicationComponentMeta } from "../app/lookup/ApplicationComponentMeta";
+import { Introspection } from "../app/lookup/Introspection";
 import {
   ApplicationComponent,
   TYPE_ApplicationComponent,
@@ -17,7 +17,7 @@ export class ReactStarter implements ApplicationComponent {
   private __reactRootWidget: any;
 
   constructor() {
-    ApplicationComponentMeta.bindInterfaceName(this, TYPE_ApplicationComponent);
+    Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
 
   autowire(application: Application) {

@@ -1,7 +1,7 @@
 import { Promise } from "bluebird";
 import { Application } from "../../app/Application";
-import { ApplicationComponentMeta } from "../../app/lookup/ApplicationComponentMeta";
-import { GameLooper } from "./looper/GameLooper";
+import { Introspection } from "../../app/lookup/Introspection";
+import { GameLoop } from "./looper/GameLoop";
 import { GameEvent } from "./GameEvent";
 import {
   ApplicationComponent,
@@ -9,11 +9,11 @@ import {
 } from "../../app/api/ApplicationComponent";
 
 export class GameEngine implements ApplicationComponent {
-  private controllers: Array<GameLooper> = [];
+  private controllers: Array<GameLoop> = [];
   private application!: Application;
 
   constructor() {
-    ApplicationComponentMeta.bindInterfaceName(this, TYPE_ApplicationComponent);
+    Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
 
   autowire(application: Application) {
@@ -33,14 +33,14 @@ export class GameEngine implements ApplicationComponent {
 
     this.controllers.forEach((controller) => {
       try {
-        controller.run(gameEvent);
+        controller.execute(gameEvent);
       } catch (ex) {
         console.error("Game Engine", ex);
       }
     });
   }
 
-  registerLooper(controller: GameLooper) {
+  registerLooper(controller: GameLoop) {
     this.controllers.push(controller);
   }
 
