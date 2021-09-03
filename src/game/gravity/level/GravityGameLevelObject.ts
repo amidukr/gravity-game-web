@@ -4,7 +4,9 @@ import { GameLevel } from "../../../common/framework/game/level/GameLevel";
 import { GameLevelObject } from "../../../common/framework/game/level/GameLevelObject";
 
 export const TYPE_GravityGameLevel =
-  typeIdentifier<GameLevel<GravityGameLevelObject>>(GameLevel);
+  typeIdentifier<GravityGameLevel>(GameLevel);
+
+export type GravityGameLevel = GameLevel<GravityGameLevelObject>;
 
 export class GravityGameLevelObject implements GameLevelObject {
   type: "GameLevelObject" = "GameLevelObject";

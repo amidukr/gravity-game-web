@@ -4,10 +4,10 @@
 
 1. Game logic 
    1. Increase planet size to something more realistic
-   1. Animate planet circle moving
-   1. Animate startship moving
-   1. GFX: Use startship model
    1. GFX: Atmosphere
+   1. Animate planet circle moving
+   1. Implement gravity for starship movement
+   1. GFX: Use startship model
    1. GFX: Space background
    1. GFX: Terra generation
    1. Music/Sound 
@@ -27,3 +27,6 @@
       1. Extract GameLoader and GameLevelRepository interface to common
    1. Replace bindToGlobalFunctions with interface
       1. Support to retrieve multuple interfaces
+1. Refactoring 
+   1. Rebuilding Game Loading sequence
+1. Animate startship moving

@@ -4,7 +4,9 @@ import { GameModel } from "../../../common/framework/game/model/GameModel";
 import { GameModelObject } from "../../../common/framework/game/model/GameModelObject";
 
 export const TYPE_GravityGameModel =
-  typeIdentifier<GameModel<GravityGameModelObject>>(GameModel);
+  typeIdentifier<GravityGameModel>(GameModel);
+
+export type GravityGameModel = GameModel<GravityGameModelObject>;
 
 export class GravityGameModelObject implements GameModelObject {
   type: "GameModelObject" = "GameModelObject";
