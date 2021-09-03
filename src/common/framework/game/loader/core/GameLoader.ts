@@ -6,5 +6,5 @@ export const TYPE_GameLoader = typeIdentifier<GameLoader>(
 );
 
 export interface GameLoader {
-  loadGameModel(loadGameObject: LoadGameObject): Promise<void>;
+  loadGame(loadGameObject: LoadGameObject): Promise<void>;
 }

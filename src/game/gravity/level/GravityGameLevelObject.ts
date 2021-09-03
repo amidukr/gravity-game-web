@@ -12,9 +12,9 @@ export class GravityGameLevelObject implements GameLevelObject {
   data!: {
     spaceShips: {
       player: {
-        position: number[],
-      velocity: number[]
-      }
+        position: number[];
+        velocity: number[];
+      };
     };
   };
 

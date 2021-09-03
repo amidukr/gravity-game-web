@@ -55,7 +55,7 @@ export class CoreGameLoader implements ApplicationComponent {
 
     this.gameModel.object = { type: "GameModelObject" };
 
-    await this.gameModelLoader.loadGameModel(loadGameObject);
+    await this.gameModelLoader.loadGame(loadGameObject);
 
     this.gameEngineConfigurerList.forEach((x) => x.configure(this.gameEngine));
   }

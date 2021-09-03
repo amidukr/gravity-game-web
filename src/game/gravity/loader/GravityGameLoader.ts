@@ -36,13 +36,15 @@ export class GravityGameLoader implements GameLoader, ApplicationComponent {
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
   }
 
-  async loadGameModel(loadGameObject: LoadGameObject): Promise<void> {
+  async loadGame(loadGameObject: LoadGameObject): Promise<void> {
     const modelObject = new GravityGameModelObject();
     this.gameModel.object = modelObject;
 
     const levelPlayerSpaceShip = this.gameLevel.object.data.spaceShips.player;
 
-    modelObject.spaceShips.player.position.fromArray(levelPlayerSpaceShip.position)
+    modelObject.spaceShips.player.position.fromArray(
+      levelPlayerSpaceShip.position
+    );
 
     modelObject.viewQuaternion = new Quaternion().setFromUnitVectors(
       new Vector3(0, 0, -1),

@@ -9,7 +9,10 @@ import {
 import { GameModel } from "../../../common/framework/game/model/GameModel";
 import { ThreeJsRenderer } from "../../../common/framework/game/rendering/ThreeJsRenderer";
 import { TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
-import { GravityGameModelObject, TYPE_GravityGameModel } from "../model/GravityGameModelObject";
+import {
+  GravityGameModelObject,
+  TYPE_GravityGameModel,
+} from "../model/GravityGameModelObject";
 
 export class GravityRenderingLoop implements GameLoop {
   private model!: GameModel<GravityGameModelObject>;
@@ -43,12 +46,9 @@ export class GravityRenderingLoop implements GameLoop {
   }
 
   execute(event: GameEvent) {
-    
     this.camera.position.copy(this.model.object.spaceShips.player.position);
     this.camera.setRotationFromQuaternion(
-      new THREE.Quaternion()
-        .copy(this.model.object.viewQuaternion)
-        .normalize()
+      new THREE.Quaternion().copy(this.model.object.viewQuaternion).normalize()
     );
 
     this.renderer.render(this.scene, this.camera);
