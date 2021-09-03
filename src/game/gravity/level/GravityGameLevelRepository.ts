@@ -1,17 +1,22 @@
 import { Promise } from "bluebird";
-import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Introspection } from "../../../common/app/lookup/Introspection";
 import {
   GameLevelRepository,
   TYPE_GameLevelRepository,
-} from "../../../common/framework/game/level/api/GameLevelRepository";
+} from "../../../common/framework/game/level/GameLevelRepository";
+import { GravityGameLevelDescriptor } from "./GravityGameLevelDescriptor";
+import { GravityGameLevelObject } from "./GravityGameLevelObject";
 
 export class GravityGameLevelRepository implements GameLevelRepository {
   constructor() {
     Introspection.bindInterfaceName(this, TYPE_GameLevelRepository);
   }
+  async loadLevel(
+    levelDescriptor: GravityGameLevelDescriptor
+  ): Promise<GravityGameLevelObject> {
+    const levelName = levelDescriptor.levelName;
 
-  async loadLevel(levelName: string): Promise<any> {
     const levelFolder = `resources/game/gravity/levels/${levelName}`;
 
     const levelFilePath = `${levelFolder}/level.json`;
@@ -22,13 +27,15 @@ export class GravityGameLevelRepository implements GameLevelRepository {
 
     const loader = new GLTFLoader();
 
-    const gameScene: any = await new Promise((r) =>
+    const gameScene: GLTF = await new Promise<GLTF>((r) =>
       loader.load(`${levelFolder}/${levelData.levelSceneFile}`, r)
     );
 
-    return {
-      data: levelData,
-      rootScene: gameScene.scene,
-    };
+    const levelObject = new GravityGameLevelObject();
+
+    levelObject.data = levelData;
+    levelObject.rootScene = gameScene.scene;
+
+    return levelObject;
   }
 }

@@ -1,11 +1,5 @@
-export class GameModel {
-  persistentShared: any = {};
-  persistentLocal: any = {};
-  transient: any = {};
+import { GameModelObject } from "./GameModelObject";
 
-  reset() {
-    this.persistentShared = {};
-    this.persistentLocal = {};
-    this.transient = {};
-  }
+export class GameModel<O extends GameModelObject = GameModelObject> {
+  object!: O;
 }

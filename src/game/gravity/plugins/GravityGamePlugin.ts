@@ -4,11 +4,11 @@ import {
 } from "../../../common/app/api/ApplicationComponent";
 import { Application } from "../../../common/app/Application";
 import { Introspection } from "../../../common/app/lookup/Introspection";
-import { AutowiredGameEngineConfigurer } from "../../../common/framework/game/level/AutowiredGameEnginerConfigurer";
+import { AutowiredGameEngineConfigurer } from "../../../common/framework/game/loader/configurer/AutowiredGameEnginerConfigurer";
 import { ThreeJsRenderer } from "../../../common/framework/game/rendering/ThreeJsRenderer";
 import { ApplicationWindowVariablePlugin } from "../../../common/plugins/ApplicationWindowVariablePlugin";
 import { GravityGameLevelRepository } from "../level/GravityGameLevelRepository";
-import { GravityGameModelPreprocessor } from "../level/GravityGameModelPreprocessor";
+import { GravityGameLoader } from "../loader/GravityGameLoader";
 import { GravityRenderingLoop } from "../loops/GravityRenderingLoop";
 import { SpaceShipPhysicsLoop } from "../loops/SpaceShipPhysicsLoop";
 import { GravityGameStarter } from "../starters/GravityGameStarter";
@@ -18,7 +18,6 @@ import {
 } from "../../../common/ui/ReactStarter";
 import { GameWidget } from "../../../common/ui/GameWidget";
 import { GameEnginePlugin } from "../../../common/plugins/GameEnginePlugin";
-import { GravityGameModel } from "../model/GravityGameModel";
 
 export class GravityGameEnginePlugin implements ApplicationComponent {
   constructor() {
@@ -41,8 +40,7 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
 
     // Register Gravity Game components
     application.registerComponent(new GravityGameLevelRepository());
-    application.registerComponent(new GravityGameModelPreprocessor());
-    application.registerComponent(new GravityGameModel());
+    application.registerComponent(new GravityGameLoader());
 
     // Starter
     application.registerComponent(new GravityGameStarter());

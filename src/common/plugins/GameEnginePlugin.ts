@@ -5,12 +5,13 @@ import {
 import { Application } from "../app/Application";
 import { Introspection } from "../app/lookup/Introspection";
 import { GameEngine } from "../framework/game/GameEngine";
-import { GameAxisDeviceInput } from "../framework/game/input/GameAxisDeviceInput";
-import { GameButtonActionMap } from "../framework/game/input/GameButtonActionMap";
-import { GameButtonDeviceInput } from "../framework/game/input/GameButtonDeviceInput";
-import { GameLoader } from "../framework/game/level/GameLoader";
+import { AxisUserInput } from "../framework/game/input/AxisUserInput";
+import { MappedUserInput } from "../framework/game/input/MappedUserInput";
+import { ButtonUserInput } from "../framework/game/input/ButtonUserInput";
+import { CoreGameLoader } from "../framework/game/loader/core/CoreGameLoader";
 import { GameModel } from "../framework/game/model/GameModel";
 import { GameVisualResources } from "../framework/game/rendering/GameVisualResources";
+import { GameLevel } from "../framework/game/level/GameLevel";
 
 export class GameEnginePlugin implements ApplicationComponent {
   constructor() {
@@ -20,13 +21,14 @@ export class GameEnginePlugin implements ApplicationComponent {
   setApplication(application: Application) {
     application.registerComponent(new GameEngine());
 
+    application.registerComponent(new GameLevel());
     application.registerComponent(new GameModel());
-
-    application.registerComponent(new GameButtonActionMap());
-    application.registerComponent(new GameButtonDeviceInput());
-    application.registerComponent(new GameAxisDeviceInput());
-
-    application.registerComponent(new GameLoader());
     application.registerComponent(new GameVisualResources());
+
+    application.registerComponent(new MappedUserInput());
+    application.registerComponent(new ButtonUserInput());
+    application.registerComponent(new AxisUserInput());
+
+    application.registerComponent(new CoreGameLoader());
   }
 }

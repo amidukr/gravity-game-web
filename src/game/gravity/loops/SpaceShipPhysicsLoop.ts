@@ -3,24 +3,28 @@ import { Application } from "../../../common/app/Application";
 import { Introspection } from "../../../common/app/lookup/Introspection";
 import { GameEvent } from "../../../common/framework/game/GameEvent";
 import { MouseDevice } from "../../../common/framework/game/input/devices/MouseDevice";
-import { GameAxisDeviceInput } from "../../../common/framework/game/input/GameAxisDeviceInput";
+import { AxisUserInput } from "../../../common/framework/game/input/AxisUserInput";
 import {
   GameLoop,
   TYPE_GameLooper,
 } from "../../../common/framework/game/looper/GameLoop";
-import { GravityGameModel } from "../model/GravityGameModel";
+import { GameModel } from "../../../common/framework/game/model/GameModel";
+import {
+  GravityGameModelObject,
+  TYPE_GravityGameModel,
+} from "../model/GravityGameModelObject";
 
 export class SpaceShipPhysicsLoop implements GameLoop {
-  private axisInput!: GameAxisDeviceInput;
-  private model!: GravityGameModel;
+  private axisInput!: AxisUserInput;
+  private model!: GameModel<GravityGameModelObject>;
 
   constructor() {
     Introspection.bindInterfaceName(this, TYPE_GameLooper);
   }
 
   start(application: Application) {
-    this.axisInput = application.getComponent(GameAxisDeviceInput);
-    this.model = application.getComponent(GravityGameModel)
+    this.axisInput = application.getComponent(AxisUserInput);
+    this.model = application.getComponent(TYPE_GravityGameModel);
   }
 
   execute(event: GameEvent) {
@@ -38,34 +42,34 @@ export class SpaceShipPhysicsLoop implements GameLoop {
       0
     ).normalize();
 
-    var rotateAngle = mousePointer.length() 
+    var rotateAngle = mousePointer.length();
 
-    rotateAngle = Math.pow(10*500, rotateAngle) / 500
+    rotateAngle = Math.pow(10 * 500, rotateAngle) / 500;
 
-    if(rotateAngle < 0.01) {
-      rotateAngle = 0
+    if (rotateAngle < 0.01) {
+      rotateAngle = 0;
     }
 
-    const mouseBasedTransformation = new Quaternion().setFromAxisAngle(
-      mousePointerOrth,
-      rotateAngle * event.elapsedTimeMills * 0.001
-    ).normalize();
+    const mouseBasedTransformation = new Quaternion()
+      .setFromAxisAngle(
+        mousePointerOrth,
+        rotateAngle * event.elapsedTimeMills * 0.001
+      )
+      .normalize();
 
-    const playerSpaceShipView = this.model.persistentLocal.spaceShips.player
-    const playerSpaceShip = this.model.persistentShared.spaceShips.player
+    const modelObject = this.model.object;
+    const playerSpaceShip = this.model.object.spaceShips.player;
 
-    var viewQuanterion = new Quaternion()
-      .fromArray(playerSpaceShipView.viewQuanterion)
-      .multiply(mouseBasedTransformation)
-      .normalize()
+    modelObject.viewQuaternion.multiply(mouseBasedTransformation).normalize();
 
-    playerSpaceShipView.viewQuanterion = viewQuanterion.toArray()
-    
-    const velocity = new Vector3(0,0,-1).applyQuaternion(viewQuanterion).normalize()
-    
-    playerSpaceShip.velocity = velocity.toArray()
-    const position = new Vector3().fromArray(playerSpaceShip.position).add(velocity.multiplyScalar(0.0005 * event.elapsedTimeMills))
+    playerSpaceShip.velocity = new Vector3(0, 0, -1)
+      .applyQuaternion(modelObject.viewQuaternion)
+      .normalize();
 
-    playerSpaceShip.position = position.toArray()
+    playerSpaceShip.position.add(
+      new Vector3()
+        .copy(playerSpaceShip.velocity)
+        .multiplyScalar(0.0005 * event.elapsedTimeMills)
+    );
   }
 }

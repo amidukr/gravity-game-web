@@ -3,7 +3,7 @@
 
 */
 
-export class GameButtonDeviceInput {
+export class ButtonUserInput {
   static KEYBOARD_DEVICE = "KEYBOARD";
   static MOUSE_DEVICE = "MOUSE";
 }

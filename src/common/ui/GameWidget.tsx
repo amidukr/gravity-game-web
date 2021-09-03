@@ -5,7 +5,7 @@ import {
   GameRenderer,
   TYPE_GameRenderer,
 } from "../framework/game/rendering/GameRenderer";
-import { GameAxisDeviceInput } from "../framework/game/input/GameAxisDeviceInput";
+import { AxisUserInput } from "../framework/game/input/AxisUserInput";
 import { MouseDevice } from "../framework/game/input/devices/MouseDevice";
 
 export class GameWidget extends React.Component<
@@ -13,22 +13,22 @@ export class GameWidget extends React.Component<
   any
 > {
   private renderer!: GameRenderer;
-  private axisInput!: GameAxisDeviceInput;
+  private axisInput!: AxisUserInput;
 
   constructor(props: any) {
     super(props);
     this.state = { label: "" };
 
     this.renderer = this.props.application.getComponent(TYPE_GameRenderer);
-    this.axisInput = this.props.application.getComponent(GameAxisDeviceInput);
+    this.axisInput = this.props.application.getComponent(AxisUserInput);
 
     this.renderer
       .getCanvasDomElement()
       .addEventListener("mousemove", this.handleMouseMove.bind(this));
 
-    const canvasElement = this.renderer.getCanvasDomElement()
+    const canvasElement = this.renderer.getCanvasDomElement();
 
-      this.updateMouseCoordinate(1, 1, 2, 2)
+    this.updateMouseCoordinate(1, 1, 2, 2);
   }
 
   static propTypes = {
@@ -43,7 +43,12 @@ export class GameWidget extends React.Component<
     }
   }
 
-  private updateMouseCoordinate(x: number, y: number, width: number, height: number) {
+  private updateMouseCoordinate(
+    x: number,
+    y: number,
+    width: number,
+    height: number
+  ) {
     this.axisInput.setCoordinate(MouseDevice.ABSOLUTE_X, x);
     this.axisInput.setCoordinate(MouseDevice.ABSOLUTE_Y, y);
 
@@ -52,7 +57,12 @@ export class GameWidget extends React.Component<
   }
 
   private handleMouseMove(ev: any) {
-    this.updateMouseCoordinate(ev.clientX, ev.clientY, ev.target.clientWidth, ev.target.clientHeight)
+    this.updateMouseCoordinate(
+      ev.clientX,
+      ev.clientY,
+      ev.target.clientWidth,
+      ev.target.clientHeight
+    );
   }
 
   override render() {

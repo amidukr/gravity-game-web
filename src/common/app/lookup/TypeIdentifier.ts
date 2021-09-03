@@ -26,9 +26,7 @@ export function typeIdentifierName<T>(type: TypeIdentifier<T>): string {
   return name;
 }
 
-export function typeIdentifier<T>(
-  type: string | Newable<T>
-): TypeIdentifier<T> {
+export function typeIdentifier<T>(type: TypeIdentifier<T>): TypeIdentifier<T> {
   if (typeof type === "function") {
     return type.name;
   }

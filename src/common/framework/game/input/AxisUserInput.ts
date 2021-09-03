@@ -1,6 +1,6 @@
 import { InputAxis } from "./types/InputAxis";
 
-export class GameAxisDeviceInput {
+export class AxisUserInput {
   private __axisValues: { [axis: string]: number } = {};
 
   setCoordinate(axisType: InputAxis, value: number) {

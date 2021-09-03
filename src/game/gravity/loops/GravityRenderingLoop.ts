@@ -7,12 +7,12 @@ import {
   TYPE_GameLooper,
 } from "../../../common/framework/game/looper/GameLoop";
 import { GameModel } from "../../../common/framework/game/model/GameModel";
-import { GameVisualResources } from "../../../common/framework/game/rendering/GameVisualResources";
 import { ThreeJsRenderer } from "../../../common/framework/game/rendering/ThreeJsRenderer";
-import { GravityGameModel } from "../model/GravityGameModel";
+import { TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
+import { GravityGameModelObject, TYPE_GravityGameModel } from "../model/GravityGameModelObject";
 
 export class GravityRenderingLoop implements GameLoop {
-  private model!: GravityGameModel;
+  private model!: GameModel<GravityGameModelObject>;
   private renderer!: THREE.WebGLRenderer;
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
@@ -22,15 +22,15 @@ export class GravityRenderingLoop implements GameLoop {
   }
 
   start(application: Application) {
-    this.model = application.getComponent(GravityGameModel);
+    this.model = application.getComponent(TYPE_GravityGameModel);
     this.renderer = application
       .getComponent(ThreeJsRenderer)
       .getThreeJsWebGlRenderer();
 
-    const gameResources = application.getComponent(GameVisualResources);
+    const gameLevel = application.getComponent(TYPE_GravityGameLevel);
 
     this.scene = new THREE.Scene();
-    this.scene.add(gameResources.value.rootScene);
+    this.scene.add(gameLevel.object.rootScene);
 
     this.camera = new THREE.PerspectiveCamera(
       45,
@@ -43,13 +43,11 @@ export class GravityRenderingLoop implements GameLoop {
   }
 
   execute(event: GameEvent) {
-    const persistentShared = this.model.persistentShared;
-    const persistentLocal = this.model.persistentLocal;
-
-    this.camera.position.fromArray(persistentShared.spaceShips.player.position);
+    
+    this.camera.position.copy(this.model.object.spaceShips.player.position);
     this.camera.setRotationFromQuaternion(
       new THREE.Quaternion()
-        .fromArray(persistentLocal.spaceShips.player.viewQuanterion)
+        .copy(this.model.object.viewQuaternion)
         .normalize()
     );
 

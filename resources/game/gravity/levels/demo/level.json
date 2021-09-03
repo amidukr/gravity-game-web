@@ -1,12 +1,10 @@
 {
   "levelSceneFile": "Planet System3.glb",
 
-  "persistentShared": {
-    "spaceShips": {
-      "player": {
-        "position": [0,0, 5],
-        "velocity": [0,0,-1]
-      }
+  "spaceShips": {
+    "player": {
+      "position": [0,0, 5],
+      "velocity": [0,0,-1]
     }
   } 
 }

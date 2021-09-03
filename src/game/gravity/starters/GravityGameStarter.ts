@@ -2,7 +2,8 @@ import { TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationCo
 import { Application } from "../../../common/app/Application";
 import { Introspection } from "../../../common/app/lookup/Introspection";
 import { GameEngine } from "../../../common/framework/game/GameEngine";
-import { GameLoader } from "../../../common/framework/game/level/GameLoader";
+import { CoreGameLoader } from "../../../common/framework/game/loader/core/CoreGameLoader";
+import { GravityGameLevelDescriptor } from "../level/GravityGameLevelDescriptor";
 
 export class GravityGameStarter {
   constructor() {
@@ -10,7 +11,10 @@ export class GravityGameStarter {
   }
 
   async start(application: Application) {
-    await application.getComponent(GameLoader).loadGame({ levelName: "demo" });
+    await application.getComponent(CoreGameLoader).loadGame({
+      levelDescriptor: new GravityGameLevelDescriptor("demo"),
+    });
+
     application.getComponent(GameEngine).start();
   }
 }
