@@ -2,15 +2,15 @@ import React from "react";
 import { Application } from "../../../common/app/Application";
 import { GameViewWidget } from "../../../common/framework/game/integrations/react/GameViewWidget";
 import { GameView } from "../../../common/framework/game/ui/view/GameView";
-import { GravityRenderingLoop } from "./free/look/GravityRenderingLoop";
-import { SpaceShipPhysicsLoop } from "./free/look/SpaceShipPhysicsLoop";
+import { GravityRenderingLoop } from "./free/fly/FreeFlyRenderingLoop";
+import { SpaceShipPhysicsLoop } from "./free/fly/FreeFlyProcessingLoop";
 
 export interface RootWidgetProps {
   application: Application;
 }
 
 export interface RootWidgetState {
-  gameView: GameView;
+  freeFlightGameView: GameView;
 }
 
 export class RootWidget extends React.Component<
@@ -21,7 +21,7 @@ export class RootWidget extends React.Component<
     super(props);
 
     this.state = {
-      gameView: new GameView({
+      freeFlightGameView: new GameView({
         application: props.application,
         processingLoops: [new SpaceShipPhysicsLoop()],
         renderingLoops: [new GravityRenderingLoop()],
@@ -30,6 +30,6 @@ export class RootWidget extends React.Component<
   }
 
   override render() {
-    return <GameViewWidget gameView={this.state.gameView} />;
+    return <GameViewWidget gameView={this.state.freeFlightGameView} />;
   }
 }

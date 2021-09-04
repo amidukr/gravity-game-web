@@ -2,12 +2,12 @@ import { GameView } from "./GameView";
 
 export class GameViewCollection {
   private __list: GameView[] = [];
-  private gameStarted: Boolean = false
+  private gameStarted: Boolean = false;
 
   async bindView(view: GameView) {
     if (this.__list.indexOf(view) == -1) {
-      if(this.gameStarted) {
-        await this.startView(view)
+      if (this.gameStarted) {
+        await this.startView(view);
       }
 
       this.__list.push(view);
@@ -25,7 +25,7 @@ export class GameViewCollection {
     return this.__list;
   }
 
-  async startView(view: GameView): Promise<void>{
+  async startView(view: GameView): Promise<void> {
     const application = view.application;
 
     for (const loop of view.processingLoops) {
@@ -46,7 +46,7 @@ export class GameViewCollection {
   }
 
   async startGameEngine(): Promise<void> {
-    this.gameStarted = true
-    await Promise.all(this.__list.map(view => this.startView(view)))
+    this.gameStarted = true;
+    await Promise.all(this.__list.map((view) => this.startView(view)));
   }
 }

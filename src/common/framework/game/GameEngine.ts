@@ -40,16 +40,16 @@ export class GameEngine implements ApplicationComponent {
 
     gameEvent.application = this.application;
 
-    for(const view of this.gameViewCollection.list) {
-      for(const loop of view.processingLoops) {
+    for (const view of this.gameViewCollection.list) {
+      for (const loop of view.processingLoops) {
         try {
-          loop.execute(view, gameEvent)
+          loop.execute(view, gameEvent);
         } catch (ex) {
           console.error("Game Engine", ex);
         }
       }
     }
-    
+
     this.controllers.forEach((controller) => {
       try {
         controller.execute(gameEvent);
@@ -58,10 +58,10 @@ export class GameEngine implements ApplicationComponent {
       }
     });
 
-    for(const view of this.gameViewCollection.list) {
-      for(const loop of view.renderingLoops) {
+    for (const view of this.gameViewCollection.list) {
+      for (const loop of view.renderingLoops) {
         try {
-          loop.execute(view, gameEvent)
+          loop.execute(view, gameEvent);
         } catch (ex) {
           console.error("Game Engine", ex);
         }
@@ -78,7 +78,7 @@ export class GameEngine implements ApplicationComponent {
       this.controllers.map((x) => x.start && x.start(this.application))
     );
 
-    await this.gameViewCollection.startGameEngine()
+    await this.gameViewCollection.startGameEngine();
 
     this.lastTimeMills = new Date().getTime() - 1;
 
