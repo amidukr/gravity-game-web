@@ -1,30 +1,28 @@
 import * as THREE from "three";
-import { Application } from "../../../common/app/Application";
-import { Introspection } from "../../../common/app/lookup/Introspection";
-import { GameEvent } from "../../../common/framework/game/GameEvent";
+import { Application } from "../../../../../common/app/Application";
+import { Introspection } from "../../../../../common/app/lookup/Introspection";
+import { GameEvent } from "../../../../../common/framework/game/GameEvent";
 import {
   GameLoop,
   TYPE_GameLooper,
-} from "../../../common/framework/game/looper/GameLoop";
-import { GameModel } from "../../../common/framework/game/model/GameModel";
-import { ThreeJsRenderer } from "../../../common/framework/game/threejs/ThreeJsRenderer";
-import { TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
+} from "../../../../../common/framework/game/looper/GameLoop";
+import { GameModel } from "../../../../../common/framework/game/model/GameModel";
+import { ThreeJsRenderer } from "../../../../../common/framework/game/integrations/threejs/ThreeJsRenderer";
+import { TYPE_GravityGameLevel } from "../../../level/GravityGameLevelObject";
 import {
   GravityGameModelObject,
   TYPE_GravityGameModel,
-} from "../model/GravityGameModelObject";
+} from "../../../model/GravityGameModelObject";
+import { GameViewLoop } from "../../../../../common/framework/game/ui/view/GameViewLoop";
+import { GameView } from "../../../../../common/framework/game/ui/view/GameView";
 
-export class GravityRenderingLoop implements GameLoop {
+export class GravityRenderingLoop implements GameViewLoop {
   private model!: GameModel<GravityGameModelObject>;
   private renderer!: THREE.WebGLRenderer;
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
 
-  constructor() {
-    Introspection.bindInterfaceName(this, TYPE_GameLooper);
-  }
-
-  start(application: Application) {
+  start(gameView: GameView, application: Application) {
     this.model = application.getComponent(TYPE_GravityGameModel);
     this.renderer = application
       .getComponent(ThreeJsRenderer)
@@ -46,7 +44,7 @@ export class GravityRenderingLoop implements GameLoop {
     this.renderer.physicallyCorrectLights = true;
   }
 
-  execute(event: GameEvent) {
+  execute() {
     this.camera.position.copy(this.model.object.spaceShips.player.position);
     this.camera.setRotationFromQuaternion(
       new THREE.Quaternion().copy(this.model.object.viewQuaternion).normalize()

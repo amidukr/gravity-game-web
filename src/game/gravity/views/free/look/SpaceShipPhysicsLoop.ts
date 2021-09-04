@@ -1,33 +1,31 @@
 import { AmbientLight, Quaternion, Vector2, Vector3 } from "three";
-import { Application } from "../../../common/app/Application";
-import { Introspection } from "../../../common/app/lookup/Introspection";
-import { GameEvent } from "../../../common/framework/game/GameEvent";
-import { MouseDevice } from "../../../common/framework/game/input/devices/MouseDevice";
-import { AxisUserInput } from "../../../common/framework/game/input/AxisUserInput";
+import { Application } from "../../../../../common/app/Application";
+import { Introspection } from "../../../../../common/app/lookup/Introspection";
+import { GameEvent } from "../../../../../common/framework/game/GameEvent";
+import { MouseDevice } from "../../../../../common/framework/game/input/devices/MouseDevice";
+import { AxisUserInput } from "../../../../../common/framework/game/input/AxisUserInput";
 import {
   GameLoop,
   TYPE_GameLooper,
-} from "../../../common/framework/game/looper/GameLoop";
-import { GameModel } from "../../../common/framework/game/model/GameModel";
+} from "../../../../../common/framework/game/looper/GameLoop";
+import { GameModel } from "../../../../../common/framework/game/model/GameModel";
 import {
   GravityGameModelObject,
   TYPE_GravityGameModel,
-} from "../model/GravityGameModelObject";
+} from "../../../model/GravityGameModelObject";
+import { GameView } from "../../../../../common/framework/game/ui/view/GameView";
+import { GameViewLoop } from "../../../../../common/framework/game/ui/view/GameViewLoop";
 
-export class SpaceShipPhysicsLoop implements GameLoop {
+export class SpaceShipPhysicsLoop implements GameViewLoop {
   private axisInput!: AxisUserInput;
   private model!: GameModel<GravityGameModelObject>;
 
-  constructor() {
-    Introspection.bindInterfaceName(this, TYPE_GameLooper);
-  }
-
-  start(application: Application) {
-    this.axisInput = application.getComponent(AxisUserInput);
+  start(gameView: GameView, application: Application) {
+    this.axisInput = gameView.axisUserInput;
     this.model = application.getComponent(TYPE_GravityGameModel);
   }
 
-  execute(event: GameEvent) {
+  execute(gameView: GameView, event: GameEvent) {
     const mousePointerArray = this.axisInput.getCoordinates([
       MouseDevice.RELATIVE_X,
       MouseDevice.RELATIVE_Y,

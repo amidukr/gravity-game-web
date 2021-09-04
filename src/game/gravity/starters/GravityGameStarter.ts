@@ -15,6 +15,6 @@ export class GravityGameStarter {
       levelDescriptor: new SimpleGameLevelDescriptor("demo"),
     });
 
-    application.getComponent(GameEngine).start();
+    await application.getComponent(GameEngine).startGameEngine();
   }
 }

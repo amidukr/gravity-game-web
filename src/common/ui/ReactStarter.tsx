@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import React from "react";
-import { GameWidget } from "./GameWidget";
+import { GameViewWidget } from "../framework/game/integrations/react/GameViewWidget";
 import { Application } from "../app/Application";
 import { Introspection } from "../app/lookup/Introspection";
 import {

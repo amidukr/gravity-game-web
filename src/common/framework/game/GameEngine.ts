@@ -7,10 +7,12 @@ import {
   ApplicationComponent,
   TYPE_ApplicationComponent,
 } from "../../app/api/ApplicationComponent";
+import { GameViewCollection } from "./ui/view/GameViewsCollection";
 
 export class GameEngine implements ApplicationComponent {
   private controllers: Array<GameLoop> = [];
   private application!: Application;
+  private gameViewCollection!: GameViewCollection;
 
   private lastTimeMills!: number;
 
@@ -20,6 +22,7 @@ export class GameEngine implements ApplicationComponent {
 
   autowire(application: Application) {
     this.application = application;
+    this.gameViewCollection = application.getComponent(GameViewCollection);
   }
 
   __gameLoop() {
@@ -37,6 +40,16 @@ export class GameEngine implements ApplicationComponent {
 
     gameEvent.application = this.application;
 
+    for(const view of this.gameViewCollection.list) {
+      for(const loop of view.processingLoops) {
+        try {
+          loop.execute(view, gameEvent)
+        } catch (ex) {
+          console.error("Game Engine", ex);
+        }
+      }
+    }
+    
     this.controllers.forEach((controller) => {
       try {
         controller.execute(gameEvent);
@@ -44,16 +57,28 @@ export class GameEngine implements ApplicationComponent {
         console.error("Game Engine", ex);
       }
     });
+
+    for(const view of this.gameViewCollection.list) {
+      for(const loop of view.renderingLoops) {
+        try {
+          loop.execute(view, gameEvent)
+        } catch (ex) {
+          console.error("Game Engine", ex);
+        }
+      }
+    }
   }
 
   registerLooper(controller: GameLoop) {
     this.controllers.push(controller);
   }
 
-  start() {
-    Promise.all(
+  async startGameEngine() {
+    await Promise.all(
       this.controllers.map((x) => x.start && x.start(this.application))
     );
+
+    await this.gameViewCollection.startGameEngine()
 
     this.lastTimeMills = new Date().getTime() - 1;
 
