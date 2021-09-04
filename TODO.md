@@ -8,7 +8,6 @@
    1. Animate planet circle moving
    1. Implement gravity for starship movement
    1. GFX: Use startship model
-   1. GFX: Space background
    1. GFX: Terra generation
    1. Music/Sound 
 
@@ -30,3 +29,4 @@
 1. Refactoring 
    1. Rebuilding Game Loading sequence
 1. Animate startship moving
+1. GFX: Space background

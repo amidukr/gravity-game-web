@@ -8,7 +8,9 @@ export class ThreeJsRenderer implements GameRenderer {
   constructor() {
     Introspection.bindInterfaceName(this, TYPE_GameRenderer);
 
-    this.__renderer = new THREE.WebGLRenderer();
+    this.__renderer = new THREE.WebGLRenderer({
+      antialias: true,
+    });
     this.__renderer.setSize(window.innerWidth, window.innerHeight);
   }
 

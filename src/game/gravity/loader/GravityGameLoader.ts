@@ -20,7 +20,13 @@ import {
   GravityGameLevelObject,
   TYPE_GravityGameLevel,
 } from "../level/GravityGameLevelObject";
-import { CubeTextureLoader, EquirectangularReflectionMapping, Quaternion, TextureLoader, Vector3 } from "three";
+import {
+  CubeTextureLoader,
+  EquirectangularReflectionMapping,
+  Quaternion,
+  TextureLoader,
+  Vector3,
+} from "three";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
 export class GravityGameLoader implements GameLoader, ApplicationComponent {
@@ -62,13 +68,15 @@ export class GravityGameLoader implements GameLoader, ApplicationComponent {
     const cubeTextureLoader = new CubeTextureLoader();
     cubeTextureLoader.setPath(level.levelFolder);
 
-    if(level.data.backgroundFiles.length == 6) {
+    if (level.data.backgroundFiles.length == 6) {
       level.backhroundTexture = cubeTextureLoader.load(
         level.data.backgroundFiles
       );
-    }else{
-      level.backhroundTexture = new TextureLoader().load( `${level.levelFolder}/${level.data.backgroundFiles[0]}` )
-      level.backhroundTexture.mapping = EquirectangularReflectionMapping
+    } else {
+      level.backhroundTexture = new TextureLoader().load(
+        `${level.levelFolder}/${level.data.backgroundFiles[0]}`
+      );
+      level.backhroundTexture.mapping = EquirectangularReflectionMapping;
     }
 
     level.rootScene = (await gameScenePromise).scene;

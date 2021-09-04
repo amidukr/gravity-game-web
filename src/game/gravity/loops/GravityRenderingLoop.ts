@@ -34,8 +34,8 @@ export class GravityRenderingLoop implements GameLoop {
 
     this.scene = new THREE.Scene();
     this.scene.add(gameLevel.object.rootScene);
-    this.scene.background = gameLevel.object.backhroundTexture
-    
+    this.scene.background = gameLevel.object.backhroundTexture;
+
     this.camera = new THREE.PerspectiveCamera(
       45,
       window.innerWidth / window.innerHeight,
