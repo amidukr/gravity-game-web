@@ -5,9 +5,9 @@ import {
 import { Application } from "../../../common/app/Application";
 import { Introspection } from "../../../common/app/lookup/Introspection";
 import { AutowiredGameEngineConfigurer } from "../../../common/framework/game/loader/configurer/AutowiredGameEnginerConfigurer";
-import { ThreeJsRenderer } from "../../../common/framework/game/rendering/ThreeJsRenderer";
+import { ThreeJsRenderer } from "../../../common/framework/game/threejs/ThreeJsRenderer";
 import { ApplicationWindowVariablePlugin } from "../../../common/plugins/ApplicationWindowVariablePlugin";
-import { GravityGameLevelRepository } from "../level/GravityGameLevelRepository";
+import { ThreeJsGameLevelRepository } from "../../../common/framework/game/threejs/ThreeJsGameLevelRepository";
 import { GravityGameLoader } from "../loader/GravityGameLoader";
 import { GravityRenderingLoop } from "../loops/GravityRenderingLoop";
 import { SpaceShipPhysicsLoop } from "../loops/SpaceShipPhysicsLoop";
@@ -39,7 +39,7 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
     application.registerComponent(GameWidget);
 
     // Register Gravity Game components
-    application.registerComponent(new GravityGameLevelRepository());
+    application.registerComponent(new ThreeJsGameLevelRepository());
     application.registerComponent(new GravityGameLoader());
 
     // Starter

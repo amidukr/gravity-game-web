@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { Introspection } from "../../../app/lookup/Introspection";
-import { GameRenderer, TYPE_GameRenderer } from "./GameRenderer";
+import { GameRenderer, TYPE_GameRenderer } from "../rendering/GameRenderer";
 
 export class ThreeJsRenderer implements GameRenderer {
   private __renderer: THREE.WebGLRenderer;

@@ -1,29 +1,25 @@
 import { CubeTexture, Group, Texture } from "three";
 import { typeIdentifier } from "../../../common/app/lookup/TypeIdentifier";
 import { GameLevel } from "../../../common/framework/game/level/GameLevel";
-import { GameLevelObject } from "../../../common/framework/game/level/GameLevelObject";
+import {
+  ThreeJsGameLevelObject,
+  ThreeJsGameLevelObjectData,
+} from "../../../common/framework/game/threejs/objects/ThreeJsGameLevelObject";
 
 export const TYPE_GravityGameLevel =
   typeIdentifier<GravityGameLevel>(GameLevel);
 
 export type GravityGameLevel = GameLevel<GravityGameLevelObject>;
 
-export class GravityGameLevelObject implements GameLevelObject {
-  type: "GameLevelObject" = "GameLevelObject";
-  levelFolder!: string;
-
-  data!: {
-    spaceShips: {
-      player: {
-        position: number[];
-        velocity: number[];
-      };
+export interface GravityGameLevelObjectData extends ThreeJsGameLevelObjectData {
+  spaceShips: {
+    player: {
+      position: number[];
+      velocity: number[];
     };
-
-    levelSceneFile: string;
-    backgroundFiles: string[];
   };
+}
 
-  rootScene!: Group;
-  backhroundTexture!: Texture;
+export class GravityGameLevelObject extends ThreeJsGameLevelObject {
+  override data: GravityGameLevelObjectData = undefined as any;
 }

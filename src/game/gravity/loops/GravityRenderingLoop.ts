@@ -7,7 +7,7 @@ import {
   TYPE_GameLooper,
 } from "../../../common/framework/game/looper/GameLoop";
 import { GameModel } from "../../../common/framework/game/model/GameModel";
-import { ThreeJsRenderer } from "../../../common/framework/game/rendering/ThreeJsRenderer";
+import { ThreeJsRenderer } from "../../../common/framework/game/threejs/ThreeJsRenderer";
 import { TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 import {
   GravityGameModelObject,
