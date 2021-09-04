@@ -11,6 +11,10 @@
    1. GFX: Terra generation
    1. Music/Sound 
 
+# Optimization
+   1. Use FXAA insteado of MSAA
+   2. ZBuffer fight - increase z buffer from 16bit to 24bit
+
 # DONE
 
 1. Setup 
