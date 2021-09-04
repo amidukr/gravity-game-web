@@ -23,18 +23,10 @@ export class GravityGameLevelRepository implements GameLevelRepository {
 
     const levelData = await (await fetch(levelFilePath)).json();
 
-    console.debug("GravityGameLevelRepository", "levelData", levelData);
-
-    const loader = new GLTFLoader();
-
-    const gameScene: GLTF = await new Promise<GLTF>((r) =>
-      loader.load(`${levelFolder}/${levelData.levelSceneFile}`, r)
-    );
-
     const levelObject = new GravityGameLevelObject();
 
     levelObject.data = levelData;
-    levelObject.rootScene = gameScene.scene;
+    levelObject.levelFolder = levelFolder;
 
     return levelObject;
   }
