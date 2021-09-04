@@ -1,13 +1,8 @@
 import { AmbientLight, Quaternion, Vector2, Vector3 } from "three";
 import { Application } from "../../../../../common/app/Application";
-import { Introspection } from "../../../../../common/app/lookup/Introspection";
 import { GameEvent } from "../../../../../common/framework/game/GameEvent";
 import { MouseDevice } from "../../../../../common/framework/game/input/devices/MouseDevice";
 import { AxisUserInput } from "../../../../../common/framework/game/input/AxisUserInput";
-import {
-  GameLoop,
-  TYPE_GameLooper,
-} from "../../../../../common/framework/game/looper/GameLoop";
 import { GameModel } from "../../../../../common/framework/game/model/GameModel";
 import {
   GravityGameModelObject,
@@ -16,7 +11,7 @@ import {
 import { GameView } from "../../../../../common/framework/game/ui/view/GameView";
 import { GameViewLoop } from "../../../../../common/framework/game/ui/view/GameViewLoop";
 
-export class SpaceShipPhysicsLoop implements GameViewLoop {
+export class FreeFlyProcessingLoop implements GameViewLoop {
   private axisInput!: AxisUserInput;
   private model!: GameModel<GravityGameModelObject>;
 

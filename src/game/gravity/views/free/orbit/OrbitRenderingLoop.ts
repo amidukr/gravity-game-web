@@ -3,6 +3,7 @@ import { Application } from "../../../../../common/app/Application";
 import { GameModel } from "../../../../../common/framework/game/model/GameModel";
 import { ThreeJsRenderer } from "../../../../../common/framework/game/integrations/threejs/ThreeJsRenderer";
 import { TYPE_GravityGameLevel } from "../../../level/GravityGameLevelObject";
+import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import {
   GravityGameModelObject,
   TYPE_GravityGameModel,
@@ -10,17 +11,14 @@ import {
 import { GameViewLoop } from "../../../../../common/framework/game/ui/view/GameViewLoop";
 import { GameView } from "../../../../../common/framework/game/ui/view/GameView";
 
-export class FreeFlyRenderingLoop implements GameViewLoop {
-  private model!: GameModel<GravityGameModelObject>;
-  private renderer!: THREE.WebGLRenderer;
+export class OrbitRenderingLoop implements GameViewLoop {
+  private renderer!: ThreeJsRenderer;
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
+  private controls!: OrbitControls;
 
   start(gameView: GameView, application: Application) {
-    this.model = application.getComponent(TYPE_GravityGameModel);
-    this.renderer = application
-      .getComponent(ThreeJsRenderer)
-      .getThreeJsWebGlRenderer();
+    this.renderer = application.getComponent(ThreeJsRenderer);
 
     const gameLevel = application.getComponent(TYPE_GravityGameLevel);
 
@@ -35,15 +33,20 @@ export class FreeFlyRenderingLoop implements GameViewLoop {
       1000
     );
 
-    this.renderer.physicallyCorrectLights = true;
+    this.renderer.getThreeJsWebGlRenderer().physicallyCorrectLights = true;
+
+    this.controls = new OrbitControls(
+      this.camera,
+      this.renderer.getThreeJsWebGlRenderer().domElement
+    );
+
+    this.camera.position.set(0, 20, 100);
+    this.controls.update();
   }
 
   execute() {
-    this.camera.position.copy(this.model.object.spaceShips.player.position);
-    this.camera.setRotationFromQuaternion(
-      new THREE.Quaternion().copy(this.model.object.viewQuaternion).normalize()
-    );
+    this.controls.update();
 
-    this.renderer.render(this.scene, this.camera);
+    this.renderer.getThreeJsWebGlRenderer().render(this.scene, this.camera);
   }
 }

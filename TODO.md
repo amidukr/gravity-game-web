@@ -2,9 +2,6 @@
 
 # BACKLOG
 
-1. GameView/Input
-   1. Free floating camera
-   1. Orbiter view
 1. Game logic 
    1. Increase planet size to something more realistic
    1. Add Keyboard control
@@ -41,3 +38,6 @@
    1. Rebuilding Game Loading sequence
 1. Animate startship moving
 1. GFX: Space background
+1. GameView/Input
+   1. Free fly camera
+   1. Orbiter camera

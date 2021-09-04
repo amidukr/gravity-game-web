@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { TYPE_GameRenderer } from "../../rendering/GameRenderer";
+import { GameRenderer, TYPE_GameRenderer } from "../../rendering/GameRenderer";
 import { AxisUserInput } from "../../input/AxisUserInput";
 import { MouseDevice } from "../../input/devices/MouseDevice";
 import { GameView } from "../../ui/view/GameView";
@@ -11,35 +11,58 @@ export interface GameViewWidgetProps {
 }
 
 export class GameViewWidget extends React.Component<GameViewWidgetProps, any> {
+  private renderer!: GameRenderer;
   private gameView!: GameView;
   private gameViewCollection!: GameViewCollection;
-  private canvas!: HTMLCanvasElement;
+  private canvas?: HTMLCanvasElement;
 
   constructor(props: GameViewWidgetProps) {
     super(props);
     this.state = { label: "" };
 
-    this.gameView = props.gameView;
+    this.updateGameView(props.gameView);
+  }
 
-    this.gameViewCollection =
-      this.gameView.application.getComponent(GameViewCollection);
-
-    const renderer = this.gameView.application.getComponent(TYPE_GameRenderer);
-
-    if (this.gameView.exclusiveRenderingCanvas) {
-      this.canvas = renderer.getCanvasDomElement();
-    } else {
-      this.canvas = document.createElement("canvas");
+  updateGameView(newGameView: GameView) {
+    if (this.gameView == newGameView) {
+      return;
     }
 
-    this.gameView.canvas = this.canvas;
+    if (this.gameView) {
+      this.gameViewCollection.unbindView(this.gameView);
+    }
 
-    this.updateMouseCoordinate(1, 1, 2, 2);
+    this.gameView = newGameView;
+
+    if (newGameView) {
+      this.gameViewCollection =
+        this.gameView.application.getComponent(GameViewCollection);
+
+      this.renderer = this.gameView.application.getComponent(TYPE_GameRenderer);
+
+      this.updateMouseCoordinate(1, 1, 2, 2);
+
+      if (this.gameView.exclusiveRenderingCanvas) {
+        this.canvas = this.renderer.getCanvasDomElement();
+      } else {
+        this.canvas = document.createElement("canvas");
+      }
+
+      newGameView.canvas = this.canvas;
+
+      this.gameViewCollection.bindView(newGameView);
+    } else {
+      this.canvas = undefined;
+    }
   }
 
   static propTypes = {
     application: PropTypes.object,
   };
+
+  override componentDidUpdate() {
+    this.updateGameView(this.props.gameView);
+  }
 
   override componentDidMount() {
     this.gameViewCollection.bindView(this.gameView);

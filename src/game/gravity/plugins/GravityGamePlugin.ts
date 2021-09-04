@@ -9,8 +9,8 @@ import { ThreeJsRenderer } from "../../../common/framework/game/integrations/thr
 import { ApplicationWindowVariablePlugin } from "../../../common/plugins/ApplicationWindowVariablePlugin";
 import { ThreeJsGameLevelRepository } from "../../../common/framework/game/integrations/threejs/ThreeJsGameLevelRepository";
 import { GravityGameLoader } from "../loader/GravityGameLoader";
-import { GravityRenderingLoop } from "../views/free/fly/FreeFlyRenderingLoop";
-import { SpaceShipPhysicsLoop } from "../views/free/fly/FreeFlyProcessingLoop";
+import { FreeFlyRenderingLoop } from "../views/free/fly/FreeFlyRenderingLoop";
+import { FreeFlyProcessingLoop } from "../views/free/fly/FreeFlyProcessingLoop";
 import { GravityGameStarter } from "../starters/GravityGameStarter";
 import {
   ReactStarter,
