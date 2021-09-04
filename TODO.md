@@ -4,6 +4,10 @@
 
 1. Game logic 
    1. Increase planet size to something more realistic
+   1. Add Keyboard control
+      - Q/E - rotate around z axis
+      - increase/decrease velocity
+      - Enable/Disable mouse navigation
    1. GFX: Atmosphere
    1. Animate planet circle moving
    1. Implement gravity for starship movement
