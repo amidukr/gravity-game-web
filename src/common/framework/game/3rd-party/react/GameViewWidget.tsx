@@ -35,8 +35,7 @@ export class GameViewWidget extends React.Component<GameViewWidgetProps, any> {
     this.gameView = newGameView;
 
     if (newGameView) {
-      this.gameViewCollection =
-        this.gameView.application.getComponent(GameViewCollection);
+      this.gameViewCollection = this.gameView.application.getComponent(GameViewCollection);
 
       this.renderer = this.gameView.application.getComponent(TYPE_GameRenderer);
 
@@ -80,12 +79,7 @@ export class GameViewWidget extends React.Component<GameViewWidgetProps, any> {
     }
   }
 
-  private updateMouseCoordinate(
-    x: number,
-    y: number,
-    width: number,
-    height: number
-  ) {
+  private updateMouseCoordinate(x: number, y: number, width: number, height: number) {
     const axisInput = this.gameView.axisUserInput;
 
     axisInput.setCoordinate(MouseDevice.ABSOLUTE_X, x);
@@ -96,12 +90,7 @@ export class GameViewWidget extends React.Component<GameViewWidgetProps, any> {
   }
 
   private handleMouseMove(ev: any) {
-    this.updateMouseCoordinate(
-      ev.clientX,
-      ev.clientY,
-      ev.target.clientWidth,
-      ev.target.clientHeight
-    );
+    this.updateMouseCoordinate(ev.clientX, ev.clientY, ev.target.clientWidth, ev.target.clientHeight);
   }
 
   override render() {

@@ -3,8 +3,7 @@ import { typeIdentifier } from "../../../common/app/lookup/TypeIdentifier";
 import { GameModel } from "../../../common/framework/game/model/GameModel";
 import { GameModelObject } from "../../../common/framework/game/model/GameModelObject";
 
-export const TYPE_GravityGameModel =
-  typeIdentifier<GravityGameModel>(GameModel);
+export const TYPE_GravityGameModel = typeIdentifier<GravityGameModel>(GameModel);
 
 export type GravityGameModel = GameModel<GravityGameModelObject>;
 

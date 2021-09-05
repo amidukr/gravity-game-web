@@ -71,27 +71,17 @@ export class KeyBoardDevice {
     .concat(this.customDeviceToCharArray)
     .map((x) => [x[0], x[1].toUpperCase()]);
 
-  private static charToDeviceMap: KeyMap = Object.fromEntries(
-    this.deviceToCharArray.map((x) => [x[1], x[0]])
-  );
+  private static charToDeviceMap: KeyMap = Object.fromEntries(this.deviceToCharArray.map((x) => [x[1], x[0]]));
 
-  private static deviceToCharMap: KeyMap = Object.fromEntries(
-    this.deviceToCharArray.map((x) => [x[0], x[1]])
-  );
+  private static deviceToCharMap: KeyMap = Object.fromEntries(this.deviceToCharArray.map((x) => [x[0], x[1]]));
 
   static async generate() {
-    JSON.stringify(
-      Array.from(
-        (await (navigator as any).keyboard.getLayoutMap()).entries()
-      ).sort()
-    );
+    JSON.stringify(Array.from((await (navigator as any).keyboard.getLayoutMap()).entries()).sort());
   }
 
   static fromCharacter(char: string): InputButton {
     if (char.length != 1) {
-      throw Error(
-        `KeyBoardDevice.fromCharacter('${char.length}') - expect only one char in a string`
-      );
+      throw Error(`KeyBoardDevice.fromCharacter('${char.length}') - expect only one char in a string`);
     }
 
     char = char.toUpperCase();
@@ -99,9 +89,7 @@ export class KeyBoardDevice {
     const deviceCode = this.charToDeviceMap[char];
 
     if (deviceCode == undefined) {
-      throw new Error(
-        `Unexecpted char: '${char}', no mapping to keybarod code `
-      );
+      throw new Error(`Unexecpted char: '${char}', no mapping to keybarod code `);
     }
 
     return this.fromDeviceCode(deviceCode);

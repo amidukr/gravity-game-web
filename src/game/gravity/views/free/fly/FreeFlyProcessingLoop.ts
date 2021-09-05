@@ -4,10 +4,7 @@ import { GameEvent } from "../../../../../common/framework/game/GameEvent";
 import { MouseDevice } from "../../../../../common/framework/game/input/devices/MouseDevice";
 import { AxisUserInput } from "../../../../../common/framework/game/input/AxisUserInput";
 import { GameModel } from "../../../../../common/framework/game/model/GameModel";
-import {
-  GravityGameModelObject,
-  TYPE_GravityGameModel,
-} from "../../../model/GravityGameModelObject";
+import { GravityGameModelObject, TYPE_GravityGameModel } from "../../../model/GravityGameModelObject";
 import { GameView } from "../../../../../common/framework/game/ui/view/GameView";
 import { GameViewLoop } from "../../../../../common/framework/game/ui/view/GameViewLoop";
 
@@ -21,19 +18,12 @@ export class FreeFlyProcessingLoop implements GameViewLoop {
   }
 
   execute(gameView: GameView, event: GameEvent) {
-    const mousePointerArray = this.axisInput.getCoordinates([
-      MouseDevice.RELATIVE_X,
-      MouseDevice.RELATIVE_Y,
-    ]);
+    const mousePointerArray = this.axisInput.getCoordinates([MouseDevice.RELATIVE_X, MouseDevice.RELATIVE_Y]);
 
     const mousePointer = new Vector2().fromArray(mousePointerArray);
     mousePointer.multiplyScalar(2).sub(new Vector2(1, 1));
 
-    const mousePointerOrth = new Vector3(
-      mousePointer.y,
-      -mousePointer.x,
-      0
-    ).normalize();
+    const mousePointerOrth = new Vector3(mousePointer.y, -mousePointer.x, 0).normalize();
 
     var rotateAngle = mousePointer.length();
 
@@ -44,10 +34,7 @@ export class FreeFlyProcessingLoop implements GameViewLoop {
     }
 
     const mouseBasedTransformation = new Quaternion()
-      .setFromAxisAngle(
-        mousePointerOrth,
-        rotateAngle * event.elapsedTimeMills * 0.001
-      )
+      .setFromAxisAngle(mousePointerOrth, rotateAngle * event.elapsedTimeMills * 0.001)
       .normalize();
 
     const modelObject = this.model.object;
@@ -55,14 +42,10 @@ export class FreeFlyProcessingLoop implements GameViewLoop {
 
     modelObject.viewQuaternion.multiply(mouseBasedTransformation).normalize();
 
-    playerSpaceShip.velocity = new Vector3(0, 0, -1)
-      .applyQuaternion(modelObject.viewQuaternion)
-      .normalize();
+    playerSpaceShip.velocity = new Vector3(0, 0, -1).applyQuaternion(modelObject.viewQuaternion).normalize();
 
     playerSpaceShip.position.add(
-      new Vector3()
-        .copy(playerSpaceShip.velocity)
-        .multiplyScalar(0.0005 * event.elapsedTimeMills)
+      new Vector3().copy(playerSpaceShip.velocity).multiplyScalar(0.0005 * event.elapsedTimeMills)
     );
   }
 }

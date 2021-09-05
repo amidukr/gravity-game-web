@@ -1,15 +1,8 @@
 import { Promise } from "bluebird";
-import {
-  CubeTextureLoader,
-  EquirectangularReflectionMapping,
-  TextureLoader,
-} from "three";
+import { CubeTextureLoader, EquirectangularReflectionMapping, TextureLoader } from "three";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 import { Introspection } from "../../../../app/lookup/Introspection";
-import {
-  GameLevelRepository,
-  TYPE_GameLevelRepository,
-} from "../../level/GameLevelRepository";
+import { GameLevelRepository, TYPE_GameLevelRepository } from "../../level/GameLevelRepository";
 import { SimpleGameLevelDescriptor } from "../../level/implementation/SimpleGameLevelDescriptor";
 import { GravityGameLevelObject } from "../../../../../game/gravity/level/GravityGameLevelObject";
 
@@ -17,9 +10,7 @@ export class ThreeJsGameLevelRepository implements GameLevelRepository {
   constructor() {
     Introspection.bindInterfaceName(this, TYPE_GameLevelRepository);
   }
-  async loadLevel(
-    levelDescriptor: SimpleGameLevelDescriptor
-  ): Promise<GravityGameLevelObject> {
+  async loadLevel(levelDescriptor: SimpleGameLevelDescriptor): Promise<GravityGameLevelObject> {
     const levelName = levelDescriptor.levelName;
 
     const levelFolder = `resources/game/gravity/levels/${levelName}`;
@@ -36,19 +27,14 @@ export class ThreeJsGameLevelRepository implements GameLevelRepository {
     const gtlfLoader = new GLTFLoader();
 
     const gameScenePromise = new Promise<GLTF>((r) =>
-      gtlfLoader.load(
-        `${levelObject.levelFolder}/${levelObject.data.levelSceneFile}`,
-        r
-      )
+      gtlfLoader.load(`${levelObject.levelFolder}/${levelObject.data.levelSceneFile}`, r)
     );
 
     const cubeTextureLoader = new CubeTextureLoader();
     cubeTextureLoader.setPath(levelObject.levelFolder);
 
     if (levelObject.data.backgroundFiles.length == 6) {
-      levelObject.backhroundTexture = cubeTextureLoader.load(
-        levelObject.data.backgroundFiles
-      );
+      levelObject.backhroundTexture = cubeTextureLoader.load(levelObject.data.backgroundFiles);
     } else {
       levelObject.backhroundTexture = new TextureLoader().load(
         `${levelObject.levelFolder}/${levelObject.data.backgroundFiles[0]}`

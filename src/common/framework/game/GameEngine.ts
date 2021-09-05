@@ -3,10 +3,7 @@ import { Application } from "../../app/Application";
 import { Introspection } from "../../app/lookup/Introspection";
 import { GameLoop } from "./looper/GameLoop";
 import { GameEvent } from "./GameEvent";
-import {
-  ApplicationComponent,
-  TYPE_ApplicationComponent,
-} from "../../app/api/ApplicationComponent";
+import { ApplicationComponent, TYPE_ApplicationComponent } from "../../app/api/ApplicationComponent";
 import { GameViewCollection } from "./ui/view/GameViewsCollection";
 
 export class GameEngine implements ApplicationComponent {
@@ -74,9 +71,7 @@ export class GameEngine implements ApplicationComponent {
   }
 
   async startGameEngine() {
-    await Promise.all(
-      this.controllers.map((x) => x.start && x.start(this.application))
-    );
+    await Promise.all(this.controllers.map((x) => x.start && x.start(this.application)));
 
     await this.gameViewCollection.startGameEngine();
 

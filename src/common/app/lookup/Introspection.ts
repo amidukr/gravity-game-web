@@ -18,15 +18,10 @@ type ComponentExtension = {
 
 export class Introspection {
   private static __registerExtension(component: any): ComponentExtension {
-    return (
-      component[PROPERTY_APPLICATION_EXTENSION] ||
-      (component[PROPERTY_APPLICATION_EXTENSION] = {})
-    );
+    return component[PROPERTY_APPLICATION_EXTENSION] || (component[PROPERTY_APPLICATION_EXTENSION] = {});
   }
 
-  private static __getExtension(
-    component: any
-  ): ComponentExtension | undefined {
+  private static __getExtension(component: any): ComponentExtension | undefined {
     return component[PROPERTY_APPLICATION_EXTENSION];
   }
 
@@ -37,8 +32,7 @@ export class Introspection {
   ) {
     const extension = Introspection.__registerExtension(component);
 
-    const interfacesNames =
-      extension.interfacesNames || (extension.interfacesNames = []);
+    const interfacesNames = extension.interfacesNames || (extension.interfacesNames = []);
 
     const boundInterface: BoundInterface = {
       name: typeIdentifierName(name),
@@ -53,12 +47,7 @@ export class Introspection {
     return this.__getExtension(component)?.interfacesNames || [];
   }
 
-  static resolveInterface<T>(
-    component: any,
-    type: TypeIdentifier<T>
-  ): T | undefined {
-    return this.getBoundInterfaces(component).find(
-      (x) => x.name == typeIdentifierName(type)
-    )?.component;
+  static resolveInterface<T>(component: any, type: TypeIdentifier<T>): T | undefined {
+    return this.getBoundInterfaces(component).find((x) => x.name == typeIdentifierName(type))?.component;
   }
 }

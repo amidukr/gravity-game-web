@@ -1,27 +1,13 @@
 import { Introspection } from "../../../common/app/lookup/Introspection";
-import {
-  GameLoader,
-  TYPE_GameLoader,
-} from "../../../common/framework/game/loader/core/GameLoader";
+import { GameLoader, TYPE_GameLoader } from "../../../common/framework/game/loader/core/GameLoader";
 import { GameModel } from "../../../common/framework/game/model/GameModel";
 
-import {
-  ApplicationComponent,
-  TYPE_ApplicationComponent,
-} from "../../../common/app/api/ApplicationComponent";
+import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
 import { Application } from "../../../common/app/Application";
-import {
-  GravityGameModel,
-  GravityGameModelObject,
-  TYPE_GravityGameModel,
-} from "../model/GravityGameModelObject";
+import { GravityGameModel, GravityGameModelObject, TYPE_GravityGameModel } from "../model/GravityGameModelObject";
 import { LoadGameObject } from "../../../common/framework/game/loader/core/LoadGameObject";
 import { GameLevel } from "../../../common/framework/game/level/GameLevel";
-import {
-  GravityGameLevel,
-  GravityGameLevelObject,
-  TYPE_GravityGameLevel,
-} from "../level/GravityGameLevelObject";
+import { GravityGameLevel, GravityGameLevelObject, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 import { Quaternion, Vector3 } from "three";
 
 export class GravityGameLoader implements GameLoader, ApplicationComponent {
@@ -44,9 +30,7 @@ export class GravityGameLoader implements GameLoader, ApplicationComponent {
 
     const levelPlayerSpaceShip = this.gameLevel.object.data.spaceShips.player;
 
-    modelObject.spaceShips.player.position.fromArray(
-      levelPlayerSpaceShip.position
-    );
+    modelObject.spaceShips.player.position.fromArray(levelPlayerSpaceShip.position);
 
     modelObject.viewQuaternion = new Quaternion().setFromUnitVectors(
       new Vector3(0, 0, -1),

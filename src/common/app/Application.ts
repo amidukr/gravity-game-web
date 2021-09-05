@@ -27,9 +27,7 @@ export class Application {
   }
 
   private __addBoundInterface(boundInterface: BoundInterface) {
-    const boundInterfaceArray = this.__lazyGetBoundInterfaceByName(
-      boundInterface.name
-    );
+    const boundInterfaceArray = this.__lazyGetBoundInterfaceByName(boundInterface.name);
 
     boundInterfaceArray.sorted = false;
     boundInterfaceArray.interfaces.push(boundInterface);
@@ -44,32 +42,17 @@ export class Application {
       order: 0,
     });
 
-    Introspection.getBoundInterfaces(component).forEach((boundInterface) =>
-      this.__addBoundInterface(boundInterface)
-    );
+    Introspection.getBoundInterfaces(component).forEach((boundInterface) => this.__addBoundInterface(boundInterface));
 
-    Introspection.resolveInterface(
-      component,
-      TYPE_ApplicationComponent
-    )?.setApplication?.call(component, this);
+    Introspection.resolveInterface(component, TYPE_ApplicationComponent)?.setApplication?.call(component, this);
   }
 
   async start() {
-    await Promise.all(
-      this.getComponentList(TYPE_ApplicationComponent).map(
-        (x) => x.register && x.register(this)
-      )
-    );
+    await Promise.all(this.getComponentList(TYPE_ApplicationComponent).map((x) => x.register && x.register(this)));
 
-    this.getComponentList(TYPE_ApplicationComponent).forEach(
-      (x) => x.autowire && x.autowire(this)
-    );
+    this.getComponentList(TYPE_ApplicationComponent).forEach((x) => x.autowire && x.autowire(this));
 
-    await Promise.all(
-      this.getComponentList(TYPE_ApplicationComponent).map(
-        (x) => x.start && x.start(this)
-      )
-    );
+    await Promise.all(this.getComponentList(TYPE_ApplicationComponent).map((x) => x.start && x.start(this)));
 
     this.getComponentList(TYPE_ApplicationComponent).forEach(
       (x) => x.onApplicationStarted && x.onApplicationStarted(this)
@@ -77,8 +60,7 @@ export class Application {
   }
 
   getComponentList<T>(descriptor: TypeIdentifier<T>): Array<T> {
-    const boundInterfaceArray =
-      this.__componentByInterface[typeIdentifierName(descriptor)];
+    const boundInterfaceArray = this.__componentByInterface[typeIdentifierName(descriptor)];
 
     if (!boundInterfaceArray) return [];
 

@@ -23,8 +23,7 @@ export class GameView {
   constructor(private parameters: GameViewParameters) {
     const exclusiveRenderingCanvas = this.parameters.exclusiveRenderingCanvas;
 
-    this.exclusiveRenderingCanvas =
-      exclusiveRenderingCanvas == undefined || exclusiveRenderingCanvas;
+    this.exclusiveRenderingCanvas = exclusiveRenderingCanvas == undefined || exclusiveRenderingCanvas;
     this.application = parameters.application;
     this.processingLoops = parameters.processingLoops;
     this.renderingLoops = parameters.renderingLoops;

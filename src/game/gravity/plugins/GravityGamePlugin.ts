@@ -1,7 +1,4 @@
-import {
-  ApplicationComponent,
-  TYPE_ApplicationComponent,
-} from "../../../common/app/api/ApplicationComponent";
+import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
 import { Application } from "../../../common/app/Application";
 import { Introspection } from "../../../common/app/lookup/Introspection";
 import { AutowiredGameEngineConfigurer } from "../../../common/framework/game/loader/configurer/AutowiredGameEnginerConfigurer";
@@ -12,10 +9,7 @@ import { GravityGameLoader } from "../loader/GravityGameLoader";
 import { FreeFlyRenderingLoop } from "../views/free/fly/FreeFlyRenderingLoop";
 import { FreeFlyProcessingLoop } from "../views/free/fly/FreeFlyProcessingLoop";
 import { GravityGameStarter } from "../starters/GravityGameStarter";
-import {
-  ReactStarter,
-  TYPE_ReactRootWidget,
-} from "../../../common/ui/ReactStarter";
+import { ReactStarter, TYPE_ReactRootWidget } from "../../../common/ui/ReactStarter";
 
 import { GameEnginePlugin } from "../../../common/framework/game/plugins/GameEnginePlugin";
 import { RootWidget } from "../views/GravityGameRootWidget";

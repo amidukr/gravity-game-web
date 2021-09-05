@@ -7,11 +7,7 @@ import { FreeFlyProcessingLoop } from "./free/fly/FreeFlyProcessingLoop";
 import { OrbitRenderingLoop } from "./free/orbit/OrbitRenderingLoop";
 import { MappedUserInput } from "../../../common/framework/game/input/MappedUserInput";
 import { InputMappingGroup } from "../../../common/framework/game/input/types/InputMappingGroup";
-import {
-  CHANGE_VIEW_ACTION,
-  MainViewInputMappings,
-  MAIN_VIEW_GROUP,
-} from "../input/mappings/GravityGameInputMappings";
+import { CHANGE_VIEW_ACTION, MainViewInputMappings, MAIN_VIEW_GROUP } from "../input/mappings/GravityGameInputMappings";
 
 export interface RootWidgetProps {
   application: Application;
@@ -21,10 +17,7 @@ export interface RootWidgetState {
   freeFlightGameView: GameView;
 }
 
-export class RootWidget extends React.Component<
-  RootWidgetProps,
-  RootWidgetState
-> {
+export class RootWidget extends React.Component<RootWidgetProps, RootWidgetState> {
   private viewIndex: number = 0;
   private mappedUserInput: MappedUserInput;
 
@@ -59,13 +52,7 @@ export class RootWidget extends React.Component<
   }
 
   onKeyPress(ev: KeyboardEvent) {
-    if (
-      this.mappedUserInput.isEventOfAction(
-        ev,
-        MAIN_VIEW_GROUP,
-        CHANGE_VIEW_ACTION
-      )
-    ) {
+    if (this.mappedUserInput.isEventOfAction(ev, MAIN_VIEW_GROUP, CHANGE_VIEW_ACTION)) {
       this.viewIndex = 1 - this.viewIndex;
 
       this.setState(this.createState());
@@ -74,11 +61,7 @@ export class RootWidget extends React.Component<
 
   override render() {
     return (
-      <div
-        ref={(x) => x?.focus()}
-        tabIndex={0}
-        onKeyDown={this.onKeyPress.bind(this) as any}
-      >
+      <div ref={(x) => x?.focus()} tabIndex={0} onKeyDown={this.onKeyPress.bind(this) as any}>
         <GameViewWidget gameView={this.state.freeFlightGameView} />
       </div>
     );

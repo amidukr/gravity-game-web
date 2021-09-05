@@ -6,8 +6,7 @@ import {
   ThreeJsGameLevelObjectData,
 } from "../../../common/framework/game/3rd-party/threejs/objects/ThreeJsGameLevelObject";
 
-export const TYPE_GravityGameLevel =
-  typeIdentifier<GravityGameLevel>(GameLevel);
+export const TYPE_GravityGameLevel = typeIdentifier<GravityGameLevel>(GameLevel);
 
 export type GravityGameLevel = GameLevel<GravityGameLevelObject>;
 

@@ -1,7 +1,4 @@
-import {
-  ApplicationComponent,
-  TYPE_ApplicationComponent,
-} from "../app/api/ApplicationComponent";
+import { ApplicationComponent, TYPE_ApplicationComponent } from "../app/api/ApplicationComponent";
 import { Application } from "../app/Application";
 import { Introspection } from "../app/lookup/Introspection";
 

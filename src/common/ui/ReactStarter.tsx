@@ -3,15 +3,10 @@ import React from "react";
 import { GameViewWidget } from "../framework/game/3rd-party/react/GameViewWidget";
 import { Application } from "../app/Application";
 import { Introspection } from "../app/lookup/Introspection";
-import {
-  ApplicationComponent,
-  TYPE_ApplicationComponent,
-} from "../app/api/ApplicationComponent";
+import { ApplicationComponent, TYPE_ApplicationComponent } from "../app/api/ApplicationComponent";
 import { typeIdentifier } from "../app/lookup/TypeIdentifier";
 
-export const TYPE_ReactRootWidget = typeIdentifier<any>(
-  "amid_ukr_ge_ReactRootWidget"
-);
+export const TYPE_ReactRootWidget = typeIdentifier<any>("amid_ukr_ge_ReactRootWidget");
 
 export class ReactStarter implements ApplicationComponent {
   private __reactRootWidget: any;
@@ -30,9 +25,6 @@ export class ReactStarter implements ApplicationComponent {
 
     document.body.appendChild(divRootElement);
 
-    ReactDOM.render(
-      <this.__reactRootWidget application={application} />,
-      divRootElement
-    );
+    ReactDOM.render(<this.__reactRootWidget application={application} />, divRootElement);
   }
 }

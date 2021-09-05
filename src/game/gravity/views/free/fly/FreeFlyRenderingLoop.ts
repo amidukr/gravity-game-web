@@ -3,10 +3,7 @@ import { Application } from "../../../../../common/app/Application";
 import { GameModel } from "../../../../../common/framework/game/model/GameModel";
 import { ThreeJsRenderer } from "../../../../../common/framework/game/3rd-party/threejs/ThreeJsRenderer";
 import { TYPE_GravityGameLevel } from "../../../level/GravityGameLevelObject";
-import {
-  GravityGameModelObject,
-  TYPE_GravityGameModel,
-} from "../../../model/GravityGameModelObject";
+import { GravityGameModelObject, TYPE_GravityGameModel } from "../../../model/GravityGameModelObject";
 import { GameViewLoop } from "../../../../../common/framework/game/ui/view/GameViewLoop";
 import { GameView } from "../../../../../common/framework/game/ui/view/GameView";
 
@@ -18,9 +15,7 @@ export class FreeFlyRenderingLoop implements GameViewLoop {
 
   start(gameView: GameView, application: Application) {
     this.model = application.getComponent(TYPE_GravityGameModel);
-    this.renderer = application
-      .getComponent(ThreeJsRenderer)
-      .getThreeJsWebGlRenderer();
+    this.renderer = application.getComponent(ThreeJsRenderer).getThreeJsWebGlRenderer();
 
     const gameLevel = application.getComponent(TYPE_GravityGameLevel);
 
@@ -28,21 +23,14 @@ export class FreeFlyRenderingLoop implements GameViewLoop {
     this.scene.add(gameLevel.object.rootScene);
     this.scene.background = gameLevel.object.backhroundTexture;
 
-    this.camera = new THREE.PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      0.000001,
-      1000
-    );
+    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.000001, 1000);
 
     this.renderer.physicallyCorrectLights = true;
   }
 
   execute() {
     this.camera.position.copy(this.model.object.spaceShips.player.position);
-    this.camera.setRotationFromQuaternion(
-      new THREE.Quaternion().copy(this.model.object.viewQuaternion).normalize()
-    );
+    this.camera.setRotationFromQuaternion(new THREE.Quaternion().copy(this.model.object.viewQuaternion).normalize());
 
     this.renderer.render(this.scene, this.camera);
   }
