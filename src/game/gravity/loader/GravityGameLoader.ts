@@ -22,14 +22,7 @@ import {
   GravityGameLevelObject,
   TYPE_GravityGameLevel,
 } from "../level/GravityGameLevelObject";
-import {
-  CubeTextureLoader,
-  EquirectangularReflectionMapping,
-  Quaternion,
-  TextureLoader,
-  Vector3,
-} from "three";
-import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { Quaternion, Vector3 } from "three";
 
 export class GravityGameLoader implements GameLoader, ApplicationComponent {
   private gameModel!: GravityGameModel;
@@ -48,7 +41,6 @@ export class GravityGameLoader implements GameLoader, ApplicationComponent {
   async loadGame(loadGameObject: LoadGameObject): Promise<void> {
     const modelObject = new GravityGameModelObject();
     this.gameModel.object = modelObject;
-    const level = this.gameLevel.object;
 
     const levelPlayerSpaceShip = this.gameLevel.object.data.spaceShips.player;
 

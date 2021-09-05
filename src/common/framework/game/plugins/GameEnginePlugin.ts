@@ -10,6 +10,8 @@ import { GameModel } from "../model/GameModel";
 import { GameVisualResources } from "../rendering/GameVisualResources";
 import { GameLevel } from "../level/GameLevel";
 import { GameViewCollection } from "../ui/view/GameViewsCollection";
+import { AxisUserInput } from "../input/AxisUserInput";
+import { MappedUserInput } from "../input/MappedUserInput";
 
 export class GameEnginePlugin implements ApplicationComponent {
   constructor() {
@@ -23,6 +25,8 @@ export class GameEnginePlugin implements ApplicationComponent {
     application.registerComponent(new GameModel());
     application.registerComponent(new GameVisualResources());
     application.registerComponent(new GameViewCollection());
+
+    application.registerComponent(new MappedUserInput());
 
     application.registerComponent(new CoreGameLoader());
   }

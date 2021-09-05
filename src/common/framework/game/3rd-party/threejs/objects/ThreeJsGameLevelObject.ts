@@ -1,4 +1,4 @@
-import { CubeTexture, Group, Texture } from "three";
+import { Group, Texture } from "three";
 import { GameLevelObject } from "../../../level/GameLevelObject";
 
 export interface ThreeJsGameLevelObjectData {

@@ -15,25 +15,18 @@ export class GameView {
   readonly buttonUserInput: ButtonUserInput = new ButtonUserInput();
   canvas!: HTMLCanvasElement;
 
-  constructor(private parameters: GameViewParameters) {}
+  readonly exclusiveRenderingCanvas: Boolean;
+  readonly application: Application;
+  readonly processingLoops: GameViewLoop[];
+  readonly renderingLoops: GameViewLoop[];
 
-  get exclusiveRenderingCanvas(): Boolean {
+  constructor(private parameters: GameViewParameters) {
     const exclusiveRenderingCanvas = this.parameters.exclusiveRenderingCanvas;
 
-    if (exclusiveRenderingCanvas == undefined) {
-      return true;
-    } else {
-      return exclusiveRenderingCanvas;
-    }
-  }
-
-  get application(): Application {
-    return this.parameters.application;
-  }
-  get processingLoops(): GameViewLoop[] {
-    return this.parameters.processingLoops;
-  }
-  get renderingLoops(): GameViewLoop[] {
-    return this.parameters.renderingLoops;
+    this.exclusiveRenderingCanvas =
+      exclusiveRenderingCanvas == undefined || exclusiveRenderingCanvas;
+    this.application = parameters.application;
+    this.processingLoops = parameters.processingLoops;
+    this.renderingLoops = parameters.renderingLoops;
   }
 }

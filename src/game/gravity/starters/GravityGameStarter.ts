@@ -4,6 +4,7 @@ import { Introspection } from "../../../common/app/lookup/Introspection";
 import { GameEngine } from "../../../common/framework/game/GameEngine";
 import { CoreGameLoader } from "../../../common/framework/game/loader/core/CoreGameLoader";
 import { SimpleGameLevelDescriptor } from "../../../common/framework/game/level/implementation/SimpleGameLevelDescriptor";
+import { MainViewInputMappings } from "../input/mappings/GravityGameInputMappings";
 
 export class GravityGameStarter {
   constructor() {
