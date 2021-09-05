@@ -1,6 +1,6 @@
 import React from "react";
 import { Application } from "../../../common/app/Application";
-import { GameViewWidget } from "../../../common/framework/game/integrations/react/GameViewWidget";
+import { GameViewWidget } from "../../../common/framework/game/3rd-party/react/GameViewWidget";
 import { GameView } from "../../../common/framework/game/ui/view/GameView";
 import { FreeFlyRenderingLoop } from "./free/fly/FreeFlyRenderingLoop";
 import { FreeFlyProcessingLoop } from "./free/fly/FreeFlyProcessingLoop";

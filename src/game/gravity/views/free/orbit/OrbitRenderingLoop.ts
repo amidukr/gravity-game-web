@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { Application } from "../../../../../common/app/Application";
 import { GameModel } from "../../../../../common/framework/game/model/GameModel";
-import { ThreeJsRenderer } from "../../../../../common/framework/game/integrations/threejs/ThreeJsRenderer";
+import { ThreeJsRenderer } from "../../../../../common/framework/game/3rd-party/threejs/ThreeJsRenderer";
 import { TYPE_GravityGameLevel } from "../../../level/GravityGameLevelObject";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import {

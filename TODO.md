@@ -15,6 +15,15 @@
    1. GFX: Terra generation
    1. Music/Sound 
 
+# Plan
+   1. Gameplay
+      1. Explore
+      1. Fight
+      1. Build
+      1. Trade
+      1. Command
+      1. Free play vs campaing levels 
+
 # Optimization
    1. Use FXAA insteado of MSAA
    2. ZBuffer fight - increase z buffer from 16bit to 24bit

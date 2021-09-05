@@ -1,7 +1,7 @@
 import * as THREE from "three";
 import { Application } from "../../../../../common/app/Application";
 import { GameModel } from "../../../../../common/framework/game/model/GameModel";
-import { ThreeJsRenderer } from "../../../../../common/framework/game/integrations/threejs/ThreeJsRenderer";
+import { ThreeJsRenderer } from "../../../../../common/framework/game/3rd-party/threejs/ThreeJsRenderer";
 import { TYPE_GravityGameLevel } from "../../../level/GravityGameLevelObject";
 import {
   GravityGameModelObject,
@@ -31,7 +31,7 @@ export class FreeFlyRenderingLoop implements GameViewLoop {
     this.camera = new THREE.PerspectiveCamera(
       45,
       window.innerWidth / window.innerHeight,
-      0.1,
+      0.000001,
       1000
     );
 
