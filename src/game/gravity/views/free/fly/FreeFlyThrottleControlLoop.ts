@@ -7,6 +7,7 @@ import { GameView } from "../../../../../common/framework/game/ui/view/GameView"
 import { GameViewLoop } from "../../../../../common/framework/game/ui/view/GameViewLoop";
 import {
   COMMON_GROUP,
+  REVERSE_THROTTLE_ACTION,
   ROLL_LEFT_ACTION,
   ROLL_RIGHT_ACTION,
   THROTTLE_DOWN_ACTION,
@@ -26,7 +27,7 @@ export class FreeFlyThrottleControlLoop implements GameViewLoop {
   }
 
   execute(event: GameEvent): void {
-    const throttleFactor = 1.01
+    const throttleFactor = Math.pow(2, 0.002* event.elapsedTimeMills)
     const rollFactor = 0.001
 
     if (this.mappedUserInput.isActionPressed(this.gameView, COMMON_GROUP, THROTTLE_UP_ACTION)) {

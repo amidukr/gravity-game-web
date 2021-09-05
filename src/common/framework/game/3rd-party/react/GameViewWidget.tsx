@@ -103,7 +103,16 @@ export class GameViewWidget extends React.Component<GameViewWidgetProps, any> {
   }
 
   private handleKeyDown(ev: KeyboardEvent) {
-    this.gameView.buttonUserInput.buttonDown(KeyBoardDevice.fromDeviceCode(ev.code));
+    const button = KeyBoardDevice.fromDeviceCode(ev.code);
+
+    this.gameView.buttonUserInput.buttonDown(button);
+    for(const buttonHandler of this.gameView.buttonHandlerCollection) {
+      try {
+        buttonHandler.keyPressed(button)
+      }catch(err) {
+        console.error("GameViewWidget", "Exceptiom in buttonHandler listener", buttonHandler, err)
+      }
+    }
   }
 
   private handleKeyUp(ev: KeyboardEvent) {

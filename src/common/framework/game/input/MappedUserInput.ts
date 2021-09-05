@@ -3,6 +3,7 @@ import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../app/ap
 import { Application } from "../../../app/Application";
 import { Introspection } from "../../../app/lookup/Introspection";
 import { GameView } from "../ui/view/GameView";
+import { ButtonUserInput } from "./ButtonUserInput";
 import { KeyBoardDevice } from "./devices/KeyboardDevice";
 import { InputAction } from "./types/InputAction";
 import { InputButton, INPUT_BUTTON_TYPE } from "./types/InputButton";
@@ -130,7 +131,7 @@ export class MappedUserInput implements ApplicationComponent {
     );
   }
 
-  isEventOfAction(event: Event, group: InputMappingGroup, action: InputAction) {
+  isEventOfAction(event: Event | InputButton, group: InputMappingGroup, action: InputAction) {
     const resolvedAction = this.resolveEventToAction(group, event);
 
     return resolvedAction != undefined && resolvedAction.actionId == action.actionId;

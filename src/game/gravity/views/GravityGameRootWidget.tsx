@@ -9,6 +9,7 @@ import { MappedUserInput } from "../../../common/framework/game/input/MappedUser
 import { InputMappingGroup } from "../../../common/framework/game/input/types/InputMappingGroup";
 import { CHANGE_VIEW_ACTION, MainViewInputMappings, COMMON_GROUP } from "../input/mappings/GravityGameInputMappings";
 import { FreeFlyThrottleControlLoop } from "./free/fly/FreeFlyThrottleControlLoop";
+import { FreeFlyButtonHandler } from "./free/fly/FreeFlyButtonHandler";
 
 export interface RootWidgetProps {
   application: Application;
@@ -37,6 +38,7 @@ export class RootWidget extends React.Component<RootWidgetProps, RootWidgetState
       return {
         freeFlightGameView: new GameView({
           application: this.props.application,
+          buttonHandlers: [new FreeFlyButtonHandler()],
           processingLoops: [new FreeFlyThrottleControlLoop(), new FreeFlyProcessingLoop()],
           renderingLoops: [new FreeFlyRenderingLoop()],
         }),
