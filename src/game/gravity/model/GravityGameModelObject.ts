@@ -16,6 +16,7 @@ export class GravityGameModelObject implements GameModelObject {
     player: {
       position: new Vector3(),
       velocity: new Vector3(),
+      throttle: 1,
     },
   };
 }

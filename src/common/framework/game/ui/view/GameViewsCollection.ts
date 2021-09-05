@@ -30,7 +30,7 @@ export class GameViewCollection {
 
     for (const loop of view.processingLoops) {
       try {
-        loop.start && loop.start(view, application);
+        loop.start && loop.start(application, view);
       } catch (err) {
         console.error("Game view processing loop error", err);
       }
@@ -38,7 +38,7 @@ export class GameViewCollection {
 
     for (const loop of view.renderingLoops) {
       try {
-        loop.start && loop.start(view, application);
+        loop.start && loop.start(application, view);
       } catch (err) {
         console.error("Game view rendering loop error", err);
       }

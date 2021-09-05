@@ -12,12 +12,12 @@ export class FreeFlyProcessingLoop implements GameViewLoop {
   private axisInput!: AxisUserInput;
   private model!: GameModel<GravityGameModelObject>;
 
-  start(gameView: GameView, application: Application) {
+  start(application: Application, gameView: GameView) {
     this.axisInput = gameView.axisUserInput;
     this.model = application.getComponent(TYPE_GravityGameModel);
   }
 
-  execute(gameView: GameView, event: GameEvent) {
+  execute(event: GameEvent) {
     const mousePointerArray = this.axisInput.getCoordinates([MouseDevice.RELATIVE_X, MouseDevice.RELATIVE_Y]);
 
     const mousePointer = new Vector2().fromArray(mousePointerArray);
@@ -45,7 +45,9 @@ export class FreeFlyProcessingLoop implements GameViewLoop {
     playerSpaceShip.velocity = new Vector3(0, 0, -1).applyQuaternion(modelObject.viewQuaternion).normalize();
 
     playerSpaceShip.position.add(
-      new Vector3().copy(playerSpaceShip.velocity).multiplyScalar(0.0005 * event.elapsedTimeMills)
+      new Vector3()
+        .copy(playerSpaceShip.velocity)
+        .multiplyScalar(playerSpaceShip.throttle * 0.0005 * event.elapsedTimeMills)
     );
   }
 }

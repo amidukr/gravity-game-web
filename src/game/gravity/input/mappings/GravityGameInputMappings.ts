@@ -2,6 +2,7 @@ import { Introspection } from "../../../../common/app/lookup/Introspection";
 import { KeyBoardDevice } from "../../../../common/framework/game/input/devices/KeyboardDevice";
 import { MappedUserInput } from "../../../../common/framework/game/input/MappedUserInput";
 import { InputAction } from "../../../../common/framework/game/input/types/InputAction";
+import { InputButton } from "../../../../common/framework/game/input/types/InputButton";
 import { InputHotkey } from "../../../../common/framework/game/input/types/InputHotKey";
 import { InputMappingGroup } from "../../../../common/framework/game/input/types/InputMappingGroup";
 import {
@@ -9,12 +10,32 @@ import {
   UserInputMappingConfigurer,
 } from "../../../../common/framework/game/input/UserInputMappingConfigurer";
 
-export const MAIN_VIEW_GROUP = new InputMappingGroup({
-  groupId: "Main Screen",
+export const COMMON_GROUP = new InputMappingGroup({
+  groupId: "Common",
 });
 
 export const CHANGE_VIEW_ACTION = new InputAction({
   actionId: "Change View",
+});
+
+export const ROLL_LEFT_ACTION = new InputAction({
+  actionId: "Roll Left",
+});
+
+export const ROLL_RIGHT_ACTION = new InputAction({
+  actionId: "Roll Right",
+});
+
+export const THROTTLE_UP_ACTION = new InputAction({
+  actionId: "Throttle Up",
+});
+
+export const THROTTLE_DOWN_ACTION = new InputAction({
+  actionId: "Throttle Down",
+});
+
+export const REVERSE_THROTTLE_ACTION = new InputAction({
+  actionId: "Reverse Throttle",
 });
 
 export class MainViewInputMappings implements UserInputMappingConfigurer {
@@ -23,10 +44,15 @@ export class MainViewInputMappings implements UserInputMappingConfigurer {
   }
 
   configureUserInputMappings(mappedUserInput: MappedUserInput): void {
-    mappedUserInput.registerAction(
-      MAIN_VIEW_GROUP,
-      CHANGE_VIEW_ACTION,
-      new InputHotkey({ button: KeyBoardDevice.fromCharacter("v") })
+    [
+      { group: COMMON_GROUP, action: CHANGE_VIEW_ACTION, keyChar: "v" },
+      { group: COMMON_GROUP, action: ROLL_LEFT_ACTION, keyChar: "q" },
+      { group: COMMON_GROUP, action: ROLL_RIGHT_ACTION, keyChar: "e" },
+      { group: COMMON_GROUP, action: THROTTLE_UP_ACTION, keyChar: "w" },
+      { group: COMMON_GROUP, action: THROTTLE_DOWN_ACTION, keyChar: "s" },
+      { group: COMMON_GROUP, action: REVERSE_THROTTLE_ACTION, keyChar: "r" },
+    ].forEach((x) =>
+      mappedUserInput.bindKey(x.group, x.action, new InputHotkey({ button: KeyBoardDevice.fromCharacter(x.keyChar) }))
     );
   }
 }

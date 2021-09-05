@@ -7,7 +7,8 @@ import { FreeFlyProcessingLoop } from "./free/fly/FreeFlyProcessingLoop";
 import { OrbitRenderingLoop } from "./free/orbit/OrbitRenderingLoop";
 import { MappedUserInput } from "../../../common/framework/game/input/MappedUserInput";
 import { InputMappingGroup } from "../../../common/framework/game/input/types/InputMappingGroup";
-import { CHANGE_VIEW_ACTION, MainViewInputMappings, MAIN_VIEW_GROUP } from "../input/mappings/GravityGameInputMappings";
+import { CHANGE_VIEW_ACTION, MainViewInputMappings, COMMON_GROUP } from "../input/mappings/GravityGameInputMappings";
+import { FreeFlyThrottleControlLoop } from "./free/fly/FreeFlyThrottleControlLoop";
 
 export interface RootWidgetProps {
   application: Application;
@@ -36,7 +37,7 @@ export class RootWidget extends React.Component<RootWidgetProps, RootWidgetState
       return {
         freeFlightGameView: new GameView({
           application: this.props.application,
-          processingLoops: [new FreeFlyProcessingLoop()],
+          processingLoops: [new FreeFlyThrottleControlLoop(), new FreeFlyProcessingLoop()],
           renderingLoops: [new FreeFlyRenderingLoop()],
         }),
       };
@@ -52,7 +53,7 @@ export class RootWidget extends React.Component<RootWidgetProps, RootWidgetState
   }
 
   onKeyPress(ev: KeyboardEvent) {
-    if (this.mappedUserInput.isEventOfAction(ev, MAIN_VIEW_GROUP, CHANGE_VIEW_ACTION)) {
+    if (this.mappedUserInput.isEventOfAction(ev, COMMON_GROUP, CHANGE_VIEW_ACTION)) {
       this.viewIndex = 1 - this.viewIndex;
 
       this.setState(this.createState());
@@ -61,8 +62,8 @@ export class RootWidget extends React.Component<RootWidgetProps, RootWidgetState
 
   override render() {
     return (
-      <div ref={(x) => x?.focus()} tabIndex={0} onKeyDown={this.onKeyPress.bind(this) as any}>
-        <GameViewWidget gameView={this.state.freeFlightGameView} />
+      <div onKeyDown={this.onKeyPress.bind(this) as any}>
+        <GameViewWidget ref={(x) => x?.focus()} gameView={this.state.freeFlightGameView} />
       </div>
     );
   }

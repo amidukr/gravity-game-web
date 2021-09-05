@@ -5,6 +5,7 @@ import { AxisUserInput } from "../../input/AxisUserInput";
 import { MouseDevice } from "../../input/devices/MouseDevice";
 import { GameView } from "../../ui/view/GameView";
 import { GameViewCollection } from "../../ui/view/GameViewsCollection";
+import { KeyBoardDevice } from "../../input/devices/KeyboardDevice";
 
 export interface GameViewWidgetProps {
   gameView: GameView;
@@ -15,6 +16,7 @@ export class GameViewWidget extends React.Component<GameViewWidgetProps, any> {
   private gameView!: GameView;
   private gameViewCollection!: GameViewCollection;
   private canvas?: HTMLCanvasElement;
+  private canvasPlaceHolder?: HTMLElement | null;
 
   constructor(props: GameViewWidgetProps) {
     super(props);
@@ -71,12 +73,18 @@ export class GameViewWidget extends React.Component<GameViewWidgetProps, any> {
     this.gameViewCollection.unbindView(this.gameView);
   }
 
-  setCanvasPlaceholder(canvasPlaceholder: HTMLElement | null) {
+  setCanvasPlaceholder(canvasPlaceHolder: HTMLElement | null) {
     const canvasDomElement = this.gameView.canvas;
 
-    if (canvasPlaceholder && canvasDomElement) {
-      canvasPlaceholder.appendChild(canvasDomElement);
+    this.canvasPlaceHolder = canvasPlaceHolder;
+
+    if (canvasPlaceHolder && canvasDomElement) {
+      canvasPlaceHolder.appendChild(canvasDomElement);
     }
+  }
+
+  focus() {
+    this.canvasPlaceHolder?.focus();
   }
 
   private updateMouseCoordinate(x: number, y: number, width: number, height: number) {
@@ -89,16 +97,28 @@ export class GameViewWidget extends React.Component<GameViewWidgetProps, any> {
     axisInput.setCoordinate(MouseDevice.RELATIVE_Y, 1 - y / height);
   }
 
-  private handleMouseMove(ev: any) {
-    this.updateMouseCoordinate(ev.clientX, ev.clientY, ev.target.clientWidth, ev.target.clientHeight);
+  private handleMouseMove(ev: MouseEvent) {
+    const target = ev.target as HTMLElement;
+    this.updateMouseCoordinate(ev.clientX, ev.clientY, target.clientWidth, target.clientHeight);
+  }
+
+  private handleKeyDown(ev: KeyboardEvent) {
+    this.gameView.buttonUserInput.buttonDown(KeyBoardDevice.fromDeviceCode(ev.code));
+  }
+
+  private handleKeyUp(ev: KeyboardEvent) {
+    this.gameView.buttonUserInput.buttonUp(KeyBoardDevice.fromDeviceCode(ev.code));
   }
 
   override render() {
     return (
       <div
+        tabIndex={0}
         ref={this.setCanvasPlaceholder.bind(this)}
         style={{ display: "inline" }}
-        onMouseMove={this.handleMouseMove.bind(this)}
+        onMouseMove={(ev) => this.handleMouseMove(ev as any)}
+        onKeyDown={(ev) => this.handleKeyDown(ev as any)}
+        onKeyUp={(ev) => this.handleKeyUp(ev as any)}
       >
         <div style={{ position: "absolute", color: "white" }}>
           <span>{this.state.label}</span>

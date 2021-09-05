@@ -40,7 +40,7 @@ export class GameEngine implements ApplicationComponent {
     for (const view of this.gameViewCollection.list) {
       for (const loop of view.processingLoops) {
         try {
-          loop.execute(view, gameEvent);
+          loop.execute(gameEvent, view);
         } catch (ex) {
           console.error("Game Engine", ex);
         }
@@ -58,7 +58,7 @@ export class GameEngine implements ApplicationComponent {
     for (const view of this.gameViewCollection.list) {
       for (const loop of view.renderingLoops) {
         try {
-          loop.execute(view, gameEvent);
+          loop.execute(gameEvent, view);
         } catch (ex) {
           console.error("Game Engine", ex);
         }

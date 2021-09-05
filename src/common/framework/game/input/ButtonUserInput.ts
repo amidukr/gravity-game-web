@@ -3,7 +3,22 @@
 
 */
 
+import { InputButton } from "./types/InputButton";
+
 export class ButtonUserInput {
-  static KEYBOARD_DEVICE = "KEYBOARD";
-  static MOUSE_DEVICE = "MOUSE";
+  readonly buttonPressed: {
+    [buttonId: string]: boolean | undefined;
+  } = {};
+
+  buttonDown(button: InputButton) {
+    this.buttonPressed[button.buttonId] = true;
+  }
+
+  buttonUp(button: InputButton) {
+    this.buttonPressed[button.buttonId] = false;
+  }
+
+  isButtonPressed(button: InputButton): boolean {
+    return this.buttonPressed[button.buttonId] == true;
+  }
 }

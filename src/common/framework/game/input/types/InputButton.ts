@@ -1,3 +1,5 @@
+export const INPUT_BUTTON_TYPE = "inputButton";
+
 export interface InputButtonParameters {
   buttonId: string;
   label?: string;
@@ -5,6 +7,7 @@ export interface InputButtonParameters {
 }
 
 export class InputButton {
+  readonly type = INPUT_BUTTON_TYPE;
   readonly buttonId: string;
   readonly label: string;
   readonly deviceCode?: string;

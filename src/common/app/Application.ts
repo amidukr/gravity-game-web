@@ -10,7 +10,7 @@ type BoundInterfaceArray = {
 
 export class Application {
   private __components: Array<any> = [];
-  private __componentByInterface: { [name: string]: BoundInterfaceArray } = {};
+  private __componentByInterface: { [name: string]: BoundInterfaceArray | undefined } = {};
 
   constructor() {
     this.registerComponent(this);

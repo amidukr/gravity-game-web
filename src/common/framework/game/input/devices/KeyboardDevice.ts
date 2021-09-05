@@ -65,7 +65,7 @@ export class KeyBoardDevice {
 
   // Processing Code
 
-  private static deviceToButtonMap: { [name: string]: InputButton } = {};
+  private static deviceToButtonMap: { [name: string]: InputButton | undefined } = {};
 
   private static readonly deviceToCharArray = this.generatedDeviceToCharArray
     .concat(this.customDeviceToCharArray)
@@ -96,7 +96,7 @@ export class KeyBoardDevice {
   }
 
   static fromDeviceCode(deviceCode: string): InputButton {
-    const button = this.deviceToButtonMap[deviceCode];
+    var button = this.deviceToButtonMap[deviceCode];
 
     if (button) {
       return button;
@@ -115,14 +115,14 @@ export class KeyBoardDevice {
       label = deviceCode;
     }
 
-    this.deviceToButtonMap[deviceCode] = new InputButton({
+    button = new InputButton({
       buttonId: buttonId,
       label: label,
       deviceCode: deviceCode,
     });
 
-    return this.deviceToButtonMap[deviceCode];
-  }
+    this.deviceToButtonMap[deviceCode] = button;
 
-  // public ENTER_BUTTON = KeyBoardDevice.fromDeviceCode("Enter");
+    return button;
+  }
 }

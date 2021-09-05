@@ -14,7 +14,7 @@ export class OrbitRenderingLoop implements GameViewLoop {
   private camera!: THREE.PerspectiveCamera;
   private controls!: OrbitControls;
 
-  start(gameView: GameView, application: Application) {
+  start(application: Application) {
     this.renderer = application.getComponent(ThreeJsRenderer);
 
     const gameLevel = application.getComponent(TYPE_GravityGameLevel);

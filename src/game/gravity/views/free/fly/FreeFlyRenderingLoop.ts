@@ -13,7 +13,7 @@ export class FreeFlyRenderingLoop implements GameViewLoop {
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
 
-  start(gameView: GameView, application: Application) {
+  start(application: Application) {
     this.model = application.getComponent(TYPE_GravityGameModel);
     this.renderer = application.getComponent(ThreeJsRenderer).getThreeJsWebGlRenderer();
 
