@@ -7,6 +7,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { GravityGameModelObject, TYPE_GravityGameModel } from "../../../model/GravityGameModelObject";
 import { GameViewLoop } from "../../../../../common/framework/game/ui/view/GameViewLoop";
 import { GameView } from "../../../../../common/framework/game/ui/view/GameView";
+import { Vector2 } from "three";
 
 export class OrbitRenderingLoop implements GameViewLoop {
   private renderer!: ThreeJsRenderer;
@@ -34,6 +35,10 @@ export class OrbitRenderingLoop implements GameViewLoop {
   }
 
   execute() {
+    const vec = this.renderer.getThreeJsWebGlRenderer().getSize(new Vector2())
+    this.camera.aspect = vec.x / vec.y
+    this.camera.updateProjectionMatrix()
+
     this.controls.update();
 
     this.renderer.getThreeJsWebGlRenderer().render(this.scene, this.camera);

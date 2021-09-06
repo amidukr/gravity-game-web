@@ -12,6 +12,8 @@ export class ThreeJsRenderer implements GameRenderer {
       antialias: true,
     });
     this.__renderer.setSize(window.innerWidth, window.innerHeight);
+
+    window.addEventListener('resize', () => this.__renderer.setSize(window.innerWidth, window.innerHeight));
   }
 
   getCanvasDomElement(): HTMLCanvasElement {
