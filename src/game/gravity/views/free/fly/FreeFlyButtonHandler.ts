@@ -1,7 +1,6 @@
 import { Application } from "../../../../../common/app/Application";
 import { MappedUserInput } from "../../../../../common/framework/game/input/MappedUserInput";
 import { InputButton } from "../../../../../common/framework/game/input/types/InputButton";
-import { GameView } from "../../../../../common/framework/game/ui/view/GameView";
 import { GameViewButtonHandler } from "../../../../../common/framework/game/ui/view/GameViewButtonHandler";
 import {
   COMMON_GROUP,

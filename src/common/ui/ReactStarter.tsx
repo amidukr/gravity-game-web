@@ -1,9 +1,8 @@
-import ReactDOM from "react-dom";
 import React from "react";
-import { GameViewWidget } from "../framework/game/3rd-party/react/GameViewWidget";
+import ReactDOM from "react-dom";
+import { ApplicationComponent, TYPE_ApplicationComponent } from "../app/api/ApplicationComponent";
 import { Application } from "../app/Application";
 import { Introspection } from "../app/lookup/Introspection";
-import { ApplicationComponent, TYPE_ApplicationComponent } from "../app/api/ApplicationComponent";
 import { typeIdentifier } from "../app/lookup/TypeIdentifier";
 
 export const TYPE_ReactRootWidget = typeIdentifier<any>("amid_ukr_ge_ReactRootWidget");

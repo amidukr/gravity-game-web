@@ -2,14 +2,12 @@ import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../app/ap
 import { Application } from "../../../app/Application";
 import { Introspection } from "../../../app/lookup/Introspection";
 import { GameEngine } from "../GameEngine";
+import { MappedUserInput } from "../input/MappedUserInput";
+import { GameLevel } from "../level/GameLevel";
 import { CoreGameLoader } from "../loader/core/CoreGameLoader";
 import { GameModel } from "../model/GameModel";
 import { GameVisualResources } from "../rendering/GameVisualResources";
-import { GameLevel } from "../level/GameLevel";
 import { GameViewCollection } from "../ui/view/GameViewsCollection";
-import { AxisUserInput } from "../input/AxisUserInput";
-import { MappedUserInput } from "../input/MappedUserInput";
-import { GameEngineConfiguration } from "./GameEngineConfiguration";
 
 export class GameEnginePlugin implements ApplicationComponent {
   constructor() {

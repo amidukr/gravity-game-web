@@ -1,9 +1,9 @@
 import { Promise } from "bluebird";
+import { ApplicationComponent, TYPE_ApplicationComponent } from "../../app/api/ApplicationComponent";
 import { Application } from "../../app/Application";
 import { Introspection } from "../../app/lookup/Introspection";
-import { GameLoop } from "./looper/GameLoop";
 import { GameEvent } from "./GameEvent";
-import { ApplicationComponent, TYPE_ApplicationComponent } from "../../app/api/ApplicationComponent";
+import { GameLoop } from "./looper/GameLoop";
 import { GameViewCollection } from "./ui/view/GameViewsCollection";
 
 export class GameEngine implements ApplicationComponent {

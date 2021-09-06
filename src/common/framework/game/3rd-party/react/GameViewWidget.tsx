@@ -1,11 +1,10 @@
-import React from "react";
 import PropTypes from "prop-types";
-import { GameRenderer, TYPE_GameRenderer } from "../../rendering/GameRenderer";
-import { AxisUserInput } from "../../input/AxisUserInput";
+import React from "react";
+import { KeyBoardDevice } from "../../input/devices/KeyboardDevice";
 import { MouseDevice } from "../../input/devices/MouseDevice";
+import { GameRenderer, TYPE_GameRenderer } from "../../rendering/GameRenderer";
 import { GameView } from "../../ui/view/GameView";
 import { GameViewCollection } from "../../ui/view/GameViewsCollection";
-import { KeyBoardDevice } from "../../input/devices/KeyboardDevice";
 
 export interface GameViewWidgetProps {
   gameView: GameView;

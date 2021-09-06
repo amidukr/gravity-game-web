@@ -1,9 +1,7 @@
-import { Group } from "three";
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../app/api/ApplicationComponent";
 import { Application } from "../../../app/Application";
 import { Introspection } from "../../../app/lookup/Introspection";
 import { GameView } from "../ui/view/GameView";
-import { ButtonUserInput } from "./ButtonUserInput";
 import { KeyBoardDevice } from "./devices/KeyboardDevice";
 import { InputAction } from "./types/InputAction";
 import { InputButton, INPUT_BUTTON_TYPE } from "./types/InputButton";

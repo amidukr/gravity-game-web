@@ -1,7 +1,7 @@
-import { Introspection, BoundInterface } from "./lookup/Introspection";
 import { Promise } from "bluebird";
-import { TypeIdentifier, typeIdentifierName } from "./lookup/TypeIdentifier";
 import { TYPE_ApplicationComponent } from "./api/ApplicationComponent";
+import { BoundInterface, Introspection } from "./lookup/Introspection";
+import { TypeIdentifier, typeIdentifierName } from "./lookup/TypeIdentifier";
 
 type BoundInterfaceArray = {
   sorted: boolean;

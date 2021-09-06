@@ -1,15 +1,14 @@
 import React from "react";
 import { Application } from "../../../common/app/Application";
 import { GameViewWidget } from "../../../common/framework/game/3rd-party/react/GameViewWidget";
-import { GameView } from "../../../common/framework/game/ui/view/GameView";
-import { FreeFlyRenderingLoop } from "./free/fly/FreeFlyRenderingLoop";
-import { FreeFlyProcessingLoop } from "./free/fly/FreeFlyProcessingLoop";
-import { OrbitRenderingLoop } from "./free/orbit/OrbitRenderingLoop";
 import { MappedUserInput } from "../../../common/framework/game/input/MappedUserInput";
-import { InputMappingGroup } from "../../../common/framework/game/input/types/InputMappingGroup";
-import { CHANGE_VIEW_ACTION, MainViewInputMappings, COMMON_GROUP } from "../input/mappings/GravityGameInputMappings";
-import { FreeFlyThrottleControlLoop } from "./free/fly/FreeFlyThrottleControlLoop";
+import { GameView } from "../../../common/framework/game/ui/view/GameView";
+import { CHANGE_VIEW_ACTION, COMMON_GROUP } from "../input/mappings/GravityGameInputMappings";
 import { FreeFlyButtonHandler } from "./free/fly/FreeFlyButtonHandler";
+import { FreeFlyProcessingLoop } from "./free/fly/FreeFlyProcessingLoop";
+import { FreeFlyRenderingLoop } from "./free/fly/FreeFlyRenderingLoop";
+import { FreeFlyThrottleControlLoop } from "./free/fly/FreeFlyThrottleControlLoop";
+import { OrbitRenderingLoop } from "./free/orbit/OrbitRenderingLoop";
 
 export interface RootWidgetProps {
   application: Application;

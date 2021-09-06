@@ -1,10 +1,10 @@
 import { Promise } from "bluebird";
 import { CubeTextureLoader, EquirectangularReflectionMapping, TextureLoader } from "three";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+import { GravityGameLevelObject } from "../../../../../game/gravity/level/GravityGameLevelObject";
 import { Introspection } from "../../../../app/lookup/Introspection";
 import { GameLevelRepository, TYPE_GameLevelRepository } from "../../level/GameLevelRepository";
 import { SimpleGameLevelDescriptor } from "../../level/implementation/SimpleGameLevelDescriptor";
-import { GravityGameLevelObject } from "../../../../../game/gravity/level/GravityGameLevelObject";
 
 export class ThreeJsGameLevelRepository implements GameLevelRepository {
   constructor() {

@@ -1,14 +1,13 @@
-import { AmbientLight, Quaternion, Vector2, Vector3 } from "three";
+import { Quaternion, Vector2, Vector3 } from "three";
 import { Application } from "../../../../../common/app/Application";
+import { quanterionBaseVector } from "../../../../../common/framework/game/3rd-party/threejs/Constants";
 import { GameEvent } from "../../../../../common/framework/game/GameEvent";
-import { MouseDevice } from "../../../../../common/framework/game/input/devices/MouseDevice";
 import { AxisUserInput } from "../../../../../common/framework/game/input/AxisUserInput";
+import { MouseDevice } from "../../../../../common/framework/game/input/devices/MouseDevice";
 import { GameModel } from "../../../../../common/framework/game/model/GameModel";
-import { GravityGameModelObject, TYPE_GravityGameModel } from "../../../model/GravityGameModelObject";
 import { GameView } from "../../../../../common/framework/game/ui/view/GameView";
 import { GameViewLoop } from "../../../../../common/framework/game/ui/view/GameViewLoop";
-import { quanterionBaseVector } from "../../../../../common/framework/game/3rd-party/threejs/Constants";
-import { MappedUserInput } from "../../../../../common/framework/game/input/MappedUserInput";
+import { GravityGameModelObject, TYPE_GravityGameModel } from "../../../model/GravityGameModelObject";
 
 export class FreeFlyProcessingLoop implements GameViewLoop {
   private axisInput!: AxisUserInput;

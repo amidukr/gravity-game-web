@@ -2,18 +2,16 @@ import { Quaternion, Vector3 } from "three";
 import { Application } from "../../../../../common/app/Application";
 import { GameEvent } from "../../../../../common/framework/game/GameEvent";
 import { MappedUserInput } from "../../../../../common/framework/game/input/MappedUserInput";
-import { GameModel } from "../../../../../common/framework/game/model/GameModel";
 import { GameView } from "../../../../../common/framework/game/ui/view/GameView";
 import { GameViewLoop } from "../../../../../common/framework/game/ui/view/GameViewLoop";
 import {
   COMMON_GROUP,
-  REVERSE_THROTTLE_ACTION,
   ROLL_LEFT_ACTION,
   ROLL_RIGHT_ACTION,
   THROTTLE_DOWN_ACTION,
   THROTTLE_UP_ACTION,
 } from "../../../input/mappings/GravityGameInputMappings";
-import { GravityGameModel, GravityGameModelObject, TYPE_GravityGameModel } from "../../../model/GravityGameModelObject";
+import { GravityGameModel, TYPE_GravityGameModel } from "../../../model/GravityGameModelObject";
 
 export class FreeFlyThrottleControlLoop implements GameViewLoop {
   private gameView!: GameView;

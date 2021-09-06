@@ -2,7 +2,6 @@ import { Introspection } from "../../../../common/app/lookup/Introspection";
 import { KeyBoardDevice } from "../../../../common/framework/game/input/devices/KeyboardDevice";
 import { MappedUserInput } from "../../../../common/framework/game/input/MappedUserInput";
 import { InputAction } from "../../../../common/framework/game/input/types/InputAction";
-import { InputButton } from "../../../../common/framework/game/input/types/InputButton";
 import { InputHotkey } from "../../../../common/framework/game/input/types/InputHotKey";
 import { InputMappingGroup } from "../../../../common/framework/game/input/types/InputMappingGroup";
 import {

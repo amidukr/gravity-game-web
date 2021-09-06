@@ -1,15 +1,13 @@
+import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../../app/api/ApplicationComponent";
 import { Application } from "../../../../app/Application";
 import { Introspection } from "../../../../app/lookup/Introspection";
 import { GameEngine } from "../../GameEngine";
+import { GameLevel } from "../../level/GameLevel";
+import { GameLevelRepository, TYPE_GameLevelRepository } from "../../level/GameLevelRepository";
 import { GameModel } from "../../model/GameModel";
-import { GameLevelDescriptor, GameLevelRepository, TYPE_GameLevelRepository } from "../../level/GameLevelRepository";
-
 import { GameEngineConfigurer, TYPE_GameEngineConfigurer } from "../configurer/GameEngineConfigurer";
-import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../../app/api/ApplicationComponent";
 import { GameLoader, TYPE_GameLoader } from "./GameLoader";
 import { LoadGameObject } from "./LoadGameObject";
-import { GameLevel } from "../../level/GameLevel";
-import { GameLevelObject } from "../../level/GameLevelObject";
 
 export class CoreGameLoader implements ApplicationComponent {
   private gameLevelRepository!: GameLevelRepository;
