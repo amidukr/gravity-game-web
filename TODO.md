@@ -4,10 +4,8 @@
 
 1. Game logic 
    1. Increase planet size to something more realistic
-   1. Add Keyboard control
-      - Q/E - rotate around z axis
-      - increase/decrease velocity
-      - Enable/Disable mouse navigation
+   1. Game save/load for debugging
+   1. Game Keyboard Help 
    1. GFX: Atmosphere
    1. Animate planet circle moving
    1. Implement gravity for starship movement
@@ -27,8 +25,10 @@
 # Optimization
    1. Use FXAA insteado of MSAA
    2. ZBuffer fight
+      1. Test different approaches to optimize zfight
+         - Check [Z-Fighting](./docs/z-fighting-performance-comparision.md) for more details
       1. Buffer is 24bit by default however fighting still happening
-      2. logarithm looks like not an option, will force to shading for all faces
+      1. logarithm looks like not an option, will force to shading for all faces
 
 # DONE
 
@@ -52,3 +52,7 @@
 1. GameView/Input
    1. Free fly camera
    1. Orbiter camera
+1. Add Keyboard control
+   - Q/E - rotate around z axis
+   - increase/decrease velocity
+   - Enable/Disable mouse navigation

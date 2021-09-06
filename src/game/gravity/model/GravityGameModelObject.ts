@@ -12,14 +12,14 @@ export class GravityGameModelObject implements GameModelObject {
 
   view = {
     quaternion: new Quaternion(),
-    mouseNavigationEanbled: true,
+    mouseNavigationEanbled: false,
   };
 
   spaceShips = {
     player: {
       position: new Vector3(),
       velocity: new Vector3(),
-      throttle: 1,
+      throttle: 0.01,
     },
   };
 }

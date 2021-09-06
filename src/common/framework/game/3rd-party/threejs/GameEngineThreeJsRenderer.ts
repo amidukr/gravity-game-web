@@ -8,7 +8,7 @@ export interface ThreeJsRendererConfiguration {
   keepCanvasWidnowsSize?: boolean;
 }
 
-export class ThreeJsRenderer implements GameRenderer {
+export class GameEngineThreeJsRenderer implements GameRenderer {
   private __renderer: THREE.WebGLRenderer;
 
   constructor(param?: ThreeJsRendererConfiguration) {

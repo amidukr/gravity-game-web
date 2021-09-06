@@ -4,18 +4,15 @@ import { GameViewWidget } from "../../../common/framework/game/3rd-party/react/G
 import { MappedUserInput } from "../../../common/framework/game/input/MappedUserInput";
 import { GameView } from "../../../common/framework/game/ui/view/GameView";
 import { CHANGE_VIEW_ACTION, COMMON_GROUP } from "../input/mappings/GravityGameInputMappings";
-import { FreeFlyButtonHandler } from "./free/fly/FreeFlyButtonHandler";
-import { FreeFlyProcessingLoop } from "./free/fly/FreeFlyProcessingLoop";
-import { FreeFlyRenderingLoop } from "./free/fly/FreeFlyRenderingLoop";
-import { FreeFlyThrottleControlLoop } from "./free/fly/FreeFlyThrottleControlLoop";
-import { OrbitRenderingLoop } from "./free/orbit/OrbitRenderingLoop";
+import { FreeFlyGameView } from "./free/fly/FreeFlyGameView";
+import { OrbitGameView } from "./free/orbit/OrbitGameView";
 
 export interface RootWidgetProps {
   application: Application;
 }
 
 export interface RootWidgetState {
-  freeFlightGameView: GameView;
+  gameView: GameView;
 }
 
 export class RootWidget extends React.Component<RootWidgetProps, RootWidgetState> {
@@ -27,29 +24,21 @@ export class RootWidget extends React.Component<RootWidgetProps, RootWidgetState
 
     this.mappedUserInput = props.application.getComponent(MappedUserInput);
 
-    this.viewIndex = 1;
-
     this.state = this.createState();
   }
 
-  createState() {
-    if (this.viewIndex == 0) {
-      return {
-        freeFlightGameView: new GameView({
-          application: this.props.application,
-          buttonHandlers: [new FreeFlyButtonHandler()],
-          processingLoops: [new FreeFlyThrottleControlLoop(), new FreeFlyProcessingLoop()],
-          renderingLoops: [new FreeFlyRenderingLoop()],
-        }),
-      };
-    } else {
-      return {
-        freeFlightGameView: new GameView({
-          application: this.props.application,
-          processingLoops: [],
-          renderingLoops: [new OrbitRenderingLoop()],
-        }),
-      };
+  createState(): RootWidgetState {
+    return {
+      gameView: this.createGameView(),
+    };
+  }
+
+  createGameView(): GameView {
+    switch (this.viewIndex) {
+      case 0:
+        return new FreeFlyGameView(this.props.application);
+      default:
+        return new OrbitGameView(this.props.application);
     }
   }
 
@@ -64,7 +53,7 @@ export class RootWidget extends React.Component<RootWidgetProps, RootWidgetState
   override render() {
     return (
       <div onKeyDown={this.onKeyPress.bind(this) as any}>
-        <GameViewWidget ref={(x) => x?.focus()} gameView={this.state.freeFlightGameView} />
+        <GameViewWidget ref={(x) => x?.focus()} gameView={this.state.gameView} />
       </div>
     );
   }

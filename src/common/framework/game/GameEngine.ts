@@ -1,4 +1,5 @@
 import { Promise } from "bluebird";
+import Stats from "stats.js";
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../app/api/ApplicationComponent";
 import { Application } from "../../app/Application";
 import { Introspection } from "../../app/lookup/Introspection";
@@ -10,6 +11,7 @@ export class GameEngine implements ApplicationComponent {
   private controllers: Array<GameLoop> = [];
   private application!: Application;
   private gameViewCollection!: GameViewCollection;
+  private stats = new Stats();
 
   private lastTimeMills!: number;
 
@@ -22,8 +24,21 @@ export class GameEngine implements ApplicationComponent {
     this.gameViewCollection = application.getComponent(GameViewCollection);
   }
 
+  start() {
+    this.stats.showPanel(0); // 0: fps, 1: ms, 2: mb, 3+: custom
+    document.body.appendChild(this.stats.dom);
+  }
+
   __gameLoop() {
-    this.__playNext();
+    for (var i = 0; i < 1; i++) {
+      this.stats.begin();
+
+      this.__playNext();
+
+      this.stats.end();
+    }
+
+    //window.setTimeout(this.__gameLoop.bind(this), 0)
 
     requestAnimationFrame(this.__gameLoop.bind(this));
   }

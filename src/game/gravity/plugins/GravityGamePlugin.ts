@@ -1,8 +1,8 @@
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
 import { Application } from "../../../common/app/Application";
 import { Introspection } from "../../../common/app/lookup/Introspection";
+import { GameEngineThreeJsRenderer } from "../../../common/framework/game/3rd-party/threejs/GameEngineThreeJsRenderer";
 import { ThreeJsGameLevelRepository } from "../../../common/framework/game/3rd-party/threejs/ThreeJsGameLevelRepository";
-import { ThreeJsRenderer } from "../../../common/framework/game/3rd-party/threejs/ThreeJsRenderer";
 import { AutowiredGameEngineConfigurer } from "../../../common/framework/game/loader/configurer/AutowiredGameEnginerConfigurer";
 import { GameEnginePlugin } from "../../../common/framework/game/plugins/GameEnginePlugin";
 import { ApplicationWindowVariablePlugin } from "../../../common/plugins/ApplicationWindowVariablePlugin";
@@ -25,9 +25,11 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
     application.registerComponent(new GameEnginePlugin());
 
     application.registerComponent(
-      new ThreeJsRenderer({
+      new GameEngineThreeJsRenderer({
         webGlRenderingParameters: {
           antialias: true,
+          preserveDrawingBuffer: true,
+          //logarithmicDepthBuffer: true
         },
       })
     );
