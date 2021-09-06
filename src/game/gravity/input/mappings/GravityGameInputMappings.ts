@@ -38,6 +38,10 @@ export const REVERSE_THROTTLE_ACTION = new InputAction({
   actionId: "Reverse Throttle",
 });
 
+export const MOUSE_NAVIGATION_TOGGLE_ACTION = new InputAction({
+  actionId: "Mouse Navigation",
+});
+
 export class MainViewInputMappings implements UserInputMappingConfigurer {
   constructor() {
     Introspection.bindInterfaceName(this, TYPE_UserInputMappingConfigurer);
@@ -51,6 +55,7 @@ export class MainViewInputMappings implements UserInputMappingConfigurer {
       { group: COMMON_GROUP, action: THROTTLE_UP_ACTION, keyChar: "w" },
       { group: COMMON_GROUP, action: THROTTLE_DOWN_ACTION, keyChar: "s" },
       { group: COMMON_GROUP, action: REVERSE_THROTTLE_ACTION, keyChar: "r" },
+      { group: COMMON_GROUP, action: MOUSE_NAVIGATION_TOGGLE_ACTION, keyChar: "f" },
     ].forEach((x) =>
       mappedUserInput.bindKey(x.group, x.action, new InputHotkey({ button: KeyBoardDevice.fromCharacter(x.keyChar) }))
     );

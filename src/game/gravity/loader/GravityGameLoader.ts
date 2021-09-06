@@ -1,14 +1,13 @@
 import { Introspection } from "../../../common/app/lookup/Introspection";
 import { GameLoader, TYPE_GameLoader } from "../../../common/framework/game/loader/core/GameLoader";
-import { GameModel } from "../../../common/framework/game/model/GameModel";
 
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
 import { Application } from "../../../common/app/Application";
 import { GravityGameModel, GravityGameModelObject, TYPE_GravityGameModel } from "../model/GravityGameModelObject";
 import { LoadGameObject } from "../../../common/framework/game/loader/core/LoadGameObject";
-import { GameLevel } from "../../../common/framework/game/level/GameLevel";
-import { GravityGameLevel, GravityGameLevelObject, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
+import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 import { Quaternion, Vector3 } from "three";
+import { quanterionBaseVector } from "../../../common/framework/game/3rd-party/threejs/Constants";
 
 export class GravityGameLoader implements GameLoader, ApplicationComponent {
   private gameModel!: GravityGameModel;
@@ -32,9 +31,8 @@ export class GravityGameLoader implements GameLoader, ApplicationComponent {
 
     modelObject.spaceShips.player.position.fromArray(levelPlayerSpaceShip.position);
 
-    modelObject.viewQuaternion = new Quaternion().setFromUnitVectors(
-      new Vector3(0, 0, -1),
-      new Vector3().fromArray(levelPlayerSpaceShip.velocity)
-    );
+    modelObject.view.quaternion = new Quaternion()
+      .setFromUnitVectors(quanterionBaseVector(), new Vector3().fromArray(levelPlayerSpaceShip.velocity))
+      .normalize();
   }
 }

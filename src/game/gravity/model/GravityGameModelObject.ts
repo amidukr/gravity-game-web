@@ -10,7 +10,10 @@ export type GravityGameModel = GameModel<GravityGameModelObject>;
 export class GravityGameModelObject implements GameModelObject {
   type: "GameModelObject" = "GameModelObject";
 
-  viewQuaternion = new Quaternion();
+  view = {
+    quaternion: new Quaternion(),
+    mouseNavigationEanbled: true,
+  };
 
   spaceShips = {
     player: {

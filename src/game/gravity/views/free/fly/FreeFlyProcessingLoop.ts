@@ -7,6 +7,8 @@ import { GameModel } from "../../../../../common/framework/game/model/GameModel"
 import { GravityGameModelObject, TYPE_GravityGameModel } from "../../../model/GravityGameModelObject";
 import { GameView } from "../../../../../common/framework/game/ui/view/GameView";
 import { GameViewLoop } from "../../../../../common/framework/game/ui/view/GameViewLoop";
+import { quanterionBaseVector } from "../../../../../common/framework/game/3rd-party/threejs/Constants";
+import { MappedUserInput } from "../../../../../common/framework/game/input/MappedUserInput";
 
 export class FreeFlyProcessingLoop implements GameViewLoop {
   private axisInput!: AxisUserInput;
@@ -17,7 +19,7 @@ export class FreeFlyProcessingLoop implements GameViewLoop {
     this.model = application.getComponent(TYPE_GravityGameModel);
   }
 
-  execute(event: GameEvent) {
+  private handleMouseEvent(event: GameEvent, modelObject: GravityGameModelObject) {
     const mousePointerArray = this.axisInput.getCoordinates([MouseDevice.RELATIVE_X, MouseDevice.RELATIVE_Y]);
 
     const mousePointer = new Vector2().fromArray(mousePointerArray);
@@ -37,12 +39,18 @@ export class FreeFlyProcessingLoop implements GameViewLoop {
       .setFromAxisAngle(mousePointerOrth, rotateAngle * event.elapsedTimeMills * 0.001)
       .normalize();
 
+    modelObject.view.quaternion.multiply(mouseBasedTransformation).normalize();
+  }
+
+  execute(event: GameEvent) {
     const modelObject = this.model.object;
     const playerSpaceShip = this.model.object.spaceShips.player;
 
-    modelObject.viewQuaternion.multiply(mouseBasedTransformation).normalize();
+    if (this.model.object.view.mouseNavigationEanbled) {
+      this.handleMouseEvent(event, modelObject);
+    }
 
-    playerSpaceShip.velocity = new Vector3(0, 0, -1).applyQuaternion(modelObject.viewQuaternion).normalize();
+    playerSpaceShip.velocity = quanterionBaseVector().applyQuaternion(modelObject.view.quaternion).normalize();
 
     playerSpaceShip.position.add(
       new Vector3()

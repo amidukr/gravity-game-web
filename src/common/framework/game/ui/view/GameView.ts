@@ -30,6 +30,6 @@ export class GameView {
     this.application = parameters.application;
     this.processingLoops = parameters.processingLoops || [];
     this.renderingLoops = parameters.renderingLoops || [];
-    this.buttonHandlerCollection = parameters.buttonHandlers || []
+    this.buttonHandlerCollection = parameters.buttonHandlers || [];
   }
 }

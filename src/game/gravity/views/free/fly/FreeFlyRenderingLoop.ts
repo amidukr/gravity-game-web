@@ -6,6 +6,7 @@ import { TYPE_GravityGameLevel } from "../../../level/GravityGameLevelObject";
 import { GravityGameModelObject, TYPE_GravityGameModel } from "../../../model/GravityGameModelObject";
 import { GameViewLoop } from "../../../../../common/framework/game/ui/view/GameViewLoop";
 import { GameView } from "../../../../../common/framework/game/ui/view/GameView";
+import { Vector3 } from "three";
 
 export class FreeFlyRenderingLoop implements GameViewLoop {
   private model!: GameModel<GravityGameModelObject>;
@@ -30,7 +31,7 @@ export class FreeFlyRenderingLoop implements GameViewLoop {
 
   execute() {
     this.camera.position.copy(this.model.object.spaceShips.player.position);
-    this.camera.setRotationFromQuaternion(new THREE.Quaternion().copy(this.model.object.viewQuaternion).normalize());
+    this.camera.setRotationFromQuaternion(new THREE.Quaternion().copy(this.model.object.view.quaternion).normalize());
 
     this.renderer.render(this.scene, this.camera);
   }

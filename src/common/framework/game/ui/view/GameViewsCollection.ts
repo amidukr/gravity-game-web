@@ -1,8 +1,8 @@
 import { Application } from "../../../../app/Application";
 import { GameView } from "./GameView";
 
-interface ViewStartable { 
-  start?(application: Application, view: GameView): Promise<void> | void
+interface ViewStartable {
+  start?(application: Application, view: GameView): Promise<void> | void;
 }
 
 export class GameViewCollection {
@@ -36,13 +36,13 @@ export class GameViewCollection {
     const startableList: ViewStartable[] = ([] as ViewStartable[])
       .concat(view.processingLoops)
       .concat(view.renderingLoops)
-      .concat(view.buttonHandlerCollection)
+      .concat(view.buttonHandlerCollection);
 
-    for(const startable of startableList) {
-      try{
-        startable.start && (await startable.start(application, view))
-      }catch(err) {
-        console.error("GameViewCollections", `Error while starting ${typeof startable} `, startable , err)
+    for (const startable of startableList) {
+      try {
+        startable.start && (await startable.start(application, view));
+      } catch (err) {
+        console.error("GameViewCollections", `Error while starting ${typeof startable} `, startable, err);
       }
     }
   }

@@ -27,8 +27,8 @@ export class FreeFlyThrottleControlLoop implements GameViewLoop {
   }
 
   execute(event: GameEvent): void {
-    const throttleFactor = Math.pow(2, 0.002* event.elapsedTimeMills)
-    const rollFactor = 0.001
+    const throttleFactor = Math.pow(2, 0.002 * event.elapsedTimeMills);
+    const rollFactor = 0.001;
 
     if (this.mappedUserInput.isActionPressed(this.gameView, COMMON_GROUP, THROTTLE_UP_ACTION)) {
       this.gameModel.object.spaceShips.player.throttle *= throttleFactor;
@@ -38,20 +38,20 @@ export class FreeFlyThrottleControlLoop implements GameViewLoop {
       this.gameModel.object.spaceShips.player.throttle /= throttleFactor;
     }
 
-    var roll = 0
+    var roll = 0;
 
-    if(this.mappedUserInput.isActionPressed(this.gameView, COMMON_GROUP, ROLL_LEFT_ACTION)) {
-        roll += 1
+    if (this.mappedUserInput.isActionPressed(this.gameView, COMMON_GROUP, ROLL_LEFT_ACTION)) {
+      roll += 1;
     }
 
-    if(this.mappedUserInput.isActionPressed(this.gameView, COMMON_GROUP, ROLL_RIGHT_ACTION)) {
-        roll -= 1
+    if (this.mappedUserInput.isActionPressed(this.gameView, COMMON_GROUP, ROLL_RIGHT_ACTION)) {
+      roll -= 1;
     }
-    
-    if(roll != 0) {
-        this.gameModel.object.viewQuaternion.multiply(
-            new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), roll * rollFactor *  event.elapsedTimeMills)
-        ).normalize()
+
+    if (roll != 0) {
+      this.gameModel.object.view.quaternion
+        .multiply(new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), roll * rollFactor * event.elapsedTimeMills))
+        .normalize();
     }
   }
 }
