@@ -28,7 +28,7 @@ export class RootWidget extends React.Component<RootWidgetProps, RootWidgetState
 
     this.mappedUserInput = props.application.getComponent(MappedUserInput);
 
-    this.viewIndex = 0;
+    this.viewIndex = 1;
 
     this.state = this.createState();
   }

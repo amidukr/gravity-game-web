@@ -26,7 +26,13 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
 
     // Register game engine modules
     application.registerComponent(new GameEnginePlugin());
-    application.registerComponent(new ThreeJsRenderer());
+
+    application.registerComponent(new ThreeJsRenderer({
+      webGlRenderingParameters: {
+        antialias: true
+      }
+    }));
+
     application.registerComponent(new AutowiredGameEngineConfigurer());
     application.registerComponent(new ReactStarter());
 

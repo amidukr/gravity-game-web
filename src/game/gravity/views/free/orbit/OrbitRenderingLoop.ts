@@ -24,20 +24,20 @@ export class OrbitRenderingLoop implements GameViewLoop {
     this.scene.add(gameLevel.object.rootScene);
     this.scene.background = gameLevel.object.backhroundTexture;
 
-    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.000001, 1000);
 
     this.renderer.getThreeJsWebGlRenderer().physicallyCorrectLights = true;
 
     this.controls = new OrbitControls(this.camera, this.renderer.getThreeJsWebGlRenderer().domElement);
 
-    this.camera.position.set(0, 20, 100);
+    this.camera.position.set(7, 0, 7);
     this.controls.update();
   }
 
   execute() {
-    const vec = this.renderer.getThreeJsWebGlRenderer().getSize(new Vector2())
-    this.camera.aspect = vec.x / vec.y
-    this.camera.updateProjectionMatrix()
+    const vec = this.renderer.getThreeJsWebGlRenderer().getSize(new Vector2());
+    this.camera.aspect = vec.x / vec.y;
+    this.camera.updateProjectionMatrix();
 
     this.controls.update();
 

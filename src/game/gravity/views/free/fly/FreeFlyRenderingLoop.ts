@@ -30,13 +30,13 @@ export class FreeFlyRenderingLoop implements GameViewLoop {
   }
 
   execute() {
-    const vec = this.renderer.getSize(new Vector2())
-    this.camera.aspect = vec.x / vec.y
+    const vec = this.renderer.getSize(new Vector2());
+    this.camera.aspect = vec.x / vec.y;
 
     this.camera.position.copy(this.model.object.spaceShips.player.position);
     this.camera.setRotationFromQuaternion(new THREE.Quaternion().copy(this.model.object.view.quaternion).normalize());
 
-    this.camera.updateProjectionMatrix()
+    this.camera.updateProjectionMatrix();
 
     this.renderer.render(this.scene, this.camera);
   }

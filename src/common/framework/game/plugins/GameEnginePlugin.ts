@@ -9,6 +9,7 @@ import { GameLevel } from "../level/GameLevel";
 import { GameViewCollection } from "../ui/view/GameViewsCollection";
 import { AxisUserInput } from "../input/AxisUserInput";
 import { MappedUserInput } from "../input/MappedUserInput";
+import { GameEngineConfiguration } from "./GameEngineConfiguration";
 
 export class GameEnginePlugin implements ApplicationComponent {
   constructor() {

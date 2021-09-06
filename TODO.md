@@ -26,7 +26,9 @@
 
 # Optimization
    1. Use FXAA insteado of MSAA
-   2. ZBuffer fight - increase z buffer from 16bit to 24bit
+   2. ZBuffer fight
+      1. Buffer is 24bit by default however fighting still happening
+      2. logarithm looks like not an option, will force to shading for all faces
 
 # DONE
 
