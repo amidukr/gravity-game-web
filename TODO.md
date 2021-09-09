@@ -14,6 +14,7 @@
    1. GFX: Use startship model
    1. GFX: Scale size to take same size on the screen
    1. GFX: Use point light intensity/decay - to make make similar ligght effect
+   1. GFX: Cleanup backgrounds
    1. Gameplay: Launchpad on planets
    1. Music/Sound
    1. Game save/load for debugging

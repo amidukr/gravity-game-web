@@ -46,7 +46,6 @@ export class GravityGameLoader implements GameLoader, ApplicationComponent {
     modelObject.spaceShips.player.position = startPosition.getWorldPosition(new Vector3());
     modelObject.view.quaternion = startPosition
       .getWorldQuaternion(new Quaternion())
-      .multiply(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), Math.PI / 2))
-      .multiply(new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), -Math.PI / 2));
+      .multiply(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), -Math.PI / 2));
   }
 }

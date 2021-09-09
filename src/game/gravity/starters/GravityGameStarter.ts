@@ -11,8 +11,14 @@ export class GravityGameStarter {
   }
 
   async start(application: Application) {
+    if(!window.location.hash) {
+      window.location.hash = "levels/uzora"
+    }
+
+    const levelName = window.location.hash.substr(1);
+
     await application.getComponent(CoreGameLoader).loadGame({
-      levelDescriptor: new SimpleGameLevelDescriptor("levels/uzora"),
+      levelDescriptor: new SimpleGameLevelDescriptor(levelName),
     });
 
     await application.getComponent(GameEngine).startGameEngine();

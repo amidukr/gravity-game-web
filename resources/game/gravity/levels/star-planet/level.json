@@ -1,0 +1,21 @@
+{
+  "levelSceneFile": "gltf/star-planet/Star System - Star-Planet.glb",
+
+  "spaceShips": {
+    "player": {
+      "throttle": "50000"
+    }
+  },
+
+  "backgroundFile": [
+    "/background/hubble.jpg", "/background/hubble.jpg",
+	  "/background/hubble.jpg", "/background/hubble.jpg",
+	  "/background/hubble.jpg", "/background/hubble.jpg"
+  ],
+
+  "backgroundFiles": [
+    "/background/background6.jpg"
+  ]
+
+  
+}

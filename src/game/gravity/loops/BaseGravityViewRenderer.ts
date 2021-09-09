@@ -38,7 +38,7 @@ export abstract class BaseGravityViewRenderer implements GameViewLoop {
     const sceneScale = Math.max(
       boundBox.max.x - boundBox.min.x,
       boundBox.max.y - boundBox.min.y,
-      boundBox.max.y - boundBox.min.y
+      boundBox.max.z - boundBox.min.z
     );
 
     const scaleDigits = Math.log10(sceneScale * 10);
