@@ -66,7 +66,7 @@ export abstract class BaseGravityViewRenderer implements GameViewLoop {
 
     for (var i = this.clipPoints.length - 3; i >= 0; i--) {
       this.camera.near = this.clipPoints[i];
-      this.camera.far = this.clipPoints[i + 1];
+      this.camera.far = this.clipPoints[i + 1] * 1.1;
       this.camera.updateProjectionMatrix();
 
       threeJsRenderer.clearDepth();
