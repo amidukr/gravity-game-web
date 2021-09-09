@@ -10,7 +10,7 @@ import { ReactStarter, TYPE_ReactRootWidget } from "../../../common/ui/ReactStar
 import { MainViewInputMappings } from "../input/mappings/GravityGameInputMappings";
 import { GravityGameLoader } from "../loader/GravityGameLoader";
 import { GravityGameStarter } from "../starters/GravityGameStarter";
-import { RootWidget } from "../views/GravityGameRootWidget";
+import { RootWidget } from "../ui/GravityGameRootWidget";
 
 export class GravityGameEnginePlugin implements ApplicationComponent {
   constructor() {
@@ -29,7 +29,7 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
         webGlRenderingParameters: {
           antialias: true,
           preserveDrawingBuffer: true,
-          //logarithmicDepthBuffer: true
+          // logarithmicDepthBuffer: true
         },
       })
     );

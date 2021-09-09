@@ -3,15 +3,21 @@
 # BACKLOG
 
 1. Game logic 
-   1. Increase planet size to something more realistic
-   1. Game save/load for debugging
-   1. Game Keyboard Help 
    1. GFX: Atmosphere
+      1. Create scene with sun, planet. background
+      1. Configure orbit map in center of this planet
+      1. Implement shader
+   1. GFX: Terra generation
    1. Animate planet circle moving
    1. Implement gravity for starship movement
+      1. Make enabling/disabling gravity configurable
    1. GFX: Use startship model
-   1. GFX: Terra generation
-   1. Music/Sound 
+   1. GFX: Scale size to take same size on the screen
+   1. GFX: Use point light intensity/decay - to make make similar ligght effect
+   1. Gameplay: Launchpad on planets
+   1. Music/Sound
+   1. Game save/load for debugging
+   1. Game Keyboard Help
 
 # Plan
    1. Gameplay
@@ -56,3 +62,4 @@
    - Q/E - rotate around z axis
    - increase/decrease velocity
    - Enable/Disable mouse navigation
+1. Increase planet size to something more realistic

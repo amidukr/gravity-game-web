@@ -1,0 +1,22 @@
+{
+  "levelSceneFile": "gltf/solar-system/Planet System3.glb",
+
+  "spaceShips": {
+    "player": {
+      "position": [0,0, 5],
+      "velocity": [0,0,-1]
+    }
+  },
+
+  "backgroundFile": [
+    "/background/hubble.jpg", "/background/hubble.jpg",
+	  "/background/hubble.jpg", "/background/hubble.jpg",
+	  "/background/hubble.jpg", "/background/hubble.jpg"
+  ],
+
+  "backgroundFiles": [
+    "/background/background6.jpg"
+  ]
+
+  
+}

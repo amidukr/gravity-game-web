@@ -1,10 +1,9 @@
 {
-  "levelSceneFile": "Planet System3.glb",
+  "levelSceneFile": "gltf/star-system-uzroa/Star System - Uzroa2.glb",
 
   "spaceShips": {
     "player": {
-      "position": [0,0, 5],
-      "velocity": [0,0,-1]
+      "throttle": "50000"
     }
   },
 

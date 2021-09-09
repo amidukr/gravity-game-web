@@ -12,8 +12,7 @@ export type GravityGameLevel = GameLevel<GravityGameLevelObject>;
 export interface GravityGameLevelObjectData extends ThreeJsGameLevelObjectData {
   spaceShips: {
     player: {
-      position: number[];
-      velocity: number[];
+      throttle?: number;
     };
   };
 }

@@ -4,8 +4,8 @@ import { GameViewWidget } from "../../../common/framework/game/3rd-party/react/G
 import { MappedUserInput } from "../../../common/framework/game/input/MappedUserInput";
 import { GameView } from "../../../common/framework/game/ui/view/GameView";
 import { CHANGE_VIEW_ACTION, COMMON_GROUP } from "../input/mappings/GravityGameInputMappings";
-import { FreeFlyGameView } from "./free/fly/FreeFlyGameView";
-import { OrbitGameView } from "./free/orbit/OrbitGameView";
+import { FreeFlyGameView } from "../views/free/fly/FreeFlyGameView";
+import { OrbitGameView } from "../views/free/orbit/OrbitGameView";
 
 export interface RootWidgetProps {
   application: Application;

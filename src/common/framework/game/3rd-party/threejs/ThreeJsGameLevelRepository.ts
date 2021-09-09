@@ -13,31 +13,31 @@ export class ThreeJsGameLevelRepository implements GameLevelRepository {
   async loadLevel(levelDescriptor: SimpleGameLevelDescriptor): Promise<GravityGameLevelObject> {
     const levelName = levelDescriptor.levelName;
 
-    const levelFolder = `resources/game/gravity/levels/${levelName}`;
+    const resourceRootFolder = `resources/game/gravity/`;
 
-    const levelFilePath = `${levelFolder}/level.json`;
+    const levelFilePath = `${resourceRootFolder}/${levelName}/level.json`;
 
     const levelData = await (await fetch(levelFilePath)).json();
 
     const levelObject = new GravityGameLevelObject();
 
     levelObject.data = levelData;
-    levelObject.levelFolder = levelFolder;
+    levelObject.resourceRootFolder = resourceRootFolder;
 
     const gtlfLoader = new GLTFLoader();
 
     const gameScenePromise = new Promise<GLTF>((r) =>
-      gtlfLoader.load(`${levelObject.levelFolder}/${levelObject.data.levelSceneFile}`, r)
+      gtlfLoader.load(`${levelObject.resourceRootFolder}/${levelObject.data.levelSceneFile}`, r)
     );
 
     const cubeTextureLoader = new CubeTextureLoader();
-    cubeTextureLoader.setPath(levelObject.levelFolder);
+    cubeTextureLoader.setPath(levelObject.resourceRootFolder);
 
     if (levelObject.data.backgroundFiles.length == 6) {
       levelObject.backhroundTexture = cubeTextureLoader.load(levelObject.data.backgroundFiles);
     } else {
       levelObject.backhroundTexture = new TextureLoader().load(
-        `${levelObject.levelFolder}/${levelObject.data.backgroundFiles[0]}`
+        `${levelObject.resourceRootFolder}/${levelObject.data.backgroundFiles[0]}`
       );
       levelObject.backhroundTexture.mapping = EquirectangularReflectionMapping;
     }

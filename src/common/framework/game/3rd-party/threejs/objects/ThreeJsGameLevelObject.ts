@@ -8,6 +8,7 @@ export interface ThreeJsGameLevelObjectData {
 
 export class ThreeJsGameLevelObject implements GameLevelObject {
   type: "GameLevelObject" = "GameLevelObject";
+  resourceRootFolder!: string;
   levelFolder!: string;
 
   data!: ThreeJsGameLevelObjectData;

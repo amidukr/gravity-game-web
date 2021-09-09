@@ -2,11 +2,17 @@ import { Quaternion, Vector3 } from "three";
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
 import { Application } from "../../../common/app/Application";
 import { Introspection } from "../../../common/app/lookup/Introspection";
-import { quanterionBaseVector } from "../../../common/framework/game/3rd-party/threejs/Constants";
 import { GameLoader, TYPE_GameLoader } from "../../../common/framework/game/loader/core/GameLoader";
 import { LoadGameObject } from "../../../common/framework/game/loader/core/LoadGameObject";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 import { GravityGameModel, GravityGameModelObject, TYPE_GravityGameModel } from "../model/GravityGameModelObject";
+
+declare global {
+  interface Window {
+    gameModel: GravityGameModel;
+    gameLevel: GravityGameLevel;
+  }
+}
 
 export class GravityGameLoader implements GameLoader, ApplicationComponent {
   private gameModel!: GravityGameModel;
@@ -20,18 +26,27 @@ export class GravityGameLoader implements GameLoader, ApplicationComponent {
   autowire(application: Application) {
     this.gameModel = application.getComponent(TYPE_GravityGameModel);
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
+
+    window.gameModel = this.gameModel;
+    window.gameLevel = this.gameLevel;
   }
 
   async loadGame(loadGameObject: LoadGameObject): Promise<void> {
     const modelObject = new GravityGameModelObject();
     this.gameModel.object = modelObject;
 
-    const levelPlayerSpaceShip = this.gameLevel.object.data.spaceShips.player;
+    const startPosition = this.gameLevel.object.rootScene.getObjectByName("Start-Position");
 
-    modelObject.spaceShips.player.position.fromArray(levelPlayerSpaceShip.position);
+    if (startPosition == null) {
+      throw Error("Can't find Start-Position object in scene");
+    }
 
-    modelObject.view.quaternion = new Quaternion()
-      .setFromUnitVectors(quanterionBaseVector(), new Vector3().fromArray(levelPlayerSpaceShip.velocity))
-      .normalize();
+    modelObject.spaceShips.player.throttle = this.gameLevel.object.data.spaceShips.player.throttle || 0.1;
+
+    modelObject.spaceShips.player.position = startPosition.getWorldPosition(new Vector3());
+    modelObject.view.quaternion = startPosition
+      .getWorldQuaternion(new Quaternion())
+      .multiply(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), Math.PI / 2))
+      .multiply(new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), -Math.PI / 2));
   }
 }

@@ -12,7 +12,7 @@ export class GravityGameStarter {
 
   async start(application: Application) {
     await application.getComponent(CoreGameLoader).loadGame({
-      levelDescriptor: new SimpleGameLevelDescriptor("demo"),
+      levelDescriptor: new SimpleGameLevelDescriptor("levels/uzora"),
     });
 
     await application.getComponent(GameEngine).startGameEngine();
