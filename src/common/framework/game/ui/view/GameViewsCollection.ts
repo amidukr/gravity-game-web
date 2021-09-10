@@ -2,7 +2,7 @@ import { Application } from "../../../../app/Application";
 import { GameView } from "./GameView";
 
 interface ViewStartable {
-  start?(application: Application, view: GameView): Promise<void> | void;
+  startNewGame?(application: Application, view: GameView): Promise<void> | void;
 }
 
 export class GameViewCollection {
@@ -40,14 +40,14 @@ export class GameViewCollection {
 
     for (const startable of startableList) {
       try {
-        startable.start && (await startable.start(application, view));
+        startable.startNewGame && (await startable.startNewGame(application, view));
       } catch (err) {
         console.error("GameViewCollections", `Error while starting ${typeof startable} `, startable, err);
       }
     }
   }
 
-  async startGameEngine(): Promise<void> {
+  async startNewGame(): Promise<void> {
     this.gameStarted = true;
     await Promise.all(this.__list.map((view) => this.startView(view)));
   }

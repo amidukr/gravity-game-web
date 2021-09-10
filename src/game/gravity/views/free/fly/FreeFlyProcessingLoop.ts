@@ -13,7 +13,7 @@ export class FreeFlyProcessingLoop implements GameViewLoop {
   private axisInput!: AxisUserInput;
   private model!: GameModel<GravityGameModelObject>;
 
-  start(application: Application, gameView: GameView) {
+  startNewGame(application: Application, gameView: GameView) {
     this.axisInput = gameView.axisUserInput;
     this.model = application.getComponent(TYPE_GravityGameModel);
   }

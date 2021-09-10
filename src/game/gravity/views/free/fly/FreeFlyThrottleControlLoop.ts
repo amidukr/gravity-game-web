@@ -18,7 +18,7 @@ export class FreeFlyThrottleControlLoop implements GameViewLoop {
   private mappedUserInput!: MappedUserInput;
   private gameModel!: GravityGameModel;
 
-  start(application: Application, gameView: GameView) {
+  startNewGame(application: Application, gameView: GameView) {
     this.gameView = gameView;
     this.mappedUserInput = application.getComponent(MappedUserInput);
     this.gameModel = application.getComponent(TYPE_GravityGameModel);

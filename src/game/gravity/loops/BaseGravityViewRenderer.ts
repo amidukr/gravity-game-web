@@ -16,7 +16,7 @@ export abstract class BaseGravityViewRenderer implements GameViewLoop {
 
   private clipPoints!: number[];
 
-  start(application: Application): void {
+  startNewGame(application: Application): void {
     this.engineRenderer = application.getComponent(GameEngineThreeJsRenderer);
     const threeJsRenderer = this.engineRenderer.getThreeJsWebGlRenderer();
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);

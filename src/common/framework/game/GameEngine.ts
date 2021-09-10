@@ -85,10 +85,10 @@ export class GameEngine implements ApplicationComponent {
     this.controllers.push(controller);
   }
 
-  async startGameEngine() {
-    await Promise.all(this.controllers.map((x) => x.start && x.start(this.application)));
+  async startNewGame() {
+    await Promise.all(this.controllers.map((x) => x.startNewGame && x.startNewGame(this.application)));
 
-    await this.gameViewCollection.startGameEngine();
+    await this.gameViewCollection.startNewGame();
 
     this.lastTimeMills = new Date().getTime() - 1;
 

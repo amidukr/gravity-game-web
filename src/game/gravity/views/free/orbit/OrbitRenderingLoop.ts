@@ -7,10 +7,10 @@ import { BaseGravityViewRenderer } from "../../../loops/BaseGravityViewRenderer"
 export class OrbitRenderingLoop extends BaseGravityViewRenderer {
   private controls!: OrbitControls;
 
-  override start(application: Application) {
-    super.start(application);
+  override startNewGame(application: Application) {
+    super.startNewGame(application);
 
-    const scene = application.getComponent(TYPE_GravityGameLevel).object.rootScene
+    const scene = application.getComponent(TYPE_GravityGameLevel).object.rootScene;
 
     this.controls = new OrbitControls(this.camera, this.engineRenderer.getThreeJsWebGlRenderer().domElement);
 

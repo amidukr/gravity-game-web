@@ -13,7 +13,7 @@ export class FreeFlyButtonHandler implements GameViewButtonHandler {
   mappedUserInput!: MappedUserInput;
   gameModel!: GravityGameModel;
 
-  start(application: Application) {
+  startNewGame(application: Application) {
     this.gameModel = application.getComponent(TYPE_GravityGameModel);
     this.mappedUserInput = application.getComponent(MappedUserInput);
   }
