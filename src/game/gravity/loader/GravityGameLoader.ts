@@ -5,7 +5,12 @@ import { Introspection } from "../../../common/app/lookup/Introspection";
 import { GameLoader, TYPE_GameLoader } from "../../../common/framework/game/loader/core/GameLoader";
 import { LoadGameObject } from "../../../common/framework/game/loader/core/LoadGameObject";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
-import { GravityGameModel, GravityGameModelObject, SceneComponentCollection, TYPE_GravityGameModel } from "../model/GravityGameModelObject";
+import {
+  GravityGameModel,
+  GravityGameModelObject,
+  SceneComponentCollection,
+  TYPE_GravityGameModel,
+} from "../model/GravityGameModelObject";
 
 declare global {
   interface Window {
@@ -54,18 +59,16 @@ export class GravityGameLoader implements GameLoader, ApplicationComponent {
     };
 
     Object.keys(prefixMap).forEach((prefix) => {
-
-      const  prefixCollectionName: string = (prefixMap as any)[prefix]
+      const prefixCollectionName: string = (prefixMap as any)[prefix];
       const collection: SceneComponentCollection = (modelObject.sceneDictionary as any)[prefixCollectionName];
 
       this.gameLevel.object.rootScene.traverse((x) => {
         if (x.name.startsWith(prefix)) {
           collection[x.name] = {
-            object: x
-          }
+            object: x,
+          };
         }
       });
     });
-
   }
 }

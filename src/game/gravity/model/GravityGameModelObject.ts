@@ -1,4 +1,4 @@
-import { Object3D, Quaternion, Vector3 } from "three";
+import { Object3D, Quaternion, Scene, Vector3 } from "three";
 import { typeIdentifier } from "../../../common/app/lookup/TypeIdentifier";
 import { GameModel } from "../../../common/framework/game/model/GameModel";
 import { GameModelObject } from "../../../common/framework/game/model/GameModelObject";
@@ -7,12 +7,12 @@ export const TYPE_GravityGameModel = typeIdentifier<GravityGameModel>(GameModel)
 
 export type GravityGameModel = GameModel<GravityGameModelObject>;
 
-export interface SceneComponent{
-  object: Object3D
+export interface SceneComponent {
+  object: Object3D;
 }
 
 export interface SceneComponentCollection {
-  [name: string] : SceneComponent  
+  [name: string]: SceneComponent;
 }
 
 export interface GravityDictionaryModel {
@@ -40,4 +40,6 @@ export class GravityGameModelObject implements GameModelObject {
       throttle: 0.01,
     },
   };
+
+  scene = new Scene();
 }

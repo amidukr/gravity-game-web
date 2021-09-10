@@ -1,9 +1,10 @@
-import { Box3, PerspectiveCamera, Scene, Vector2 } from "three";
+import { Box3, PerspectiveCamera, Vector2 } from "three";
 import { Application } from "../../../common/app/Application";
 import { GameEngineThreeJsRenderer } from "../../../common/framework/game/3rd-party/threejs/GameEngineThreeJsRenderer";
 import { GameViewLoop } from "../../../common/framework/game/ui/view/GameViewLoop";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 import { GravityGameModel, TYPE_GravityGameModel } from "../model/GravityGameModelObject";
+import { AtmosphereRenderer } from "./rendering/AtmosphereRenderer";
 
 export abstract class BaseGravityViewRenderer implements GameViewLoop {
   protected engineRenderer!: GameEngineThreeJsRenderer;
@@ -16,13 +17,15 @@ export abstract class BaseGravityViewRenderer implements GameViewLoop {
 
   private clipPoints!: number[];
 
+  private readonly atmosphereRenderer = new AtmosphereRenderer();
+
   startNewGame(application: Application): void {
     this.engineRenderer = application.getComponent(GameEngineThreeJsRenderer);
     const threeJsRenderer = this.engineRenderer.getThreeJsWebGlRenderer();
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
     this.model = application.getComponent(TYPE_GravityGameModel);
 
-    this.scene = new Scene();
+    this.scene = this.model.object.scene;
 
     this.scene.clear();
 
@@ -44,6 +47,8 @@ export abstract class BaseGravityViewRenderer implements GameViewLoop {
     const scaleDigits = Math.log10(sceneScale * 10);
 
     this.clipPoints = [1, Math.pow(10, scaleDigits / 2), Math.pow(10, scaleDigits)];
+
+    this.atmosphereRenderer.startNewGame(application);
   }
 
   execute(): void {

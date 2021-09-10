@@ -62,6 +62,10 @@ const config = {
         type: "asset",
       },
       {
+        test: /\.(glsl|vs|fs)$/,
+        use: "raw-loader",
+      },
+      {
         test: /\.tsx?$/,
         use: ["babel-loader", "ts-loader"],
         exclude: /node_modules/,
