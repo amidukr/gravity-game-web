@@ -5,7 +5,7 @@ import { BaseGameModel } from "../../../common/framework/game/model/BaseGameMode
 
 export class PlayerView {
   viewQuaternion = new Quaternion();
-  mouseNavigationEanbled = false;
+  mouseNavigationEanbledAt: number = 0;
 }
 
 export class PlayerViewModel extends BaseGameModel<PlayerView> {

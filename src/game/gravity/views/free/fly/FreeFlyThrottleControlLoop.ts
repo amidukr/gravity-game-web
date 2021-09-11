@@ -28,15 +28,42 @@ export class FreeFlyThrottleControlLoop implements GameViewLoop {
   }
 
   execute(event: GameEvent): void {
-    const throttleFactor = Math.pow(2, 0.002 * event.elapsedTimeMills);
+    const highThrottleFactor = Math.pow(2, 0.02 * event.elapsedTimeMills);
+    const lowThrottleFactor = Math.pow(2, 0.002 * event.elapsedTimeMills);
+    const timeToLowThrottle = 10 * 1000;
+
     const rollFactor = 0.001;
 
-    if (this.mappedUserInput.isActionPressed(this.gameView, COMMON_GROUP, THROTTLE_UP_ACTION)) {
-      this.spaceShipsModel.object.player.throttle *= throttleFactor;
-    }
+    const throttleUpElapsedTime = this.mappedUserInput.getActionElapsedTime(
+      this.gameView,
+      COMMON_GROUP,
+      THROTTLE_UP_ACTION
+    );
+    const throttleDownElapsedTime = this.mappedUserInput.getActionElapsedTime(
+      this.gameView,
+      COMMON_GROUP,
+      THROTTLE_DOWN_ACTION
+    );
 
-    if (this.mappedUserInput.isActionPressed(this.gameView, COMMON_GROUP, THROTTLE_DOWN_ACTION)) {
-      this.spaceShipsModel.object.player.throttle /= throttleFactor;
+    const throttleChangeElapsedTime = Math.max(throttleUpElapsedTime || 0, throttleDownElapsedTime || 0);
+
+    if (throttleChangeElapsedTime) {
+      var throttleFactor;
+      if (throttleChangeElapsedTime < timeToLowThrottle) {
+        const timeHighToLowThrottleFactor = (timeToLowThrottle - throttleChangeElapsedTime) / timeToLowThrottle;
+        throttleFactor =
+          (1 - timeHighToLowThrottleFactor) * highThrottleFactor + timeHighToLowThrottleFactor * lowThrottleFactor;
+      } else {
+        throttleFactor = lowThrottleFactor;
+      }
+
+      if (throttleUpElapsedTime != undefined) {
+        this.spaceShipsModel.object.player.throttle *= throttleFactor;
+      }
+
+      if (throttleDownElapsedTime != undefined) {
+        this.spaceShipsModel.object.player.throttle /= throttleFactor;
+      }
     }
 
     var roll = 0;

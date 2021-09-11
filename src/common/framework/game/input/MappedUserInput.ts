@@ -129,6 +129,23 @@ export class MappedUserInput implements ApplicationComponent {
     );
   }
 
+  getActionElapsedTime(gameView: GameView, group: InputMappingGroup, action: InputAction) {
+    const buttonUserInput = gameView.buttonUserInput;
+
+    const hotKeysList = this.actionToHotKeysMapping.groups[group.groupId]?.actions?.[action.actionId]?.hotKeys;
+
+    if (hotKeysList) {
+      for (const hotKey of hotKeysList) {
+        const elapsedTime = buttonUserInput.getActionElapsedTime(hotKey.button);
+        if (elapsedTime != undefined) {
+          return elapsedTime;
+        }
+      }
+    }
+
+    return undefined;
+  }
+
   isEventOfAction(event: Event | InputButton, group: InputMappingGroup, action: InputAction) {
     const resolvedAction = this.resolveEventToAction(group, event);
 

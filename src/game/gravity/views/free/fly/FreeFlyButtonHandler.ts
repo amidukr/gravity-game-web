@@ -28,7 +28,11 @@ export class FreeFlyButtonHandler implements GameViewButtonHandler {
 
     if (this.mappedUserInput.isEventOfAction(button, COMMON_GROUP, MOUSE_NAVIGATION_TOGGLE_ACTION)) {
       const modelView = this.playerViewModel.object;
-      modelView.mouseNavigationEanbled = !modelView.mouseNavigationEanbled;
+      if (modelView.mouseNavigationEanbledAt) {
+        modelView.mouseNavigationEanbledAt = 0;
+      } else {
+        modelView.mouseNavigationEanbledAt = new Date().getTime();
+      }
     }
   }
 }
