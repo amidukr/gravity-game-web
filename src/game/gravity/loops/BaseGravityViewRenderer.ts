@@ -6,7 +6,7 @@ import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLev
 import { GravitySceneModel } from "../model/GravitySceneModel";
 import { PlayerViewModel } from "../model/PlayerControlModel";
 import { SpaceShipsModel } from "../model/SpaceShipsModel";
-import { AtmosphereRenderer } from "./rendering/AtmosphereRenderer";
+import { AtmosphereModule } from "./rendering/AtmosphereModule";
 
 export abstract class BaseGravityViewRenderer implements GameViewLoop {
   protected engineRenderer!: GameEngineThreeJsRenderer;
@@ -21,8 +21,6 @@ export abstract class BaseGravityViewRenderer implements GameViewLoop {
 
   private clipPoints!: number[];
 
-  private readonly atmosphereRenderer = new AtmosphereRenderer();
-
   startNewGame(application: ApplicationContainer): void {
     this.engineRenderer = application.getComponent(GameEngineThreeJsRenderer);
 
@@ -35,8 +33,6 @@ export abstract class BaseGravityViewRenderer implements GameViewLoop {
     const threeJsRenderer = this.engineRenderer.getThreeJsWebGlRenderer();
 
     this.scene = this.sceneModel.object.scene;
-
-    this.scene.clear();
 
     this.scene.add(this.gameLevel.object.rootScene);
     this.scene.background = this.gameLevel.object.backhroundTexture;
@@ -56,8 +52,6 @@ export abstract class BaseGravityViewRenderer implements GameViewLoop {
     const scaleDigits = Math.log10(sceneScale * 10);
 
     this.clipPoints = [1, Math.pow(10, scaleDigits / 2), Math.pow(10, scaleDigits)];
-
-    this.atmosphereRenderer.startNewGame(application);
   }
 
   execute(): void {

@@ -7,6 +7,7 @@ import { GameEnginePlugin } from "../../../common/framework/game/plugins/GameEng
 import { ReactStarter, TYPE_ReactRootWidget } from "../../../common/ui/ReactStarter";
 import { MainViewInputMappings } from "../input/mappings/GravityGameInputMappings";
 import { GravityGameLoader } from "../loader/GravityGameLoader";
+import { AtmosphereModule } from "../loops/rendering/AtmosphereModule";
 import { GravitySceneModel } from "../model/GravitySceneModel";
 import { PlayerViewModel } from "../model/PlayerControlModel";
 import { SpaceShipsModel } from "../model/SpaceShipsModel";
@@ -47,6 +48,7 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
     application.registerComponent(new PlayerViewModel());
 
     application.registerComponent(new GravityGameLoader());
+    application.registerComponent(new AtmosphereModule());
 
     application.registerComponent(new MainViewInputMappings());
 
