@@ -1,4 +1,4 @@
-import { Box3, Group, IcosahedronGeometry, Material, Mesh, MeshBasicMaterial, Vector3 } from "three";
+import { Box3, Group, IcosahedronGeometry, Mesh, Vector3 } from "three";
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../../common/app/lookup/Introspection";
@@ -12,17 +12,16 @@ export class AtmosphereModule implements ApplicationComponent, GameLoaderModule 
   gameLevel!: GravityGameLevel;
 
   constructor() {
-    Introspection.bindInterfaceName(this, TYPE_ApplicationComponent)
-    Introspection.bindInterfaceName(this, TYPE_GameLoaderModule)
+    Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
+    Introspection.bindInterfaceName(this, TYPE_GameLoaderModule);
   }
 
   autowire(application: ApplicationContainer) {
-    this.sceneModel = application.getComponent(GravitySceneModel)
-    this.gameLevel = application.getComponent(TYPE_GravityGameLevel)
+    this.sceneModel = application.getComponent(GravitySceneModel);
+    this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
   }
 
   startNewGame() {
-    
     const group = new Group();
 
     console.log("new game");
@@ -47,7 +46,7 @@ export class AtmosphereModule implements ApplicationComponent, GameLoaderModule 
       const geometry = new IcosahedronGeometry(atmosphereRadius, 10);
 
       const material = materialTemplate.clone();
-      
+
       const object = new Mesh(geometry, material);
 
       boundingBox.getCenter(object.position);

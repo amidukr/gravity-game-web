@@ -1,6 +1,6 @@
 import { ShaderMaterial } from "three";
-import frontShaderFs from "./glsl/FrontShaderSphere.fs";
 import frontShaderVs from "./glsl/FrontShader.vs";
+import frontShaderFs from "./glsl/FrontShaderSphere.fs";
 
 export function createFrontShader(): ShaderMaterial {
   const shaderMaterial = new ShaderMaterial({

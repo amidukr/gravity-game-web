@@ -6,7 +6,6 @@ import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLev
 import { GravitySceneModel } from "../model/GravitySceneModel";
 import { PlayerViewModel } from "../model/PlayerControlModel";
 import { SpaceShipsModel } from "../model/SpaceShipsModel";
-import { AtmosphereModule } from "./rendering/AtmosphereModule";
 
 export abstract class BaseGravityViewRenderer implements GameViewLoop {
   protected engineRenderer!: GameEngineThreeJsRenderer;

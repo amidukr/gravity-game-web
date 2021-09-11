@@ -14,6 +14,10 @@ export class FreeFlyProcessingLoop implements GameViewLoop {
   playerViewModel!: PlayerViewModel;
   spaceShipsModel!: SpaceShipsModel;
 
+  maxRotationAngle = (1.5 * Math.PI) / 1000;
+  startRotationAt = 0.1;
+  rotationSteepnes = 20;
+
   startNewGame(application: ApplicationContainer, gameView: GameView) {
     this.axisInput = gameView.axisUserInput;
     this.playerViewModel = application.getComponent(PlayerViewModel);
@@ -30,14 +34,16 @@ export class FreeFlyProcessingLoop implements GameViewLoop {
 
     var rotateAngle = mousePointer.length();
 
-    rotateAngle = Math.pow(10 * 500, rotateAngle) / 500;
-
-    if (rotateAngle < 0.01) {
+    if (rotateAngle > this.startRotationAt) {
+      rotateAngle = (rotateAngle - this.startRotationAt) / (1 - this.startRotationAt);
+      rotateAngle = (Math.pow(this.rotationSteepnes, rotateAngle) - 1) / (this.rotationSteepnes - 1);
+      rotateAngle = rotateAngle * this.maxRotationAngle;
+    } else {
       rotateAngle = 0;
     }
 
     const mouseBasedTransformation = new Quaternion()
-      .setFromAxisAngle(mousePointerOrth, rotateAngle * event.elapsedTimeMills * 0.001)
+      .setFromAxisAngle(mousePointerOrth, rotateAngle * event.elapsedTimeMills)
       .normalize();
 
     playerView.viewQuaternion.multiply(mouseBasedTransformation).normalize();
