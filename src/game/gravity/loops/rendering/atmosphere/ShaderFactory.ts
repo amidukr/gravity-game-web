@@ -1,5 +1,5 @@
 import { ShaderMaterial } from "three";
-import frontShaderFs from "./glsl/FrontShader.fs";
+import frontShaderFs from "./glsl/FrontShaderSphere.fs";
 import frontShaderVs from "./glsl/FrontShader.vs";
 
 export function createFrontShader(): ShaderMaterial {

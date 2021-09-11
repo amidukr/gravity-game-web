@@ -16,6 +16,7 @@ export class FreeFlyButtonHandler implements GameViewButtonHandler {
   spaceShipsModel!: SpaceShipsModel;
 
   startNewGame(application: ApplicationContainer) {
+    this.spaceShipsModel = application.getComponent(SpaceShipsModel)
     this.playerViewModel = application.getComponent(PlayerViewModel);
     this.mappedUserInput = application.getComponent(MappedUserInput);
   }

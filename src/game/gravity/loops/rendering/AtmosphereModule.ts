@@ -1,4 +1,4 @@
-import { Box3, Color, Group, IcosahedronGeometry, Material, Mesh, MeshBasicMaterial, Vector3 } from "three";
+import { Box3, Group, IcosahedronGeometry, Material, Mesh, MeshBasicMaterial, Vector3 } from "three";
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../../common/app/lookup/Introspection";
