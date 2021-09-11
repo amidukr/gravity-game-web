@@ -1,6 +1,6 @@
-import { Application } from "../../app/Application";
+import { ApplicationContainer } from "../../app/ApplicationContainer";
 
 export class GameEvent {
   elapsedTimeMills!: number;
-  application!: Application;
+  application!: ApplicationContainer;
 }

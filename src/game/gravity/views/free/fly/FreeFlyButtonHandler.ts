@@ -1,4 +1,4 @@
-import { Application } from "../../../../../common/app/Application";
+import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { MappedUserInput } from "../../../../../common/framework/game/input/MappedUserInput";
 import { InputButton } from "../../../../../common/framework/game/input/types/InputButton";
 import { GameViewButtonHandler } from "../../../../../common/framework/game/ui/view/GameViewButtonHandler";
@@ -7,24 +7,26 @@ import {
   MOUSE_NAVIGATION_TOGGLE_ACTION,
   REVERSE_THROTTLE_ACTION,
 } from "../../../input/mappings/GravityGameInputMappings";
-import { GravityGameModel, TYPE_GravityGameModel } from "../../../model/GravityGameModelObject";
+import { PlayerViewModel } from "../../../model/PlayerControlModel";
+import { SpaceShipsModel } from "../../../model/SpaceShipsModel";
 
 export class FreeFlyButtonHandler implements GameViewButtonHandler {
   mappedUserInput!: MappedUserInput;
-  gameModel!: GravityGameModel;
+  playerViewModel!: PlayerViewModel;
+  spaceShipsModel!: SpaceShipsModel;
 
-  startNewGame(application: Application) {
-    this.gameModel = application.getComponent(TYPE_GravityGameModel);
+  startNewGame(application: ApplicationContainer) {
+    this.playerViewModel = application.getComponent(PlayerViewModel);
     this.mappedUserInput = application.getComponent(MappedUserInput);
   }
 
   keyPressed(button: InputButton): void {
     if (this.mappedUserInput.isEventOfAction(button, COMMON_GROUP, REVERSE_THROTTLE_ACTION)) {
-      this.gameModel.object.spaceShips.player.throttle *= -1;
+      this.spaceShipsModel.object.player.throttle *= -1;
     }
 
     if (this.mappedUserInput.isEventOfAction(button, COMMON_GROUP, MOUSE_NAVIGATION_TOGGLE_ACTION)) {
-      const modelView = this.gameModel.object.view;
+      const modelView = this.playerViewModel.object;
       modelView.mouseNavigationEanbled = !modelView.mouseNavigationEanbled;
     }
   }

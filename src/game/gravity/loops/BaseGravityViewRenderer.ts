@@ -1,9 +1,11 @@
 import { Box3, PerspectiveCamera, Vector2 } from "three";
-import { Application } from "../../../common/app/Application";
+import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { GameEngineThreeJsRenderer } from "../../../common/framework/game/3rd-party/threejs/GameEngineThreeJsRenderer";
 import { GameViewLoop } from "../../../common/framework/game/ui/view/GameViewLoop";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
-import { GravityGameModel, TYPE_GravityGameModel } from "../model/GravityGameModelObject";
+import { GravitySceneModel } from "../model/GravitySceneModel";
+import { PlayerViewModel } from "../model/PlayerControlModel";
+import { SpaceShipsModel } from "../model/SpaceShipsModel";
 import { AtmosphereRenderer } from "./rendering/AtmosphereRenderer";
 
 export abstract class BaseGravityViewRenderer implements GameViewLoop {
@@ -13,19 +15,26 @@ export abstract class BaseGravityViewRenderer implements GameViewLoop {
   protected scene!: THREE.Scene;
   protected camera!: THREE.PerspectiveCamera;
 
-  protected model!: GravityGameModel;
+  sceneModel!: GravitySceneModel;
+  spaceShipsModel!: SpaceShipsModel;
+  playerViewModel!: PlayerViewModel;
 
   private clipPoints!: number[];
 
   private readonly atmosphereRenderer = new AtmosphereRenderer();
 
-  startNewGame(application: Application): void {
+  startNewGame(application: ApplicationContainer): void {
     this.engineRenderer = application.getComponent(GameEngineThreeJsRenderer);
-    const threeJsRenderer = this.engineRenderer.getThreeJsWebGlRenderer();
-    this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
-    this.model = application.getComponent(TYPE_GravityGameModel);
 
-    this.scene = this.model.object.scene;
+    this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
+
+    this.sceneModel = application.getComponent(GravitySceneModel);
+    this.spaceShipsModel = application.getComponent(SpaceShipsModel);
+    this.playerViewModel = application.getComponent(PlayerViewModel);
+
+    const threeJsRenderer = this.engineRenderer.getThreeJsWebGlRenderer();
+
+    this.scene = this.sceneModel.object.scene;
 
     this.scene.clear();
 

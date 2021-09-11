@@ -1,7 +1,7 @@
 import { Promise } from "bluebird";
 import Stats from "stats.js";
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../app/api/ApplicationComponent";
-import { Application } from "../../app/Application";
+import { ApplicationContainer } from "../../app/ApplicationContainer";
 import { Introspection } from "../../app/lookup/Introspection";
 import { GameEvent } from "./GameEvent";
 import { GameLoop } from "./looper/GameLoop";
@@ -9,7 +9,7 @@ import { GameViewCollection } from "./ui/view/GameViewsCollection";
 
 export class GameEngine implements ApplicationComponent {
   private controllers: Array<GameLoop> = [];
-  private application!: Application;
+  private application!: ApplicationContainer;
   private gameViewCollection!: GameViewCollection;
   private stats = new Stats();
 
@@ -19,7 +19,7 @@ export class GameEngine implements ApplicationComponent {
     Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
 
-  autowire(application: Application) {
+  autowire(application: ApplicationContainer) {
     this.application = application;
     this.gameViewCollection = application.getComponent(GameViewCollection);
   }
@@ -79,6 +79,10 @@ export class GameEngine implements ApplicationComponent {
         }
       }
     }
+  }
+
+  clearLoopers() {
+    this.controllers = [];
   }
 
   registerLooper(controller: GameLoop) {

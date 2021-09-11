@@ -1,12 +1,13 @@
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../app/api/ApplicationComponent";
-import { Application } from "../../../app/Application";
+import { ApplicationContainer } from "../../../app/ApplicationContainer";
 import { Introspection } from "../../../app/lookup/Introspection";
+import { ApplicationWindowVariablePlugin } from "../../../plugins/ApplicationWindowVariablePlugin";
 import { GameEngine } from "../GameEngine";
 import { MappedUserInput } from "../input/MappedUserInput";
 import { GameLevel } from "../level/GameLevel";
-import { CoreGameLoader } from "../loader/core/CoreGameLoader";
-import { GameModel } from "../model/GameModel";
-import { GameVisualResources } from "../rendering/GameVisualResources";
+import { GameLoader } from "../loader/GameLoader";
+import { AutowiredLoopersModule } from "../loader/modules/AutowiredLoopersModule";
+import { LoadGameLevelModule } from "../loader/modules/LoadGameLevelModule";
 import { GameViewCollection } from "../ui/view/GameViewsCollection";
 
 export class GameEnginePlugin implements ApplicationComponent {
@@ -14,16 +15,19 @@ export class GameEnginePlugin implements ApplicationComponent {
     Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
 
-  setApplication(application: Application) {
+  setApplication(application: ApplicationContainer) {
+    application.registerComponent(new ApplicationWindowVariablePlugin());
+
     application.registerComponent(new GameEngine());
 
     application.registerComponent(new GameLevel());
-    application.registerComponent(new GameModel());
-    application.registerComponent(new GameVisualResources());
     application.registerComponent(new GameViewCollection());
 
     application.registerComponent(new MappedUserInput());
 
-    application.registerComponent(new CoreGameLoader());
+    application.registerComponent(new GameLoader());
+
+    application.registerComponent(new AutowiredLoopersModule());
+    application.registerComponent(new LoadGameLevelModule());
   }
 }

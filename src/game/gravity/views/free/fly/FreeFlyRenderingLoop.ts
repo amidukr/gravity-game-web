@@ -7,8 +7,10 @@ export class FreeFlyRenderingLoop extends BaseGravityViewRenderer {
     const vec = this.engineRenderer.getThreeJsWebGlRenderer().getSize(new Vector2());
     this.camera.aspect = vec.x / vec.y;
 
-    this.camera.position.copy(this.model.object.spaceShips.player.position);
-    this.camera.setRotationFromQuaternion(new THREE.Quaternion().copy(this.model.object.view.quaternion).normalize());
+    this.camera.position.copy(this.spaceShipsModel.object.player.position);
+    this.camera.setRotationFromQuaternion(
+      new THREE.Quaternion().copy(this.playerViewModel.object.viewQuaternion).normalize()
+    );
 
     super.execute();
   }

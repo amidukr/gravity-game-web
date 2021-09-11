@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../app/api/ApplicationComponent";
-import { Application } from "../app/Application";
+import { ApplicationContainer } from "../app/ApplicationContainer";
 import { Introspection } from "../app/lookup/Introspection";
 import { typeIdentifier } from "../app/lookup/TypeIdentifier";
 
@@ -14,11 +14,11 @@ export class ReactStarter implements ApplicationComponent {
     Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
 
-  autowire(application: Application) {
+  autowire(application: ApplicationContainer) {
     this.__reactRootWidget = application.getComponent(TYPE_ReactRootWidget);
   }
 
-  start(application: Application): void {
+  start(application: ApplicationContainer): void {
     var divRootElement = document.createElement("div");
     divRootElement.id = "root";
 

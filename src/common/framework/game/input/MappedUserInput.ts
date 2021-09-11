@@ -1,5 +1,5 @@
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../app/api/ApplicationComponent";
-import { Application } from "../../../app/Application";
+import { ApplicationContainer } from "../../../app/ApplicationContainer";
 import { Introspection } from "../../../app/lookup/Introspection";
 import { GameView } from "../ui/view/GameView";
 import { KeyBoardDevice } from "./devices/KeyboardDevice";
@@ -51,7 +51,7 @@ export class MappedUserInput implements ApplicationComponent {
     Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
 
-  async start(application: Application) {
+  async start(application: ApplicationContainer) {
     for (const configurer of application.getComponentList(TYPE_UserInputMappingConfigurer)) {
       await configurer.configureUserInputMappings(this);
     }

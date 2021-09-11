@@ -1,4 +1,4 @@
-import { Application } from "../../../../app/Application";
+import { ApplicationContainer } from "../../../../app/ApplicationContainer";
 import { AxisUserInput } from "../../input/AxisUserInput";
 import { ButtonUserInput } from "../../input/ButtonUserInput";
 import { GameViewButtonHandler } from "./GameViewButtonHandler";
@@ -6,7 +6,7 @@ import { GameViewLoop } from "./GameViewLoop";
 
 export interface GameViewParameters {
   readonly exclusiveRenderingCanvas?: Boolean;
-  readonly application: Application;
+  readonly application: ApplicationContainer;
   readonly processingLoops?: GameViewLoop[];
   readonly renderingLoops?: GameViewLoop[];
   readonly buttonHandlers?: GameViewButtonHandler[];
@@ -18,7 +18,7 @@ export class GameView {
   canvas!: HTMLCanvasElement;
 
   readonly exclusiveRenderingCanvas: Boolean;
-  readonly application: Application;
+  readonly application: ApplicationContainer;
   readonly processingLoops: GameViewLoop[];
   readonly renderingLoops: GameViewLoop[];
   readonly buttonHandlerCollection: GameViewButtonHandler[];

@@ -8,7 +8,7 @@ type BoundInterfaceArray = {
   interfaces: Array<BoundInterface>;
 };
 
-export class Application {
+export class ApplicationContainer {
   private __components: Array<any> = [];
   private __componentByInterface: { [name: string]: BoundInterfaceArray | undefined } = {};
 

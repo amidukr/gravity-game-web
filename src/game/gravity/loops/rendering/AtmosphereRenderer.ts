@@ -1,12 +1,12 @@
 import { Box3, Group, IcosahedronGeometry, Mesh, Vector3 } from "three";
-import { Application } from "../../../../common/app/Application";
+import { ApplicationContainer } from "../../../../common/app/ApplicationContainer";
 import { TYPE_GravityGameLevel } from "../../level/GravityGameLevelObject";
-import { TYPE_GravityGameModel } from "../../model/GravityGameModelObject";
+import { GravitySceneModel } from "../../model/GravitySceneModel";
 import { createFrontShader } from "./atmosphere/ShaderFactory";
 
 export class AtmosphereRenderer {
-  startNewGame(application: Application) {
-    const model = application.getComponent(TYPE_GravityGameModel);
+  startNewGame(application: ApplicationContainer) {
+    const sceneModel = application.getComponent(GravitySceneModel);
     const level = application.getComponent(TYPE_GravityGameLevel);
 
     const group = new Group();
@@ -17,14 +17,14 @@ export class AtmosphereRenderer {
 
     // sunPosition
 
-    const firstStarName = Object.keys(model.object.sceneDictionary.stars)[0]
-    const star = model.object.sceneDictionary.stars[firstStarName]
+    const firstStarName = Object.keys(sceneModel.object.sceneDictionary.stars)[0];
+    const star = sceneModel.object.sceneDictionary.stars[firstStarName];
 
     materialTemplate.uniforms.starPosition = {
-        value: star.object.getObjectByName("StarLight")?.getWorldPosition(new Vector3()).toArray()
-    }
+      value: star.object.getObjectByName("StarLight")?.getWorldPosition(new Vector3()).toArray(),
+    };
 
-    Object.values(model.object.sceneDictionary.planets).forEach((planet) => {
+    Object.values(sceneModel.object.sceneDictionary.planets).forEach((planet) => {
       console.log("planet: ", planet.object.name);
 
       const boundingBox = new Box3().setFromObject(planet.object);
@@ -42,12 +42,12 @@ export class AtmosphereRenderer {
 
       group.add(object);
 
-      material.uniforms.planetCenter = {value: object.position.toArray()}
-      material.uniforms.atmosphereRadius = {value: atmosphereRadius}
+      material.uniforms.planetCenter = { value: object.position.toArray() };
+      material.uniforms.atmosphereRadius = { value: atmosphereRadius };
 
-      console.log("Material", material)
+      console.log("Material", material);
     });
 
-    model.object.scene.add(group);
+    sceneModel.object.scene.add(group);
   }
 }

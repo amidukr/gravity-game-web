@@ -1,5 +1,5 @@
 import { Quaternion, Vector3 } from "three";
-import { Application } from "../../../../../common/app/Application";
+import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { GameEvent } from "../../../../../common/framework/game/GameEvent";
 import { MappedUserInput } from "../../../../../common/framework/game/input/MappedUserInput";
 import { GameView } from "../../../../../common/framework/game/ui/view/GameView";
@@ -11,17 +11,20 @@ import {
   THROTTLE_DOWN_ACTION,
   THROTTLE_UP_ACTION,
 } from "../../../input/mappings/GravityGameInputMappings";
-import { GravityGameModel, TYPE_GravityGameModel } from "../../../model/GravityGameModelObject";
+import { PlayerViewModel } from "../../../model/PlayerControlModel";
+import { SpaceShipsModel } from "../../../model/SpaceShipsModel";
 
 export class FreeFlyThrottleControlLoop implements GameViewLoop {
-  private gameView!: GameView;
-  private mappedUserInput!: MappedUserInput;
-  private gameModel!: GravityGameModel;
+  gameView!: GameView;
+  mappedUserInput!: MappedUserInput;
+  playerViewModel!: PlayerViewModel;
+  spaceShipsModel!: SpaceShipsModel;
 
-  startNewGame(application: Application, gameView: GameView) {
+  startNewGame(application: ApplicationContainer, gameView: GameView) {
     this.gameView = gameView;
     this.mappedUserInput = application.getComponent(MappedUserInput);
-    this.gameModel = application.getComponent(TYPE_GravityGameModel);
+    this.playerViewModel = application.getComponent(PlayerViewModel);
+    this.spaceShipsModel = application.getComponent(SpaceShipsModel);
   }
 
   execute(event: GameEvent): void {
@@ -29,11 +32,11 @@ export class FreeFlyThrottleControlLoop implements GameViewLoop {
     const rollFactor = 0.001;
 
     if (this.mappedUserInput.isActionPressed(this.gameView, COMMON_GROUP, THROTTLE_UP_ACTION)) {
-      this.gameModel.object.spaceShips.player.throttle *= throttleFactor;
+      this.spaceShipsModel.object.player.throttle *= throttleFactor;
     }
 
     if (this.mappedUserInput.isActionPressed(this.gameView, COMMON_GROUP, THROTTLE_DOWN_ACTION)) {
-      this.gameModel.object.spaceShips.player.throttle /= throttleFactor;
+      this.spaceShipsModel.object.player.throttle /= throttleFactor;
     }
 
     var roll = 0;
@@ -47,7 +50,7 @@ export class FreeFlyThrottleControlLoop implements GameViewLoop {
     }
 
     if (roll != 0) {
-      this.gameModel.object.view.quaternion
+      this.playerViewModel.object.viewQuaternion
         .multiply(new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), roll * rollFactor * event.elapsedTimeMills))
         .normalize();
     }

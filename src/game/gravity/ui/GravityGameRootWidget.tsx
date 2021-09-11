@@ -1,5 +1,5 @@
 import React from "react";
-import { Application } from "../../../common/app/Application";
+import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { GameViewWidget } from "../../../common/framework/game/3rd-party/react/GameViewWidget";
 import { MappedUserInput } from "../../../common/framework/game/input/MappedUserInput";
 import { GameView } from "../../../common/framework/game/ui/view/GameView";
@@ -8,7 +8,7 @@ import { FreeFlyGameView } from "../views/free/fly/FreeFlyGameView";
 import { OrbitGameView } from "../views/free/orbit/OrbitGameView";
 
 export interface RootWidgetProps {
-  application: Application;
+  application: ApplicationContainer;
 }
 
 export interface RootWidgetState {

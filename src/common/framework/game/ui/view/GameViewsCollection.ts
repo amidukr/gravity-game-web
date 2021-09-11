@@ -1,8 +1,8 @@
-import { Application } from "../../../../app/Application";
+import { ApplicationContainer } from "../../../../app/ApplicationContainer";
 import { GameView } from "./GameView";
 
 interface ViewStartable {
-  startNewGame?(application: Application, view: GameView): Promise<void> | void;
+  startNewGame?(application: ApplicationContainer, view: GameView): Promise<void> | void;
 }
 
 export class GameViewCollection {
