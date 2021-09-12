@@ -149,7 +149,7 @@ void main()	{
     vec3 scatteringFactor = max(vec3(0.,0.,0.), (cameraFactor * vec3(1.,1.,1.) - scatteringFactorThreshold) / ( vec3(1.,1.,1.) - scatteringFactorThreshold ));
     
 
-    float atmosphereDensityExpSteepness = 100.0;
+    float atmosphereDensityExpSteepness = 10.0;
     float atmosphereDensityFactorExp = (pow(atmosphereDensityExpSteepness, atmosphereDensityFactor) - 1.0) / (atmosphereDensityExpSteepness - 1.0);
 
     //float redAborbtionFactor 
@@ -159,6 +159,7 @@ void main()	{
     //--------
 
     //BEST  
+    //scatteringFactor += densityTimeOfDay * 1.0 * pow(scatteringFactor * vec3(1.0, 0.5, 0.0), vec3(50.0));
     //gl_FragColor.rgb = vec3(
     //    scatteringFactor.r * timeOfDay * (1.0 - atmosphereDensityFactorExp * 0.15), 
     //    scatteringFactor.g * timeOfDay * (1.0 - atmosphereDensityFactorExp * 0.6), 
@@ -186,11 +187,20 @@ void main()	{
     float densityTimeOfDay =  1.0 - max(0.0, (timeOfDay  - startfillHorizonWithScatteringAt)) / (1.0 - startfillHorizonWithScatteringAt);
 
     densityTimeOfDay = (pow(0.05, densityTimeOfDay) - 1.0) / (0.05 - 1.0);
+
+    // scatteringFactor = min(vec3(1.0), scatteringFactor + 5.0*pow(scatteringFactor, vec3(100.0))) ;
+
+    //scatteringFactor.r += 10.0 * pow(scatteringFactor.r, 100.0);
+
+    scatteringFactor += densityTimeOfDay * 1.0 * pow(scatteringFactor * vec3(1.0, 0.5, 0.0), vec3(50.0));
+
+    //scatteringFactor += (atmosphereDensityFactorExp + 1.0) * 1.0 * pow(scatteringFactor * vec3(1.0, 0.6, 0.2), vec3(50.0));
+    //scatteringFactor += (atmosphereDensityFactorExp + 1.0) * 2.0 * pow(scatteringFactor * normalize(vec3(3.0, 2.0, 1.0)), vec3(50.0));
     
     gl_FragColor.rgb = vec3(
-        scatteringFactor.r * timeOfDay * 1.0 * (1.0 - atmosphereDensityFactor * (0.00)), 
-        scatteringFactor.g * timeOfDay * 1.2 * (1.0 - atmosphereDensityFactor * 0.6), 
-        scatteringFactor.b * timeOfDay * 2.0 * (1.0 - atmosphereDensityFactor * 0.95  * densityTimeOfDay )
+        scatteringFactor.r * timeOfDay * 1.0 * (1.0 - atmosphereDensityFactorExp * (0.15)), 
+        scatteringFactor.g * timeOfDay * 1.2 * (1.0 - atmosphereDensityFactorExp * 0.6), 
+        scatteringFactor.b * timeOfDay * 2.0 * (1.0 - atmosphereDensityFactorExp * 0.99  * densityTimeOfDay )
     );
 
     ///gl_FragColor.a = 0.9;
@@ -200,6 +210,9 @@ void main()	{
     gl_FragColor.a = min(0.9, (gl_FragColor.r + gl_FragColor.g + gl_FragColor.b) * 3.0);
     float maxChannel = max(max(gl_FragColor.r, gl_FragColor.g), gl_FragColor.b);
     gl_FragColor.rgb *= timeOfDay/maxChannel;
+
+    //gl_FragColor.rgb = discrete(scatteringFactor);
+    // gl_FragColor.rgb = factor2rgb(scatteringFactor.r);
 
     //gl_FragColor.a = atmosphereDensityFactorExp;
 
