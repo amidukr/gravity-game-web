@@ -39,7 +39,11 @@ export class FreeFlyProcessingLoop implements GameViewLoop {
       rotateAngle = (rotateAngle - this.startRotationAt) / (1 - this.startRotationAt);
       rotateAngle = (Math.pow(this.rotationSteepnes, rotateAngle) - 1) / (this.rotationSteepnes - 1);
       rotateAngle *= this.maxRotationAngle;
-      const mouseEnabledNavigationFactor = Math.min(1,  (new Date().getTime() - this.playerViewModel.object.mouseNavigationEanbledAt) / this.mouseNavigationEanbledSpeedUpTime)
+      const mouseEnabledNavigationFactor = Math.min(
+        1,
+        (new Date().getTime() - this.playerViewModel.object.mouseNavigationEanbledAt) /
+          this.mouseNavigationEanbledSpeedUpTime
+      );
 
       rotateAngle *= mouseEnabledNavigationFactor;
     } else {

@@ -4,6 +4,8 @@ in vec3 _position;
 
 uniform vec3 starPosition;
 uniform vec3 planetCenter;
+
+
 uniform float atmosphereRadius;
 
 void main()	{

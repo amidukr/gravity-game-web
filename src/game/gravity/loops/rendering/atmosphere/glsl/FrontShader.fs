@@ -2,9 +2,14 @@ precision highp float;
 
 in vec3 _position;
 
-uniform vec3 starPosition;
 uniform vec3 planetCenter;
-uniform float atmosphereRadius;
+uniform float planetRadius;
+
+uniform vec3 starPosition;
+
+uniform float atmosphereHeight;
+uniform vec3 atmosphereColor;
+uniform float atmosphereInvisibleDepth;
 
 float raySphereIntersect(vec3 r0, vec3 rd, vec3 s0, float sr) {
     // - r0: ray origin
@@ -26,23 +31,18 @@ float raySphereIntersect(vec3 r0, vec3 rd, vec3 s0, float sr) {
 
 
 void main()	{
-    const vec3 color = vec3(0.3, 0.3, 1);
-    const float atmosphereHeight = 300.0 * 1000.0;
-    const float depthInvisible = 3.0 * atmosphereHeight;
-    
     vec3 cameraToSurface = _position - cameraPosition;
     vec3 surfaceToCore = planetCenter - _position;
-
+    vec3 cameraToCore = cameraPosition - planetCenter;
 
     vec3 cameraToSurfaceNormalized = normalize(cameraToSurface);
     vec3 surfaceToCoreNormalized = normalize(surfaceToCore);
     vec3 starToSurfaceNormalized = normalize(_position - starPosition.xyz);
 
     float distanceToSurface = length(cameraToSurface);
-    float surfaceRadius = length(surfaceToCore);
-    float distanceToCore = length(cameraPosition - planetCenter);
-    float cameraAltitude = distanceToCore - length(_position - planetCenter);
-    float distanceToAtmosphere = raySphereIntersect(cameraPosition, cameraToSurfaceNormalized, planetCenter, surfaceRadius + atmosphereHeight);
+    float distanceToCore = length(cameraToCore);
+    float cameraAltitude = distanceToCore - length(surfaceToCore);
+    float distanceToAtmosphere = raySphereIntersect(cameraPosition, cameraToSurfaceNormalized, planetCenter, planetRadius + atmosphereHeight);
 
     float atmosphereDepth;
     if(distanceToAtmosphere > 0.0) {
@@ -51,7 +51,7 @@ void main()	{
         atmosphereDepth = distanceToSurface;
     }
 
-    float atmosphereDepthFactor = atmosphereDepth / depthInvisible;
+    float atmosphereDepthFactor = atmosphereDepth / atmosphereInvisibleDepth;
 
     atmosphereDepthFactor = (atmosphereDepthFactor - 0.5) / 0.5;
 
@@ -75,8 +75,11 @@ void main()	{
         sunFactor = 0.0;
     }
 
-    gl_FragColor.rgb = color;
+    gl_FragColor.rgb = atmosphereColor;
     
     gl_FragColor.a = atmosphereDepthFactor * sunFactor;
+
+    // DEBUG
     //gl_FragColor.a = atmosphereDepthFactor;
+    //gl_FragColor = vec4(0.3 * planetRadius / length(surfaceToCore), 0., 0., 1.);
 }

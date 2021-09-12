@@ -41,6 +41,14 @@ export const MOUSE_NAVIGATION_TOGGLE_ACTION = new InputAction({
   actionId: "Mouse Navigation",
 });
 
+export const SAVE_GAME_ACTION = new InputAction({
+  actionId: "Save Game",
+});
+
+export const LOAD_GAME_ACTION = new InputAction({
+  actionId: "Load Game",
+});
+
 export class MainViewInputMappings implements UserInputMappingConfigurer {
   constructor() {
     Introspection.bindInterfaceName(this, TYPE_UserInputMappingConfigurer);
@@ -55,6 +63,8 @@ export class MainViewInputMappings implements UserInputMappingConfigurer {
       { group: COMMON_GROUP, action: THROTTLE_DOWN_ACTION, keyChar: "s" },
       { group: COMMON_GROUP, action: REVERSE_THROTTLE_ACTION, keyChar: "r" },
       { group: COMMON_GROUP, action: MOUSE_NAVIGATION_TOGGLE_ACTION, keyChar: "f" },
+      { group: COMMON_GROUP, action: SAVE_GAME_ACTION, keyChar: "o" },
+      { group: COMMON_GROUP, action: LOAD_GAME_ACTION, keyChar: "l" },
     ].forEach((x) =>
       mappedUserInput.bindKey(x.group, x.action, new InputHotkey({ button: KeyBoardDevice.fromCharacter(x.keyChar) }))
     );
