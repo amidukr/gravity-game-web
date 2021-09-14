@@ -1,4 +1,4 @@
-import { Box3, Color, PerspectiveCamera, Vector2 } from "three";
+import { Box3, PerspectiveCamera, Vector2 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { GameEngineThreeJsRenderer } from "../../../common/framework/game/3rd-party/threejs/GameEngineThreeJsRenderer";
 import { GameViewLoop } from "../../../common/framework/game/ui/view/GameViewLoop";

@@ -1,4 +1,4 @@
-import { BackSide, Box3, FrontSide, Group, IcosahedronGeometry, Mesh, Vector3 } from "three";
+import { BackSide, Box3, Group, IcosahedronGeometry, Mesh, Vector3 } from "three";
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../../common/app/lookup/Introspection";

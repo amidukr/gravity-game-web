@@ -298,21 +298,27 @@ void main()	{
 
     //gl_FragColor.a = 1.0 - altitudeFactor;
 
-    
-    
     float horizontalDistanceFactor = clampToOne(2.0 * distanceThroughAtmosphere / horizontalMaxDistance);
     float horizontalDensityFactor = clampToOne(1.2 * (1.0 - altitudeFactor) * horizontalDistanceFactor);
-    float planetDistanceFactor = clampToOne((distanceToCore - planetRadius - atmosphereHeight)/(3.0 * atmosphereHeight));
+    float planetDistanceFactorNonNormalized = (distanceToCore - planetRadius - atmosphereHeight)/atmosphereHeight;
+    float planetDistanceFactor = clampToOne(planetDistanceFactorNonNormalized / 3.0);
     float planetDistanceFactorExp = pow(0.0001, 1.0 - planetDistanceFactor);
     float horizontalDensityFactorExp = clampToOne(expSteepness(horizontalDensityFactor, planetDistanceFactorExp));
 
-    float verticalDensityFactor = clampToOne(4.0 * (1.0 - altitudeFactor) * clampToOne(distanceThroughAtmosphere / (atmosphereHeight / 3.0)));
+    //float verticalDensityFactor = clampToOne(4.0 * (1.0 - altitudeFactor) * clampToOne(distanceThroughAtmosphere / (atmosphereHeight / 3.0)));
 
     //float verticalDensityFactor = clampToOne(distanceThroughAtmosphere / (atmosphereHeight / 3.0));
 
-    float lookVerticalDensityFactor = smoothstep(0.1, 0.4, lookUp);
+    //float lookVerticalDensityFactor = smoothstep(0.1, 0.4, lookUp);
 
-    float densityFactorExp = mix(horizontalDensityFactorExp, verticalDensityFactor, lookVerticalDensityFactor);
+    //float densityFactorExp = mix(horizontalDensityFactorExp, verticalDensityFactor, lookVerticalDensityFactor);
+
+    //float alfaDistanceFactor = 1.0 - clampToOne(  100.0 * planetDistanceFactor - 100.0 + 1.0);
+
+    float alfaDistanceFactor = clampToOne( -2.0 * planetDistanceFactorNonNormalized );
+    
+    float alfa = horizontalDensityFactorExp * ( alfaDistanceFactor * 2.0  + 1.0 ) * timeOfDay;
+
     //float densityFactorExp = mix(horizontalDensityFactorExp, verticalDensityFactor, lookUp * lookUp * lookUp);
 
     //flaot vertical
@@ -321,7 +327,24 @@ void main()	{
     
     //gl_FragColor.rgb = vec3(0.1294, 0.1412, 0.3569);
     gl_FragColor.rgb = vec3(0., 0., 1.);
-    gl_FragColor.a = densityFactorExp * timeOfDay;
+    gl_FragColor.a = alfa;
+    //gl_FragColor.a = horizontalDensityFactorExp;
+
+    //gl_FragColor = factor2rgb(alfa);
+
+    //(1.0 - planetDistanceFactorExp) * 2.0 + 1.0
+
+    // gl_FragColor = factor2rgb(alfa - horizontalDensityFactorExp);
+
+    //gl_FragColor = factor2rgb(alfaDistanceFactor);
+    //gl_FragColor = vec4(0.);
+    //gl_FragColor.a = 1.0;
+    //gl_FragColor.b = alfaDistanceFactor;
+    //gl_FragColor.r = planetDistanceFactorExp;
+
+    //gl_FragColor = factor2rgb(densityFactorExp * clampToOne(2.0 - planetDistanceFactorExp) * 3.0 / 2.0);
+    //gl_FragColor = factor2rgb(alfa);
+    //gl_FragColor.a = densityFactorExp * timeOfDay;
     //gl_FragColor.a = horizontalDensityFactorExp;
 
     //gl_FragColor = factor2rgb(densityFactorExp * timeOfDay);
