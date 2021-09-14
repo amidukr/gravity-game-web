@@ -1,12 +1,17 @@
 # IN-PROGRESS
+1. GFX: Atmosphere
+      1. Setup alfa color, to make plane visible from space, but make space invisible from planet.
+         - 3 Alfa colors needed: Space -> Entering atmosphere -> planet surface
+         - stage = 0 ... 3 
+           - 0 - space
+           - 1 - Entering atmosphere
+           - 2 - planet surface
+         -  alfa = closestTo(0) * spaceAlfa + closestTo(1)*atmospereAlfa + closesTo(1) * planetSurfaceAlfa
+         - test transitions using transitions between R -> G -> B
 
 # BACKLOG
 
 1. Game logic 
-   1. GFX: Atmosphere
-      1. Create scene with sun, planet. background
-      1. Configure orbit map in center of this planet
-      1. Implement shader
    1. GFX: Terra generation
    1. Animate planet circle moving
    1. Implement gravity for starship movement
@@ -64,3 +69,6 @@
    - increase/decrease velocity
    - Enable/Disable mouse navigation
 1. Increase planet size to something more realistic
+1. GFX: Atmosphere
+      1. Create scene with sun, planet. background
+      1. Configure orbit map in center of this planet

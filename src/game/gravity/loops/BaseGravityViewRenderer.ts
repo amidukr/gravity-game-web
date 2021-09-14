@@ -50,7 +50,9 @@ export abstract class BaseGravityViewRenderer implements GameViewLoop {
 
     const scaleDigits = Math.log10(sceneScale * 10);
 
-    this.clipPoints = [1, Math.pow(10, scaleDigits / 2), Math.pow(10, scaleDigits)];
+    //this.clipPoints = [1, Math.pow(10, scaleDigits / 2), Math.pow(10, scaleDigits)];
+    //this.clipPoints = [1, Math.pow(10, scaleDigits * 1.0/3), Math.pow(10, scaleDigits * 2.0/3), Math.pow(10, scaleDigits)];
+    this.clipPoints = [1, Math.pow(10, scaleDigits)];
   }
 
   execute(): void {

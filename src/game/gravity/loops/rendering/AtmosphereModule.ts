@@ -1,4 +1,4 @@
-import { BackSide, Box3, Group, IcosahedronGeometry, Mesh, Vector3 } from "three";
+import { BackSide, Box3, FrontSide, Group, IcosahedronGeometry, Mesh, Vector3 } from "three";
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../../common/app/lookup/Introspection";
@@ -51,10 +51,9 @@ export class AtmosphereModule implements ApplicationComponent, GameLoaderModule 
       const boundingBox = new Box3().setFromObject(planet.object);
 
       (planet.object as any).material.flatShading = true;
-      //planet.object.visible = false;
+      // planet.object.visible = false;
 
-      const size = boundingBox.getSize(new Vector3());
-      const planetRadius = Math.max(size.x, size.y, size.z) * 0.5;
+      const planetRadius = planet.radius;
       const lowerAtmosphereRadius = planetRadius + 20 * 1000;
 
       const frontGeometry = new IcosahedronGeometry(lowerAtmosphereRadius, 10 * 2);
