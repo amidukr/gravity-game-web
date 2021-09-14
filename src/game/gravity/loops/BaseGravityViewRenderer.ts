@@ -1,4 +1,4 @@
-import { Box3, PerspectiveCamera, Vector2 } from "three";
+import { Box3, Color, PerspectiveCamera, Vector2 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { GameEngineThreeJsRenderer } from "../../../common/framework/game/3rd-party/threejs/GameEngineThreeJsRenderer";
 import { GameViewLoop } from "../../../common/framework/game/ui/view/GameViewLoop";
@@ -64,6 +64,7 @@ export abstract class BaseGravityViewRenderer implements GameViewLoop {
     this.camera.aspect = vec.x / vec.y;
 
     this.scene.background = this.gameLevel.object.backhroundTexture;
+
     this.camera.near = this.clipPoints[this.clipPoints.length - 2];
     this.camera.far = this.clipPoints[this.clipPoints.length - 1];
     this.camera.updateProjectionMatrix();

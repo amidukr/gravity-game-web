@@ -290,7 +290,7 @@ void main()	{
     //gl_FragColor.a = atmosphereDensityFactor * densityTimeOfDay / 10.0;
     //gl_FragColor.a = atmosphereDensityFactor * densityTimeOfDay;
 
-    gl_FragColor.rgb = vec3(1.0);
+    //gl_FragColor.rgb = vec3(1.0);
     
     //gl_FragColor.rgb = factor2rgb(1.0 - altitudeFactor);
     //gl_FragColor.rgb = factor2rgb(atmosphereDensityFactor);
@@ -319,9 +319,12 @@ void main()	{
     
     //float horizontalDensityFactorExp = expSteepness(horizontalDensityFactor, 0.01 * planetDistanceFactor);
     
-    gl_FragColor.rgb = vec3(0.2549, 0.2863, 0.902);
-    gl_FragColor.a = densityFactorExp;
+    //gl_FragColor.rgb = vec3(0.1294, 0.1412, 0.3569);
+    gl_FragColor.rgb = vec3(0., 0., 1.);
+    gl_FragColor.a = densityFactorExp * timeOfDay;
     //gl_FragColor.a = horizontalDensityFactorExp;
+
+    //gl_FragColor = factor2rgb(densityFactorExp * timeOfDay);
 
     //gl_FragColor = factor2rgb(lookUp);
     //gl_FragColor = factor2rgb(innerSpeherFactor);
