@@ -3,7 +3,7 @@ import backShaderFs from "./glsl/BackShader.fs";
 import basicVertexShaderVs from "./glsl/BasicVertexShader.vs";
 import { preprocessShader } from "./ShaderUtils";
 
-export class AtmospherBackShaderMaterial extends ShaderMaterial {
+export class AtmospherShaderMaterial extends ShaderMaterial {
   constructor() {
     super({
       transparent: true,

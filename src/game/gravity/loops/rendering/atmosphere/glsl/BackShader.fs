@@ -146,7 +146,7 @@ void main()	{
     vec3 coreToMiddlePoint = middlePoint - planetCenter;
     vec3 coreToMiddlePointNormalized = normalize(coreToMiddlePoint);
 
-    float altitude = length(middlePoint) - planetRadius;
+    float altitude = length(coreToMiddlePoint) - planetRadius;
     float altitudeFactor = clampToOne(altitude / atmosphereHeight);
     
     float distanceThroughAtmosphere = atmosphereDistance[1] - atmosphereDistance[0];
@@ -170,7 +170,7 @@ void main()	{
     
     float alfa = horizontalDensityFactorExp * ( alfaDistanceFactor * 2.0  + 1.0 ) * timeOfDay;
 
-    gl_FragColor.a = alfa;
+    gl_FragColor.a = alfa + clampToOne(distanceToCore / planetRadius / 6.0 - 3.0);
     
     // RGB Calculation
 
@@ -189,5 +189,5 @@ void main()	{
 
     
     float maxChannel = max(max(gl_FragColor.r, gl_FragColor.g), gl_FragColor.b);
-    gl_FragColor.rgb *= timeOfDay/maxChannel * timeOfDay;
+    gl_FragColor.rgb *= timeOfDay/maxChannel * (1.0-(1.0 - timeOfDay) * (1.0 - planetDistanceFactorExp));
 }

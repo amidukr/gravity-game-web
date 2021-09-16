@@ -7,7 +7,6 @@ import { GameEnginePlugin } from "../../../common/framework/game/plugins/GameEng
 import { ReactStarter, TYPE_ReactRootWidget } from "../../../common/ui/ReactStarter";
 import { MainViewInputMappings } from "../input/mappings/GravityGameInputMappings";
 import { GravityGameLoader } from "../loader/GravityGameLoader";
-import { AtmosphereFogRenderer } from "../loops/rendering/atmosphere/AtomsphereFogRenderer";
 import { AtmosphereModule } from "../loops/rendering/AtmosphereModule";
 import { GravitySceneModel } from "../model/GravitySceneModel";
 import { PlayerViewModel } from "../model/PlayerControlModel";
@@ -29,7 +28,7 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
         webGlRenderingParameters: {
           antialias: true,
           preserveDrawingBuffer: true,
-          logarithmicDepthBuffer: true,
+          //logarithmicDepthBuffer: true,
         },
       })
     );
@@ -55,8 +54,5 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
 
     // Starter
     application.registerComponent(new GravityGameStarter());
-
-    // Loopers
-    application.registerComponent(new AtmosphereFogRenderer());
   }
 }

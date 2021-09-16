@@ -5,8 +5,7 @@ import { Introspection } from "../../../../common/app/lookup/Introspection";
 import { GameLoaderModule, TYPE_GameLoaderModule } from "../../../../common/framework/game/loader/GameLoaderModule";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../../level/GravityGameLevelObject";
 import { GravitySceneModel } from "../../model/GravitySceneModel";
-import { AtmospherBackShaderMaterial as AtmospherBackMaterial } from "./atmosphere/AtmospherBackMaterial";
-import { AtmospherFrontShaderMaterial as AtmospherFrontMaterial } from "./atmosphere/AtmospherFrontMaterial";
+import { AtmospherShaderMaterial as AtmospherBackMaterial } from "./atmosphere/AtmospherMaterial";
 
 export class AtmosphereModule implements ApplicationComponent, GameLoaderModule {
   sceneModel!: GravitySceneModel;
@@ -27,7 +26,6 @@ export class AtmosphereModule implements ApplicationComponent, GameLoaderModule 
 
     console.log("new game");
 
-    const frontMaterialPrototype = new AtmospherFrontMaterial();
     const backMaterialPrototype = new AtmospherBackMaterial();
 
     // sunPosition
@@ -35,13 +33,12 @@ export class AtmosphereModule implements ApplicationComponent, GameLoaderModule 
     const firstStarName = Object.keys(this.sceneModel.object.sceneDictionary.stars)[0];
     const star = this.sceneModel.object.sceneDictionary.stars[firstStarName];
 
-    const starPosition = star.object.getObjectByName("StarLight")?.getWorldPosition(new Vector3());
+    const starPosition = star.object.getWorldPosition(new Vector3());
 
     if (starPosition == undefined) {
       throw new Error("Can't find star position");
     }
 
-    frontMaterialPrototype.starPosition = starPosition;
     backMaterialPrototype.starPosition = starPosition;
 
     const atmosphereHeight = 300 * 1000;
@@ -51,36 +48,23 @@ export class AtmosphereModule implements ApplicationComponent, GameLoaderModule 
       const boundingBox = new Box3().setFromObject(planet.object);
 
       (planet.object as any).material.flatShading = true;
-      // planet.object.visible = false;
 
       const planetRadius = planet.radius;
-      const lowerAtmosphereRadius = planetRadius + 20 * 1000;
-
-      const frontGeometry = new IcosahedronGeometry(lowerAtmosphereRadius, 10 * 2);
-      const frontMaterial = frontMaterialPrototype.clone();
-      const frontAtmosphereObject = new Mesh(frontGeometry, frontMaterial);
 
       const backGeometry = new IcosahedronGeometry(planetRadius + atmosphereHeight, 10 * 2);
       const backMaterial = backMaterialPrototype.clone();
+
+      backMaterial.starPosition = starPosition;
+
       const backAtmosphereObject = new Mesh(backGeometry, backMaterial);
 
       backMaterial.side = BackSide;
 
-      backAtmosphereObject.renderOrder = 1;
-      frontAtmosphereObject.renderOrder = 2;
-
-      boundingBox.getCenter(frontAtmosphereObject.position);
       boundingBox.getCenter(backAtmosphereObject.position);
 
-      //group.add(frontAtmosphereObject);
       group.add(backAtmosphereObject);
 
-      frontMaterial.planetCenter = new Vector3().copy(frontAtmosphereObject.position);
-      frontMaterial.planetRadius = planetRadius;
-      frontMaterial.atmosphereHeight = atmosphereHeight;
-      frontMaterial.atmosphereInvisibleDepth = atmosphereInvisibleDepth;
-
-      backMaterial.planetCenter = new Vector3().copy(frontAtmosphereObject.position);
+      backMaterial.planetCenter = new Vector3().copy(backAtmosphereObject.position);
       backMaterial.planetRadius = planetRadius;
       backMaterial.atmosphereHeight = atmosphereHeight;
       backMaterial.atmosphereInvisibleDepth = atmosphereInvisibleDepth;
