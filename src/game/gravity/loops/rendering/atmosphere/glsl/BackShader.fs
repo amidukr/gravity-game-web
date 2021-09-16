@@ -7,6 +7,7 @@ out vec4 fragColor;
 #define gl_FragColor  fragColor
 // #cut-beffore
 
+
 precision highp float;
 
 
@@ -18,16 +19,8 @@ uniform float planetRadius;
 uniform vec3 starPosition;
 
 uniform float atmosphereHeight;
-uniform vec3 atmosphereColor;
-uniform float atmosphereInvisibleDepth;
 
-
-const float sunFactorThreshold = -1.0;
-
-//const vec3 scatteringFactorThreshold = vec3(0.0, -1.0, -2.0);
 const vec3 scatteringFactorThreshold = vec3(0.0, -0.4, -2.0);
-const vec3 absorbtionFactorThreshold = vec3(0.1, 0.2, 0.3);
-const vec3 inverseAbsorbtionFactorThreshold = vec3(1.,1.,1.) - absorbtionFactorThreshold;
 
 float[2] raySphereIntersect(vec3 r0, vec3 rd, vec3 s0, float sr) {
     // - r0: ray origin
@@ -115,10 +108,6 @@ vec3 colorOverbound(vec3 color) {
     return discrete(vec3( (color.r + color.g + color.b) / 3.0 ));
 }
 
-float changeScale(float value, float srcFrom, float srcTo, float dstFrom, float dstTo)  {
-    return (dstTo - dstFrom) *(value - srcFrom) / (srcTo - srcFrom) + dstFrom;
-}
-
 void main()	{
 
     // TODO: extract to uniform and pre-compute in code
@@ -134,21 +123,8 @@ void main()	{
     vec3 coreToStar = starPosition - planetCenter;
 
     vec3 cameraToSurfaceNormalized = normalize(cameraToSurface);
-    vec3 surfaceToCoreNormalized = normalize(surfaceToCore);
-    vec3 starToSurfaceNormalized = normalize(_position - starPosition);
     vec3 surfaceToStarNormalized = normalize(surfaceToStar);
     vec3 coreToStarNormalized = normalize(coreToStar);
-    vec3 cameraToCoreNormalized = normalize(cameraToCore);
-    
-
-    
-    float innerSpeherFactor = (1.0 -dot(cameraToSurfaceNormalized, surfaceToCoreNormalized)) / 2.0;
-
-    float lookDownUp = -dot(cameraToSurfaceNormalized, cameraToCoreNormalized);
-    float lookUp = clamp(lookDownUp, 0.0, 1.0);
-    //float lookDown = clamp(-lookDownUp, 0.0, 1.0;
-    //float lookHorizon = abs(1.0 - lookDownUp);
-    
 
     float distanceToSurface = length(cameraToSurface);
     float distanceToCore = length(cameraToCore);
@@ -159,7 +135,7 @@ void main()	{
 
     atmosphereDistance[0] = max(0.0, atmosphereDistance[0]);
 
-    if(planetDistance[0] > 0.0) {
+    if(planetDistance[0] > 0.) {
         atmosphereDistance[1] = min(atmosphereDistance[1], planetDistance[0]);
     }
 
@@ -172,46 +148,15 @@ void main()	{
 
     float altitude = length(middlePoint) - planetRadius;
     float altitudeFactor = clampToOne(altitude / atmosphereHeight);
-
-    // atmosphere ray
+    
     float distanceThroughAtmosphere = atmosphereDistance[1] - atmosphereDistance[0];
-    //float atmosphereDensityFactor = distanceThroughAtmosphere / atmosphereHeight / 13.0;
-
-    float invisibleDistance = atmosphereHeight / 3.0;
-    if(innerSpeherFactor < 0.5) {
-        //invisibleDistance = invisibleDistance * changeScale(innerSpeherFactor, 0.5, 0.0, 1.0, 100.0); 
-    }
-
-    float atmosphereDensityFactor =  distanceThroughAtmosphere / invisibleDistance;
-    if(innerSpeherFactor < 0.5) {
-        atmosphereDensityFactor *= innerSpeherFactor * 0.01;
-        //atmosphereDensityFactor *= innerSpeherFactor * 0.1 * min(2.0, pow(distanceToSurface/ atmosphereHeight, 0.35) ); 
-    }
-
-    atmosphereDensityFactor *= 2.0 * pow((1.0 - altitudeFactor), 2.0) * pow(10.0, 1.0);
-
-    //float timeOfDay = (dot(coreToMiddlePointNormalized, coreToStarNormalized) + 1.0) / 2.0;
+    
     const float nightAt = -0.8; 
     float timeOfDay = clampToOne((dot(coreToMiddlePointNormalized, coreToStarNormalized) - nightAt) / (1.0 - nightAt));
 
     // scattering
     float cameraFactor = dot(cameraToSurfaceNormalized, surfaceToStarNormalized);
-    vec3 scatteringFactor = max(vec3(0.,0.,0.), (cameraFactor * vec3(1.,1.,1.) - scatteringFactorThreshold) / ( vec3(1.,1.,1.) - scatteringFactorThreshold ));
-    
-
-    float atmosphereDensityExpSteepness = 10.0;
-    float atmosphereDensityFactorExp = (pow(atmosphereDensityExpSteepness, atmosphereDensityFactor) - 1.0) / (atmosphereDensityExpSteepness - 1.0);
-
-    float planetDitanceFactor = 1.0;
-    if(planetDistance[0] > 0.0) {
-        planetDitanceFactor = max(0.0, min(1.0, planetDistance[0] / (atmosphereHeight)));
-    }
-
-    
-
-    
-
-    
+    vec3 scatteringFactor = max(vec3(0.), (cameraFactor * vec3(1.) - scatteringFactorThreshold) / ( vec3(1.) - scatteringFactorThreshold ));
 
 
     float horizontalDistanceFactor = clampToOne(2.0 * distanceThroughAtmosphere / horizontalMaxDistance);
@@ -225,8 +170,6 @@ void main()	{
     
     float alfa = horizontalDensityFactorExp * ( alfaDistanceFactor * 2.0  + 1.0 ) * timeOfDay;
 
-    
-    gl_FragColor.rgb = vec3(0., 0., 1.);
     gl_FragColor.a = alfa;
     
     // RGB Calculation
@@ -239,18 +182,12 @@ void main()	{
     scatteringFactor += densityTimeOfDay * 1.0 * pow(scatteringFactor * vec3(1.0, 0.5, 0.0), vec3(50.0));
 
     gl_FragColor.rgb = vec3(
-        scatteringFactor.r * timeOfDay * 1.0 * (1.0 - horizontalDensityFactor * (0.15)), 
+        scatteringFactor.r * timeOfDay * 1.0 * (1.0 - horizontalDensityFactor * (0.20)), 
         scatteringFactor.g * timeOfDay * 1.0 * (1.0 - horizontalDensityFactor * 0.45), 
         scatteringFactor.b * timeOfDay * 2.0 * (1.0 - horizontalDensityFactor * 0.7  * densityTimeOfDay )
     );
 
-    //gl_FragColor.a = min(0.9, (gl_FragColor.r + gl_FragColor.g + gl_FragColor.b) * 3.0);
-    float maxChannel = max(max(gl_FragColor.r, gl_FragColor.g), gl_FragColor.b);
-    gl_FragColor.rgb *= timeOfDay/maxChannel;
-
     
-    //gl_FragColor = factor2rgb(horizontalDensityFactor);
-
-    //gl_FragColor.rgb = vec3(0.);
-    //gl_FragColor.rgb = mix(vec3(0., 0.0, 1.0), vec3(1.0, 0.0, 0.0), (1.0 - densityTimeOfDay) * horizontalDensityFactor*0.5);
+    float maxChannel = max(max(gl_FragColor.r, gl_FragColor.g), gl_FragColor.b);
+    gl_FragColor.rgb *= timeOfDay/maxChannel * timeOfDay;
 }
