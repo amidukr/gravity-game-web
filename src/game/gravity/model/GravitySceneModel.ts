@@ -48,7 +48,6 @@ export class GravitySceneModel extends BaseGameModel<GravityScene> {
           const boundingBox = new Box3().setFromObject(x);
           const size = boundingBox.getSize(new Vector3());
           const radius = Math.max(size.x, size.y, size.z) * 0.5;
-          // planet.object.visible = false;
 
           collection[x.name] = {
             object: x,
