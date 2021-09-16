@@ -28,7 +28,7 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
         webGlRenderingParameters: {
           antialias: true,
           preserveDrawingBuffer: true,
-          // logarithmicDepthBuffer: true
+          //logarithmicDepthBuffer: true,
         },
       })
     );

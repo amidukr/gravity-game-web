@@ -1,14 +1,15 @@
-import { Object3D, Scene } from "three";
+import { Box3, Object3D, Scene, Vector3 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { BaseGameModel } from "../../../common/framework/game/model/BaseGameModel";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 
 export interface SceneComponent {
   object: Object3D;
+  radius: number;
 }
 
-export interface SceneComponentCollection {
-  [name: string]: SceneComponent;
+export interface SceneComponentCollection<S extends SceneComponent = SceneComponent> {
+  [name: string]: S;
 }
 
 export class SceneDictionary {
@@ -44,8 +45,13 @@ export class GravitySceneModel extends BaseGameModel<GravityScene> {
 
       this.gameLevel.object.rootScene.traverse((x) => {
         if (x.name.startsWith(prefix)) {
+          const boundingBox = new Box3().setFromObject(x);
+          const size = boundingBox.getSize(new Vector3());
+          const radius = Math.max(size.x, size.y, size.z) * 0.5;
+
           collection[x.name] = {
             object: x,
+            radius: radius,
           };
         }
       });

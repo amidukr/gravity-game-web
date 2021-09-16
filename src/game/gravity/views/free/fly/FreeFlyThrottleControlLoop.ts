@@ -28,8 +28,8 @@ export class FreeFlyThrottleControlLoop implements GameViewLoop {
   }
 
   execute(event: GameEvent): void {
-    const highThrottleFactor = Math.pow(2, 0.02 * event.elapsedTimeMills);
-    const lowThrottleFactor = Math.pow(2, 0.002 * event.elapsedTimeMills);
+    const highThrottleFactor = Math.pow(2, 0.001 * event.elapsedTimeMills);
+    const lowThrottleFactor = Math.pow(2, 0.005 * event.elapsedTimeMills);
     const timeToLowThrottle = 10 * 1000;
 
     const rollFactor = 0.001;
