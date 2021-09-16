@@ -67,7 +67,6 @@ export class AtmosphereModule implements ApplicationComponent, GameLoaderModule 
       backMaterial.planetCenter = new Vector3().copy(backAtmosphereObject.position);
       backMaterial.planetRadius = planetRadius;
       backMaterial.atmosphereHeight = atmosphereHeight;
-      backMaterial.atmosphereInvisibleDepth = atmosphereInvisibleDepth;
     });
 
     this.sceneModel.object.scene.add(group);

@@ -10,8 +10,6 @@ export class AtmospherShaderMaterial extends ShaderMaterial {
       vertexShader: preprocessShader(basicVertexShaderVs),
       fragmentShader: preprocessShader(backShaderFs),
     });
-
-    this.atmosphereColor = new Color(0.3, 0.3, 1.0);
   }
 
   set starPosition(value: Vector3) {
@@ -28,13 +26,5 @@ export class AtmospherShaderMaterial extends ShaderMaterial {
 
   set atmosphereHeight(value: number) {
     this.uniforms["atmosphereHeight"] = { value: value };
-  }
-
-  set atmosphereColor(value: Color) {
-    this.uniforms["atmosphereColor"] = { value: value.toArray() };
-  }
-
-  set atmosphereInvisibleDepth(value: number) {
-    this.uniforms["atmosphereInvisibleDepth"] = { value: value };
   }
 }
