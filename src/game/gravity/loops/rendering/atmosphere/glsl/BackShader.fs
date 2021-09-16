@@ -170,7 +170,7 @@ void main()	{
     
     float alfa = horizontalDensityFactorExp * ( alfaDistanceFactor * 2.0  + 1.0 ) * timeOfDay;
 
-    gl_FragColor.a = alfa + clampToOne(distanceToCore / planetRadius / 10.0 - 1.0);
+    gl_FragColor.a = alfa + clampToOne(0.05 * distanceToCore / atmosphereHeight / 10.0 - 1.0);
     
     // RGB Calculation
 

@@ -27,6 +27,7 @@ export class AtmosphereModule implements ApplicationComponent, GameLoaderModule 
     console.log("new game");
 
     const backMaterialPrototype = new AtmospherBackMaterial();
+    const backGeometry = new IcosahedronGeometry(1, 10 * 2);
 
     // sunPosition
 
@@ -41,9 +42,6 @@ export class AtmosphereModule implements ApplicationComponent, GameLoaderModule 
 
     backMaterialPrototype.starPosition = starPosition;
 
-    const atmosphereHeight = 300 * 1000;
-    const atmosphereInvisibleDepth = 3 * atmosphereHeight;
-
     Object.values(this.sceneModel.object.sceneDictionary.planets).forEach((planet) => {
       const boundingBox = new Box3().setFromObject(planet.object);
 
@@ -51,12 +49,16 @@ export class AtmosphereModule implements ApplicationComponent, GameLoaderModule 
 
       const planetRadius = planet.radius;
 
-      const backGeometry = new IcosahedronGeometry(planetRadius + atmosphereHeight, 10 * 2);
+      const atmosphereHeight = planetRadius * 0.05;
+
+      
       const backMaterial = backMaterialPrototype.clone();
 
       backMaterial.starPosition = starPosition;
 
       const backAtmosphereObject = new Mesh(backGeometry, backMaterial);
+
+      backAtmosphereObject.scale.multiplyScalar(planetRadius + atmosphereHeight);
 
       backMaterial.side = BackSide;
 
