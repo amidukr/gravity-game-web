@@ -12,7 +12,6 @@ export abstract class BaseGravityViewRenderer implements GameViewLoop {
   protected gameLevel!: GravityGameLevel;
 
   protected scene!: THREE.Scene;
-  protected camera!: THREE.PerspectiveCamera;
 
   sceneModel!: GravitySceneModel;
   spaceShipsModel!: SpaceShipsModel;
@@ -36,7 +35,12 @@ export abstract class BaseGravityViewRenderer implements GameViewLoop {
     this.scene.add(this.gameLevel.object.rootScene);
     this.scene.background = this.gameLevel.object.backhroundTexture;
 
-    this.camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.000001, 1000);
+    this.playerViewModel.object.camera = new PerspectiveCamera(
+      45,
+      window.innerWidth / window.innerHeight,
+      0.000001,
+      1000
+    );
 
     threeJsRenderer.physicallyCorrectLights = true;
 
@@ -55,30 +59,31 @@ export abstract class BaseGravityViewRenderer implements GameViewLoop {
 
   execute(): void {
     const threeJsRenderer = this.engineRenderer.getThreeJsWebGlRenderer();
+    const camera = this.playerViewModel.object.camera;
 
     threeJsRenderer.autoClear = false;
 
     const vec = threeJsRenderer.getSize(new Vector2());
-    this.camera.aspect = vec.x / vec.y;
+    camera.aspect = vec.x / vec.y;
 
     this.scene.background = this.gameLevel.object.backhroundTexture;
 
-    this.camera.near = this.clipPoints[this.clipPoints.length - 2];
-    this.camera.far = this.clipPoints[this.clipPoints.length - 1];
-    this.camera.updateProjectionMatrix();
+    camera.near = this.clipPoints[this.clipPoints.length - 2];
+    camera.far = this.clipPoints[this.clipPoints.length - 1];
+    camera.updateProjectionMatrix();
 
     threeJsRenderer.clearDepth();
-    threeJsRenderer.render(this.scene, this.camera);
+    threeJsRenderer.render(this.scene, camera);
 
     this.scene.background = null;
 
     for (var i = this.clipPoints.length - 3; i >= 0; i--) {
-      this.camera.near = this.clipPoints[i];
-      this.camera.far = this.clipPoints[i + 1] * 1.1;
-      this.camera.updateProjectionMatrix();
+      camera.near = this.clipPoints[i];
+      camera.far = this.clipPoints[i + 1] * 1.1;
+      camera.updateProjectionMatrix();
 
       threeJsRenderer.clearDepth();
-      threeJsRenderer.render(this.scene, this.camera);
+      threeJsRenderer.render(this.scene, camera);
     }
   }
 }

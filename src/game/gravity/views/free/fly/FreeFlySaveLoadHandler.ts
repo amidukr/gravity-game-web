@@ -8,7 +8,7 @@ import { SpaceShipsModel } from "../../../model/SpaceShipsModel";
 
 interface SavedGame {
   position: number[];
-  viewQuaternion: number[];
+  orientation: number[];
   throttle: number;
 }
 
@@ -31,7 +31,7 @@ export class FreeFlySaveLoadHandler implements GameViewButtonHandler {
       if (savedGameString) {
         const savedGame: SavedGame = JSON.parse(savedGameString);
 
-        this.playerViewModel.object.viewQuaternion.fromArray(savedGame.viewQuaternion);
+        this.spaceShipsModel.object.player.orientation.fromArray(savedGame.orientation);
         this.playerViewModel.object.mouseNavigationEanbledAt = 0;
         this.spaceShipsModel.object.player.position.fromArray(savedGame.position);
         this.spaceShipsModel.object.player.throttle = savedGame.throttle;
@@ -41,7 +41,7 @@ export class FreeFlySaveLoadHandler implements GameViewButtonHandler {
     if (this.mappedUserInput.isEventOfAction(button, COMMON_GROUP, SAVE_GAME_ACTION)) {
       const saveGame: SavedGame = {
         position: this.spaceShipsModel.object.player.position.toArray(),
-        viewQuaternion: this.playerViewModel.object.viewQuaternion.toArray(),
+        orientation: this.spaceShipsModel.object.player.orientation.toArray(),
         throttle: this.spaceShipsModel.object.player.throttle,
       };
 

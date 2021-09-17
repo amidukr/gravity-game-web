@@ -4,7 +4,7 @@ import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../../app
 import { ApplicationContainer } from "../../../../app/ApplicationContainer";
 import { Introspection } from "../../../../app/lookup/Introspection";
 import { GameEngine } from "../../GameEngine";
-import { GameLoop, TYPE_GameLooper } from "../../looper/GameLoop";
+import { GameLoop, TYPE_GameLoop } from "../../looper/GameLoop";
 import { GameLoaderModule, TYPE_GameLoaderModule } from "../GameLoaderModule";
 import { LoadGameObject } from "../object/LoadGameObject";
 
@@ -19,7 +19,7 @@ export class AutowiredLoopersModule implements ApplicationComponent, GameLoaderM
 
   autowire(application: ApplicationContainer) {
     this.gameEngine = application.getComponent(GameEngine);
-    this.loopers = application.getComponentList(TYPE_GameLooper);
+    this.loopers = application.getComponentList(TYPE_GameLoop);
   }
 
   startNewGame(loadGameObject: LoadGameObject): void {

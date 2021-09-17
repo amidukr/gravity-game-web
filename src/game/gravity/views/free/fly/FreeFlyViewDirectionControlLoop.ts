@@ -54,7 +54,7 @@ export class FreeFlyProcessingLoop implements GameViewLoop {
       .setFromAxisAngle(mousePointerOrth, rotateAngle * event.elapsedTimeMills)
       .normalize();
 
-    playerView.viewQuaternion.multiply(mouseBasedTransformation).normalize();
+      this.spaceShipsModel.object.player.orientation.multiply(mouseBasedTransformation).normalize();
   }
 
   execute(event: GameEvent) {
@@ -66,7 +66,7 @@ export class FreeFlyProcessingLoop implements GameViewLoop {
       this.handleMouseEvent(event, this.playerViewModel.object);
     }
 
-    playerSpaceShip.velocity = quanterionBaseVector().applyQuaternion(playerView.viewQuaternion).normalize();
+    playerSpaceShip.velocity = quanterionBaseVector().applyQuaternion(playerSpaceShip.orientation).normalize();
 
     playerSpaceShip.position.add(
       new Vector3()

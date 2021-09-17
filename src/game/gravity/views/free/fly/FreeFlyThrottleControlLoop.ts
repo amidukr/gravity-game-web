@@ -77,7 +77,7 @@ export class FreeFlyThrottleControlLoop implements GameViewLoop {
     }
 
     if (roll != 0) {
-      this.playerViewModel.object.viewQuaternion
+      this.spaceShipsModel.object.player.orientation
         .multiply(new Quaternion().setFromAxisAngle(new Vector3(0, 0, 1), roll * rollFactor * event.elapsedTimeMills))
         .normalize();
     }

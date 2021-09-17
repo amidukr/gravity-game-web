@@ -43,11 +43,14 @@ export class GravityGameLoader implements GameLoaderModule, ApplicationComponent
       throw Error("Can't find Start-Position object in scene");
     }
 
-    this.spaceShipsModel.object.player.throttle = this.gameLevel.object.data.spaceShips.player.throttle || 0.1;
-    this.spaceShipsModel.object.player.position = startPosition.getWorldPosition(new Vector3());
+    const playerSpaceShip = this.spaceShipsModel.object.player;
 
-    this.playerViewModel.object.viewQuaternion = startPosition
-      .getWorldQuaternion(new Quaternion())
-      .multiply(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), -Math.PI / 2));
+    playerSpaceShip.throttle = this.gameLevel.object.data.spaceShips.player.throttle || 0.1;
+    playerSpaceShip.position = startPosition.getWorldPosition(new Vector3());
+    playerSpaceShip.orientation.copy(
+      startPosition
+        .getWorldQuaternion(new Quaternion())
+        .multiply(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), -Math.PI / 2))
+    );
   }
 }

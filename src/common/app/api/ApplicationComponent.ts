@@ -10,3 +10,7 @@ export interface ApplicationComponent {
   start?(application: ApplicationContainer): Promise<void> | void;
   onApplicationStarted?(application: ApplicationContainer): void;
 }
+
+export interface ApplicationAutowireComponent extends ApplicationComponent {
+  autowire(application: ApplicationContainer): void;
+}
