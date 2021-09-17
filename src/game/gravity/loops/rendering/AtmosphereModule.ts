@@ -29,10 +29,7 @@ export class AtmosphereModule implements ApplicationComponent, GameLoaderModule 
     const backMaterialPrototype = new AtmospherBackMaterial();
     const backGeometry = new IcosahedronGeometry(1, 10 * 2);
 
-    // sunPosition
-
-    const firstStarName = Object.keys(this.sceneModel.object.sceneDictionary.stars)[0];
-    const star = this.sceneModel.object.sceneDictionary.stars[firstStarName];
+    const star = this.sceneModel.object.sceneDictionary.firstStar;
 
     const starPosition = star.object.getWorldPosition(new Vector3());
 

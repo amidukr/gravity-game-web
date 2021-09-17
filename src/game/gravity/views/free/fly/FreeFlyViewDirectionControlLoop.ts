@@ -54,7 +54,7 @@ export class FreeFlyProcessingLoop implements GameViewLoop {
       .setFromAxisAngle(mousePointerOrth, rotateAngle * event.elapsedTimeMills)
       .normalize();
 
-      this.spaceShipsModel.object.player.orientation.multiply(mouseBasedTransformation).normalize();
+    this.spaceShipsModel.object.player.orientation.multiply(mouseBasedTransformation).normalize();
   }
 
   execute(event: GameEvent) {
