@@ -4,8 +4,14 @@
 # BACKLOG
 
 1. Game logic 
+   1. Implement module for configuration
+      1. Configuration overide sequence
+         - Configuration from console
+         - Configuration from level file
+         - Global configuration
    1. GFX: Terra generation
    1. Sun is white and has star shape in space
+   1. Scale planet same way as sun
    1. Animate planet circle moving
    1. Implement gravity for starship movement
       1. Make enabling/disabling gravity configurable
