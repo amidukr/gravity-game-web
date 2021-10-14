@@ -5,6 +5,7 @@
 
 1. Game logic 
    1. GFX: Terra generation
+   1. Sun is white and has star shape in space
    1. Animate planet circle moving
    1. Implement gravity for starship movement
       1. Make enabling/disabling gravity configurable
