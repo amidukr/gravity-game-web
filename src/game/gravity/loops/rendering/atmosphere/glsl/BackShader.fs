@@ -131,13 +131,13 @@ void main()	{
     float cameraAltitude = distanceToCore - length(surfaceToCore);
     float[2] atmosphereDistance = raySphereIntersect(cameraPosition, cameraToSurfaceNormalized, planetCenter, planetRadius + atmosphereHeight);
 
-    float[2] planetDistance = raySphereIntersect(cameraPosition, cameraToSurfaceNormalized, planetCenter, planetRadius);
+    // float[2] planetDistance = raySphereIntersect(cameraPosition, cameraToSurfaceNormalized, planetCenter, planetRadius);
 
     atmosphereDistance[0] = max(0.0, atmosphereDistance[0]);
 
-    if(planetDistance[0] > 0.) {
-        atmosphereDistance[1] = min(atmosphereDistance[1], planetDistance[0]);
-    }
+    // if(planetDistance[0] > 0.) {
+    //    atmosphereDistance[1] = min(atmosphereDistance[1], planetDistance[0]);
+    // }
 
     vec3 startPoint = cameraPosition + cameraToSurfaceNormalized * atmosphereDistance[0];
     vec3 endPoint = cameraPosition + cameraToSurfaceNormalized * atmosphereDistance[1];
