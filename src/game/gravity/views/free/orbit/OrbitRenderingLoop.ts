@@ -9,14 +9,15 @@ export class OrbitRenderingLoop extends BaseGravityViewRenderer {
 
   override startNewGame(application: ApplicationContainer) {
     super.startNewGame(application);
+    const camera = this.playerViewModel.object.camera;
 
     const scene = application.getComponent(TYPE_GravityGameLevel).object.rootScene;
 
-    this.controls = new OrbitControls(this.camera, this.engineRenderer.getThreeJsWebGlRenderer().domElement);
+    this.controls = new OrbitControls(camera, this.engineRenderer.getThreeJsWebGlRenderer().domElement);
 
     const boundBox = new Box3().setFromObject(scene);
 
-    this.camera.position.set(boundBox.min.x, boundBox.min.y, boundBox.min.z);
+    camera.position.set(boundBox.min.x, boundBox.min.y, boundBox.min.z);
     this.controls.update();
   }
 

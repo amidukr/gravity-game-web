@@ -6,6 +6,7 @@ import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLev
 export interface SceneComponent {
   object: Object3D;
   radius: number;
+  position: Vector3;
 }
 
 export interface SceneComponentCollection<S extends SceneComponent = SceneComponent> {
@@ -15,6 +16,8 @@ export interface SceneComponentCollection<S extends SceneComponent = SceneCompon
 export class SceneDictionary {
   stars: SceneComponentCollection = {};
   planets: SceneComponentCollection = {};
+
+  firstStar!: SceneComponent;
 
   getCollection(name: string): SceneComponentCollection {
     return (this as any)[name];
@@ -52,10 +55,14 @@ export class GravitySceneModel extends BaseGameModel<GravityScene> {
           collection[x.name] = {
             object: x,
             radius: radius,
+            position: x.getWorldPosition(new Vector3()),
           };
         }
       });
     });
+
+    const firstStarName = Object.keys(sceneDictionary.stars)[0];
+    sceneDictionary.firstStar = sceneDictionary.stars[firstStarName];
   }
 
   construtNewObject(): GravityScene {
@@ -64,5 +71,24 @@ export class GravitySceneModel extends BaseGameModel<GravityScene> {
     this.buildSceneDictionary(mainViewObject.sceneDictionary);
 
     return mainViewObject;
+  }
+
+  findClosestPlanet(position: Vector3): SceneComponent | null {
+    var foundDistance = Number.MAX_VALUE;
+    var foundPlanet = null;
+    for (const planet of Object.values(this.object.sceneDictionary.planets)) {
+      if (foundPlanet == null) {
+        foundPlanet = planet;
+        continue;
+      }
+
+      const distance = position.distanceTo(planet.position);
+      if (distance < foundDistance) {
+        foundPlanet = planet;
+        foundDistance = distance;
+      }
+    }
+
+    return foundPlanet;
   }
 }

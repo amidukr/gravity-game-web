@@ -6,6 +6,7 @@ import { GameView } from "../../../common/framework/game/ui/view/GameView";
 import { CHANGE_VIEW_ACTION, COMMON_GROUP } from "../input/mappings/GravityGameInputMappings";
 import { FreeFlyGameView } from "../views/free/fly/FreeFlyGameView";
 import { OrbitGameView } from "../views/free/orbit/OrbitGameView";
+import { DebugInfoPanel } from "./DebugInfoPanel";
 
 export interface RootWidgetProps {
   application: ApplicationContainer;
@@ -53,6 +54,7 @@ export class RootWidget extends React.Component<RootWidgetProps, RootWidgetState
   override render() {
     return (
       <div onKeyDown={this.onKeyPress.bind(this) as any}>
+        <DebugInfoPanel application={this.props.application} />
         <GameViewWidget ref={(x) => x?.focus()} gameView={this.state.gameView} />
       </div>
     );

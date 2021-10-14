@@ -7,7 +7,11 @@ import { GameEnginePlugin } from "../../../common/framework/game/plugins/GameEng
 import { ReactStarter, TYPE_ReactRootWidget } from "../../../common/ui/ReactStarter";
 import { MainViewInputMappings } from "../input/mappings/GravityGameInputMappings";
 import { GravityGameLoader } from "../loader/GravityGameLoader";
+import { DebugAltitudeLoop } from "../loops/debug/DebugAltitudeLoop";
+import { DebugLoop } from "../loops/debug/DebugLoop";
 import { AtmosphereModule } from "../loops/rendering/AtmosphereModule";
+import { ScaleSunSizeLoop } from "../loops/ScaleSunSizeLoop";
+import { DebugInfoModel } from "../model/DebugInfoModel";
 import { GravitySceneModel } from "../model/GravitySceneModel";
 import { PlayerViewModel } from "../model/PlayerControlModel";
 import { SpaceShipsModel } from "../model/SpaceShipsModel";
@@ -54,5 +58,15 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
 
     // Starter
     application.registerComponent(new GravityGameStarter());
+
+    // Loops
+    application.registerComponent(new ScaleSunSizeLoop());
+
+    // Debug
+    application.registerComponent(new DebugInfoModel());
+
+    application.registerComponent(new DebugAltitudeLoop());
+
+    application.registerComponent(new DebugLoop());
   }
 }

@@ -131,13 +131,13 @@ void main()	{
     float cameraAltitude = distanceToCore - length(surfaceToCore);
     float[2] atmosphereDistance = raySphereIntersect(cameraPosition, cameraToSurfaceNormalized, planetCenter, planetRadius + atmosphereHeight);
 
-    float[2] planetDistance = raySphereIntersect(cameraPosition, cameraToSurfaceNormalized, planetCenter, planetRadius);
+    // float[2] planetDistance = raySphereIntersect(cameraPosition, cameraToSurfaceNormalized, planetCenter, planetRadius);
 
     atmosphereDistance[0] = max(0.0, atmosphereDistance[0]);
 
-    if(planetDistance[0] > 0.) {
-        atmosphereDistance[1] = min(atmosphereDistance[1], planetDistance[0]);
-    }
+    // if(planetDistance[0] > 0.) {
+    //    atmosphereDistance[1] = min(atmosphereDistance[1], planetDistance[0]);
+    // }
 
     vec3 startPoint = cameraPosition + cameraToSurfaceNormalized * atmosphereDistance[0];
     vec3 endPoint = cameraPosition + cameraToSurfaceNormalized * atmosphereDistance[1];
@@ -155,8 +155,8 @@ void main()	{
     float timeOfDay = clampToOne((dot(coreToMiddlePointNormalized, coreToStarNormalized) - nightAt) / (1.0 - nightAt));
 
     // scattering
-    float cameraFactor = dot(cameraToSurfaceNormalized, surfaceToStarNormalized);
-    vec3 scatteringFactor = max(vec3(0.), (cameraFactor * vec3(1.) - scatteringFactorThreshold) / ( vec3(1.) - scatteringFactorThreshold ));
+    float starFactor = dot(cameraToSurfaceNormalized, surfaceToStarNormalized);
+    vec3 scatteringFactor = max(vec3(0.), (starFactor * vec3(1.) - scatteringFactorThreshold) / ( vec3(1.) - scatteringFactorThreshold ));
 
 
     float horizontalDistanceFactor = clampToOne(2.0 * distanceThroughAtmosphere / horizontalMaxDistance);
@@ -171,6 +171,8 @@ void main()	{
     float alfa = horizontalDensityFactorExp * ( alfaDistanceFactor * 2.0  + 1.0 ) * timeOfDay;
 
     gl_FragColor.a = alfa + clampToOne(0.05 * distanceToCore / atmosphereHeight / 10.0 - 1.0);
+
+    gl_FragColor.a = clamp(gl_FragColor.a, 0., 1.) * clamp(400.5 - starFactor *400.0, 0.5, 1.0);
     
     // RGB Calculation
 
@@ -186,8 +188,9 @@ void main()	{
         scatteringFactor.g * timeOfDay * 1.0 * (1.0 - horizontalDensityFactor * 0.45), 
         scatteringFactor.b * timeOfDay * 2.0 * (1.0 - horizontalDensityFactor * 0.7  * densityTimeOfDay )
     );
-
     
     float maxChannel = max(max(gl_FragColor.r, gl_FragColor.g), gl_FragColor.b);
     gl_FragColor.rgb *= timeOfDay/maxChannel * (1.0-(1.0 - timeOfDay) * (1.0 - planetDistanceFactorExp));
+
+    gl_FragColor.rgb *= clamp(starFactor * 1000. - 996., 1., 4.);
 }
