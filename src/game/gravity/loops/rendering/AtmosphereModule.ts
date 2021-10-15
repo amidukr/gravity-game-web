@@ -46,7 +46,7 @@ export class AtmosphereModule implements ApplicationComponent, GameLoaderModule 
 
       const planetRadius = planet.radius;
 
-      const atmosphereHeight = planetRadius * 0.05;
+      const atmosphereHeight = planetRadius * 0.05 * 3;
 
       const backMaterial = backMaterialPrototype.clone();
 

@@ -148,6 +148,8 @@ void main()	{
 
     float altitude = length(coreToMiddlePoint) - planetRadius;
     float altitudeFactor = clampToOne(altitude / atmosphereHeight);
+
+    altitudeFactor = expSteepness(altitudeFactor, 0.01);
     
     float distanceThroughAtmosphere = atmosphereDistance[1] - atmosphereDistance[0];
     
@@ -168,7 +170,8 @@ void main()	{
 
     float alfaDistanceFactor = clampToOne( -2.0 * planetDistanceFactorNonNormalized );
     
-    float alfa = horizontalDensityFactorExp * ( alfaDistanceFactor * 2.0  + 1.0 ) * timeOfDay;
+    //float alfa = horizontalDensityFactorExp * ( alfaDistanceFactor * 2.0  + 1.0 ) * timeOfDay;
+    float alfa = 5.0 * horizontalDensityFactorExp * timeOfDay;
 
     gl_FragColor.a = alfa + clampToOne(0.05 * distanceToCore / atmosphereHeight / 10.0 - 1.0);
 
@@ -190,7 +193,7 @@ void main()	{
     );
     
     float maxChannel = max(max(gl_FragColor.r, gl_FragColor.g), gl_FragColor.b);
-    gl_FragColor.rgb *= timeOfDay/maxChannel * (1.0-(1.0 - timeOfDay) * (1.0 - planetDistanceFactorExp));
+    gl_FragColor.rgb *= 2.0 * timeOfDay/maxChannel * (1.0-(1.0 - timeOfDay));
 
     gl_FragColor.rgb *= clamp(starFactor * 1000. - 996., 1., 4.);
 }
