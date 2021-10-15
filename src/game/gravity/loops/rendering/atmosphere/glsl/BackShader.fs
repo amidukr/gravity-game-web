@@ -161,7 +161,7 @@ void main()	{
     vec3 scatteringFactor = max(vec3(0.), (starFactor * vec3(1.) - scatteringFactorThreshold) / ( vec3(1.) - scatteringFactorThreshold ));
 
 
-    float horizontalDistanceFactor = clampToOne(2.0 * distanceThroughAtmosphere / horizontalMaxDistance);
+    float horizontalDistanceFactor = clampToOne(4.0 * distanceThroughAtmosphere / horizontalMaxDistance);
     float horizontalDensityFactor = clampToOne(1.2 * (1.0 - altitudeFactor) * horizontalDistanceFactor);
     float planetDistanceFactorNonNormalized = (distanceToCore - planetRadius - atmosphereHeight)/atmosphereHeight;
     float planetDistanceFactor = clampToOne(planetDistanceFactorNonNormalized / 3.0);
