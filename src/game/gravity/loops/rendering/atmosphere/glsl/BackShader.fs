@@ -5,7 +5,8 @@ in vec3 cameraPosition;
 out vec4 fragColor;
 
 #define gl_FragColor  fragColor
-// #cut-beffore
+
+#pragma cut-beffore
 
 
 precision highp float;
@@ -148,6 +149,8 @@ void main()	{
 
     float altitude = length(coreToMiddlePoint) - planetRadius;
     float altitudeFactor = clampToOne(altitude / atmosphereHeight);
+
+    altitudeFactor = expSteepness(altitudeFactor, 0.01);
     
     float distanceThroughAtmosphere = atmosphereDistance[1] - atmosphereDistance[0];
     
@@ -159,7 +162,7 @@ void main()	{
     vec3 scatteringFactor = max(vec3(0.), (starFactor * vec3(1.) - scatteringFactorThreshold) / ( vec3(1.) - scatteringFactorThreshold ));
 
 
-    float horizontalDistanceFactor = clampToOne(2.0 * distanceThroughAtmosphere / horizontalMaxDistance);
+    float horizontalDistanceFactor = clampToOne(4.0 * distanceThroughAtmosphere / horizontalMaxDistance);
     float horizontalDensityFactor = clampToOne(1.2 * (1.0 - altitudeFactor) * horizontalDistanceFactor);
     float planetDistanceFactorNonNormalized = (distanceToCore - planetRadius - atmosphereHeight)/atmosphereHeight;
     float planetDistanceFactor = clampToOne(planetDistanceFactorNonNormalized / 3.0);
@@ -168,7 +171,7 @@ void main()	{
 
     float alfaDistanceFactor = clampToOne( -2.0 * planetDistanceFactorNonNormalized );
     
-    float alfa = horizontalDensityFactorExp * ( alfaDistanceFactor * 2.0  + 1.0 ) * timeOfDay;
+    float alfa = 5.0 * horizontalDensityFactorExp * timeOfDay;
 
     gl_FragColor.a = alfa + clampToOne(0.05 * distanceToCore / atmosphereHeight / 10.0 - 1.0);
 
@@ -190,7 +193,5 @@ void main()	{
     );
     
     float maxChannel = max(max(gl_FragColor.r, gl_FragColor.g), gl_FragColor.b);
-    gl_FragColor.rgb *= timeOfDay/maxChannel * (1.0-(1.0 - timeOfDay) * (1.0 - planetDistanceFactorExp));
-
-    gl_FragColor.rgb *= clamp(starFactor * 1000. - 996., 1., 4.);
+    gl_FragColor.rgb *= 2.0 * timeOfDay/maxChannel * (1.0-(1.0 - timeOfDay));
 }
