@@ -5,7 +5,8 @@ in vec3 cameraPosition;
 out vec4 fragColor;
 
 #define gl_FragColor  fragColor
-// #cut-beffore
+
+#pragma cut-beffore
 
 
 precision highp float;

@@ -1,5 +1,5 @@
 export function preprocessShader(shader: string): string {
-  const cutBeforeToken = "#cut-beffore";
+  const cutBeforeToken = "#pragma cut-beffore";
 
   const cutIndex = shader.indexOf(cutBeforeToken);
   if (cutIndex == -1) {
