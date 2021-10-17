@@ -109,6 +109,23 @@ vec3 colorOverbound(vec3 color) {
     return discrete(vec3( (color.r + color.g + color.b) / 3.0 ));
 }
 
+float calculateAltitudeFactor(float atmosphereHeight, vec3 planetCenter, vec3 point) {
+    vec3 coreToMiddlePoint = point - planetCenter;
+    vec3 coreToMiddlePointNormalized = normalize(coreToMiddlePoint);
+
+    float altitude = length(coreToMiddlePoint) - planetRadius;
+    float altitudeFactor = clampToOne( altitude / atmosphereHeight);
+
+    altitudeFactor = expSteepness(altitudeFactor, 0.005);
+
+    //altitudeFactor -= 0.05;
+    //altitudeFactor /= 0.95;
+
+    altitudeFactor = 1.0  - altitudeFactor;
+
+    return altitudeFactor;
+}
+
 void main()	{
 
     // TODO: extract to uniform and pre-compute in code
@@ -147,21 +164,16 @@ void main()	{
     vec3 coreToMiddlePoint = middlePoint - planetCenter;
     vec3 coreToMiddlePointNormalized = normalize(coreToMiddlePoint);
 
-    float altitude = length(coreToMiddlePoint) - planetRadius;
-    float altitudeFactor = clampToOne( altitude / atmosphereHeight);
+    float altitudeSartFactor = calculateAltitudeFactor(atmosphereHeight, planetCenter, startPoint);
+    float altitudeMiddleFactor = calculateAltitudeFactor(atmosphereHeight, planetCenter, middlePoint);
+    float altitudeEndFactor = calculateAltitudeFactor(atmosphereHeight, planetCenter, endPoint);
 
-    //altitudeFactor = expSteepness(altitudeFactor, 0.01);
+    float altitudeFactor = clampToOne((altitudeSartFactor + altitudeMiddleFactor + altitudeEndFactor) / 1.0);
 
-    altitudeFactor -= 0.05;
-    altitudeFactor /= 0.95;
-
-    altitudeFactor = 1.0  - altitudeFactor;
-    altitudeFactor = clampToOne(altitudeFactor); 
-    
     float distanceThroughAtmosphere = atmosphereDistance[1] - atmosphereDistance[0];
     
     //const float nightAt = -1.0; 
-    const float nightAt = -1.5; 
+    const float nightAt = -0.8; 
     float timeOfDay = clampToOne((dot(coreToMiddlePointNormalized, coreToStarNormalized) - nightAt) / (1.0 - nightAt));
 
     // scattering
@@ -170,11 +182,7 @@ void main()	{
 
 
     float horizontalDistanceFactor = clampToOne(15.0 * distanceThroughAtmosphere / horizontalMaxDistance);
-    float horizontalDensityFactor = clampToOne(1.2 * altitudeFactor * horizontalDistanceFactor);
-    //float planetDistanceFactorNonNormalized = (distanceToCore - planetRadius - atmosphereHeight)/atmosphereHeight;
-    //float planetDistanceFactor = clampToOne(planetDistanceFactorNonNormalized / 3.0);
-    //float planetDistanceFactorExp = pow(0.0001, 1.0 - planetDistanceFactor);
-    //float horizontalDensityFactorExp = clampToOne(expSteepness(horizontalDensityFactor, planetDistanceFactorExp));
+    float horizontalDensityFactor = clampToOne(altitudeFactor * horizontalDistanceFactor);
     float horizontalDensityFactorExp = horizontalDensityFactor;
 
     // float alfaDistanceFactor = clampToOne( -2.0 * planetDistanceFactorNonNormalized );
@@ -195,10 +203,12 @@ void main()	{
 
     scatteringFactor += densityTimeOfDay * 1.0 * pow(scatteringFactor * vec3(1.0, 0.5, 0.0), vec3(50.0));
 
+    float horizontalDensityFactorForColor = 1.00 * expSteepness(horizontalDensityFactor, 1000.0);
+
     gl_FragColor.rgb = vec3(
-        scatteringFactor.r * timeOfDay * 1.0 * (1.0 - horizontalDensityFactor * (0.20)), 
-        scatteringFactor.g * timeOfDay * 1.0 * (1.0 - horizontalDensityFactor * 0.45), 
-        scatteringFactor.b * timeOfDay * 2.0 * (1.0 - horizontalDensityFactor * 0.7  * densityTimeOfDay )
+        scatteringFactor.r * timeOfDay * 1.0 * (1.0 - horizontalDensityFactorForColor * (0.20)), 
+        scatteringFactor.g * timeOfDay * 1.0 * (1.0 - horizontalDensityFactorForColor * 0.45), 
+        scatteringFactor.b * timeOfDay * 2.0 * (1.0 - horizontalDensityFactorForColor * 0.7  * densityTimeOfDay )
     );
     
     float maxChannel = max(max(gl_FragColor.r, gl_FragColor.g), gl_FragColor.b);
@@ -206,5 +216,7 @@ void main()	{
 
     //gl_FragColor = factor2rgb(altitudeFactor);
     //gl_FragColor = factor2rgb(horizontalDistanceFactor);
+    //gl_FragColor = factor2rgb(horizontalDensityFactor);
     //gl_FragColor = factor2rgb(alfa);
+    //gl_FragColor = factor2rgb(horizontalDensityFactorForColor);
 }
