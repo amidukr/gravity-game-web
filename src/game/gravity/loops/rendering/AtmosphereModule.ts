@@ -54,7 +54,7 @@ export class AtmosphereModule implements ApplicationComponent, GameLoaderModule 
 
       const backAtmosphereObject = new Mesh(backGeometry, backMaterial);
 
-      backAtmosphereObject.scale.multiplyScalar(planetRadius + atmosphereHeight);
+      backAtmosphereObject.scale.multiplyScalar(planetRadius + atmosphereHeight * 4);
 
       backMaterial.side = BackSide;
 

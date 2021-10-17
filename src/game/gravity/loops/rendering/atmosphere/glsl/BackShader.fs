@@ -124,16 +124,23 @@ float calculateAltitudeFactor(float atmosphereHeight, vec3 planetCenter, vec3 po
 }
 
 void main()	{
+    
+    vec3 cameraToCore = planetCenter - cameraPosition;
+    float distanceToCore = length(cameraToCore);
 
-    // TODO: extract to uniform and pre-compute in code
-    float pra =  planetRadius + atmosphereHeight;
+    float atmosphereExtraHeightFactor = distanceToCore / planetRadius;
+    atmosphereExtraHeightFactor = clampToOne((atmosphereExtraHeightFactor - 8.0)/40.0);
+
+    float atmosphereHeightAdjusted = atmosphereHeight * (7.0 * atmosphereExtraHeightFactor + 1.0);
+
+    float pra =  planetRadius + atmosphereHeightAdjusted;
     float horizontalMaxDistance = 2.0 * sqrt(pra*pra - planetRadius*planetRadius);
 
     // CODE
     
     vec3 cameraToSurface = _position - cameraPosition;
     vec3 surfaceToCore = planetCenter - _position;
-    vec3 cameraToCore = planetCenter - cameraPosition;
+    
     vec3 surfaceToStar = starPosition - _position;
     vec3 coreToStar = starPosition - planetCenter;
 
@@ -141,8 +148,8 @@ void main()	{
     vec3 surfaceToStarNormalized = normalize(surfaceToStar);
     vec3 coreToStarNormalized = normalize(coreToStar);
 
-    float distanceToCore = length(cameraToCore);
-    float[2] atmosphereDistance = raySphereIntersect(cameraPosition, cameraToSurfaceNormalized, planetCenter, planetRadius + atmosphereHeight);
+    
+    float[2] atmosphereDistance = raySphereIntersect(cameraPosition, cameraToSurfaceNormalized, planetCenter, planetRadius + atmosphereHeightAdjusted);
 
     atmosphereDistance[0] = max(0.0, atmosphereDistance[0]);
 
@@ -153,11 +160,11 @@ void main()	{
     vec3 coreToMiddlePoint = middlePoint - planetCenter;
     vec3 coreToMiddlePointNormalized = normalize(coreToMiddlePoint);
 
-    float altitudeSartFactor = calculateAltitudeFactor(atmosphereHeight, planetCenter, startPoint);
-    float altitudeMiddleFactor = calculateAltitudeFactor(atmosphereHeight, planetCenter, middlePoint);
-    float altitudeEndFactor = calculateAltitudeFactor(atmosphereHeight, planetCenter, endPoint);
+    float altitudeSartFactor = calculateAltitudeFactor(atmosphereHeightAdjusted, planetCenter, startPoint);
+    float altitudeMiddleFactor = calculateAltitudeFactor(atmosphereHeightAdjusted, planetCenter, middlePoint);
+    float altitudeEndFactor = calculateAltitudeFactor(atmosphereHeightAdjusted, planetCenter, endPoint);
 
-    float altitudeFactor = clampToOne((altitudeSartFactor + altitudeMiddleFactor + altitudeEndFactor) / 1.3);
+    float altitudeFactor = clampToOne((altitudeSartFactor + altitudeMiddleFactor + altitudeEndFactor) / 1.1);
 
     float distanceThroughAtmosphere = atmosphereDistance[1] - atmosphereDistance[0];
     
@@ -175,7 +182,7 @@ void main()	{
 
     float alfa = 4.0 * horizontalDensityFactorExp * timeOfDay;
 
-    gl_FragColor.a = alfa + clampToOne(0.05 * distanceToCore / atmosphereHeight / 10.0 - 1.0);
+    gl_FragColor.a = alfa;
 
     gl_FragColor.a = clamp(gl_FragColor.a, 0., 1.) * clamp(400.5 - starFactor *400.0, 0.5, 1.0);
     
