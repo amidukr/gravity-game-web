@@ -116,10 +116,7 @@ float calculateAltitudeFactor(float atmosphereHeight, vec3 planetCenter, vec3 po
     float altitude = length(coreToMiddlePoint) - planetRadius;
     float altitudeFactor = clampToOne( altitude / atmosphereHeight);
 
-    altitudeFactor = expSteepness(altitudeFactor, 0.005);
-
-    //altitudeFactor -= 0.05;
-    //altitudeFactor /= 0.95;
+    altitudeFactor = expSteepness(altitudeFactor, 0.05);
 
     altitudeFactor = 1.0  - altitudeFactor;
 
@@ -160,7 +157,7 @@ void main()	{
     float altitudeMiddleFactor = calculateAltitudeFactor(atmosphereHeight, planetCenter, middlePoint);
     float altitudeEndFactor = calculateAltitudeFactor(atmosphereHeight, planetCenter, endPoint);
 
-    float altitudeFactor = clampToOne((altitudeSartFactor + altitudeMiddleFactor + altitudeEndFactor) / 1.0);
+    float altitudeFactor = clampToOne((altitudeSartFactor + altitudeMiddleFactor + altitudeEndFactor) / 1.3);
 
     float distanceThroughAtmosphere = atmosphereDistance[1] - atmosphereDistance[0];
     
@@ -176,7 +173,7 @@ void main()	{
     float horizontalDensityFactor = clampToOne(altitudeFactor * horizontalDistanceFactor);
     float horizontalDensityFactorExp = horizontalDensityFactor;
 
-    float alfa = 3.0 * horizontalDensityFactorExp * timeOfDay;
+    float alfa = 4.0 * horizontalDensityFactorExp * timeOfDay;
 
     gl_FragColor.a = alfa + clampToOne(0.05 * distanceToCore / atmosphereHeight / 10.0 - 1.0);
 
@@ -191,7 +188,7 @@ void main()	{
 
     scatteringFactor += densityTimeOfDay * 1.0 * pow(scatteringFactor * vec3(1.0, 0.5, 0.0), vec3(50.0));
 
-    float horizontalDensityFactorForColor = expSteepness(horizontalDensityFactor, 1000.0);
+    float horizontalDensityFactorForColor = expSteepness(horizontalDensityFactor*1.0 , 20.0);
 
     gl_FragColor.rgb = vec3(
         scatteringFactor.r * timeOfDay * 1.0 * (1.0 - horizontalDensityFactorForColor * (0.20)), 
