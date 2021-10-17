@@ -152,15 +152,16 @@ void main()	{
 
     //altitudeFactor = expSteepness(altitudeFactor, 0.01);
 
-    altitudeFactor -= 0.2;
-    altitudeFactor /= 0.8;
+    altitudeFactor -= 0.05;
+    altitudeFactor /= 0.95;
 
     altitudeFactor = 1.0  - altitudeFactor;
     altitudeFactor = clampToOne(altitudeFactor); 
     
     float distanceThroughAtmosphere = atmosphereDistance[1] - atmosphereDistance[0];
     
-    const float nightAt = -0.8; 
+    //const float nightAt = -1.0; 
+    const float nightAt = -1.5; 
     float timeOfDay = clampToOne((dot(coreToMiddlePointNormalized, coreToStarNormalized) - nightAt) / (1.0 - nightAt));
 
     // scattering
