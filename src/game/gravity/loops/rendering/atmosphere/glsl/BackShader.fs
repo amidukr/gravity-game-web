@@ -148,9 +148,15 @@ void main()	{
     vec3 coreToMiddlePointNormalized = normalize(coreToMiddlePoint);
 
     float altitude = length(coreToMiddlePoint) - planetRadius;
-    float altitudeFactor = clampToOne(altitude / atmosphereHeight);
+    float altitudeFactor = clampToOne( altitude / atmosphereHeight);
 
-    altitudeFactor = expSteepness(altitudeFactor, 0.01);
+    //altitudeFactor = expSteepness(altitudeFactor, 0.01);
+
+    altitudeFactor -= 0.2;
+    altitudeFactor /= 0.8;
+
+    altitudeFactor = 1.0  - altitudeFactor;
+    altitudeFactor = clampToOne(altitudeFactor); 
     
     float distanceThroughAtmosphere = atmosphereDistance[1] - atmosphereDistance[0];
     
@@ -162,16 +168,18 @@ void main()	{
     vec3 scatteringFactor = max(vec3(0.), (starFactor * vec3(1.) - scatteringFactorThreshold) / ( vec3(1.) - scatteringFactorThreshold ));
 
 
-    float horizontalDistanceFactor = clampToOne(4.0 * distanceThroughAtmosphere / horizontalMaxDistance);
-    float horizontalDensityFactor = clampToOne(1.2 * (1.0 - altitudeFactor) * horizontalDistanceFactor);
-    float planetDistanceFactorNonNormalized = (distanceToCore - planetRadius - atmosphereHeight)/atmosphereHeight;
-    float planetDistanceFactor = clampToOne(planetDistanceFactorNonNormalized / 3.0);
-    float planetDistanceFactorExp = pow(0.0001, 1.0 - planetDistanceFactor);
-    float horizontalDensityFactorExp = clampToOne(expSteepness(horizontalDensityFactor, planetDistanceFactorExp));
+    float horizontalDistanceFactor = clampToOne(15.0 * distanceThroughAtmosphere / horizontalMaxDistance);
+    float horizontalDensityFactor = clampToOne(1.2 * altitudeFactor * horizontalDistanceFactor);
+    //float planetDistanceFactorNonNormalized = (distanceToCore - planetRadius - atmosphereHeight)/atmosphereHeight;
+    //float planetDistanceFactor = clampToOne(planetDistanceFactorNonNormalized / 3.0);
+    //float planetDistanceFactorExp = pow(0.0001, 1.0 - planetDistanceFactor);
+    //float horizontalDensityFactorExp = clampToOne(expSteepness(horizontalDensityFactor, planetDistanceFactorExp));
+    float horizontalDensityFactorExp = horizontalDensityFactor;
 
-    float alfaDistanceFactor = clampToOne( -2.0 * planetDistanceFactorNonNormalized );
+    // float alfaDistanceFactor = clampToOne( -2.0 * planetDistanceFactorNonNormalized );
     
-    float alfa = 5.0 * horizontalDensityFactorExp * timeOfDay;
+    //float alfa = 5.0 * horizontalDensityFactorExp * timeOfDay;
+    float alfa = 3.0 * horizontalDensityFactorExp * timeOfDay;
 
     gl_FragColor.a = alfa + clampToOne(0.05 * distanceToCore / atmosphereHeight / 10.0 - 1.0);
 
@@ -194,4 +202,8 @@ void main()	{
     
     float maxChannel = max(max(gl_FragColor.r, gl_FragColor.g), gl_FragColor.b);
     gl_FragColor.rgb *= 2.0 * timeOfDay/maxChannel * (1.0-(1.0 - timeOfDay));
+
+    //gl_FragColor = factor2rgb(altitudeFactor);
+    //gl_FragColor = factor2rgb(horizontalDistanceFactor);
+    //gl_FragColor = factor2rgb(alfa);
 }
