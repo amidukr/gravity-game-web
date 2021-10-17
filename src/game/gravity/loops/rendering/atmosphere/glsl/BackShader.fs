@@ -144,18 +144,10 @@ void main()	{
     vec3 surfaceToStarNormalized = normalize(surfaceToStar);
     vec3 coreToStarNormalized = normalize(coreToStar);
 
-    float distanceToSurface = length(cameraToSurface);
     float distanceToCore = length(cameraToCore);
-    float cameraAltitude = distanceToCore - length(surfaceToCore);
     float[2] atmosphereDistance = raySphereIntersect(cameraPosition, cameraToSurfaceNormalized, planetCenter, planetRadius + atmosphereHeight);
 
-    // float[2] planetDistance = raySphereIntersect(cameraPosition, cameraToSurfaceNormalized, planetCenter, planetRadius);
-
     atmosphereDistance[0] = max(0.0, atmosphereDistance[0]);
-
-    // if(planetDistance[0] > 0.) {
-    //    atmosphereDistance[1] = min(atmosphereDistance[1], planetDistance[0]);
-    // }
 
     vec3 startPoint = cameraPosition + cameraToSurfaceNormalized * atmosphereDistance[0];
     vec3 endPoint = cameraPosition + cameraToSurfaceNormalized * atmosphereDistance[1];
@@ -172,7 +164,6 @@ void main()	{
 
     float distanceThroughAtmosphere = atmosphereDistance[1] - atmosphereDistance[0];
     
-    //const float nightAt = -1.0; 
     const float nightAt = -0.8; 
     float timeOfDay = clampToOne((dot(coreToMiddlePointNormalized, coreToStarNormalized) - nightAt) / (1.0 - nightAt));
 
@@ -185,9 +176,6 @@ void main()	{
     float horizontalDensityFactor = clampToOne(altitudeFactor * horizontalDistanceFactor);
     float horizontalDensityFactorExp = horizontalDensityFactor;
 
-    // float alfaDistanceFactor = clampToOne( -2.0 * planetDistanceFactorNonNormalized );
-    
-    //float alfa = 5.0 * horizontalDensityFactorExp * timeOfDay;
     float alfa = 3.0 * horizontalDensityFactorExp * timeOfDay;
 
     gl_FragColor.a = alfa + clampToOne(0.05 * distanceToCore / atmosphereHeight / 10.0 - 1.0);
@@ -203,7 +191,7 @@ void main()	{
 
     scatteringFactor += densityTimeOfDay * 1.0 * pow(scatteringFactor * vec3(1.0, 0.5, 0.0), vec3(50.0));
 
-    float horizontalDensityFactorForColor = 1.00 * expSteepness(horizontalDensityFactor, 1000.0);
+    float horizontalDensityFactorForColor = expSteepness(horizontalDensityFactor, 1000.0);
 
     gl_FragColor.rgb = vec3(
         scatteringFactor.r * timeOfDay * 1.0 * (1.0 - horizontalDensityFactorForColor * (0.20)), 
@@ -213,10 +201,4 @@ void main()	{
     
     float maxChannel = max(max(gl_FragColor.r, gl_FragColor.g), gl_FragColor.b);
     gl_FragColor.rgb *= 2.0 * timeOfDay/maxChannel * (1.0-(1.0 - timeOfDay));
-
-    //gl_FragColor = factor2rgb(altitudeFactor);
-    //gl_FragColor = factor2rgb(horizontalDistanceFactor);
-    //gl_FragColor = factor2rgb(horizontalDensityFactor);
-    //gl_FragColor = factor2rgb(alfa);
-    //gl_FragColor = factor2rgb(horizontalDensityFactorForColor);
 }
