@@ -38,8 +38,6 @@ export class GameEngine implements ApplicationComponent {
       this.stats.end();
     }
 
-    //window.setTimeout(this.__gameLoop.bind(this), 0)
-
     requestAnimationFrame(this.__gameLoop.bind(this));
   }
 

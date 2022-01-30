@@ -8,6 +8,7 @@ import { GameLevel } from "../level/GameLevel";
 import { GameLoader } from "../loader/GameLoader";
 import { AutowiredLoopersModule } from "../loader/modules/AutowiredLoopersModule";
 import { LoadGameLevelModule } from "../loader/modules/LoadGameLevelModule";
+import { GameTimePlugin } from "../time/GameTimePlugin";
 import { GameViewCollection } from "../ui/view/GameViewsCollection";
 
 export class GameEnginePlugin implements ApplicationComponent {
@@ -19,6 +20,7 @@ export class GameEnginePlugin implements ApplicationComponent {
     application.registerComponent(new ApplicationWindowVariablePlugin());
 
     application.registerComponent(new GameEngine());
+    application.registerComponent(new GameTimePlugin());
 
     application.registerComponent(new GameLevel());
     application.registerComponent(new GameViewCollection());

@@ -1,29 +1,37 @@
 # IN-PROGRESS
 
-
 # BACKLOG
 
-1. Game logic 
-   1. Implement module for configuration
-      1. Configuration overide sequence
-         - Configuration from console
-         - Configuration from level file
-         - Global configuration
-   1. GFX: Terra generation
-   1. Sun is white and has star shape in space
-   1. Scale planet same way as sun
+Current
    1. Animate planet circle moving
    1. Implement gravity for starship movement
       1. Make enabling/disabling gravity configurable
+   1. GFX: Terra generation
+
+Game logic 
+   
+   1. Scale planet same way as sun
+   1. Gameplay: Launchpad on planets
+
+GFX:
+   1. GFX: Sun is white and has star shape in space
    1. GFX: Use startship model
    1. GFX: Scale size to take same size on the screen
    1. GFX: Fog on planet
    1. GFX: Use point light intensity/decay - to make make similar light effect
    1. GFX: Cleanup backgrounds
-   1. Gameplay: Launchpad on planets
+
+Future Plans
    1. Music/Sound
-   1. Game save/load for debugging
    1. Game Keyboard Help
+
+Technical Tasks
+   1. Implement module for configuration
+      1. Configuration overide sequence
+         - Configuration from console
+         - Configuration from level file
+         - Global configuration
+   1. Game save/load for debugging
 
 # Plan
    1. Gameplay
