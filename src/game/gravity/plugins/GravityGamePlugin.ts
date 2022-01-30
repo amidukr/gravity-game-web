@@ -6,10 +6,10 @@ import { ThreeJsGameLevelRepository } from "../../../common/framework/game/3rd-p
 import { GameEnginePlugin } from "../../../common/framework/game/plugins/GameEnginePlugin";
 import { ReactStarter, TYPE_ReactRootWidget } from "../../../common/ui/ReactStarter";
 import { MainViewInputMappings } from "../input/mappings/GravityGameInputMappings";
+import { AtmosphereModule } from "../loader/AtmosphereModule";
 import { GravityGameLoader } from "../loader/GravityGameLoader";
 import { DebugAltitudeLoop } from "../loops/debug/DebugAltitudeLoop";
 import { DebugLoop } from "../loops/debug/DebugLoop";
-import { AtmosphereModule } from "../loops/rendering/AtmosphereModule";
 import { ScaleSunSizeLoop } from "../loops/ScaleSunSizeLoop";
 import { DebugInfoModel } from "../model/DebugInfoModel";
 import { GravitySceneModel } from "../model/GravitySceneModel";

@@ -1,11 +1,11 @@
 import { BackSide, Box3, Group, IcosahedronGeometry, Mesh, Vector3 } from "three";
-import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../../common/app/api/ApplicationComponent";
-import { ApplicationContainer } from "../../../../common/app/ApplicationContainer";
-import { Introspection } from "../../../../common/app/lookup/Introspection";
-import { GameLoaderModule, TYPE_GameLoaderModule } from "../../../../common/framework/game/loader/GameLoaderModule";
-import { GravityGameLevel, TYPE_GravityGameLevel } from "../../level/GravityGameLevelObject";
-import { GravitySceneModel } from "../../model/GravitySceneModel";
-import { AtmospherShaderMaterial as AtmospherBackMaterial } from "./atmosphere/AtmospherMaterial";
+import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
+import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
+import { Introspection } from "../../../common/app/lookup/Introspection";
+import { GameLoaderModule, TYPE_GameLoaderModule } from "../../../common/framework/game/loader/GameLoaderModule";
+import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
+import { GravitySceneModel } from "../model/GravitySceneModel";
+import { AtmospherShaderMaterial as AtmospherBackMaterial } from "../scene/atmosphere/AtmospherMaterial";
 
 export class AtmosphereModule implements ApplicationComponent, GameLoaderModule {
   sceneModel!: GravitySceneModel;
