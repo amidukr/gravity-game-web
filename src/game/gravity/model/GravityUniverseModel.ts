@@ -26,7 +26,31 @@ export class A {
   constructor(b: string, c: string) {}
 }
 
-export function newGravityObject(
+export function newFixedGravityObject(object: {
+  objectId: string;
+  objectType: string;
+
+  mass: number;
+
+  initialPosition: Vector3;
+}): GravityObject {
+  return {
+    objectId: object.objectId,
+    objectType: object.objectType,
+    parentObjectId: GRAVITY_OBJECT_UNIVERSE,
+
+    mass: object.mass,
+
+    initialPosition: object.initialPosition.clone(),
+
+    orbitAngularVelocity: 0,
+    orbitRotationAxis: new Vector3(0, 1, 0),
+    lastCalculatedTimeMilliseconds: 0,
+    currentPosition: object.initialPosition,
+  };
+}
+
+export function newBoundGravityObject(
   parent: GravityObject,
   child: {
     objectId: string;
@@ -35,9 +59,6 @@ export function newGravityObject(
     mass: number;
 
     initialPosition: Vector3;
-
-    orbitAngularVelocity: number;
-    orbitRotationAxis: Vector3;
   }
 ): GravityObject {
   const G = 1.0;
@@ -85,6 +106,10 @@ export class GravityUniverseModel extends BaseGameModel<GravityUniverse> {
 
   construtNewObject(loadGameObject: LoadGameObject): GravityUniverse {
     return new GravityUniverse();
+  }
+
+  getGravityObject(name: string): GravityObject {
+    return this.object.gravityObjectsByName[name];
   }
 
   addGravityObject(gravityObject: GravityObject) {

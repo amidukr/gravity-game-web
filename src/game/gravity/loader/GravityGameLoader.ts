@@ -1,8 +1,6 @@
 import { Quaternion, Vector3 } from "three";
-import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { Introspection } from "../../../common/app/lookup/Introspection";
-import { GameLoaderModule, TYPE_GameLoaderModule } from "../../../common/framework/game/loader/GameLoaderModule";
+import { BaseGameLoaderModule } from "../../../common/framework/game/loader/BaseGameLoaderModule";
 import { LoadGameObject } from "../../../common/framework/game/loader/object/LoadGameObject";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 import { GravitySceneModel } from "../model/GravitySceneModel";
@@ -15,15 +13,10 @@ declare global {
   }
 }
 
-export class GravityGameLoader implements GameLoaderModule, ApplicationComponent {
+export class GravityGameLoader extends BaseGameLoaderModule {
   spaceShipsModel!: SpaceShipsModel;
   playerViewModel!: PlayerViewModel;
   gameLevel!: GravityGameLevel;
-
-  constructor() {
-    Introspection.bindInterfaceName(this, TYPE_GameLoaderModule);
-    Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
-  }
 
   autowire(application: ApplicationContainer) {
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);

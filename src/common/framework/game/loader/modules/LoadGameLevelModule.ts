@@ -1,19 +1,12 @@
-import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../../app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../../app/ApplicationContainer";
-import { Introspection } from "../../../../app/lookup/Introspection";
 import { GameLevel } from "../../level/GameLevel";
 import { GameLevelRepository, TYPE_GameLevelRepository } from "../../level/GameLevelRepository";
-import { GameLoaderModule, TYPE_GameLoaderModule } from "../GameLoaderModule";
+import { BaseGameLoaderModule } from "../BaseGameLoaderModule";
 import { LoadGameObject } from "../object/LoadGameObject";
 
-export class LoadGameLevelModule implements ApplicationComponent, GameLoaderModule {
+export class LoadGameLevelModule extends BaseGameLoaderModule {
   gameLevel!: GameLevel;
   gameLevelRepository!: GameLevelRepository;
-
-  constructor() {
-    Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
-    Introspection.bindInterfaceName(this, TYPE_GameLoaderModule);
-  }
 
   autowire(application: ApplicationContainer) {
     this.gameLevel = application.getComponent(GameLevel);

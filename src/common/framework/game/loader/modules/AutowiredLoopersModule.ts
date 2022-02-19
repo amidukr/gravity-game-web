@@ -1,21 +1,14 @@
 // import { GameEngineConfigurer } from "./api/GameEngineConfigurer";
 
-import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../../app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../../app/ApplicationContainer";
-import { Introspection } from "../../../../app/lookup/Introspection";
 import { GameEngine } from "../../GameEngine";
 import { GameLoop, TYPE_GameLoop } from "../../looper/GameLoop";
-import { GameLoaderModule, TYPE_GameLoaderModule } from "../GameLoaderModule";
+import { BaseGameLoaderModule } from "../BaseGameLoaderModule";
 import { LoadGameObject } from "../object/LoadGameObject";
 
-export class AutowiredLoopersModule implements ApplicationComponent, GameLoaderModule {
+export class AutowiredLoopersModule extends BaseGameLoaderModule {
   loopers!: Array<GameLoop>;
   gameEngine!: GameEngine;
-
-  constructor() {
-    Introspection.bindInterfaceName(this, TYPE_GameLoaderModule);
-    Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
-  }
 
   autowire(application: ApplicationContainer) {
     this.gameEngine = application.getComponent(GameEngine);
