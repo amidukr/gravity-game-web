@@ -1,4 +1,5 @@
 import { ApplicationContainer } from "../../../../app/ApplicationContainer";
+import { Introspection } from "../../../../app/lookup/Introspection";
 import { AxisUserInput } from "../../input/AxisUserInput";
 import { ButtonUserInput } from "../../input/ButtonUserInput";
 
@@ -13,6 +14,8 @@ export class GameView {
   readonly exclusiveRenderingCanvas: Boolean;
 
   constructor(private parameters: GameViewParameters) {
+    Introspection.bindInterfaceName(this, GameView);
+
     const exclusiveRenderingCanvas = this.parameters.exclusiveRenderingCanvas;
     this.exclusiveRenderingCanvas = exclusiveRenderingCanvas == undefined || exclusiveRenderingCanvas;
     this.container = parameters.container;

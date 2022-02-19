@@ -27,7 +27,7 @@ export abstract class BaseGravityViewRenderer extends BaseGameLoop implements Ga
     Introspection.bindInterfaceName(this, TYPE_GameLoopStarter);
   }
 
-  autowire(application: ApplicationContainer): void {
+  override autowire(application: ApplicationContainer): void {
     this.application = application;
   }
 

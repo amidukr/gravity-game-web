@@ -29,7 +29,7 @@ export class GameViewCollection {
   async startView(view: GameView): Promise<void> {
     const viewContainer = view.container;
 
-    viewContainer.start();
+    await viewContainer.start();
 
     const startersList = viewContainer.getComponentList(TYPE_GameLoopStarter);
 

@@ -4,11 +4,11 @@ import { quanterionBaseVector } from "../../../../../common/framework/game/3rd-p
 import { GameEvent } from "../../../../../common/framework/game/GameEvent";
 import { AxisUserInput } from "../../../../../common/framework/game/input/AxisUserInput";
 import { MouseDevice } from "../../../../../common/framework/game/input/devices/MouseDevice";
-import { BaseGameLoop } from "../../../../../common/framework/game/looper/GameLoop";
+import { BaseGameLoop, TYPE_GameProcessingViewLoop } from "../../../../../common/framework/game/looper/GameLoop";
 import { PlayerViewModel } from "../../../model/PlayerControlModel";
 import { SpaceShipsModel } from "../../../model/SpaceShipsModel";
 
-export class FreeFlyProcessingLoop implements BaseGameLoop {
+export class FreeFlyProcessingLoop extends BaseGameLoop {
   axisInput!: AxisUserInput;
   playerViewModel!: PlayerViewModel;
   spaceShipsModel!: SpaceShipsModel;
@@ -17,6 +17,10 @@ export class FreeFlyProcessingLoop implements BaseGameLoop {
   startRotationAt = 0.1;
   rotationSteepnes = 20;
   mouseNavigationEanbledSpeedUpTime = 5 * 1000;
+
+  constructor() {
+    super(TYPE_GameProcessingViewLoop);
+  }
 
   autowire(application: ApplicationContainer): void {
     this.axisInput = application.getComponent(AxisUserInput);
