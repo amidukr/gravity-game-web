@@ -1,8 +1,8 @@
 import { Vector3 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { GameTimeModel } from "../../../common/game/engine/core/GameModelameTimeModel";
 import { LoadGameObject } from "../../../common/game/engine/features/loader/object/LoadGameObject";
-import { BaseGameModel } from "../../../common/game/engine/model/GameModel";
+import { GameTimeModel } from "../../../common/game/engine/features/time/GameTimeModel";
+import { BaseGameStateModel } from "../../../common/game/engine/framework/GameModelTypes";
 
 export const GRAVITY_OBJECT_UNIVERSE: string = "Universe";
 
@@ -97,7 +97,7 @@ export class GravityUniverse {
   gravityObjectsChildren: { [objectId: string]: GravityObject[] } = {};
 }
 
-export class GravityUniverseModel extends BaseGameModel<GravityUniverse> {
+export class GravityUniverseModel extends BaseGameStateModel<GravityUniverse> {
   gameTimeModel!: GameTimeModel;
 
   autowire(application: ApplicationContainer): void {

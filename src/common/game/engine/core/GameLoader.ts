@@ -1,18 +1,18 @@
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../app/ApplicationContainer";
 import { Introspection } from "../../../app/lookup/Introspection";
-import { typeIdentifier } from "../../../app/lookup/TypeIdentifierUtils";
+import { typeIdentifier } from "../../../app/lookup/TypeIdentifier";
 import { PACKAGE_AmidGeFramework } from "../../../package";
 
-export const TYPE_GameLoader = typeIdentifier<GameLoader>("GameLoader", PACKAGE_AmidGeFramework);
+export const TYPE_GameStarter = typeIdentifier<GameStarter>("GameStarter", PACKAGE_AmidGeFramework);
 
-export interface GameLoader {
+export interface GameStarter {
   startNewGame(): void;
 }
 
-export abstract class BaseGameLoader implements GameLoader, ApplicationComponent {
+export abstract class BaseGameLoader implements GameStarter, ApplicationComponent {
   constructor() {
-    Introspection.bindInterfaceName(this, TYPE_GameLoader, {
+    Introspection.bindInterfaceName(this, TYPE_GameStarter, {
       executionOrder: this.executionOrder(),
     });
     Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);

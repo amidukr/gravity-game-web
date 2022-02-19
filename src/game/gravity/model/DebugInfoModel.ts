@@ -1,12 +1,12 @@
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { BaseGameModel } from "../../../common/game/engine/core/interface/GameModel";
 import { LoadGameObject } from "../../../common/game/engine/features/loader/object/LoadGameObject";
+import { BaseGameViewModel } from "../../../common/game/engine/framework/GameModelTypes";
 
 export class DebugInfoObject {
   altitude = 0;
 }
 
-export class DebugInfoModel extends BaseGameModel<DebugInfoObject> {
+export class DebugInfoModel extends BaseGameViewModel<DebugInfoObject> {
   refreshViewCallback: ((object: DebugInfoObject) => void) | null = null;
 
   autowire(application: ApplicationContainer): void {}

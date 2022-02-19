@@ -1,9 +1,9 @@
-import { typeIdentifier } from "../../../common/app/lookup/TypeIdentifier";
-import { ThreeJsGameLevelObject, ThreeJsGameLevelObjectData } from "../../../common/framework/game/3rd-party/threejs/objects/ThreeJsGameLevelObject";
-import { GameLevel } from "../../../common/framework/game/features/level/GameLevel";
+import { resolveTypeIdentifier } from "../../../common/app/lookup/TypeIdentifier";
+import { ThreeJsGameLevelObject, ThreeJsGameLevelObjectData } from "../../../common/game/engine/3rd-party/threejs/objects/ThreeJsGameLevelObject";
+import { GameLevel } from "../../../common/game/engine/features/level/GameLevel";
 
-export c../../../common/engine/game/3rd-party/threejs/objects/ThreeJsGameLevelObject
-../../../common/engine/game/features/level/GameLevel
+export const TYPE_GravityGameLevel = resolveTypeIdentifier<GravityGameLevel>(GameLevel);
+
 export type GravityGameLevel = GameLevel<GravityGameLevelObject>;
 
 export interface GravityGameLevelObjectData extends ThreeJsGameLevelObjectData {

@@ -1,24 +1,17 @@
 import { Vector3 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { Introspection } from "../../../common/app/lookup/Introspection";
-import { BaseGameLooper, TYPE_GameLoop } from "../../../common/game/engine/core/GameLooper";
-import { GameLoopStarter, TYPE_GameLoopStarter } from "../../../common/game/engine/core/interface/GameStarter";
+import { BaseGameSceneUpdaterLooper } from "../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../common/game/engine/GameEvent";
 import { expSteepness, smootStep } from "../../../common/utils/math";
 import { GravitySceneModel } from "../model/GravitySceneModel";
 import { PlayerViewModel } from "../model/PlayerControlModel";
 
-export class ScaleSunSizeLoop extends BaseGameLooper implements GameLoopStarter {
+export class ScaleSunSizeLoop extends BaseGameSceneUpdaterLooper {
   sceneModel!: GravitySceneModel;
   playerViewModel!: PlayerViewModel;
 
   private planetMinOrbit!: number;
   private planetMaxRadius!: number;
-
-  constructor() {
-    super(TYPE_GameLoop);
-    Introspection.bindInterfaceName(this, TYPE_GameLoopStarter);
-  }
 
   autowire(application: ApplicationContainer): void {
     this.sceneModel = application.getComponent(GravitySceneModel);

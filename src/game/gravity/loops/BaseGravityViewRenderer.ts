@@ -1,15 +1,13 @@
 import { Box3, PerspectiveCamera, Vector2 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { Introspection } from "../../../common/app/lookup/Introspection";
 import { GameEngineThreeJsRenderer } from "../../../common/game/engine/3rd-party/threejs/GameEngineThreeJsRenderer";
-import { BaseGameLooper, TYPE_GameRenderingViewLoop } from "../../../common/game/engine/core/GameLooper";
-import { GameLoopStarter, TYPE_GameLoopStarter } from "../../../common/game/engine/core/interface/GameStarter";
+import { BaseGameRenderingLooper } from "../../../common/game/engine/framework/GameLooperTypes";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 import { GravitySceneModel } from "../model/GravitySceneModel";
 import { PlayerViewModel } from "../model/PlayerControlModel";
 import { SpaceShipsModel } from "../model/SpaceShipsModel";
 
-export abstract class BaseGravityViewRenderer extends BaseGameLooper implements GameLoopStarter {
+export abstract class BaseGravityViewRenderer extends BaseGameRenderingLooper {
   protected engineRenderer!: GameEngineThreeJsRenderer;
   protected gameLevel!: GravityGameLevel;
 
@@ -22,16 +20,11 @@ export abstract class BaseGravityViewRenderer extends BaseGameLooper implements 
   private clipPoints!: number[];
   application!: ApplicationContainer;
 
-  constructor() {
-    super(TYPE_GameRenderingViewLoop);
-    Introspection.bindInterfaceName(this, TYPE_GameLoopStarter);
-  }
-
   override autowire(application: ApplicationContainer): void {
     this.application = application;
   }
 
-  startNewGame(): void {
+  override startNewGame(): void {
     const application = this.application;
     this.engineRenderer = application.getComponent(GameEngineThreeJsRenderer);
 

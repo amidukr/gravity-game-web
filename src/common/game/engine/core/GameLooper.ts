@@ -1,7 +1,7 @@
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../app/ApplicationContainer";
 import { Introspection } from "../../../app/lookup/Introspection";
-import { typeIdentifier } from "../../../app/lookup/TypeIdentifierUtils";
+import { typeIdentifier } from "../../../app/lookup/TypeIdentifier";
 import { PACKAGE_AmidGeFramework } from "../../../package";
 import { GameEvent } from "../GameEvent";
 

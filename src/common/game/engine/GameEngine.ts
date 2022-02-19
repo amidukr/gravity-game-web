@@ -1,10 +1,9 @@
-import { Promise } from "bluebird";
 import Stats from "stats.js";
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../app/ApplicationContainer";
 import { Introspection } from "../../app/lookup/Introspection";
-import { GameLooper, TYPE_GameProcessingViewLoop, TYPE_GameRenderingViewLoop } from "./core/GameLooper";
-import { TYPE_GameLoopStarter } from "./core/interface/GameStarter";
+import { TYPE_GameStarter } from "./core/GameLoader";
+import { GameLooper, TYPE_GameLooper } from "./core/GameLooper";
 import { GameEvent } from "./GameEvent";
 import { GameViewCollection } from "./ui/view/GameViewsCollection";
 
@@ -51,17 +50,6 @@ export class GameEngine implements ApplicationComponent {
 
     gameEvent.application = this.application;
 
-    for (const view of this.gameViewCollection.list) {
-      const processingLoops = view.container.getComponentList(TYPE_GameProcessingViewLoop);
-      for (const loop of processingLoops) {
-        try {
-          loop.execute(gameEvent);
-        } catch (ex) {
-          console.error("Game Engine", ex);
-        }
-      }
-    }
-
     this.controllers.forEach((controller) => {
       try {
         controller.execute(gameEvent);
@@ -71,8 +59,8 @@ export class GameEngine implements ApplicationComponent {
     });
 
     for (const view of this.gameViewCollection.list) {
-      const renderingLoops = view.container.getComponentList(TYPE_GameRenderingViewLoop);
-      for (const loop of renderingLoops) {
+      const processingLoops = view.container.getComponentList(TYPE_GameLooper);
+      for (const loop of processingLoops) {
         try {
           loop.execute(gameEvent);
         } catch (ex) {
@@ -91,7 +79,7 @@ export class GameEngine implements ApplicationComponent {
   }
 
   async startNewGame() {
-    const starters = this.application.getComponentList(TYPE_GameLoopStarter);
+    const starters = this.application.getComponentList(TYPE_GameStarter);
 
     await Promise.all(starters.map((x) => x.startNewGame()));
 

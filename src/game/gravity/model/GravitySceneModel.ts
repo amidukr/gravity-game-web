@@ -1,6 +1,6 @@
 import { Box3, Object3D, Scene, Vector3 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { BaseGameModel } from "../../../common/game/engine/core/interface/GameModel";
+import { BaseGameViewModel } from "../../../common/game/engine/framework/GameModelTypes";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 
 export interface SceneComponent {
@@ -29,7 +29,7 @@ export class GravityScene {
   sceneDictionary = new SceneDictionary();
 }
 
-export class GravitySceneModel extends BaseGameModel<GravityScene> {
+export class GravitySceneModel extends BaseGameViewModel<GravityScene> {
   gameLevel!: GravityGameLevel;
 
   autowire(application: ApplicationContainer): void {

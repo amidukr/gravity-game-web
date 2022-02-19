@@ -1,4 +1,4 @@
-import { TYPE_GameLoopStarter } from "../../core/interface/GameStarter";
+import { TYPE_GameStarter } from "../../core/GameLoader";
 import { GameView } from "./GameView";
 
 export class GameViewCollection {
@@ -31,7 +31,7 @@ export class GameViewCollection {
 
     await viewContainer.start();
 
-    const startersList = viewContainer.getComponentList(TYPE_GameLoopStarter);
+    const startersList = viewContainer.getComponentList(TYPE_GameStarter);
 
     for (const startable of startersList) {
       try {

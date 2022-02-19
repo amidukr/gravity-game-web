@@ -1,7 +1,7 @@
 import { Promise } from "bluebird";
 import { TYPE_ApplicationComponent } from "./api/ApplicationComponent";
 import { BoundInterface, Introspection } from "./lookup/Introspection";
-import { TypeIdentifier, typeIdentifierName } from "./lookup/TypeIdentifier";
+import { TypeIdentifierAgument, typeIdentifierName } from "./lookup/TypeIdentifier";
 
 type BoundInterfaceArray = {
   sorted: boolean;
@@ -40,7 +40,7 @@ export class ApplicationContainer {
     this.__components.push(component);
 
     this.__addBoundInterface({
-      name: component.constructor.name,
+      name: typeIdentifierName(component.constructor),
       component: component,
       executionOrder: 0,
     });
@@ -65,7 +65,7 @@ export class ApplicationContainer {
   }
 
   getComponentList<T>(
-    descriptor: TypeIdentifier<T>,
+    descriptor: TypeIdentifierAgument<T>,
     params = {
       searchParent: true,
     }
@@ -81,18 +81,17 @@ export class ApplicationContainer {
     }
 
     if (!boundInterfaceArray.sorted) {
-      boundInterfaceArray.interfaces.sort((a, b) => a.order - b.order);
+      boundInterfaceArray.interfaces.sort((a, b) => a.executionOrder - b.executionOrder);
       boundInterfaceArray.sorted = true;
     }
 
     return boundInterfaceArray.interfaces.map((x) => x.component);
   }
 
-  getComponent<T>(descriptor: TypeIdentifier<T>): T {
+  getComponent<T>(descriptor: TypeIdentifierAgument<T>): T {
     const componentList = this.getComponentList(descriptor);
 
     const length = componentList.length;
-    executionOrderexecutionOrder;
 
     if (length == 0) {
       throw Error(`Can't find component with descriptor: ${descriptor}`);

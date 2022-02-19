@@ -4,10 +4,10 @@ import { MappedUserInput } from "../../../../common/game/engine/features/input/M
 import { InputAction } from "../../../../common/game/engine/features/input/types/InputAction";
 import { InputHotkey } from "../../../../common/game/engine/features/input/types/InputHotKey";
 import { InputMappingGroup } from "../../../../common/game/engine/features/input/types/InputMappingGroup";
-import { TYPE_UserInputMappingConfigurer, UserInputMappingConfigurer } from "../../../../common/framework/game/features/input/UserInputMappingConfigurer";
+import { TYPE_UserInputMappingConfigurer, UserInputMappingConfigurer } from "../../../../common/game/engine/features/input/UserInputMappingConfigurer";
 
 export const COMMON_GROUP = new InputMappingGroup({
-  groupI../../../../common/engine/game/features/input/UserInputMappingConfigurer
+  groupId: "Common",
 });
 
 export const CHANGE_VIEW_ACTION = new InputAction({
