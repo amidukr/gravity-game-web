@@ -1,17 +1,16 @@
 import { Box3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { TYPE_GravityGameLevel } from "../../../level/GravityGameLevelObject";
 import { BaseGravityViewRenderer } from "../../../loops/BaseGravityViewRenderer";
 
 export class OrbitRenderingLoop extends BaseGravityViewRenderer {
   private controls!: OrbitControls;
 
-  override startNewGame(application: ApplicationContainer) {
-    super.startNewGame(application);
+  override startNewGame() {
+    super.startNewGame();
     const camera = this.playerViewModel.object.camera;
 
-    const scene = application.getComponent(TYPE_GravityGameLevel).object.rootScene;
+    const scene = this.application.getComponent(TYPE_GravityGameLevel).object.rootScene;
 
     this.controls = new OrbitControls(camera, this.engineRenderer.getThreeJsWebGlRenderer().domElement);
 

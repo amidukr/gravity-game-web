@@ -1,8 +1,8 @@
 import React from "react";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { GameViewWidget } from "../../../common/framework/game/3rd-party/react/GameViewWidget";
-import { MappedUserInput } from "../../../common/framework/game/input/MappedUserInput";
-import { GameView } from "../../../common/framework/game/ui/view/GameView";
+import { GameViewWidget } from "../../../common/game/engine/3rd-party/react/GameViewWidget";
+import { MappedUserInput } from "../../../common/game/engine/features/input/MappedUserInput";
+import { GameView } from "../../../common/game/engine/ui/view/GameView";
 import { CHANGE_VIEW_ACTION, COMMON_GROUP } from "../input/mappings/GravityGameInputMappings";
 import { FreeFlyGameView } from "../views/free/fly/FreeFlyGameView";
 import { OrbitGameView } from "../views/free/orbit/OrbitGameView";

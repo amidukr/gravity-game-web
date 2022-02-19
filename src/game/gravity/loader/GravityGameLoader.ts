@@ -1,9 +1,6 @@
 import { Quaternion, Vector3 } from "three";
-import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { Introspection } from "../../../common/app/lookup/Introspection";
-import { GameLoaderModule, TYPE_GameLoaderModule } from "../../../common/framework/game/loader/GameLoaderModule";
-import { LoadGameObject } from "../../../common/framework/game/loader/object/LoadGameObject";
+import { BaseGameStateModelLoader } from "../../../common/game/engine/framework/GameLoaderTypes";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 import { GravitySceneModel } from "../model/GravitySceneModel";
 import { PlayerViewModel } from "../model/PlayerControlModel";
@@ -15,15 +12,10 @@ declare global {
   }
 }
 
-export class GravityGameLoader implements GameLoaderModule, ApplicationComponent {
+export class GravityGameLoader extends BaseGameStateModelLoader {
   spaceShipsModel!: SpaceShipsModel;
   playerViewModel!: PlayerViewModel;
   gameLevel!: GravityGameLevel;
-
-  constructor() {
-    Introspection.bindInterfaceName(this, TYPE_GameLoaderModule);
-    Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
-  }
 
   autowire(application: ApplicationContainer) {
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
@@ -36,7 +28,7 @@ export class GravityGameLoader implements GameLoaderModule, ApplicationComponent
     window.gameLevel = this.gameLevel;
   }
 
-  async startNewGame(loadGameObject: LoadGameObject): Promise<void> {
+  async startNewGame(): Promise<void> {
     const startPosition = this.gameLevel.object.rootScene.getObjectByName("Start-Position");
 
     if (startPosition == null) {
@@ -48,9 +40,7 @@ export class GravityGameLoader implements GameLoaderModule, ApplicationComponent
     playerSpaceShip.throttle = this.gameLevel.object.data.spaceShips.player.throttle || 0.1;
     playerSpaceShip.position = startPosition.getWorldPosition(new Vector3());
     playerSpaceShip.orientation.copy(
-      startPosition
-        .getWorldQuaternion(new Quaternion())
-        .multiply(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), -Math.PI / 2))
+      startPosition.getWorldQuaternion(new Quaternion()).multiply(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), -Math.PI / 2))
     );
   }
 }

@@ -1,13 +1,10 @@
 import { Introspection } from "../../../../common/app/lookup/Introspection";
-import { KeyBoardDevice } from "../../../../common/framework/game/input/devices/KeyboardDevice";
-import { MappedUserInput } from "../../../../common/framework/game/input/MappedUserInput";
-import { InputAction } from "../../../../common/framework/game/input/types/InputAction";
-import { InputHotkey } from "../../../../common/framework/game/input/types/InputHotKey";
-import { InputMappingGroup } from "../../../../common/framework/game/input/types/InputMappingGroup";
-import {
-  TYPE_UserInputMappingConfigurer,
-  UserInputMappingConfigurer,
-} from "../../../../common/framework/game/input/UserInputMappingConfigurer";
+import { KeyBoardDevice } from "../../../../common/game/engine/features/input/devices/KeyboardDevice";
+import { MappedUserInput } from "../../../../common/game/engine/features/input/MappedUserInput";
+import { InputAction } from "../../../../common/game/engine/features/input/types/InputAction";
+import { InputHotkey } from "../../../../common/game/engine/features/input/types/InputHotKey";
+import { InputMappingGroup } from "../../../../common/game/engine/features/input/types/InputMappingGroup";
+import { TYPE_UserInputMappingConfigurer, UserInputMappingConfigurer } from "../../../../common/game/engine/features/input/UserInputMappingConfigurer";
 
 export const COMMON_GROUP = new InputMappingGroup({
   groupId: "Common",
@@ -65,8 +62,6 @@ export class MainViewInputMappings implements UserInputMappingConfigurer {
       { group: COMMON_GROUP, action: MOUSE_NAVIGATION_TOGGLE_ACTION, keyChar: "f" },
       { group: COMMON_GROUP, action: SAVE_GAME_ACTION, keyChar: "o" },
       { group: COMMON_GROUP, action: LOAD_GAME_ACTION, keyChar: "l" },
-    ].forEach((x) =>
-      mappedUserInput.bindKey(x.group, x.action, new InputHotkey({ button: KeyBoardDevice.fromCharacter(x.keyChar) }))
-    );
+    ].forEach((x) => mappedUserInput.bindKey(x.group, x.action, new InputHotkey({ button: KeyBoardDevice.fromCharacter(x.keyChar) })));
   }
 }

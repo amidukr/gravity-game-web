@@ -1,13 +1,13 @@
 import { Box3, PerspectiveCamera, Vector2 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { GameEngineThreeJsRenderer } from "../../../common/framework/game/3rd-party/threejs/GameEngineThreeJsRenderer";
-import { GameViewLoop } from "../../../common/framework/game/ui/view/GameViewLoop";
+import { GameEngineThreeJsRenderer } from "../../../common/game/engine/3rd-party/threejs/GameEngineThreeJsRenderer";
+import { BaseGameRenderingLooper } from "../../../common/game/engine/framework/GameLooperTypes";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 import { GravitySceneModel } from "../model/GravitySceneModel";
 import { PlayerViewModel } from "../model/PlayerControlModel";
 import { SpaceShipsModel } from "../model/SpaceShipsModel";
 
-export abstract class BaseGravityViewRenderer implements GameViewLoop {
+export abstract class BaseGravityViewRenderer extends BaseGameRenderingLooper {
   protected engineRenderer!: GameEngineThreeJsRenderer;
   protected gameLevel!: GravityGameLevel;
 
@@ -18,8 +18,14 @@ export abstract class BaseGravityViewRenderer implements GameViewLoop {
   playerViewModel!: PlayerViewModel;
 
   private clipPoints!: number[];
+  application!: ApplicationContainer;
 
-  startNewGame(application: ApplicationContainer): void {
+  override autowire(application: ApplicationContainer): void {
+    this.application = application;
+  }
+
+  override startNewGame(): void {
+    const application = this.application;
     this.engineRenderer = application.getComponent(GameEngineThreeJsRenderer);
 
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
@@ -35,22 +41,13 @@ export abstract class BaseGravityViewRenderer implements GameViewLoop {
     this.scene.add(this.gameLevel.object.rootScene);
     this.scene.background = this.gameLevel.object.backhroundTexture;
 
-    this.playerViewModel.object.camera = new PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      0.000001,
-      1000
-    );
+    this.playerViewModel.object.camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.000001, 1000);
 
     threeJsRenderer.physicallyCorrectLights = true;
 
     const boundBox = new Box3().setFromObject(this.scene);
 
-    const sceneScale = Math.max(
-      boundBox.max.x - boundBox.min.x,
-      boundBox.max.y - boundBox.min.y,
-      boundBox.max.z - boundBox.min.z
-    );
+    const sceneScale = Math.max(boundBox.max.x - boundBox.min.x, boundBox.max.y - boundBox.min.y, boundBox.max.z - boundBox.min.z);
 
     const scaleDigits = Math.log10(sceneScale * 10);
 

@@ -1,9 +1,9 @@
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../common/app/lookup/Introspection";
-import { GameEngineThreeJsRenderer } from "../../../common/framework/game/3rd-party/threejs/GameEngineThreeJsRenderer";
-import { ThreeJsGameLevelRepository } from "../../../common/framework/game/3rd-party/threejs/ThreeJsGameLevelRepository";
-import { GameEnginePlugin } from "../../../common/framework/game/plugins/GameEnginePlugin";
+import { GameEngineThreeJsRenderer } from "../../../common/game/engine/3rd-party/threejs/GameEngineThreeJsRenderer";
+import { ThreeJsGameLevelRepository } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameLevelRepository";
+import { GameEnginePlugin } from "../../../common/game/engine/plugins/GameEnginePlugin";
 import { ReactStarter, TYPE_ReactRootWidget } from "../../../common/ui/ReactStarter";
 import { MainViewInputMappings } from "../input/mappings/GravityGameInputMappings";
 import { AtmosphereModule } from "../loader/AtmosphereModule";

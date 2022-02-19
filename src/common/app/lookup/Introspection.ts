@@ -1,15 +1,15 @@
-import { TypeIdentifier, typeIdentifierName } from "./TypeIdentifier";
+import { TypeIdentifier, TypeIdentifierAgument, typeIdentifierName } from "./TypeIdentifier";
 
 const PROPERTY_APPLICATION_EXTENSION = "__amid_ukr__application__extension";
 
 export type BindInterfaceParameters = {
-  order?: number;
+  executionOrder?: number;
 };
 
 export type BoundInterface = {
   name: string;
   component: any;
-  order: number;
+  executionOrder: number;
 };
 
 type ComponentExtension = {
@@ -25,19 +25,15 @@ export class Introspection {
     return component[PROPERTY_APPLICATION_EXTENSION];
   }
 
-  static bindInterfaceName<T, P extends T>(
-    component: P,
-    name: TypeIdentifier<T>,
-    parameters: BindInterfaceParameters = {}
-  ) {
+  static bindInterfaceName<T, P extends T>(component: P, type: TypeIdentifierAgument<T>, parameters: BindInterfaceParameters = {}) {
     const extension = Introspection.__registerExtension(component);
 
     const interfacesNames = extension.interfacesNames || (extension.interfacesNames = []);
 
     const boundInterface: BoundInterface = {
-      name: typeIdentifierName(name),
+      name: typeIdentifierName(type),
       component: component,
-      order: parameters.order || 0,
+      executionOrder: parameters.executionOrder || 0,
     };
 
     interfacesNames.push(boundInterface);

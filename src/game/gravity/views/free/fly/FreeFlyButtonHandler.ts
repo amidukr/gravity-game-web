@@ -1,21 +1,17 @@
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
-import { MappedUserInput } from "../../../../../common/framework/game/input/MappedUserInput";
-import { InputButton } from "../../../../../common/framework/game/input/types/InputButton";
-import { GameViewButtonHandler } from "../../../../../common/framework/game/ui/view/GameViewButtonHandler";
-import {
-  COMMON_GROUP,
-  MOUSE_NAVIGATION_TOGGLE_ACTION,
-  REVERSE_THROTTLE_ACTION,
-} from "../../../input/mappings/GravityGameInputMappings";
+import { MappedUserInput } from "../../../../../common/game/engine/features/input/MappedUserInput";
+import { InputButton } from "../../../../../common/game/engine/features/input/types/InputButton";
+import { BaseGameViewButtonHandler } from "../../../../../common/game/engine/ui/view/BaseGameViewButtonHandler";
+import { COMMON_GROUP, MOUSE_NAVIGATION_TOGGLE_ACTION, REVERSE_THROTTLE_ACTION } from "../../../input/mappings/GravityGameInputMappings";
 import { PlayerViewModel } from "../../../model/PlayerControlModel";
 import { SpaceShipsModel } from "../../../model/SpaceShipsModel";
 
-export class FreeFlyButtonHandler implements GameViewButtonHandler {
+export class FreeFlyButtonHandler extends BaseGameViewButtonHandler {
   mappedUserInput!: MappedUserInput;
   playerViewModel!: PlayerViewModel;
   spaceShipsModel!: SpaceShipsModel;
 
-  startNewGame(application: ApplicationContainer) {
+  autowire(application: ApplicationContainer) {
     this.spaceShipsModel = application.getComponent(SpaceShipsModel);
     this.playerViewModel = application.getComponent(PlayerViewModel);
     this.mappedUserInput = application.getComponent(MappedUserInput);
