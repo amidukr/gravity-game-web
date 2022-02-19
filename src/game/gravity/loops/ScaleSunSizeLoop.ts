@@ -1,14 +1,14 @@
 import { Vector3 } from "three";
-import { ApplicationAutowireComponent, TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../common/app/lookup/Introspection";
 import { GameEvent } from "../../../common/framework/game/GameEvent";
-import { GameLoop, TYPE_GameLoop } from "../../../common/framework/game/looper/GameLoop";
+import { BaseGameLoop, TYPE_GameLoop } from "../../../common/framework/game/looper/GameLoop";
+import { GameLoopStarter, TYPE_GameLoopStarter } from "../../../common/framework/game/looper/GameLoopStarter";
 import { expSteepness, smootStep } from "../../../common/utils/math";
 import { GravitySceneModel } from "../model/GravitySceneModel";
 import { PlayerViewModel } from "../model/PlayerControlModel";
 
-export class ScaleSunSizeLoop implements GameLoop, ApplicationAutowireComponent {
+export class ScaleSunSizeLoop extends BaseGameLoop implements GameLoopStarter {
   sceneModel!: GravitySceneModel;
   playerViewModel!: PlayerViewModel;
 
@@ -16,8 +16,8 @@ export class ScaleSunSizeLoop implements GameLoop, ApplicationAutowireComponent 
   private planetMaxRadius!: number;
 
   constructor() {
-    Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
-    Introspection.bindInterfaceName(this, TYPE_GameLoop);
+    super(TYPE_GameLoop);
+    Introspection.bindInterfaceName(this, TYPE_GameLoopStarter);
   }
 
   autowire(application: ApplicationContainer): void {

@@ -35,7 +35,7 @@ export class GameViewCollection {
 
     for (const startable of startersList) {
       try {
-        startable.startNewGame();
+        await startable.startNewGame();
       } catch (err) {
         console.error("GameViewCollections", `Error while starting ${typeof startable} `, startable, err);
       }

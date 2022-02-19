@@ -53,24 +53,37 @@ export class ApplicationContainer {
   async start() {
     if (this.started) return;
 
-    await Promise.all(this.getComponentList(TYPE_ApplicationComponent).map((x) => x.register && x.register(this)));
+    await Promise.all(
+      this.getComponentList(TYPE_ApplicationComponent, { searchParent: false }).map(
+        (x) => x.register && x.register(this)
+      )
+    );
 
-    this.getComponentList(TYPE_ApplicationComponent).forEach((x) => x.autowire && x.autowire(this));
+    this.getComponentList(TYPE_ApplicationComponent, { searchParent: false }).forEach(
+      (x) => x.autowire && x.autowire(this)
+    );
 
-    await Promise.all(this.getComponentList(TYPE_ApplicationComponent).map((x) => x.start && x.start(this)));
+    await Promise.all(
+      this.getComponentList(TYPE_ApplicationComponent, { searchParent: false }).map((x) => x.start && x.start(this))
+    );
 
-    this.getComponentList(TYPE_ApplicationComponent).forEach(
+    this.getComponentList(TYPE_ApplicationComponent, { searchParent: false }).forEach(
       (x) => x.onApplicationStarted && x.onApplicationStarted(this)
     );
 
     this.started = true;
   }
 
-  getComponentList<T>(descriptor: TypeIdentifier<T>): Array<T> {
+  getComponentList<T>(
+    descriptor: TypeIdentifier<T>,
+    params = {
+      searchParent: true,
+    }
+  ): Array<T> {
     const boundInterfaceArray = this.__componentByInterface[typeIdentifierName(descriptor)];
 
     if (!boundInterfaceArray) {
-      if (this.parentContainer != null) {
+      if (this.parentContainer != null && params.searchParent) {
         return this.parentContainer.getComponentList(descriptor);
       } else {
         return [];
