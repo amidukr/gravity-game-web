@@ -25,6 +25,9 @@ Future Plans
    1. Music/Sound
    1. Game Keyboard Help
 
+Defect
+   1. Keeping V breaks, due to ScaleSunSizeLoop plugin.
+
 Technical Tasks
    1. Implement module for configuration
       1. Configuration overide sequence
