@@ -11,9 +11,12 @@ type BoundInterfaceArray = {
 export class ApplicationContainer {
   private __components: Array<any> = [];
   private __componentByInterface: { [name: string]: BoundInterfaceArray | undefined } = {};
+  private started = false;
+  readonly parentContainer: ApplicationContainer | undefined;
 
-  constructor() {
+  constructor(params: { parentContainer?: ApplicationContainer } = {}) {
     this.registerComponent(this);
+    this.parentContainer = params?.parentContainer;
   }
 
   private __lazyGetBoundInterfaceByName(name: string) {
@@ -48,6 +51,8 @@ export class ApplicationContainer {
   }
 
   async start() {
+    if (this.started) return;
+
     await Promise.all(this.getComponentList(TYPE_ApplicationComponent).map((x) => x.register && x.register(this)));
 
     this.getComponentList(TYPE_ApplicationComponent).forEach((x) => x.autowire && x.autowire(this));
@@ -57,12 +62,20 @@ export class ApplicationContainer {
     this.getComponentList(TYPE_ApplicationComponent).forEach(
       (x) => x.onApplicationStarted && x.onApplicationStarted(this)
     );
+
+    this.started = true;
   }
 
   getComponentList<T>(descriptor: TypeIdentifier<T>): Array<T> {
     const boundInterfaceArray = this.__componentByInterface[typeIdentifierName(descriptor)];
 
-    if (!boundInterfaceArray) return [];
+    if (!boundInterfaceArray) {
+      if (this.parentContainer != null) {
+        return this.parentContainer.getComponentList(descriptor);
+      } else {
+        return [];
+      }
+    }
 
     if (!boundInterfaceArray.sorted) {
       boundInterfaceArray.interfaces.sort((a, b) => a.order - b.order);

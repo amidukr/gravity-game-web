@@ -4,7 +4,8 @@ import { ApplicationComponent, TYPE_ApplicationComponent } from "../../app/api/A
 import { ApplicationContainer } from "../../app/ApplicationContainer";
 import { Introspection } from "../../app/lookup/Introspection";
 import { GameEvent } from "./GameEvent";
-import { GameLoop } from "./looper/GameLoop";
+import { GameLoop, TYPE_GameProcessingViewLoop, TYPE_GameRenderingViewLoop } from "./looper/GameLoop";
+import { TYPE_GameLoopStarter } from "./looper/GameLoopStarter";
 import { GameViewCollection } from "./ui/view/GameViewsCollection";
 
 export class GameEngine implements ApplicationComponent {
@@ -51,9 +52,10 @@ export class GameEngine implements ApplicationComponent {
     gameEvent.application = this.application;
 
     for (const view of this.gameViewCollection.list) {
-      for (const loop of view.processingLoops) {
+      const processingLoops = view.container.getComponentList(TYPE_GameProcessingViewLoop);
+      for (const loop of processingLoops) {
         try {
-          loop.execute(gameEvent, view);
+          loop.execute(gameEvent);
         } catch (ex) {
           console.error("Game Engine", ex);
         }
@@ -69,9 +71,10 @@ export class GameEngine implements ApplicationComponent {
     });
 
     for (const view of this.gameViewCollection.list) {
-      for (const loop of view.renderingLoops) {
+      const renderingLoops = view.container.getComponentList(TYPE_GameRenderingViewLoop);
+      for (const loop of renderingLoops) {
         try {
-          loop.execute(gameEvent, view);
+          loop.execute(gameEvent);
         } catch (ex) {
           console.error("Game Engine", ex);
         }
@@ -88,7 +91,9 @@ export class GameEngine implements ApplicationComponent {
   }
 
   async startNewGame() {
-    await Promise.all(this.controllers.map((x) => x.startNewGame && x.startNewGame(this.application)));
+    const starters = this.application.getComponentList(TYPE_GameLoopStarter);
+
+    await Promise.all(starters.map((x) => x.startNewGame()));
 
     await this.gameViewCollection.startNewGame();
 

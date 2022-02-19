@@ -2,8 +2,8 @@ import { Quaternion, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { GameEvent } from "../../../../../common/framework/game/GameEvent";
 import { MappedUserInput } from "../../../../../common/framework/game/input/MappedUserInput";
+import { BaseGameLoop, TYPE_GameProcessingViewLoop } from "../../../../../common/framework/game/looper/GameLoop";
 import { GameView } from "../../../../../common/framework/game/ui/view/GameView";
-import { GameViewLoop } from "../../../../../common/framework/game/ui/view/GameViewLoop";
 import {
   COMMON_GROUP,
   ROLL_LEFT_ACTION,
@@ -14,18 +14,24 @@ import {
 import { PlayerViewModel } from "../../../model/PlayerControlModel";
 import { SpaceShipsModel } from "../../../model/SpaceShipsModel";
 
-export class FreeFlyThrottleControlLoop implements GameViewLoop {
+export class FreeFlyThrottleControlLoop extends BaseGameLoop {
   gameView!: GameView;
   mappedUserInput!: MappedUserInput;
   playerViewModel!: PlayerViewModel;
   spaceShipsModel!: SpaceShipsModel;
 
-  startNewGame(application: ApplicationContainer, gameView: GameView) {
-    this.gameView = gameView;
+  constructor() {
+    super(TYPE_GameProcessingViewLoop);
+  }
+
+  autowire(application: ApplicationContainer): void {
+    this.gameView = application.getComponent(GameView);
     this.mappedUserInput = application.getComponent(MappedUserInput);
     this.playerViewModel = application.getComponent(PlayerViewModel);
     this.spaceShipsModel = application.getComponent(SpaceShipsModel);
   }
+
+  startNewGame(application: ApplicationContainer, gameView: GameView) {}
 
   execute(event: GameEvent): void {
     const highThrottleFactor = Math.pow(2, 0.001 * event.elapsedTimeMills);

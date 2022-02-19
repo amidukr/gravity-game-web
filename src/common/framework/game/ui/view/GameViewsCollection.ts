@@ -1,9 +1,5 @@
-import { ApplicationContainer } from "../../../../app/ApplicationContainer";
+import { TYPE_GameLoopStarter } from "../../looper/GameLoopStarter";
 import { GameView } from "./GameView";
-
-interface ViewStartable {
-  startNewGame?(application: ApplicationContainer, view: GameView): Promise<void> | void;
-}
 
 export class GameViewCollection {
   private __list: GameView[] = [];
@@ -31,16 +27,15 @@ export class GameViewCollection {
   }
 
   async startView(view: GameView): Promise<void> {
-    const application = view.application;
+    const viewContainer = view.container;
 
-    const startableList: ViewStartable[] = ([] as ViewStartable[])
-      .concat(view.processingLoops)
-      .concat(view.renderingLoops)
-      .concat(view.buttonHandlerCollection);
+    viewContainer.start();
 
-    for (const startable of startableList) {
+    const startersList = viewContainer.getComponentList(TYPE_GameLoopStarter);
+
+    for (const startable of startersList) {
       try {
-        startable.startNewGame && (await startable.startNewGame(application, view));
+        startable.startNewGame();
       } catch (err) {
         console.error("GameViewCollections", `Error while starting ${typeof startable} `, startable, err);
       }

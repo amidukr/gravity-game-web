@@ -8,11 +8,18 @@ import { FreeFlyProcessingLoop } from "./FreeFlyViewDirectionControlLoop";
 
 export class FreeFlyGameView extends GameView {
   constructor(application: ApplicationContainer) {
+    const viewContainer = new ApplicationContainer({
+      parentContainer: application,
+    });
+
+    viewContainer.registerComponent(new FreeFlyButtonHandler());
+    viewContainer.registerComponent(new FreeFlySaveLoadHandler());
+    viewContainer.registerComponent(new FreeFlyThrottleControlLoop());
+    viewContainer.registerComponent(new FreeFlyProcessingLoop());
+    viewContainer.registerComponent(new FreeFlyRenderingLoop());
+
     super({
-      application: application,
-      buttonHandlers: [new FreeFlyButtonHandler(), new FreeFlySaveLoadHandler()],
-      processingLoops: [new FreeFlyThrottleControlLoop(), new FreeFlyProcessingLoop()],
-      renderingLoops: [new FreeFlyRenderingLoop()],
+      container: viewContainer,
     });
   }
 }

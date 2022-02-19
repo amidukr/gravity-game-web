@@ -1,9 +1,12 @@
 import PropTypes from "prop-types";
 import React from "react";
+import { AxisUserInput } from "../../input/AxisUserInput";
+import { ButtonUserInput } from "../../input/ButtonUserInput";
 import { KeyBoardDevice } from "../../input/devices/KeyboardDevice";
 import { MouseDevice } from "../../input/devices/MouseDevice";
 import { GameRenderer, TYPE_GameRenderer } from "../../rendering/GameRenderer";
 import { GameView } from "../../ui/view/GameView";
+import { TYPE_GameViewButtonHandler } from "../../ui/view/GameViewButtonHandler";
 import { GameViewCollection } from "../../ui/view/GameViewsCollection";
 
 export interface GameViewWidgetProps {
@@ -36,9 +39,9 @@ export class GameViewWidget extends React.Component<GameViewWidgetProps, any> {
     this.gameView = newGameView;
 
     if (newGameView) {
-      this.gameViewCollection = this.gameView.application.getComponent(GameViewCollection);
+      this.gameViewCollection = this.gameView.container.getComponent(GameViewCollection);
 
-      this.renderer = this.gameView.application.getComponent(TYPE_GameRenderer);
+      this.renderer = this.gameView.container.getComponent(TYPE_GameRenderer);
 
       this.updateMouseCoordinate(1, 1, 2, 2);
 
@@ -87,7 +90,7 @@ export class GameViewWidget extends React.Component<GameViewWidgetProps, any> {
   }
 
   private updateMouseCoordinate(x: number, y: number, width: number, height: number) {
-    const axisInput = this.gameView.axisUserInput;
+    const axisInput = this.gameView.container.getComponent(AxisUserInput);
 
     axisInput.setCoordinate(MouseDevice.ABSOLUTE_X, x);
     axisInput.setCoordinate(MouseDevice.ABSOLUTE_Y, y);
@@ -104,8 +107,9 @@ export class GameViewWidget extends React.Component<GameViewWidgetProps, any> {
   private handleKeyDown(ev: KeyboardEvent) {
     const button = KeyBoardDevice.fromDeviceCode(ev.code);
 
-    this.gameView.buttonUserInput.buttonDown(button);
-    for (const buttonHandler of this.gameView.buttonHandlerCollection) {
+    this.gameView.container.getComponent(ButtonUserInput).buttonDown(button);
+    const buttonHandlers = this.gameView.container.getComponentList(TYPE_GameViewButtonHandler);
+    for (const buttonHandler of buttonHandlers) {
       try {
         buttonHandler.keyPressed(button);
       } catch (err) {
@@ -115,7 +119,7 @@ export class GameViewWidget extends React.Component<GameViewWidgetProps, any> {
   }
 
   private handleKeyUp(ev: KeyboardEvent) {
-    this.gameView.buttonUserInput.buttonUp(KeyBoardDevice.fromDeviceCode(ev.code));
+    this.gameView.container.getComponent(ButtonUserInput).buttonUp(KeyBoardDevice.fromDeviceCode(ev.code));
   }
 
   override render() {

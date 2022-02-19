@@ -4,12 +4,11 @@ import { quanterionBaseVector } from "../../../../../common/framework/game/3rd-p
 import { GameEvent } from "../../../../../common/framework/game/GameEvent";
 import { AxisUserInput } from "../../../../../common/framework/game/input/AxisUserInput";
 import { MouseDevice } from "../../../../../common/framework/game/input/devices/MouseDevice";
-import { GameView } from "../../../../../common/framework/game/ui/view/GameView";
-import { GameViewLoop } from "../../../../../common/framework/game/ui/view/GameViewLoop";
-import { PlayerView, PlayerViewModel } from "../../../model/PlayerControlModel";
+import { BaseGameLoop } from "../../../../../common/framework/game/looper/GameLoop";
+import { PlayerViewModel } from "../../../model/PlayerControlModel";
 import { SpaceShipsModel } from "../../../model/SpaceShipsModel";
 
-export class FreeFlyProcessingLoop implements GameViewLoop {
+export class FreeFlyProcessingLoop implements BaseGameLoop {
   axisInput!: AxisUserInput;
   playerViewModel!: PlayerViewModel;
   spaceShipsModel!: SpaceShipsModel;
@@ -19,13 +18,13 @@ export class FreeFlyProcessingLoop implements GameViewLoop {
   rotationSteepnes = 20;
   mouseNavigationEanbledSpeedUpTime = 5 * 1000;
 
-  startNewGame(application: ApplicationContainer, gameView: GameView) {
-    this.axisInput = gameView.axisUserInput;
+  autowire(application: ApplicationContainer): void {
+    this.axisInput = application.getComponent(AxisUserInput);
     this.playerViewModel = application.getComponent(PlayerViewModel);
     this.spaceShipsModel = application.getComponent(SpaceShipsModel);
   }
 
-  private handleMouseEvent(event: GameEvent, playerView: PlayerView) {
+  private handleMouseEvent(event: GameEvent) {
     const mousePointerArray = this.axisInput.getCoordinates([MouseDevice.RELATIVE_X, MouseDevice.RELATIVE_Y]);
 
     const mousePointer = new Vector2().fromArray(mousePointerArray);
@@ -63,7 +62,7 @@ export class FreeFlyProcessingLoop implements GameViewLoop {
     const playerView = this.playerViewModel.object;
 
     if (playerView.mouseNavigationEanbledAt) {
-      this.handleMouseEvent(event, this.playerViewModel.object);
+      this.handleMouseEvent(event);
     }
 
     playerSpaceShip.velocity = quanterionBaseVector().applyQuaternion(playerSpaceShip.orientation).normalize();

@@ -2,6 +2,7 @@ import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../app/ap
 import { ApplicationContainer } from "../../../app/ApplicationContainer";
 import { Introspection } from "../../../app/lookup/Introspection";
 import { GameView } from "../ui/view/GameView";
+import { ButtonUserInput } from "./ButtonUserInput";
 import { KeyBoardDevice } from "./devices/KeyboardDevice";
 import { InputAction } from "./types/InputAction";
 import { InputButton, INPUT_BUTTON_TYPE } from "./types/InputButton";
@@ -121,7 +122,7 @@ export class MappedUserInput implements ApplicationComponent {
   }
 
   isActionPressed(gameView: GameView, group: InputMappingGroup, action: InputAction): boolean {
-    const buttonUserInput = gameView.buttonUserInput;
+    const buttonUserInput = gameView.container.getComponent(ButtonUserInput);
     return (
       this.actionToHotKeysMapping.groups[group.groupId]?.actions?.[action.actionId]?.hotKeys.find((x) =>
         buttonUserInput.isButtonPressed(x.button)
@@ -130,7 +131,7 @@ export class MappedUserInput implements ApplicationComponent {
   }
 
   getActionElapsedTime(gameView: GameView, group: InputMappingGroup, action: InputAction) {
-    const buttonUserInput = gameView.buttonUserInput;
+    const buttonUserInput = gameView.container.getComponent(ButtonUserInput);
 
     const hotKeysList = this.actionToHotKeysMapping.groups[group.groupId]?.actions?.[action.actionId]?.hotKeys;
 
