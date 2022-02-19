@@ -10,6 +10,7 @@ import { GameLoader, TYPE_GameStarter } from "./GameLoader";
 export const TYPE_GameLooper = typeIdentifier<GameLooper>("GameLooper", PACKAGE_AmidGeFramework);
 
 export interface GameLooper {
+  executionOrder(): number;
   execute(event: GameEvent): void;
 }
 

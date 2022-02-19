@@ -58,24 +58,18 @@ export class GameEngine implements ApplicationComponent {
 
     gameEvent.application = this.application;
 
-    this.loopers.forEach((looper) => {
+    const viewLoopers = this.gameViewCollection.list.flatMap((x) => x.container.getComponentList(TYPE_GameLooper));
+    var allLoopers = viewLoopers.concat(this.loopers);
+
+    allLoopers.sort((a, b) => a.executionOrder() - b.executionOrder());
+
+    allLoopers.forEach((looper) => {
       try {
         looper.execute(gameEvent);
       } catch (ex) {
         console.error("Game Engine", ex);
       }
     });
-
-    for (const view of this.gameViewCollection.list) {
-      const processingLoops = view.container.getComponentList(TYPE_GameLooper);
-      for (const loop of processingLoops) {
-        try {
-          loop.execute(gameEvent);
-        } catch (ex) {
-          console.error("Game Engine", ex);
-        }
-      }
-    }
   }
 
   async startNewGame(argumetns: LoadGameArgumentsObject) {
