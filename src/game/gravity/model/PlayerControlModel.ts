@@ -1,7 +1,7 @@
 import { PerspectiveCamera } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { LoadGameObject } from "../../../common/framework/game/loader/object/LoadGameObject";
-import { BaseGameModel } from "../../../common/framework/game/model/BaseGameModel";
+import { BaseGameModel } from "../../../common/game/engine/core/interface/GameModel";
+import { LoadGameObject } from "../../../common/game/engine/features/loader/object/LoadGameObject";
 
 export class PlayerView {
   camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.000001, 1000);

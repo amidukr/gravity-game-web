@@ -1,14 +1,14 @@
 import { Vector3 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../common/app/lookup/Introspection";
-import { GameEvent } from "../../../common/framework/game/GameEvent";
-import { BaseGameLoop, TYPE_GameLoop } from "../../../common/framework/game/looper/GameLoop";
-import { GameLoopStarter, TYPE_GameLoopStarter } from "../../../common/framework/game/looper/GameLoopStarter";
+import { BaseGameLooper, TYPE_GameLoop } from "../../../common/game/engine/core/GameLooper";
+import { GameLoopStarter, TYPE_GameLoopStarter } from "../../../common/game/engine/core/interface/GameStarter";
+import { GameEvent } from "../../../common/game/engine/GameEvent";
 import { expSteepness, smootStep } from "../../../common/utils/math";
 import { GravitySceneModel } from "../model/GravitySceneModel";
 import { PlayerViewModel } from "../model/PlayerControlModel";
 
-export class ScaleSunSizeLoop extends BaseGameLoop implements GameLoopStarter {
+export class ScaleSunSizeLoop extends BaseGameLooper implements GameLoopStarter {
   sceneModel!: GravitySceneModel;
   playerViewModel!: PlayerViewModel;
 
@@ -47,16 +47,10 @@ export class ScaleSunSizeLoop extends BaseGameLoop implements GameLoopStarter {
 
     const distanceToStarFactor = smootStep(expSteepness(1.0 - distanceToStar / freeOrbit, 1), 0.0, 0.7);
 
-    const projectionScale = new Vector3()
-      .copy(star.position)
-      .project(camera)
-      .add(new Vector3(0, 0.125, 0))
-      .unproject(camera)
-      .sub(star.position);
+    const projectionScale = new Vector3().copy(star.position).project(camera).add(new Vector3(0, 0.125, 0)).unproject(camera).sub(star.position);
 
     star.object.scale.setScalar(
-      Math.min(projectionScale.length(), 0.5 * (this.planetMinOrbit - this.planetMaxRadius)) +
-        0.05 * freeOrbit * distanceToStarFactor
+      Math.min(projectionScale.length(), 0.5 * (this.planetMinOrbit - this.planetMaxRadius)) + 0.05 * freeOrbit * distanceToStarFactor
     );
   }
 }

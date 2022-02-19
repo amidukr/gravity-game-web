@@ -1,39 +1,17 @@
-export type Newable<T> = new (...args: any[]) => T;
+import { PACKAGE_AmidGeFramework } from "../../package";
 
-export interface Abstract<T> {
-  prototype: T;
+export class TypeIdentifier<T> {
+  static PACKAGE = PACKAGE_AmidGeFramework;
+
+  readonly name: string;
+
+  constructor(readonly shortName: string, readonly packange: TypeIdentifierPackage) {
+    this.name = packange.name + "." + shortName;
+  }
 }
 
-export class TypeIdentifierObject<T> {
-  constructor(public name: String) {}
-}
+export class TypeIdentifierPackage {
+  static PACKAGE = PACKAGE_AmidGeFramework;
 
-export type TypeIdentifier<T> = string | Newable<T>;
-
-export function typeIdentifierName<T>(type: TypeIdentifier<T>): string {
-  let name;
-
-  if (typeof type === "string") {
-    name = type;
-  } else if (typeof type === "function") {
-    name = type.name;
-  }
-
-  if (!name) {
-    throw Error(`Can't recognize typeof: ${type}`);
-  }
-
-  return name;
-}
-
-export function typeIdentifier<T>(type: TypeIdentifier<T>): TypeIdentifier<T> {
-  if (typeof type === "function") {
-    return type.name;
-  }
-
-  if (typeof type === "string") {
-    return type;
-  }
-
-  throw Error(`Unrecognized typeof ${type}`);
+  constructor(readonly name: string) {}
 }

@@ -1,14 +1,11 @@
-import {
-  ApplicationAutowireComponent,
-  TYPE_ApplicationComponent,
-} from "../../../../common/app/api/ApplicationComponent";
+import { ApplicationAutowireComponent, TYPE_ApplicationComponent } from "../../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../../common/app/lookup/Introspection";
 import { GameEvent } from "../../../../common/framework/game/GameEvent";
-import { GameLoop, TYPE_GameLoop } from "../../../../common/framework/game/looper/GameLoop";
+import { GameLooper, TYPE_GameLoop } from "../../../../common/framework/game/interface/GameLooper";
 import { DebugInfoModel } from "../../model/DebugInfoModel";
-
-export class DebugLoop implements GameLoop, ApplicationAutowireComponent {
+../../../../common/engine/game/GameEvent
+export class DebugLoop implements GameLoope../../../../common/engine/game/interface/GameLooper
   debugModel!: DebugInfoModel;
 
   constructor() {

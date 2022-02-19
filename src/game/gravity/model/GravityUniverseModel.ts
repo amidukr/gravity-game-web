@@ -1,8 +1,8 @@
 import { Vector3 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { LoadGameObject } from "../../../common/framework/game/loader/object/LoadGameObject";
-import { BaseGameModel } from "../../../common/framework/game/model/BaseGameModel";
-import { GameTimeModel } from "../../../common/framework/game/time/GameTimeModel";
+import { GameTimeModel } from "../../../common/game/engine/core/GameModelameTimeModel";
+import { LoadGameObject } from "../../../common/game/engine/features/loader/object/LoadGameObject";
+import { BaseGameModel } from "../../../common/game/engine/model/GameModel";
 
 export const GRAVITY_OBJECT_UNIVERSE: string = "Universe";
 
@@ -117,8 +117,7 @@ export class GravityUniverseModel extends BaseGameModel<GravityUniverse> {
     gravityUniverse.gravityObjectsByName[gravityObject.objectId] = gravityObject;
 
     const parentChildren =
-      gravityUniverse.gravityObjectsChildren[gravityObject.parentObjectId] ||
-      gravityUniverse.gravityObjectsChildren[gravityObject.parentObjectId] == [];
+      gravityUniverse.gravityObjectsChildren[gravityObject.parentObjectId] || gravityUniverse.gravityObjectsChildren[gravityObject.parentObjectId] == [];
     parentChildren.push(gravityObject);
   }
 }

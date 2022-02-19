@@ -1,6 +1,6 @@
 import { Box3, Object3D, Scene, Vector3 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { BaseGameModel } from "../../../common/framework/game/model/BaseGameModel";
+import { BaseGameModel } from "../../../common/game/engine/core/interface/GameModel";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 
 export interface SceneComponent {

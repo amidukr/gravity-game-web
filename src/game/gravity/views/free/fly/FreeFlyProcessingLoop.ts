@@ -1,14 +1,14 @@
 import { Quaternion, Vector2, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
-import { quanterionBaseVector } from "../../../../../common/framework/game/3rd-party/threejs/Constants";
-import { GameEvent } from "../../../../../common/framework/game/GameEvent";
-import { AxisUserInput } from "../../../../../common/framework/game/input/AxisUserInput";
-import { MouseDevice } from "../../../../../common/framework/game/input/devices/MouseDevice";
-import { BaseGameLoop, TYPE_GameProcessingViewLoop } from "../../../../../common/framework/game/looper/GameLoop";
+import { quanterionBaseVector } from "../../../../../common/game/engine/3rd-party/threejs/Constants";
+import { BaseGameLooper, TYPE_GameProcessingViewLoop } from "../../../../../common/game/engine/core/GameLooper";
+import { AxisUserInput } from "../../../../../common/game/engine/features/input/AxisUserInput";
+import { MouseDevice } from "../../../../../common/game/engine/features/input/devices/MouseDevice";
+import { GameEvent } from "../../../../../common/game/engine/GameEvent";
 import { PlayerViewModel } from "../../../model/PlayerControlModel";
 import { SpaceShipsModel } from "../../../model/SpaceShipsModel";
 
-export class FreeFlyProcessingLoop extends BaseGameLoop {
+export class FreeFlyProcessingLoop extends BaseGameLooper {
   axisInput!: AxisUserInput;
   playerViewModel!: PlayerViewModel;
   spaceShipsModel!: SpaceShipsModel;
@@ -44,8 +44,7 @@ export class FreeFlyProcessingLoop extends BaseGameLoop {
       rotateAngle *= this.maxRotationAngle;
       const mouseEnabledNavigationFactor = Math.min(
         1,
-        (new Date().getTime() - this.playerViewModel.object.mouseNavigationEanbledAt) /
-          this.mouseNavigationEanbledSpeedUpTime
+        (new Date().getTime() - this.playerViewModel.object.mouseNavigationEanbledAt) / this.mouseNavigationEanbledSpeedUpTime
       );
 
       rotateAngle *= mouseEnabledNavigationFactor;
@@ -53,9 +52,7 @@ export class FreeFlyProcessingLoop extends BaseGameLoop {
       rotateAngle = 0;
     }
 
-    const mouseBasedTransformation = new Quaternion()
-      .setFromAxisAngle(mousePointerOrth, rotateAngle * event.elapsedTimeMills)
-      .normalize();
+    const mouseBasedTransformation = new Quaternion().setFromAxisAngle(mousePointerOrth, rotateAngle * event.elapsedTimeMills).normalize();
 
     this.spaceShipsModel.object.player.orientation.multiply(mouseBasedTransformation).normalize();
   }
@@ -71,10 +68,6 @@ export class FreeFlyProcessingLoop extends BaseGameLoop {
 
     playerSpaceShip.velocity = quanterionBaseVector().applyQuaternion(playerSpaceShip.orientation).normalize();
 
-    playerSpaceShip.position.add(
-      new Vector3()
-        .copy(playerSpaceShip.velocity)
-        .multiplyScalar(playerSpaceShip.throttle * 0.0005 * event.elapsedTimeMills)
-    );
+    playerSpaceShip.position.add(new Vector3().copy(playerSpaceShip.velocity).multiplyScalar(playerSpaceShip.throttle * 0.0005 * event.elapsedTimeMills));
   }
 }

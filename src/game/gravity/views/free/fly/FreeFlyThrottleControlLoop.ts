@@ -1,20 +1,14 @@
 import { Quaternion, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
-import { GameEvent } from "../../../../../common/framework/game/GameEvent";
-import { MappedUserInput } from "../../../../../common/framework/game/input/MappedUserInput";
-import { BaseGameLoop, TYPE_GameProcessingViewLoop } from "../../../../../common/framework/game/looper/GameLoop";
-import { GameView } from "../../../../../common/framework/game/ui/view/GameView";
-import {
-  COMMON_GROUP,
-  ROLL_LEFT_ACTION,
-  ROLL_RIGHT_ACTION,
-  THROTTLE_DOWN_ACTION,
-  THROTTLE_UP_ACTION,
-} from "../../../input/mappings/GravityGameInputMappings";
+import { BaseGameLooper, TYPE_GameProcessingViewLoop } from "../../../../../common/game/engine/core/GameLooper";
+import { MappedUserInput } from "../../../../../common/game/engine/features/input/MappedUserInput";
+import { GameEvent } from "../../../../../common/game/engine/GameEvent";
+import { GameView } from "../../../../../common/game/engine/ui/view/GameView";
+import { COMMON_GROUP, ROLL_LEFT_ACTION, ROLL_RIGHT_ACTION, THROTTLE_DOWN_ACTION, THROTTLE_UP_ACTION } from "../../../input/mappings/GravityGameInputMappings";
 import { PlayerViewModel } from "../../../model/PlayerControlModel";
 import { SpaceShipsModel } from "../../../model/SpaceShipsModel";
 
-export class FreeFlyThrottleControlLoop extends BaseGameLoop {
+export class FreeFlyThrottleControlLoop extends BaseGameLooper {
   gameView!: GameView;
   mappedUserInput!: MappedUserInput;
   playerViewModel!: PlayerViewModel;
@@ -40,16 +34,8 @@ export class FreeFlyThrottleControlLoop extends BaseGameLoop {
 
     const rollFactor = 0.001;
 
-    const throttleUpElapsedTime = this.mappedUserInput.getActionElapsedTime(
-      this.gameView,
-      COMMON_GROUP,
-      THROTTLE_UP_ACTION
-    );
-    const throttleDownElapsedTime = this.mappedUserInput.getActionElapsedTime(
-      this.gameView,
-      COMMON_GROUP,
-      THROTTLE_DOWN_ACTION
-    );
+    const throttleUpElapsedTime = this.mappedUserInput.getActionElapsedTime(this.gameView, COMMON_GROUP, THROTTLE_UP_ACTION);
+    const throttleDownElapsedTime = this.mappedUserInput.getActionElapsedTime(this.gameView, COMMON_GROUP, THROTTLE_DOWN_ACTION);
 
     const throttleChangeElapsedTime = Math.max(throttleUpElapsedTime || 0, throttleDownElapsedTime || 0);
 
@@ -57,8 +43,7 @@ export class FreeFlyThrottleControlLoop extends BaseGameLoop {
       var throttleFactor;
       if (throttleChangeElapsedTime < timeToLowThrottle) {
         const timeHighToLowThrottleFactor = (timeToLowThrottle - throttleChangeElapsedTime) / timeToLowThrottle;
-        throttleFactor =
-          (1 - timeHighToLowThrottleFactor) * highThrottleFactor + timeHighToLowThrottleFactor * lowThrottleFactor;
+        throttleFactor = (1 - timeHighToLowThrottleFactor) * highThrottleFactor + timeHighToLowThrottleFactor * lowThrottleFactor;
       } else {
         throttleFactor = lowThrottleFactor;
       }

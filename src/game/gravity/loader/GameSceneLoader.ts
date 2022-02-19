@@ -1,6 +1,6 @@
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { BaseGameLoaderModule } from "../../../common/framework/game/loader/BaseGameLoaderModule";
-import { LoadGameObject } from "../../../common/framework/game/loader/object/LoadGameObject";
+import { BaseGameLoaderModule } from "../../../common/game/engine/features/loader/BaseGameLoaderModule";
+import { LoadGameObject } from "../../../common/game/engine/features/loader/object/LoadGameObject";
 import { GravityGameLevel } from "../level/GravityGameLevelObject";
 import { GravityUniverseModel } from "../model/GravityUniverseModel";
 

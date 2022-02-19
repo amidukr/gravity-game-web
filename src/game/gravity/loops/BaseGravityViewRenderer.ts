@@ -1,15 +1,15 @@
 import { Box3, PerspectiveCamera, Vector2 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../common/app/lookup/Introspection";
-import { GameEngineThreeJsRenderer } from "../../../common/framework/game/3rd-party/threejs/GameEngineThreeJsRenderer";
-import { BaseGameLoop, TYPE_GameRenderingViewLoop } from "../../../common/framework/game/looper/GameLoop";
-import { GameLoopStarter, TYPE_GameLoopStarter } from "../../../common/framework/game/looper/GameLoopStarter";
+import { GameEngineThreeJsRenderer } from "../../../common/game/engine/3rd-party/threejs/GameEngineThreeJsRenderer";
+import { BaseGameLooper, TYPE_GameRenderingViewLoop } from "../../../common/game/engine/core/GameLooper";
+import { GameLoopStarter, TYPE_GameLoopStarter } from "../../../common/game/engine/core/interface/GameStarter";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 import { GravitySceneModel } from "../model/GravitySceneModel";
 import { PlayerViewModel } from "../model/PlayerControlModel";
 import { SpaceShipsModel } from "../model/SpaceShipsModel";
 
-export abstract class BaseGravityViewRenderer extends BaseGameLoop implements GameLoopStarter {
+export abstract class BaseGravityViewRenderer extends BaseGameLooper implements GameLoopStarter {
   protected engineRenderer!: GameEngineThreeJsRenderer;
   protected gameLevel!: GravityGameLevel;
 
@@ -48,22 +48,13 @@ export abstract class BaseGravityViewRenderer extends BaseGameLoop implements Ga
     this.scene.add(this.gameLevel.object.rootScene);
     this.scene.background = this.gameLevel.object.backhroundTexture;
 
-    this.playerViewModel.object.camera = new PerspectiveCamera(
-      45,
-      window.innerWidth / window.innerHeight,
-      0.000001,
-      1000
-    );
+    this.playerViewModel.object.camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.000001, 1000);
 
     threeJsRenderer.physicallyCorrectLights = true;
 
     const boundBox = new Box3().setFromObject(this.scene);
 
-    const sceneScale = Math.max(
-      boundBox.max.x - boundBox.min.x,
-      boundBox.max.y - boundBox.min.y,
-      boundBox.max.z - boundBox.min.z
-    );
+    const sceneScale = Math.max(boundBox.max.x - boundBox.min.x, boundBox.max.y - boundBox.min.y, boundBox.max.z - boundBox.min.z);
 
     const scaleDigits = Math.log10(sceneScale * 10);
 

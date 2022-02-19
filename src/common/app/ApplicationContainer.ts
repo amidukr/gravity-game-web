@@ -42,7 +42,7 @@ export class ApplicationContainer {
     this.__addBoundInterface({
       name: component.constructor.name,
       component: component,
-      order: 0,
+      executionOrder: 0,
     });
 
     Introspection.getBoundInterfaces(component).forEach((boundInterface) => this.__addBoundInterface(boundInterface));
@@ -53,23 +53,13 @@ export class ApplicationContainer {
   async start() {
     if (this.started) return;
 
-    await Promise.all(
-      this.getComponentList(TYPE_ApplicationComponent, { searchParent: false }).map(
-        (x) => x.register && x.register(this)
-      )
-    );
+    await Promise.all(this.getComponentList(TYPE_ApplicationComponent, { searchParent: false }).map((x) => x.register && x.register(this)));
 
-    this.getComponentList(TYPE_ApplicationComponent, { searchParent: false }).forEach(
-      (x) => x.autowire && x.autowire(this)
-    );
+    this.getComponentList(TYPE_ApplicationComponent, { searchParent: false }).forEach((x) => x.autowire && x.autowire(this));
 
-    await Promise.all(
-      this.getComponentList(TYPE_ApplicationComponent, { searchParent: false }).map((x) => x.start && x.start(this))
-    );
+    await Promise.all(this.getComponentList(TYPE_ApplicationComponent, { searchParent: false }).map((x) => x.start && x.start(this)));
 
-    this.getComponentList(TYPE_ApplicationComponent, { searchParent: false }).forEach(
-      (x) => x.onApplicationStarted && x.onApplicationStarted(this)
-    );
+    this.getComponentList(TYPE_ApplicationComponent, { searchParent: false }).forEach((x) => x.onApplicationStarted && x.onApplicationStarted(this));
 
     this.started = true;
   }
@@ -102,6 +92,7 @@ export class ApplicationContainer {
     const componentList = this.getComponentList(descriptor);
 
     const length = componentList.length;
+    executionOrderexecutionOrder;
 
     if (length == 0) {
       throw Error(`Can't find component with descriptor: ${descriptor}`);

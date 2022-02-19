@@ -1,16 +1,13 @@
-import {
-  ApplicationAutowireComponent,
-  TYPE_ApplicationComponent,
-} from "../../../../common/app/api/ApplicationComponent";
+import { ApplicationAutowireComponent, TYPE_ApplicationComponent } from "../../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../../common/app/lookup/Introspection";
 import { GameEvent } from "../../../../common/framework/game/GameEvent";
-import { GameLoop, TYPE_GameLoop } from "../../../../common/framework/game/looper/GameLoop";
+import { GameLooper, TYPE_GameLoop } from "../../../../common/framework/game/interface/GameLooper";
 import { DebugInfoModel } from "../../model/DebugInfoModel";
-import { GravitySceneModel } from "../../model/GravitySceneModel";
-import { SpaceShipsModel } from "../../model/SpaceShipsModel";
+import { GravitySceneModel ../../../../common/engine/game/GameEvent
+import { SpaceShipsModel } from "../../../../common/game/engine/core/GameLooperrrr
 
-export class DebugAltitudeLoop implements GameLoop, ApplicationAutowireComponent {
+export class DebugAltitudeLoop implements GameLooper, ApplicationAutowireComponent {
   debugModel!: DebugInfoModel;
   sceneModel!: GravitySceneModel;
   shipModel!: SpaceShipsModel;

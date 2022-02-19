@@ -1,6 +1,6 @@
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { LoadGameObject } from "../../../common/framework/game/loader/object/LoadGameObject";
-import { BaseGameModel } from "../../../common/framework/game/model/BaseGameModel";
+import { BaseGameModel } from "../../../common/game/engine/core/interface/GameModel";
+import { LoadGameObject } from "../../../common/game/engine/features/loader/object/LoadGameObject";
 
 export class DebugInfoObject {
   altitude = 0;

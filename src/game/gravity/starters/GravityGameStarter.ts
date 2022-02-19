@@ -1,9 +1,9 @@
 import { TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../common/app/lookup/Introspection";
-import { GameEngine } from "../../../common/framework/game/GameEngine";
-import { SimpleGameLevelDescriptor } from "../../../common/framework/game/level/implementation/SimpleGameLevelDescriptor";
-import { GameLoader } from "../../../common/framework/game/loader/GameLoader";
+import { SimpleGameLevelDesc../../../common/engine/game/GameEnginegame/features/level/implementation/SimpleGameLevelDescriptor";
+import { GameLoader } from "../../../common../../../common/engine/game/features/level/implementation/SimpleGameLevelDescriptor
+import { GameEngine } from "../../../common/game/engine/features/loader/GameLoaderrr
 
 export class GravityGameStarter {
   constructor() {

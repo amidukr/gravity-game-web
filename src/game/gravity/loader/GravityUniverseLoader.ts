@@ -1,15 +1,10 @@
 import { Box3, Vector3 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { BaseGameLoaderModule } from "../../../common/framework/game/loader/BaseGameLoaderModule";
-import { LoadGameObject } from "../../../common/framework/game/loader/object/LoadGameObject";
+import { BaseGameLoaderModule } from "../../../common/game/engine/features/loader/BaseGameLoaderModule";
+import { LoadGameObject } from "../../../common/game/engine/features/loader/object/LoadGameObject";
 import { findObject3dParent } from "../../../common/utils/ThreeJsUtils";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
-import {
-  GravityObject,
-  GravityUniverseModel,
-  newBoundGravityObject,
-  newFixedGravityObject,
-} from "../model/GravityUniverseModel";
+import { GravityObject, GravityUniverseModel, newBoundGravityObject, newFixedGravityObject } from "../model/GravityUniverseModel";
 
 export class GravityUniverseLoader extends BaseGameLoaderModule {
   gameLevel!: GravityGameLevel;
@@ -33,10 +28,7 @@ export class GravityUniverseLoader extends BaseGameLoaderModule {
 
       this.gameLevel.object.rootScene.traverse((x) => {
         if (x.name.startsWith(prefix)) {
-          const parentObject = findObject3dParent(
-            x,
-            (p) => prefixes.findIndex((prefix) => p.name.startsWith(prefix)) != 1
-          );
+          const parentObject = findObject3dParent(x, (p) => prefixes.findIndex((prefix) => p.name.startsWith(prefix)) != 1);
 
           const boundingBox = new Box3().setFromObject(x);
           const size = boundingBox.getSize(new Vector3());
