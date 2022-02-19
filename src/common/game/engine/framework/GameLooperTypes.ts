@@ -7,7 +7,7 @@ export enum GameLooperExecutionOrder {
   GameInputLooper = 100000,
   GameCoreLooper = 200000,
   GameModelProcessingLooper = 300000,
-  GameSceneUpdaterLooper = 400000,
+  GameSceneUpdateLooper = 400000,
   GameRenderingLooper = 500000,
 }
 
@@ -29,9 +29,9 @@ export abstract class BaseGameModelProcessingLooper extends BaseGameLooper {
   }
 }
 
-export abstract class BaseGameSceneUpdaterLooper extends BaseGameLooper {
+export abstract class BaseGameSceneUpdateLooper extends BaseGameLooper {
   executionOrder() {
-    return GameLooperExecutionOrder.GameSceneUpdaterLooper;
+    return GameLooperExecutionOrder.GameSceneUpdateLooper;
   }
 }
 

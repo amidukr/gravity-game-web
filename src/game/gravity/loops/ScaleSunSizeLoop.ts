@@ -1,12 +1,12 @@
 import { Vector3 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { BaseGameSceneUpdaterLooper } from "../../../common/game/engine/framework/GameLooperTypes";
+import { BaseGameSceneUpdateLooper } from "../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../common/game/engine/GameEvent";
 import { expSteepness, smootStep } from "../../../common/utils/math";
 import { GravitySceneModel } from "../model/GravitySceneModel";
 import { PlayerViewModel } from "../model/PlayerControlModel";
 
-export class ScaleSunSizeLoop extends BaseGameSceneUpdaterLooper {
+export class ScaleSunSizeLoop extends BaseGameSceneUpdateLooper {
   sceneModel!: GravitySceneModel;
   playerViewModel!: PlayerViewModel;
 
