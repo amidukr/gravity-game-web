@@ -2,18 +2,21 @@ import Stats from "stats.js";
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../app/ApplicationContainer";
 import { Introspection } from "../../app/lookup/Introspection";
-import { TYPE_GameStarter } from "./core/GameLoader";
+import { GameLoader, TYPE_GameStarter } from "./core/GameLoader";
 import { GameLooper, TYPE_GameLooper } from "./core/GameLooper";
+import { LoadGameArgumentsModel, LoadGameArgumentsObject } from "./features/loader/LoadGameArgumentsModel";
 import { GameEvent } from "./GameEvent";
 import { GameViewCollection } from "./ui/view/GameViewsCollection";
 
 export class GameEngine implements ApplicationComponent {
-  private controllers: Array<GameLooper> = [];
   private application!: ApplicationContainer;
-  private gameViewCollection!: GameViewCollection;
   private stats = new Stats();
 
+  private gameViewCollection!: GameViewCollection;
   private lastTimeMills!: number;
+  loadGameModel!: LoadGameArgumentsModel;
+  loopers!: GameLooper[];
+  starters!: GameLoader[];
 
   constructor() {
     Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
@@ -22,6 +25,11 @@ export class GameEngine implements ApplicationComponent {
   autowire(application: ApplicationContainer) {
     this.application = application;
     this.gameViewCollection = application.getComponent(GameViewCollection);
+
+    this.loadGameModel = application.getComponent(LoadGameArgumentsModel);
+
+    this.starters = application.getComponentList(TYPE_GameStarter);
+    this.loopers = application.getComponentList(TYPE_GameLooper);
   }
 
   start() {
@@ -50,9 +58,9 @@ export class GameEngine implements ApplicationComponent {
 
     gameEvent.application = this.application;
 
-    this.controllers.forEach((controller) => {
+    this.loopers.forEach((looper) => {
       try {
-        controller.execute(gameEvent);
+        looper.execute(gameEvent);
       } catch (ex) {
         console.error("Game Engine", ex);
       }
@@ -70,18 +78,16 @@ export class GameEngine implements ApplicationComponent {
     }
   }
 
-  clearLoopers() {
-    this.controllers = [];
-  }
+  async startNewGame(argumetns: LoadGameArgumentsObject) {
+    this.loadGameModel.object = argumetns;
 
-  registerLooper(controller: GameLooper) {
-    this.controllers.push(controller);
-  }
-
-  async startNewGame() {
-    const starters = this.application.getComponentList(TYPE_GameStarter);
-
-    await Promise.all(starters.map((x) => x.startNewGame()));
+    for (const starter of this.starters) {
+      try {
+        await starter.startNewGame();
+      } catch (ex) {
+        console.error("Game Engine", ex);
+      }
+    }
 
     await this.gameViewCollection.startNewGame();
 

@@ -1,8 +1,7 @@
 import { TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../common/app/lookup/Introspection";
-import { SimpleGameLevelDescriptor } from "../../../common/game/engine/features/level/implementation/SimpleGameLevelDescriptor";
-import { GameLoader } from "../../../common/game/engine/features/loader/GameLoader";
+import { SimpleLoadLevelGameArgument } from "../../../common/game/engine/features/level/implementation/SimpleGameLevelDescriptor";
 import { GameEngine } from "../../../common/game/engine/GameEngine";
 
 export class GravityGameStarter {
@@ -17,10 +16,6 @@ export class GravityGameStarter {
 
     const levelName = window.location.hash.substr(1);
 
-    await application.getComponent(GameLoader).loadGame({
-      levelDescriptor: new SimpleGameLevelDescriptor(levelName),
-    });
-
-    await application.getComponent(GameEngine).startNewGame();
+    await application.getComponent(GameEngine).startNewGame(new SimpleLoadLevelGameArgument(levelName));
   }
 }

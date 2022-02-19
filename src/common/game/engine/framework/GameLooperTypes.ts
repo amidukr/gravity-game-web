@@ -1,7 +1,4 @@
-import { Introspection } from "../../../app/lookup/Introspection";
-import { GameStarter, TYPE_GameStarter } from "../core/GameLoader";
 import { BaseGameLooper } from "../core/GameLooper";
-import { GameLoaderExecutionOrder } from "./GameLoaderTypes";
 
 export enum GameLooperExecutionOrder {
   GameInputLooper = 100000,
@@ -35,7 +32,7 @@ export abstract class BaseGameSceneUpdateLooper extends BaseGameLooper {
   }
 }
 
-export abstract class BaseGameRenderingLooper extends BaseGameLooper  {
+export abstract class BaseGameRenderingLooper extends BaseGameLooper {
   executionOrder() {
     return GameLooperExecutionOrder.GameRenderingLooper;
   }

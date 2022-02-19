@@ -1,6 +1,5 @@
 import { Quaternion, Vector3 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { LoadGameObject } from "../../../common/game/engine/features/loader/object/LoadGameObject";
 import { BaseGameStateModel } from "../../../common/game/engine/framework/GameModelTypes";
 
 export class SpaceShipCollection {
@@ -15,7 +14,7 @@ export class SpaceShipCollection {
 export class SpaceShipsModel extends BaseGameStateModel<SpaceShipCollection> {
   autowire(application: ApplicationContainer): void {}
 
-  construtNewObject(loadGameObject: LoadGameObject): SpaceShipCollection {
+  construtNewObject(): SpaceShipCollection {
     return new SpaceShipCollection();
   }
 }

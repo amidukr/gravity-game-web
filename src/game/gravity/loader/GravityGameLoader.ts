@@ -1,7 +1,6 @@
 import { Quaternion, Vector3 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { BaseGameLoaderModule } from "../../../common/game/engine/features/loader/BaseGameLoaderModule";
-import { LoadGameObject } from "../../../common/game/engine/features/loader/object/LoadGameObject";
+import { BaseGameStateModelLoader } from "../../../common/game/engine/framework/GameLoaderTypes";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 import { GravitySceneModel } from "../model/GravitySceneModel";
 import { PlayerViewModel } from "../model/PlayerControlModel";
@@ -13,7 +12,7 @@ declare global {
   }
 }
 
-export class GravityGameLoader extends BaseGameLoaderModule {
+export class GravityGameLoader extends BaseGameStateModelLoader {
   spaceShipsModel!: SpaceShipsModel;
   playerViewModel!: PlayerViewModel;
   gameLevel!: GravityGameLevel;
@@ -29,7 +28,7 @@ export class GravityGameLoader extends BaseGameLoaderModule {
     window.gameLevel = this.gameLevel;
   }
 
-  async startNewGame(loadGameObject: LoadGameObject): Promise<void> {
+  async startNewGame(): Promise<void> {
     const startPosition = this.gameLevel.object.rootScene.getObjectByName("Start-Position");
 
     if (startPosition == null) {

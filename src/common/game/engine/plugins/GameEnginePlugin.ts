@@ -4,9 +4,8 @@ import { Introspection } from "../../../app/lookup/Introspection";
 import { ApplicationWindowVariablePlugin } from "../../../plugins/ApplicationWindowVariablePlugin";
 import { MappedUserInput } from "../features/input/MappedUserInput";
 import { GameLevel } from "../features/level/GameLevel";
-import { GameLoader } from "../features/loader/GameLoader";
-import { AutowiredLoopersModule } from "../features/loader/modules/AutowiredLoopersModule";
-import { LoadGameLevelModule } from "../features/loader/modules/LoadGameLevelModule";
+import { RepositoryGameLevelLoader } from "../features/level/RepositoryGameLevelLoader";
+import { LoadGameArgumentsModel } from "../features/loader/LoadGameArgumentsModel";
 import { GameTimePlugin } from "../features/time/GameTimePlugin";
 import { GameEngine } from "../GameEngine";
 import { GameViewCollection } from "../ui/view/GameViewsCollection";
@@ -27,9 +26,8 @@ export class GameEnginePlugin implements ApplicationComponent {
 
     application.registerComponent(new MappedUserInput());
 
-    application.registerComponent(new GameLoader());
-
-    application.registerComponent(new AutowiredLoopersModule());
-    application.registerComponent(new LoadGameLevelModule());
+    application.registerComponent(new LoadGameArgumentsModel());
+    application.registerComponent(new GameLevel());
+    application.registerComponent(new RepositoryGameLevelLoader());
   }
 }

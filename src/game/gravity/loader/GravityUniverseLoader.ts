@@ -1,12 +1,11 @@
 import { Box3, Vector3 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { BaseGameLoaderModule } from "../../../common/game/engine/features/loader/BaseGameLoaderModule";
-import { LoadGameObject } from "../../../common/game/engine/features/loader/object/LoadGameObject";
+import { BaseGameStateModelLoader } from "../../../common/game/engine/framework/GameLoaderTypes";
 import { findObject3dParent } from "../../../common/utils/ThreeJsUtils";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 import { GravityObject, GravityUniverseModel, newBoundGravityObject, newFixedGravityObject } from "../model/GravityUniverseModel";
 
-export class GravityUniverseLoader extends BaseGameLoaderModule {
+export class GravityUniverseLoader extends BaseGameStateModelLoader {
   gameLevel!: GravityGameLevel;
   gravityUniverseModel!: GravityUniverseModel;
 
@@ -15,7 +14,7 @@ export class GravityUniverseLoader extends BaseGameLoaderModule {
     this.gravityUniverseModel = application.getComponent(GravityUniverseModel);
   }
 
-  startNewGame(loadGameObject: LoadGameObject): void | Promise<void> {
+  startNewGame(): void | Promise<void> {
     const prefixMap = {
       "Planet-": "planets",
       "Star-": "stars",

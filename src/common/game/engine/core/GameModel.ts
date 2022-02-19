@@ -1,12 +1,11 @@
-import { BaseGameLoaderModule } from "../features/loader/BaseGameLoaderModule";
-import { LoadGameObject } from "../features/loader/object/LoadGameObject";
+import { BaseGameLoader } from "./GameLoader";
 
-export abstract class BaseGameModel<O> extends BaseGameLoaderModule {
+export abstract class BaseGameModel<O> extends BaseGameLoader {
   object!: O;
 
-  abstract construtNewObject(loadGameObject: LoadGameObject): O | Promise<O>;
+  abstract construtNewObject(): O | Promise<O>;
 
-  async startNewGame(loadGameObject: LoadGameObject): Promise<void> {
-    this.object = await this.construtNewObject(loadGameObject);
+  async startNewGame(): Promise<void> {
+    this.object = await this.construtNewObject();
   }
 }

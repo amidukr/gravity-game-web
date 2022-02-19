@@ -1,5 +1,5 @@
 import { Group, Texture } from "three";
-import { GameLevelObject } from "../../../features/level/GameLevelObject";
+import { GameLevelObject } from "../../../features/level/GameLevel";
 
 export interface ThreeJsGameLevelObjectData {
   levelSceneFile: string;

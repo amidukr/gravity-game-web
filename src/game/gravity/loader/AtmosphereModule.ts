@@ -1,11 +1,11 @@
 import { BackSide, Box3, Group, IcosahedronGeometry, Mesh, Vector3 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { BaseGameLoaderModule } from "../../../common/game/engine/features/loader/BaseGameLoaderModule";
+import { BaseGameSceneLoader } from "../../../common/game/engine/framework/GameLoaderTypes";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 import { GravitySceneModel } from "../model/GravitySceneModel";
 import { AtmospherShaderMaterial as AtmospherBackMaterial } from "../scene/atmosphere/AtmospherMaterial";
 
-export class AtmosphereModule extends BaseGameLoaderModule {
+export class AtmosphereModule extends BaseGameSceneLoader {
   sceneModel!: GravitySceneModel;
   gameLevel!: GravityGameLevel;
 

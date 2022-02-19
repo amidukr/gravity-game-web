@@ -1,6 +1,5 @@
 import { Vector3 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { LoadGameObject } from "../../../common/game/engine/features/loader/object/LoadGameObject";
 import { GameTimeModel } from "../../../common/game/engine/features/time/GameTimeModel";
 import { BaseGameStateModel } from "../../../common/game/engine/framework/GameModelTypes";
 
@@ -104,7 +103,7 @@ export class GravityUniverseModel extends BaseGameStateModel<GravityUniverse> {
     this.gameTimeModel = application.getComponent(GameTimeModel);
   }
 
-  construtNewObject(loadGameObject: LoadGameObject): GravityUniverse {
+  construtNewObject(): GravityUniverse {
     return new GravityUniverse();
   }
 

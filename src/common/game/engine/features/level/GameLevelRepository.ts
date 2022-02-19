@@ -1,5 +1,5 @@
 import { typeIdentifier } from "../../../../app/lookup/TypeIdentifier";
-import { GameLevelObject } from "./GameLevelObject";
+import { GameLevelObject } from "./GameLevel";
 
 export const TYPE_GameLevelRepository = typeIdentifier<GameLevelRepository>("amid_ukr_ge_GameLevelRepository");
 

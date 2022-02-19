@@ -1,6 +1,5 @@
 import { PerspectiveCamera } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { LoadGameObject } from "../../../common/game/engine/features/loader/object/LoadGameObject";
 import { BaseGameStateModel } from "../../../common/game/engine/framework/GameModelTypes";
 
 export class PlayerView {
@@ -11,7 +10,7 @@ export class PlayerView {
 export class PlayerViewModel extends BaseGameStateModel<PlayerView> {
   autowire(application: ApplicationContainer): void {}
 
-  construtNewObject(loadGameObject: LoadGameObject): PlayerView {
+  construtNewObject(): PlayerView {
     return new PlayerView();
   }
 }

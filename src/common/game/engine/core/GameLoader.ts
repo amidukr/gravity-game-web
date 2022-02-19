@@ -4,13 +4,13 @@ import { Introspection } from "../../../app/lookup/Introspection";
 import { typeIdentifier } from "../../../app/lookup/TypeIdentifier";
 import { PACKAGE_AmidGeFramework } from "../../../package";
 
-export const TYPE_GameStarter = typeIdentifier<GameStarter>("GameStarter", PACKAGE_AmidGeFramework);
+export const TYPE_GameStarter = typeIdentifier<GameLoader>("GameStarter", PACKAGE_AmidGeFramework);
 
-export interface GameStarter {
+export interface GameLoader {
   startNewGame(): void | Promise<void>;
 }
 
-export abstract class BaseGameLoader implements GameStarter, ApplicationComponent {
+export abstract class BaseGameLoader implements GameLoader, ApplicationComponent {
   constructor() {
     Introspection.bindInterfaceName(this, TYPE_GameStarter, {
       executionOrder: this.executionOrder(),
