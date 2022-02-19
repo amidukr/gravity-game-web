@@ -7,7 +7,7 @@ import { PACKAGE_AmidGeFramework } from "../../../package";
 export const TYPE_GameStarter = typeIdentifier<GameStarter>("GameStarter", PACKAGE_AmidGeFramework);
 
 export interface GameStarter {
-  startNewGame(): void;
+  startNewGame(): void | Promise<void>;
 }
 
 export abstract class BaseGameLoader implements GameStarter, ApplicationComponent {

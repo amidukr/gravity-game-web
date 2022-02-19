@@ -4,7 +4,7 @@ export enum GameLoaderExecutionOrder {
   GameLevelLoader = 100000,
   GameStateModelLoader = 200000,
   GameViewLoader = 300000,
-  GameLoopStarter = 400000,
+  GameLooperStarter = 400000,
 }
 
 export abstract class BaseGameLevelLoader extends BaseGameLoader {

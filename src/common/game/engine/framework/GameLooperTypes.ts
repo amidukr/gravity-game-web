@@ -35,17 +35,7 @@ export abstract class BaseGameSceneUpdateLooper extends BaseGameLooper {
   }
 }
 
-export abstract class BaseGameRenderingLooper extends BaseGameLooper implements GameStarter {
-  constructor() {
-    super();
-
-    Introspection.bindInterfaceName(this, TYPE_GameStarter, {
-      executionOrder: GameLoaderExecutionOrder.GameLoopStarter,
-    });
-  }
-
-  startNewGame(): void {}
-
+export abstract class BaseGameRenderingLooper extends BaseGameLooper  {
   executionOrder() {
     return GameLooperExecutionOrder.GameRenderingLooper;
   }

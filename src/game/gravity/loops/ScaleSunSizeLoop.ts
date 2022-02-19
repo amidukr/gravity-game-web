@@ -13,12 +13,12 @@ export class ScaleSunSizeLoop extends BaseGameSceneUpdateLooper {
   private planetMinOrbit!: number;
   private planetMaxRadius!: number;
 
-  autowire(application: ApplicationContainer): void {
+  override autowire(application: ApplicationContainer): void {
     this.sceneModel = application.getComponent(GravitySceneModel);
     this.playerViewModel = application.getComponent(PlayerViewModel);
   }
 
-  startNewGame() {
+  override startNewGame() {
     const star = this.sceneModel.object.sceneDictionary.firstStar;
     this.planetMinOrbit = Number.MAX_VALUE;
     this.planetMaxRadius = 0;
