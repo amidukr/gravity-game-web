@@ -8,8 +8,6 @@ export class DebugInfoObject {
 export class DebugInfoModel extends BaseGameCoreState<DebugInfoObject> {
   refreshViewCallback: ((object: DebugInfoObject) => void) | null = null;
 
-  autowire(application: ApplicationContainer): void {}
-
   construtNewObject(): DebugInfoObject {
     return new DebugInfoObject();
   }

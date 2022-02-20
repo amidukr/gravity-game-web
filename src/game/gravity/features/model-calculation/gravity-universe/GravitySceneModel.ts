@@ -33,7 +33,7 @@ export class GravityScene {
 export class GravitySceneModel extends BaseGameView<GravityScene> {
   gameLevel!: GravityGameLevel;
 
-  autowire(application: ApplicationContainer): void {
+  override autowire(application: ApplicationContainer): void {
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
   }
 

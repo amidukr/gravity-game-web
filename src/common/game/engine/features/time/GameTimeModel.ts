@@ -6,8 +6,6 @@ export class GameTime {
 }
 
 export class GameTimeModel extends BaseGameCoreState<GameTime> {
-  autowire(application: ApplicationContainer): void {}
-
   construtNewObject(): GameTime {
     return new GameTime();
   }

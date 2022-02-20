@@ -97,12 +97,7 @@ export class GravityUniverse {
 }
 
 export class GravityUniverseModel extends BaseGameModel<GravityUniverse> {
-  gameTimeModel!: GameTimeModel;
-
-  autowire(application: ApplicationContainer): void {
-    this.gameTimeModel = application.getComponent(GameTimeModel);
-  }
-
+  
   construtNewObject(): GravityUniverse {
     return new GravityUniverse();
   }

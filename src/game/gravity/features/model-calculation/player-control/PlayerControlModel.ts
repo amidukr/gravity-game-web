@@ -6,8 +6,6 @@ export class PlayerControl {
 }
 
 export class PlayerControlModel extends BaseGameModel<PlayerControl> {
-  autowire(application: ApplicationContainer): void {}
-
   construtNewObject(): PlayerControl {
     return new PlayerControl();
   }

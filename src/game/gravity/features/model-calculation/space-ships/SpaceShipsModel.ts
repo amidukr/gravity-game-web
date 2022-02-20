@@ -12,8 +12,6 @@ export class SpaceShipCollection {
 }
 
 export class SpaceShipsModel extends BaseGameModel<SpaceShipCollection> {
-  autowire(application: ApplicationContainer): void {}
-
   construtNewObject(): SpaceShipCollection {
     return new SpaceShipCollection();
   }
