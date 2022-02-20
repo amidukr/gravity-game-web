@@ -1,24 +1,14 @@
 import { BaseGameLoader as BaseGameLoaderModule } from "../core/GameLoader";
 
 export enum GameLoaderExecutionOrder {
-  GameLevelModelLoader = 100_000,
+  GameObjectConstructor = 100_000,
+
   GameLevelLoader = 200_000,
+  GameModelLoader = 300_000,
+  GameViewLoader = 400_000,
+  GameSceneLoader = 500_000,
 
-  GameCoreModelLoader = 300_000,
-
-  GameStateModelLoader = 400_000,
-  GameStateLoader = 500_000,
-
-  GameViewModelLoader = 600_000,
-  GameViewLoader = 700_000,
-
-  GameSceneModelLoader = 800_000,
-  GameSceneLoader = 900_000,
-
-  GameSubSceneModelLoader = 1_000_000,
-  GameSubSceneLoader = 1_100_000,
-
-  GameLooperStarter = 1_200_000,
+  GameLooperStarter = 600_000,
 }
 
 export abstract class BaseGameLevelLoader extends BaseGameLoaderModule {
@@ -27,20 +17,20 @@ export abstract class BaseGameLevelLoader extends BaseGameLoaderModule {
   }
 }
 
-export abstract class BaseGameStateModelLoader extends BaseGameLoaderModule {
+export abstract class BaseGameModelLoader extends BaseGameLoaderModule {
   override executionOrder() {
-    return GameLoaderExecutionOrder.GameStateModelLoader;
-  }
-}
-
-export abstract class BaseGameSceneLoader extends BaseGameLoaderModule {
-  override executionOrder() {
-    return GameLoaderExecutionOrder.GameSceneLoader;
+    return GameLoaderExecutionOrder.GameModelLoader;
   }
 }
 
 export abstract class BaseGameViewModelLoader extends BaseGameLoaderModule {
   override executionOrder() {
     return GameLoaderExecutionOrder.GameViewLoader;
+  }
+}
+
+export abstract class BaseGameSceneLoader extends BaseGameLoaderModule {
+  override executionOrder() {
+    return GameLoaderExecutionOrder.GameSceneLoader;
   }
 }

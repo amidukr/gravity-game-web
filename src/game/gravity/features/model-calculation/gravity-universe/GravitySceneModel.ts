@@ -1,6 +1,7 @@
 import { Box3, Object3D, Scene, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
-import { BaseGameViewModel } from "../../../../../common/game/engine/framework/GameModelTypes";
+import { GameLoaderExecutionOrder } from "../../../../../common/game/engine/framework/GameLoaderTypes";
+import { BaseGameView } from "../../../../../common/game/engine/framework/GameModelTypes";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../game-level/GravityGameLevelObject";
 
 export interface SceneComponent {
@@ -29,11 +30,15 @@ export class GravityScene {
   sceneDictionary = new SceneDictionary();
 }
 
-export class GravitySceneModel extends BaseGameViewModel<GravityScene> {
+export class GravitySceneModel extends BaseGameView<GravityScene> {
   gameLevel!: GravityGameLevel;
 
   autowire(application: ApplicationContainer): void {
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
+  }
+
+  override executionOrder(): number {
+      return GameLoaderExecutionOrder.GameModelLoader
   }
 
   private buildSceneDictionary(sceneDictionary: SceneDictionary) {

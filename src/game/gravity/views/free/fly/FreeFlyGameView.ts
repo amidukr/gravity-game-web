@@ -5,7 +5,7 @@ import { FreeFlyButtonHandler } from "./FreeFlyButtonHandler";
 import { FreeFlyProcessingLoop } from "./FreeFlyProcessingLoop";
 import { FreeFlySaveLoadHandler } from "./FreeFlySaveLoadHandler";
 import { FreeFlyThrottleControlLoop } from "./FreeFlyThrottleControlLoop";
-import { FreeFlyUpdateCamerPosition } from "./FreeFlyUpdateCamerPosition";
+import { FreeFlyUpdateCamerPositionLooper } from "./FreeFlyUpdateCamerPositionLooper";
 
 export class FreeFlyGameView extends GameView {
   constructor(application: ApplicationContainer) {
@@ -19,7 +19,7 @@ export class FreeFlyGameView extends GameView {
     container.registerComponent(new FreeFlySaveLoadHandler());
     container.registerComponent(new FreeFlyThrottleControlLoop());
     container.registerComponent(new FreeFlyProcessingLoop());
-    container.registerComponent(new FreeFlyUpdateCamerPosition());
+    container.registerComponent(new FreeFlyUpdateCamerPositionLooper());
 
     super({
       container: container,

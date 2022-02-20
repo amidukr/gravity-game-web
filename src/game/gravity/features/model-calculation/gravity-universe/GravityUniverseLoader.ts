@@ -1,11 +1,11 @@
 import { Box3, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
-import { BaseGameStateModelLoader } from "../../../../../common/game/engine/framework/GameLoaderTypes";
+import { BaseGameModelLoader } from "../../../../../common/game/engine/framework/GameLoaderTypes";
 import { findObject3dParent } from "../../../../../common/utils/ThreeJsUtils";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../game-level/GravityGameLevelObject";
 import { GravityObject, GravityUniverseModel, newBoundGravityObject, newFixedGravityObject } from "./GravityUniverseModel";
 
-export class GravityUniverseLoader extends BaseGameStateModelLoader {
+export class GravityUniverseLoader extends BaseGameModelLoader {
   gameLevel!: GravityGameLevel;
   gravityUniverseModel!: GravityUniverseModel;
 

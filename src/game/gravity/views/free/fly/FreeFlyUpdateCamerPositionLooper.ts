@@ -4,7 +4,7 @@ import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd
 import { BaseGameSceneUpdateLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { SpaceShipsModel } from "../../../features/model-calculation/space-ships/SpaceShipsModel";
 
-export class FreeFlyUpdateCamerPosition extends BaseGameSceneUpdateLooper {
+export class FreeFlyUpdateCamerPositionLooper extends BaseGameSceneUpdateLooper {
   viewSceneModel!: ThreeJsGameViewSceneModel;
   spaceShipsModel!: SpaceShipsModel;
 

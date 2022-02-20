@@ -1,6 +1,6 @@
 import { Camera, Scene } from "three";
 import { ApplicationContainer } from "../../../../app/ApplicationContainer";
-import { BaseGameModel } from "../../core/GameModel";
+import { BaseGameState } from "../../core/GameModel";
 import { GameLoaderExecutionOrder } from "../../framework/GameLoaderTypes";
 
 export class ThreeJsGameViewScene {
@@ -8,11 +8,7 @@ export class ThreeJsGameViewScene {
   camera!: Camera;
 }
 
-export class ThreeJsGameViewSceneModel extends BaseGameModel<ThreeJsGameViewScene> {
-  executionOrder(): number {
-    return GameLoaderExecutionOrder.GameSceneModelLoader;
-  }
-
+export class ThreeJsGameViewSceneModel extends BaseGameState<ThreeJsGameViewScene> {
   autowire(application: ApplicationContainer): void {}
 
   construtNewObject() {

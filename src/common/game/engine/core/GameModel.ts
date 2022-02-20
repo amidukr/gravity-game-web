@@ -1,7 +1,12 @@
+import { GameLoaderExecutionOrder } from "../framework/GameLoaderTypes";
 import { BaseGameLoader } from "./GameLoader";
 
-export abstract class BaseGameModel<O> extends BaseGameLoader {
+export abstract class BaseGameState<O> extends BaseGameLoader {
   object!: O;
+
+  override executionOrder(): number {
+    return GameLoaderExecutionOrder.GameObjectConstructor;
+  }
 
   abstract construtNewObject(): O | Promise<O>;
 
