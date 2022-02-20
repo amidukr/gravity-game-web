@@ -1,20 +1,20 @@
 import { Box3, PerspectiveCamera, Vector2 } from "three";
-import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { ThreeJsGameRenderer } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameRenderer";
-import { ThreeJsGameViewSceneModel } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
-import { BaseGameRenderingLooper } from "../../../common/game/engine/framework/GameLooperTypes";
-import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
-import { GravitySceneModel } from "../model/GravitySceneModel";
-import { PlayerViewModel } from "../model/PlayerControlModel";
-import { SpaceShipsModel } from "../model/SpaceShipsModel";
+import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
+import { ThreeJsGameRenderer } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameRenderer";
+import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
+import { BaseGameRenderingLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
+import { GravityGameLevel, TYPE_GravityGameLevel } from "../../../level/GravityGameLevelObject";
+import { GravitySceneModel } from "../../gravity-universe/GravitySceneModel";
+import { PlayerControlModel } from "../../player-control/PlayerControlModel";
+import { SpaceShipsModel } from "../../space-ships/SpaceShipsModel";
 
-export class GravityViewRenderer extends BaseGameRenderingLooper {
+export class GravitySceneRenderer extends BaseGameRenderingLooper {
   protected engineRenderer!: ThreeJsGameRenderer;
   protected gameLevel!: GravityGameLevel;
 
   sceneModel!: GravitySceneModel;
   spaceShipsModel!: SpaceShipsModel;
-  playerViewModel!: PlayerViewModel;
+  playerViewModel!: PlayerControlModel;
 
   private clipPoints!: number[];
   application!: ApplicationContainer;
@@ -29,7 +29,7 @@ export class GravityViewRenderer extends BaseGameRenderingLooper {
 
     this.sceneModel = application.getComponent(GravitySceneModel);
     this.spaceShipsModel = application.getComponent(SpaceShipsModel);
-    this.playerViewModel = application.getComponent(PlayerViewModel);
+    this.playerViewModel = application.getComponent(PlayerControlModel);
   }
 
   override startNewGame(): void {

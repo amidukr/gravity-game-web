@@ -1,6 +1,6 @@
 import React from "react";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { DebugInfoModel, DebugInfoObject } from "../model/DebugInfoModel";
+import { DebugInfoModel, DebugInfoObject } from "./DebugInfoModel";
 
 export interface DebugInfoPanelProps {
   application: ApplicationContainer;

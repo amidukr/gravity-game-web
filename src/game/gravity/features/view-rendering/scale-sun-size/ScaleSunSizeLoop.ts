@@ -1,15 +1,15 @@
 import { Vector3 } from "three";
-import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { ThreeJsGameViewSceneModel } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
-import { BaseGameSceneUpdateLooper } from "../../../common/game/engine/framework/GameLooperTypes";
-import { GameEvent } from "../../../common/game/engine/GameEvent";
-import { expSteepness, smootStep } from "../../../common/utils/math";
-import { GravitySceneModel } from "../model/GravitySceneModel";
-import { PlayerViewModel } from "../model/PlayerControlModel";
+import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
+import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
+import { BaseGameSceneUpdateLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
+import { GameEvent } from "../../../../../common/game/engine/GameEvent";
+import { expSteepness, smootStep } from "../../../../../common/utils/math";
+import { GravitySceneModel } from "../../gravity-universe/GravitySceneModel";
+import { PlayerControlModel } from "../../player-control/PlayerControlModel";
 
 export class ScaleSunSizeLoop extends BaseGameSceneUpdateLooper {
   sceneModel!: GravitySceneModel;
-  playerViewModel!: PlayerViewModel;
+  playerViewModel!: PlayerControlModel;
 
   private planetMinOrbit!: number;
   private planetMaxRadius!: number;
@@ -17,7 +17,7 @@ export class ScaleSunSizeLoop extends BaseGameSceneUpdateLooper {
 
   override autowire(application: ApplicationContainer): void {
     this.sceneModel = application.getComponent(GravitySceneModel);
-    this.playerViewModel = application.getComponent(PlayerViewModel);
+    this.playerViewModel = application.getComponent(PlayerControlModel);
     this.viewSceneModel = application.getComponent(ThreeJsGameViewSceneModel);
   }
 

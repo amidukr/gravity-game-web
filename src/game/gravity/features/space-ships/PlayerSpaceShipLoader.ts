@@ -1,10 +1,10 @@
 import { Quaternion, Vector3 } from "three";
-import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { BaseGameStateModelLoader } from "../../../common/game/engine/framework/GameLoaderTypes";
-import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
-import { GravitySceneModel } from "../model/GravitySceneModel";
-import { PlayerViewModel } from "../model/PlayerControlModel";
-import { SpaceShipsModel } from "../model/SpaceShipsModel";
+import { ApplicationContainer } from "../../../../common/app/ApplicationContainer";
+import { BaseGameStateModelLoader } from "../../../../common/game/engine/framework/GameLoaderTypes";
+import { GravityGameLevel, TYPE_GravityGameLevel } from "../../level/GravityGameLevelObject";
+import { GravitySceneModel } from "../gravity-universe/GravitySceneModel";
+import { PlayerControlModel } from "../player-control/PlayerControlModel";
+import { SpaceShipsModel } from "./SpaceShipsModel";
 
 declare global {
   interface Window {
@@ -14,12 +14,12 @@ declare global {
 
 export class GravityGameLoader extends BaseGameStateModelLoader {
   spaceShipsModel!: SpaceShipsModel;
-  playerViewModel!: PlayerViewModel;
+  playerViewModel!: PlayerControlModel;
   gameLevel!: GravityGameLevel;
 
   autowire(application: ApplicationContainer) {
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
-    this.playerViewModel = application.getComponent(PlayerViewModel);
+    this.playerViewModel = application.getComponent(PlayerControlModel);
     this.spaceShipsModel = application.getComponent(SpaceShipsModel);
 
     window.sceneModel = application.getComponent(GravitySceneModel);

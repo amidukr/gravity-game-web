@@ -5,12 +5,12 @@ import { AxisUserInput } from "../../../../../common/game/engine/features/input/
 import { MouseDevice } from "../../../../../common/game/engine/features/input/devices/MouseDevice";
 import { BaseGameModelProcessingLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../common/game/engine/GameEvent";
-import { PlayerViewModel } from "../../../model/PlayerControlModel";
-import { SpaceShipsModel } from "../../../model/SpaceShipsModel";
+import { PlayerControlModel } from "../../../features/player-control/PlayerControlModel";
+import { SpaceShipsModel } from "../../../features/space-ships/SpaceShipsModel";
 
 export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
   axisInput!: AxisUserInput;
-  playerViewModel!: PlayerViewModel;
+  playerViewModel!: PlayerControlModel;
   spaceShipsModel!: SpaceShipsModel;
 
   maxRotationAngle = (1.5 * Math.PI) / 1000;
@@ -20,7 +20,7 @@ export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
 
   autowire(application: ApplicationContainer): void {
     this.axisInput = application.getComponent(AxisUserInput);
-    this.playerViewModel = application.getComponent(PlayerViewModel);
+    this.playerViewModel = application.getComponent(PlayerControlModel);
     this.spaceShipsModel = application.getComponent(SpaceShipsModel);
   }
 

@@ -1,9 +1,9 @@
 import { ApplicationContainer } from "../../../../common/app/ApplicationContainer";
 import { BaseGameModelProcessingLooper } from "../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../common/game/engine/GameEvent";
-import { DebugInfoModel } from "../../model/DebugInfoModel";
-import { GravitySceneModel } from "../../model/GravitySceneModel";
-import { SpaceShipsModel } from "../../model/SpaceShipsModel";
+import { DebugInfoModel } from "../../debug/DebugInfoModel";
+import { GravitySceneModel } from "../gravity-universe/GravitySceneModel";
+import { SpaceShipsModel } from "./SpaceShipsModel";
 
 export class DebugAltitudeLoop extends BaseGameModelProcessingLooper {
   debugModel!: DebugInfoModel;

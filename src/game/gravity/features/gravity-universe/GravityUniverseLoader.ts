@@ -1,9 +1,9 @@
 import { Box3, Vector3 } from "three";
-import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { BaseGameStateModelLoader } from "../../../common/game/engine/framework/GameLoaderTypes";
-import { findObject3dParent } from "../../../common/utils/ThreeJsUtils";
-import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
-import { GravityObject, GravityUniverseModel, newBoundGravityObject, newFixedGravityObject } from "../model/GravityUniverseModel";
+import { ApplicationContainer } from "../../../../common/app/ApplicationContainer";
+import { BaseGameStateModelLoader } from "../../../../common/game/engine/framework/GameLoaderTypes";
+import { findObject3dParent } from "../../../../common/utils/ThreeJsUtils";
+import { GravityGameLevel, TYPE_GravityGameLevel } from "../../level/GravityGameLevelObject";
+import { GravityObject, GravityUniverseModel, newBoundGravityObject, newFixedGravityObject } from "./GravityUniverseModel";
 
 export class GravityUniverseLoader extends BaseGameStateModelLoader {
   gameLevel!: GravityGameLevel;

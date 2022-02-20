@@ -5,14 +5,14 @@ import { ThreeJsGameLevelRepository } from "../../../common/game/engine/3rd-part
 import { ThreeJsGameRenderer } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameRenderer";
 import { GameEnginePlugin } from "../../../common/game/engine/plugins/GameEnginePlugin";
 import { ReactStarter, TYPE_ReactRootWidget } from "../../../common/ui/ReactStarter";
+import { DebugInfoModel } from "../debug/DebugInfoModel";
+import { DebugLoop } from "../debug/DebugLoop";
+import { GravitySceneModel } from "../features/gravity-universe/GravitySceneModel";
+import { PlayerControlModel } from "../features/player-control/PlayerControlModel";
+import { DebugAltitudeLoop } from "../features/space-ships/DebugAltitudeLoop";
+import { GravityGameLoader } from "../features/space-ships/PlayerSpaceShipLoader";
+import { SpaceShipsModel } from "../features/space-ships/SpaceShipsModel";
 import { MainViewInputMappings } from "../input/mappings/GravityGameInputMappings";
-import { GravityGameLoader } from "../loader/GravityGameLoader";
-import { DebugAltitudeLoop } from "../loops/debug/DebugAltitudeLoop";
-import { DebugLoop } from "../loops/debug/DebugLoop";
-import { DebugInfoModel } from "../model/DebugInfoModel";
-import { GravitySceneModel } from "../model/GravitySceneModel";
-import { PlayerViewModel } from "../model/PlayerControlModel";
-import { SpaceShipsModel } from "../model/SpaceShipsModel";
 import { GravityGameStarter } from "../starters/GravityGameStarter";
 import { RootWidget } from "../ui/GravityGameRootWidget";
 
@@ -47,7 +47,7 @@ export class GravityGamePlugin implements ApplicationComponent {
     // Loaders and Models
     application.registerComponent(new GravitySceneModel());
     application.registerComponent(new SpaceShipsModel());
-    application.registerComponent(new PlayerViewModel());
+    application.registerComponent(new PlayerControlModel());
 
     application.registerComponent(new GravityGameLoader());
 

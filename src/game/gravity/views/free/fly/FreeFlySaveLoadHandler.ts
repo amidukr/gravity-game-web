@@ -2,9 +2,9 @@ import { ApplicationContainer } from "../../../../../common/app/ApplicationConta
 import { MappedUserInput } from "../../../../../common/game/engine/features/input/MappedUserInput";
 import { InputButton } from "../../../../../common/game/engine/features/input/types/InputButton";
 import { GameViewButtonHandler } from "../../../../../common/game/engine/ui/view/GameViewButtonHandler";
+import { PlayerControlModel } from "../../../features/player-control/PlayerControlModel";
+import { SpaceShipsModel } from "../../../features/space-ships/SpaceShipsModel";
 import { COMMON_GROUP, LOAD_GAME_ACTION, SAVE_GAME_ACTION } from "../../../input/mappings/GravityGameInputMappings";
-import { PlayerViewModel } from "../../../model/PlayerControlModel";
-import { SpaceShipsModel } from "../../../model/SpaceShipsModel";
 
 interface SavedGame {
   position: number[];
@@ -14,12 +14,12 @@ interface SavedGame {
 
 export class FreeFlySaveLoadHandler implements GameViewButtonHandler {
   mappedUserInput!: MappedUserInput;
-  playerViewModel!: PlayerViewModel;
+  playerViewModel!: PlayerControlModel;
   spaceShipsModel!: SpaceShipsModel;
 
   startNewGame(application: ApplicationContainer) {
     this.spaceShipsModel = application.getComponent(SpaceShipsModel);
-    this.playerViewModel = application.getComponent(PlayerViewModel);
+    this.playerViewModel = application.getComponent(PlayerControlModel);
     this.mappedUserInput = application.getComponent(MappedUserInput);
   }
 

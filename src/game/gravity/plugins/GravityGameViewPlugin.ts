@@ -2,9 +2,9 @@ import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../common
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../common/app/lookup/Introspection";
 import { ThreeJsGameViewSceneModel } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
-import { AtmosphereModule } from "../loader/AtmosphereModule";
-import { GravityViewRenderer } from "../loops/GravityViewRenderer";
-import { ScaleSunSizeLoop } from "../loops/ScaleSunSizeLoop";
+import { AtmosphereModule } from "../features/view-rendering/atmosphere/AtmosphereModule";
+import { GravitySceneRenderer } from "../features/view-rendering/gravity-scene-renderer/GravitySceneRenderer";
+import { ScaleSunSizeLoop } from "../features/view-rendering/scale-sun-size/ScaleSunSizeLoop";
 
 export class GravityGameViewPlugin implements ApplicationComponent {
   constructor() {
@@ -13,7 +13,8 @@ export class GravityGameViewPlugin implements ApplicationComponent {
 
   setApplication(application: ApplicationContainer) {
     application.registerComponent(new ThreeJsGameViewSceneModel());
-    application.registerComponent(new GravityViewRenderer());
+    application.registerComponent(new GravitySceneRenderer());
+
     application.registerComponent(new AtmosphereModule());
     application.registerComponent(new ScaleSunSizeLoop());
   }

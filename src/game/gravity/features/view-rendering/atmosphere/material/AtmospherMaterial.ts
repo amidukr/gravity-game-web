@@ -1,5 +1,5 @@
 import { ShaderMaterial, Vector3 } from "three";
-import { preprocessShader } from "../../../../common/utils/ShaderUtils";
+import { preprocessShader } from "../../../../../../common/utils/ShaderUtils";
 import backShaderFs from "./glsl/BackShader.fs";
 import basicVertexShaderVs from "./glsl/BasicVertexShader.vs";
 
