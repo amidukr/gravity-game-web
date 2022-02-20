@@ -3,8 +3,8 @@ import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { GameViewWidget } from "../../../common/game/engine/3rd-party/react/GameViewWidget";
 import { MappedUserInput } from "../../../common/game/engine/features/input/MappedUserInput";
 import { GameView } from "../../../common/game/engine/ui/view/GameView";
-import { DebugInfoPanel } from "../debug/DebugInfoPanel";
-import { CHANGE_VIEW_ACTION, COMMON_GROUP } from "../input/mappings/GravityGameInputMappings";
+import { DebugInfoPanel } from "../features/framework/debug/DebugInfoPanel";
+import { CHANGE_VIEW_ACTION, COMMON_GROUP } from "../features/input-mappings/GravityGameInputMappings";
 import { FreeFlyGameView } from "../views/free/fly/FreeFlyGameView";
 import { OrbitGameView } from "../views/free/orbit/OrbitGameView";
 

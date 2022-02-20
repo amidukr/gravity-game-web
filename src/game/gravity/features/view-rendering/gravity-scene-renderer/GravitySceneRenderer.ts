@@ -3,10 +3,10 @@ import { ApplicationContainer } from "../../../../../common/app/ApplicationConta
 import { ThreeJsGameRenderer } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameRenderer";
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
 import { BaseGameRenderingLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
-import { GravityGameLevel, TYPE_GravityGameLevel } from "../../../level/GravityGameLevelObject";
-import { GravitySceneModel } from "../../gravity-universe/GravitySceneModel";
-import { PlayerControlModel } from "../../player-control/PlayerControlModel";
-import { SpaceShipsModel } from "../../space-ships/SpaceShipsModel";
+import { GravityGameLevel, TYPE_GravityGameLevel } from "../../model-calculation/game-level/GravityGameLevelObject";
+import { GravitySceneModel } from "../../model-calculation/gravity-universe/GravitySceneModel";
+import { PlayerControlModel } from "../../model-calculation/player-control/PlayerControlModel";
+import { SpaceShipsModel } from "../../model-calculation/space-ships/SpaceShipsModel";
 
 export class GravitySceneRenderer extends BaseGameRenderingLooper {
   protected engineRenderer!: ThreeJsGameRenderer;

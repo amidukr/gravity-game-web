@@ -2,7 +2,7 @@ import * as THREE from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
 import { BaseGameSceneUpdateLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
-import { SpaceShipsModel } from "../../../features/space-ships/SpaceShipsModel";
+import { SpaceShipsModel } from "../../../features/model-calculation/space-ships/SpaceShipsModel";
 
 export class FreeFlyUpdateCamerPosition extends BaseGameSceneUpdateLooper {
   viewSceneModel!: ThreeJsGameViewSceneModel;

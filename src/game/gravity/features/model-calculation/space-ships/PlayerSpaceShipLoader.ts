@@ -1,7 +1,7 @@
 import { Quaternion, Vector3 } from "three";
-import { ApplicationContainer } from "../../../../common/app/ApplicationContainer";
-import { BaseGameStateModelLoader } from "../../../../common/game/engine/framework/GameLoaderTypes";
-import { GravityGameLevel, TYPE_GravityGameLevel } from "../../level/GravityGameLevelObject";
+import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
+import { BaseGameStateModelLoader } from "../../../../../common/game/engine/framework/GameLoaderTypes";
+import { GravityGameLevel, TYPE_GravityGameLevel } from "../game-level/GravityGameLevelObject";
 import { GravitySceneModel } from "../gravity-universe/GravitySceneModel";
 import { PlayerControlModel } from "../player-control/PlayerControlModel";
 import { SpaceShipsModel } from "./SpaceShipsModel";

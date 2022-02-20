@@ -1,7 +1,7 @@
 import { Box3, Object3D, Scene, Vector3 } from "three";
-import { ApplicationContainer } from "../../../../common/app/ApplicationContainer";
-import { BaseGameViewModel } from "../../../../common/game/engine/framework/GameModelTypes";
-import { GravityGameLevel, TYPE_GravityGameLevel } from "../../level/GravityGameLevelObject";
+import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
+import { BaseGameViewModel } from "../../../../../common/game/engine/framework/GameModelTypes";
+import { GravityGameLevel, TYPE_GravityGameLevel } from "../game-level/GravityGameLevelObject";
 
 export interface SceneComponent {
   object: Object3D;

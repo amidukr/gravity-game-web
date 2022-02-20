@@ -1,5 +1,5 @@
-import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
-import { BaseGameCoreModel } from "../../../common/game/engine/framework/GameModelTypes";
+import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
+import { BaseGameCoreModel } from "../../../../../common/game/engine/framework/GameModelTypes";
 
 export class DebugInfoObject {
   altitude = 0;

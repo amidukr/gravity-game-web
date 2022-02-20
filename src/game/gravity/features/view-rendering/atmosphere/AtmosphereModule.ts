@@ -2,8 +2,8 @@ import { BackSide, Box3, Group, IcosahedronGeometry, Mesh, Vector3 } from "three
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
 import { BaseGameSceneLoader } from "../../../../../common/game/engine/framework/GameLoaderTypes";
-import { GravityGameLevel, TYPE_GravityGameLevel } from "../../../level/GravityGameLevelObject";
-import { GravitySceneModel } from "../../gravity-universe/GravitySceneModel";
+import { GravityGameLevel, TYPE_GravityGameLevel } from "../../model-calculation/game-level/GravityGameLevelObject";
+import { GravitySceneModel } from "../../model-calculation/gravity-universe/GravitySceneModel";
 import { AtmospherShaderMaterial as AtmospherBackMaterial } from "./material/AtmospherMaterial";
 
 export class AtmosphereModule extends BaseGameSceneLoader {

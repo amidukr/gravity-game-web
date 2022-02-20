@@ -2,9 +2,9 @@ import { ApplicationContainer } from "../../../../../common/app/ApplicationConta
 import { MappedUserInput } from "../../../../../common/game/engine/features/input/MappedUserInput";
 import { InputButton } from "../../../../../common/game/engine/features/input/types/InputButton";
 import { GameViewButtonHandler } from "../../../../../common/game/engine/ui/view/GameViewButtonHandler";
-import { PlayerControlModel } from "../../../features/player-control/PlayerControlModel";
-import { SpaceShipsModel } from "../../../features/space-ships/SpaceShipsModel";
-import { COMMON_GROUP, LOAD_GAME_ACTION, SAVE_GAME_ACTION } from "../../../input/mappings/GravityGameInputMappings";
+import { COMMON_GROUP, LOAD_GAME_ACTION, SAVE_GAME_ACTION } from "../../../features/input-mappings/GravityGameInputMappings";
+import { PlayerControlModel } from "../../../features/model-calculation/player-control/PlayerControlModel";
+import { SpaceShipsModel } from "../../../features/model-calculation/space-ships/SpaceShipsModel";
 
 interface SavedGame {
   position: number[];

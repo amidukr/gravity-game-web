@@ -4,9 +4,15 @@ import { MappedUserInput } from "../../../../../common/game/engine/features/inpu
 import { BaseGameInputLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../common/game/engine/GameEvent";
 import { GameView } from "../../../../../common/game/engine/ui/view/GameView";
-import { PlayerControlModel } from "../../../features/player-control/PlayerControlModel";
-import { SpaceShipsModel } from "../../../features/space-ships/SpaceShipsModel";
-import { COMMON_GROUP, ROLL_LEFT_ACTION, ROLL_RIGHT_ACTION, THROTTLE_DOWN_ACTION, THROTTLE_UP_ACTION } from "../../../input/mappings/GravityGameInputMappings";
+import {
+  COMMON_GROUP,
+  ROLL_LEFT_ACTION,
+  ROLL_RIGHT_ACTION,
+  THROTTLE_DOWN_ACTION,
+  THROTTLE_UP_ACTION,
+} from "../../../features/input-mappings/GravityGameInputMappings";
+import { PlayerControlModel } from "../../../features/model-calculation/player-control/PlayerControlModel";
+import { SpaceShipsModel } from "../../../features/model-calculation/space-ships/SpaceShipsModel";
 
 export class FreeFlyThrottleControlLoop extends BaseGameInputLooper {
   gameView!: GameView;

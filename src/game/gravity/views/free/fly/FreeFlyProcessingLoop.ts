@@ -5,8 +5,8 @@ import { AxisUserInput } from "../../../../../common/game/engine/features/input/
 import { MouseDevice } from "../../../../../common/game/engine/features/input/devices/MouseDevice";
 import { BaseGameModelProcessingLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../common/game/engine/GameEvent";
-import { PlayerControlModel } from "../../../features/player-control/PlayerControlModel";
-import { SpaceShipsModel } from "../../../features/space-ships/SpaceShipsModel";
+import { PlayerControlModel } from "../../../features/model-calculation/player-control/PlayerControlModel";
+import { SpaceShipsModel } from "../../../features/model-calculation/space-ships/SpaceShipsModel";
 
 export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
   axisInput!: AxisUserInput;

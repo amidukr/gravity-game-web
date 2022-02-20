@@ -1,5 +1,5 @@
-import { ApplicationContainer } from "../../../../common/app/ApplicationContainer";
-import { BaseGameStateModel } from "../../../../common/game/engine/framework/GameModelTypes";
+import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
+import { BaseGameStateModel } from "../../../../../common/game/engine/framework/GameModelTypes";
 
 export class PlayerControl {
   mouseNavigationEanbledAt: number = 0;

@@ -1,5 +1,5 @@
 import React from "react";
-import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
+import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { DebugInfoModel, DebugInfoObject } from "./DebugInfoModel";
 
 export interface DebugInfoPanelProps {

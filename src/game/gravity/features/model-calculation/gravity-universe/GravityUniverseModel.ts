@@ -1,7 +1,7 @@
 import { Vector3 } from "three";
-import { ApplicationContainer } from "../../../../common/app/ApplicationContainer";
-import { GameTimeModel } from "../../../../common/game/engine/features/time/GameTimeModel";
-import { BaseGameStateModel } from "../../../../common/game/engine/framework/GameModelTypes";
+import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
+import { GameTimeModel } from "../../../../../common/game/engine/features/time/GameTimeModel";
+import { BaseGameStateModel } from "../../../../../common/game/engine/framework/GameModelTypes";
 
 export const GRAVITY_OBJECT_UNIVERSE: string = "Universe";
 

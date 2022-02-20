@@ -1,7 +1,7 @@
-import { ApplicationContainer } from "../../../../common/app/ApplicationContainer";
-import { BaseGameModelProcessingLooper } from "../../../../common/game/engine/framework/GameLooperTypes";
-import { GameEvent } from "../../../../common/game/engine/GameEvent";
-import { DebugInfoModel } from "../../debug/DebugInfoModel";
+import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
+import { BaseGameModelProcessingLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
+import { GameEvent } from "../../../../../common/game/engine/GameEvent";
+import { DebugInfoModel } from "../../framework/debug/DebugInfoModel";
 import { GravitySceneModel } from "../gravity-universe/GravitySceneModel";
 import { SpaceShipsModel } from "./SpaceShipsModel";
 
