@@ -1,5 +1,6 @@
 import { Vector3 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
+import { ThreeJsGameViewSceneModel } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
 import { BaseGameSceneUpdateLooper } from "../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../common/game/engine/GameEvent";
 import { expSteepness, smootStep } from "../../../common/utils/math";
@@ -12,10 +13,12 @@ export class ScaleSunSizeLoop extends BaseGameSceneUpdateLooper {
 
   private planetMinOrbit!: number;
   private planetMaxRadius!: number;
+  private viewSceneModel!: ThreeJsGameViewSceneModel;
 
   override autowire(application: ApplicationContainer): void {
     this.sceneModel = application.getComponent(GravitySceneModel);
     this.playerViewModel = application.getComponent(PlayerViewModel);
+    this.viewSceneModel = application.getComponent(ThreeJsGameViewSceneModel);
   }
 
   override startNewGame() {
@@ -32,7 +35,7 @@ export class ScaleSunSizeLoop extends BaseGameSceneUpdateLooper {
 
   execute(event: GameEvent): void {
     const star = this.sceneModel.object.sceneDictionary.firstStar;
-    const camera = this.playerViewModel.object.camera;
+    const camera = this.viewSceneModel.object.camera;
 
     const distanceToStar = star.position.distanceTo(camera.position);
 

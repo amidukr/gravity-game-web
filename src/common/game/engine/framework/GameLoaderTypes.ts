@@ -1,20 +1,24 @@
 import { BaseGameLoader as BaseGameLoaderModule } from "../core/GameLoader";
 
 export enum GameLoaderExecutionOrder {
-  GameLevelModelLoader = 100000,
-  GameLevelLoader = 200000,
+  GameLevelModelLoader = 100_000,
+  GameLevelLoader = 200_000,
 
-  GameCoreModelLoader = 300000,
+  GameCoreModelLoader = 300_000,
 
-  GameStateModelLoader = 400000,
-  GameStateLoader = 500000,
+  GameStateModelLoader = 400_000,
+  GameStateLoader = 500_000,
 
-  GameViewModelLoader = 600000,
-  GameViewLoader = 700000,
+  GameViewModelLoader = 600_000,
+  GameViewLoader = 700_000,
 
-  GameSceneLoader = 800000,
+  GameSceneModelLoader = 800_000,
+  GameSceneLoader = 900_000,
 
-  GameLooperStarter = 900000,
+  GameSubSceneModelLoader = 1_000_000,
+  GameSubSceneLoader = 1_100_000,
+
+  GameLooperStarter = 1_200_000,
 }
 
 export abstract class BaseGameLevelLoader extends BaseGameLoaderModule {

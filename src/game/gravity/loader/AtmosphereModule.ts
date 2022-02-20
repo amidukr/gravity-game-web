@@ -1,5 +1,6 @@
 import { BackSide, Box3, Group, IcosahedronGeometry, Mesh, Vector3 } from "three";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
+import { ThreeJsGameViewSceneModel } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
 import { BaseGameSceneLoader } from "../../../common/game/engine/framework/GameLoaderTypes";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../level/GravityGameLevelObject";
 import { GravitySceneModel } from "../model/GravitySceneModel";
@@ -8,10 +9,12 @@ import { AtmospherShaderMaterial as AtmospherBackMaterial } from "../scene/atmos
 export class AtmosphereModule extends BaseGameSceneLoader {
   sceneModel!: GravitySceneModel;
   gameLevel!: GravityGameLevel;
+  viewSceneModel!: ThreeJsGameViewSceneModel;
 
   autowire(application: ApplicationContainer) {
     this.sceneModel = application.getComponent(GravitySceneModel);
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
+    this.viewSceneModel = application.getComponent(ThreeJsGameViewSceneModel);
   }
 
   startNewGame() {
@@ -60,6 +63,6 @@ export class AtmosphereModule extends BaseGameSceneLoader {
       backMaterial.atmosphereHeight = atmosphereHeight;
     });
 
-    this.sceneModel.object.scene.add(group);
+    this.viewSceneModel.object.scene.add(group);
   }
 }

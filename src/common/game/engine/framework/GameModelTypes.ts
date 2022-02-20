@@ -19,6 +19,12 @@ export abstract class BaseGameStateModel<O> extends BaseGameModel<O> {
   }
 }
 
+export abstract class BaseGameSceneModel<O> extends BaseGameModel<O> {
+  executionOrder() {
+    return GameLoaderExecutionOrder.GameSceneModelLoader;
+  }
+}
+
 export abstract class BaseGameViewModel<O> extends BaseGameModel<O> {
   executionOrder() {
     return GameLoaderExecutionOrder.GameViewModelLoader;

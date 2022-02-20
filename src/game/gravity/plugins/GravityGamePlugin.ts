@@ -1,16 +1,14 @@
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../common/app/lookup/Introspection";
-import { GameEngineThreeJsRenderer } from "../../../common/game/engine/3rd-party/threejs/GameEngineThreeJsRenderer";
 import { ThreeJsGameLevelRepository } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameLevelRepository";
+import { ThreeJsGameRenderer } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameRenderer";
 import { GameEnginePlugin } from "../../../common/game/engine/plugins/GameEnginePlugin";
 import { ReactStarter, TYPE_ReactRootWidget } from "../../../common/ui/ReactStarter";
 import { MainViewInputMappings } from "../input/mappings/GravityGameInputMappings";
-import { AtmosphereModule } from "../loader/AtmosphereModule";
 import { GravityGameLoader } from "../loader/GravityGameLoader";
 import { DebugAltitudeLoop } from "../loops/debug/DebugAltitudeLoop";
 import { DebugLoop } from "../loops/debug/DebugLoop";
-import { ScaleSunSizeLoop } from "../loops/ScaleSunSizeLoop";
 import { DebugInfoModel } from "../model/DebugInfoModel";
 import { GravitySceneModel } from "../model/GravitySceneModel";
 import { PlayerViewModel } from "../model/PlayerControlModel";
@@ -18,7 +16,7 @@ import { SpaceShipsModel } from "../model/SpaceShipsModel";
 import { GravityGameStarter } from "../starters/GravityGameStarter";
 import { RootWidget } from "../ui/GravityGameRootWidget";
 
-export class GravityGameEnginePlugin implements ApplicationComponent {
+export class GravityGamePlugin implements ApplicationComponent {
   constructor() {
     Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
@@ -28,7 +26,7 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
     application.registerComponent(new GameEnginePlugin());
 
     application.registerComponent(
-      new GameEngineThreeJsRenderer({
+      new ThreeJsGameRenderer({
         webGlRenderingParameters: {
           antialias: true,
           preserveDrawingBuffer: true,
@@ -52,15 +50,11 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
     application.registerComponent(new PlayerViewModel());
 
     application.registerComponent(new GravityGameLoader());
-    application.registerComponent(new AtmosphereModule());
 
     application.registerComponent(new MainViewInputMappings());
 
     // Starter
     application.registerComponent(new GravityGameStarter());
-
-    // Loops
-    application.registerComponent(new ScaleSunSizeLoop());
 
     // Debug
     application.registerComponent(new DebugInfoModel());
