@@ -4,21 +4,16 @@ import { ThreeJsGameRenderer } from "../../../../../common/game/engine/3rd-party
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
 import { BaseGameRenderingLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../../model-calculation/game-level/GravityGameLevelObject";
-import { GravitySceneModel } from "../../model-calculation/gravity-universe/GravitySceneModel";
-import { PlayerControlModel } from "../../model-calculation/player-control/PlayerControlModel";
-import { SpaceShipsModel } from "../../model-calculation/space-ships/SpaceShipsModel";
 
 export class GravitySceneRenderer extends BaseGameRenderingLooper {
+  application!: ApplicationContainer;
+
+  viewSceneModel!: ThreeJsGameViewSceneModel;
   protected engineRenderer!: ThreeJsGameRenderer;
+
   protected gameLevel!: GravityGameLevel;
 
-  sceneModel!: GravitySceneModel;
-  spaceShipsModel!: SpaceShipsModel;
-  playerViewModel!: PlayerControlModel;
-
   private clipPoints!: number[];
-  application!: ApplicationContainer;
-  viewSceneModel!: ThreeJsGameViewSceneModel;
 
   override autowire(application: ApplicationContainer): void {
     this.application = application;
@@ -26,10 +21,6 @@ export class GravitySceneRenderer extends BaseGameRenderingLooper {
     this.engineRenderer = application.getComponent(ThreeJsGameRenderer);
 
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
-
-    this.sceneModel = application.getComponent(GravitySceneModel);
-    this.spaceShipsModel = application.getComponent(SpaceShipsModel);
-    this.playerViewModel = application.getComponent(PlayerControlModel);
   }
 
   override startNewGame(): void {
@@ -39,7 +30,7 @@ export class GravitySceneRenderer extends BaseGameRenderingLooper {
 
     const scene = this.viewSceneModel.object.scene;
 
-    scene.add(this.gameLevel.object.rootScene);
+    //scene.add(this.gameLevel.object.rootScene);
     scene.background = this.gameLevel.object.backhroundTexture;
 
     this.viewSceneModel.object.camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.000001, 1000);

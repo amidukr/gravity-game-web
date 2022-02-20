@@ -38,7 +38,7 @@ export class GravitySceneModel extends BaseGameView<GravityScene> {
   }
 
   override executionOrder(): number {
-      return GameLoaderExecutionOrder.GameModelLoader
+    return GameLoaderExecutionOrder.GameModelLoader;
   }
 
   private buildSceneDictionary(sceneDictionary: SceneDictionary) {

@@ -1,4 +1,3 @@
-import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { BaseGameCoreState } from "../../../../../common/game/engine/framework/GameModelTypes";
 
 export class DebugInfoObject {

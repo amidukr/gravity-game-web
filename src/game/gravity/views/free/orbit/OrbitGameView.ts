@@ -1,7 +1,7 @@
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
+import { ThreeJsGameOrbitCamera } from "../../../../../common/game/engine/3rd-party/threejs/OrbitUpdateCameraPositionLooper";
 import { GameView } from "../../../../../common/game/engine/ui/view/GameView";
 import { GravityGameViewPlugin } from "../../../plugins/GravityGameViewPlugin";
-import { OrbitUpdateCameraPositionLooper } from "./OrbitUpdateCameraPositionLooper";
 
 export class OrbitGameView extends GameView {
   constructor(application: ApplicationContainer) {
@@ -11,7 +11,7 @@ export class OrbitGameView extends GameView {
 
     container.registerComponent(new GravityGameViewPlugin());
 
-    container.registerComponent(new OrbitUpdateCameraPositionLooper());
+    container.registerComponent(new ThreeJsGameOrbitCamera());
 
     super({
       container: container,

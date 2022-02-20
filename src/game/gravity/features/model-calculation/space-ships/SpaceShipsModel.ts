@@ -1,5 +1,4 @@
 import { Quaternion, Vector3 } from "three";
-import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { BaseGameModel } from "../../../../../common/game/engine/framework/GameModelTypes";
 
 export class SpaceShipCollection {

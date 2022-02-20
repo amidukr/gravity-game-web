@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-export class GravityGameLoader extends BaseGameModelLoader {
+export class PlayerSpaceShipLoader extends BaseGameModelLoader {
   spaceShipsModel!: SpaceShipsModel;
   playerViewModel!: PlayerControlModel;
   gameLevel!: GravityGameLevel;

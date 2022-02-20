@@ -1,17 +1,17 @@
 import { Box3, Vector3 } from "three";
-import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
-import { BaseGameModelLoader } from "../../../../../common/game/engine/framework/GameLoaderTypes";
-import { findObject3dParent } from "../../../../../common/utils/ThreeJsUtils";
-import { GravityGameLevel, TYPE_GravityGameLevel } from "../game-level/GravityGameLevelObject";
-import { GravityObject, GravityUniverseModel, newBoundGravityObject, newFixedGravityObject } from "./GravityUniverseModel";
+import { ApplicationContainer } from "../../../../../../common/app/ApplicationContainer";
+import { BaseGameModelLoader } from "../../../../../../common/game/engine/framework/GameLoaderTypes";
+import { findObject3dParent } from "../../../../../../common/utils/ThreeJsUtils";
+import { GravityGameLevel, TYPE_GravityGameLevel } from "../../game-level/GravityGameLevelObject";
+import { GravityUniverseService } from "../service/GravityUniverseService";
 
 export class GravityUniverseLoader extends BaseGameModelLoader {
   gameLevel!: GravityGameLevel;
-  gravityUniverseModel!: GravityUniverseModel;
+  gravityUniverseService!: GravityUniverseService;
 
   autowire(application: ApplicationContainer) {
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
-    this.gravityUniverseModel = application.getComponent(GravityUniverseModel);
+    this.gravityUniverseService = application.getComponent(GravityUniverseService);
   }
 
   startNewGame(): void | Promise<void> {
@@ -35,26 +35,23 @@ export class GravityUniverseLoader extends BaseGameModelLoader {
 
           const mass = radius;
 
-          let gravityObject: GravityObject;
-          if (parentObject == null) {
-            gravityObject = newFixedGravityObject({
-              objectId: x.name,
-              objectType: prefixCollectionName,
-              mass: mass,
-              initialPosition: x.getWorldPosition(new Vector3()),
-            });
+          this.gravityUniverseService.addFixedGravityObject({
+            objectId: x.name,
+            objectType: prefixCollectionName,
+            mass: mass,
+            initialPosition: x.getWorldPosition(new Vector3()),
+          });
+
+          /*if (parentObject == null) {
+            
           } else {
-            const parentGravityObject = this.gravityUniverseModel.getGravityObject(parent.name);
-
-            gravityObject = newBoundGravityObject(parentGravityObject, {
+            this.gravityUniverseService.addBoundGravityObject(parentObject.name, {
               objectId: x.name,
               objectType: prefixCollectionName,
               mass: mass,
               initialPosition: x.getWorldPosition(new Vector3()),
             });
-          }
-
-          this.gravityUniverseModel.addGravityObject(gravityObject);
+          }*/
         }
       });
     });

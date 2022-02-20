@@ -9,9 +9,10 @@ import { DebugInfoModel } from "../features/framework/debug/DebugInfoModel";
 import { DebugLoop } from "../features/framework/debug/DebugLoop";
 import { MainViewInputMappings } from "../features/input-mappings/GravityGameInputMappings";
 import { GravitySceneModel } from "../features/model-calculation/gravity-universe/GravitySceneModel";
+import { GravityUniverseModule } from "../features/model-calculation/gravity-universe/GravityUniverseModule";
 import { PlayerControlModel } from "../features/model-calculation/player-control/PlayerControlModel";
 import { DebugAltitudeLoop } from "../features/model-calculation/space-ships/DebugAltitudeLoop";
-import { GravityGameLoader } from "../features/model-calculation/space-ships/PlayerSpaceShipLoader";
+import { PlayerSpaceShipLoader } from "../features/model-calculation/space-ships/PlayerSpaceShipLoader";
 import { SpaceShipsModel } from "../features/model-calculation/space-ships/SpaceShipsModel";
 import { GravityGameStarter } from "../starters/GravityGameStarter";
 import { RootWidget } from "../ui/GravityGameRootWidget";
@@ -48,8 +49,9 @@ export class GravityGamePlugin implements ApplicationComponent {
     application.registerComponent(new GravitySceneModel());
     application.registerComponent(new SpaceShipsModel());
     application.registerComponent(new PlayerControlModel());
+    application.registerComponent(new PlayerSpaceShipLoader());
 
-    application.registerComponent(new GravityGameLoader());
+    application.registerComponent(new GravityUniverseModule.CORE());
 
     application.registerComponent(new MainViewInputMappings());
 
@@ -58,9 +60,7 @@ export class GravityGamePlugin implements ApplicationComponent {
 
     // Debug
     application.registerComponent(new DebugInfoModel());
-
     application.registerComponent(new DebugAltitudeLoop());
-
     application.registerComponent(new DebugLoop());
   }
 }
