@@ -1,6 +1,6 @@
 import { ApplicationContainer } from "../../../../../../common/app/ApplicationContainer";
 import { ThreeJsGameViewSceneModel } from "../../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
-import { SceneObjectMetaModel } from "../../../../../../common/game/engine/features/rendering/SceneObjectMeta";
+import { GameSceneObjectMetaModel } from "../../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
 import { BaseGameSceneLoader } from "../../../../../../common/game/engine/framework/GameLoaderTypes";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../../game-level/GravityGameLevelObject";
 import { GRAVITY_UNIVERSE_OBJECT } from "../GravityUniverse";
@@ -10,13 +10,13 @@ export class GravityUniverseSceneLoader extends BaseGameSceneLoader {
   sceneModel!: ThreeJsGameViewSceneModel;
   gravityUniverseModel!: GravityUniverseModel;
   gameLevel!: GravityGameLevel;
-  scenObjectMetaModel!: SceneObjectMetaModel;
+  scenObjectMetaModel!: GameSceneObjectMetaModel;
 
   autowire(application: ApplicationContainer): void {
     this.sceneModel = application.getComponent(ThreeJsGameViewSceneModel);
     this.gravityUniverseModel = application.getComponent(GravityUniverseModel);
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
-    this.scenObjectMetaModel = application.getComponent(SceneObjectMetaModel);
+    this.scenObjectMetaModel = application.getComponent(GameSceneObjectMetaModel);
   }
 
   startNewGame(): void {

@@ -1,13 +1,17 @@
 import { Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../../common/app/ApplicationContainer";
 import { BaseApplicationComponent } from "../../../../../../common/app/utils/BaseApplicationComponent";
-import { GravityUniverseModel, GRAVITY_OBJECT_UNIVERSE } from "../model/GravityUniverseModel";
+import { GravityObject, GravityUniverseModel, GRAVITY_OBJECT_UNIVERSE } from "../model/GravityUniverseModel";
 
 export class GravityUniverseService extends BaseApplicationComponent {
   gravityUniverseModel!: GravityUniverseModel;
 
   autowire(application: ApplicationContainer) {
     this.gravityUniverseModel = application.getComponent(GravityUniverseModel);
+  }
+
+  recalculateUniverse(): GravityObject[]  {
+    return Object.values(this.gravityUniverseModel.object.gravityObjectsByName)
   }
 
   addFixedGravityObject(object: {
@@ -27,7 +31,7 @@ export class GravityUniverseService extends BaseApplicationComponent {
 
       initialPosition: object.initialPosition.clone(),
 
-      orbitAngularVelocity: 0,
+      orbitAngularVelocity: 0.0,
       orbitRotationAxis: new Vector3(0, 1, 0),
       lastCalculatedTimeMilliseconds: 0,
       currentPosition: object.initialPosition,

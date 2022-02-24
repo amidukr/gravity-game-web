@@ -1,26 +1,26 @@
 import { BaseGameScene } from "../../framework/GameModelTypes";
 
-export function sceneObjectType<T>(name: string) {
-  return new SceneObjectType<T>(name);
+export function gameSceneObjectType<T>(name: string) {
+  return new GameSceneObjectType<T>(name);
 }
 
-export class SceneObjectType<T> {
+export class GameSceneObjectType<T> {
   constructor(readonly name: string) {}
 }
 
-class SceneObjectMeta {
+class GameSceneObjectMeta {
   weakRefCache = new WeakMap<object, WeakRef<object>>();
   objectsByType: {
     [typeName: string]: Set<WeakRef<object>>;
   } = {};
 }
 
-export class SceneObjectMetaModel extends BaseGameScene<SceneObjectMeta> {
-  construtNewObject(): SceneObjectMeta {
-    return new SceneObjectMeta();
+export class GameSceneObjectMetaModel extends BaseGameScene<GameSceneObjectMeta> {
+  construtNewObject(): GameSceneObjectMeta {
+    return new GameSceneObjectMeta();
   }
 
-  addTypeToObject<T extends object>(o: T, ...types: SceneObjectType<T>[]) {
+  addTypeToObject<T extends object>(o: T, ...types: GameSceneObjectType<T>[]) {
     const objectsByType = this.object.objectsByType;
     const weakRefCache = this.object.weakRefCache;
 
@@ -36,7 +36,7 @@ export class SceneObjectMetaModel extends BaseGameScene<SceneObjectMeta> {
     });
   }
 
-  getObjectsByType<T extends object>(type: SceneObjectType<T>): T[] {
+  getObjectsByType<T extends object>(type: GameSceneObjectType<T>): T[] {
     const set = this.object.objectsByType[type.name];
 
     if (set) {

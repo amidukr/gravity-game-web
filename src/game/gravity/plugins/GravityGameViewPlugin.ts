@@ -2,7 +2,7 @@ import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../common
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../common/app/lookup/Introspection";
 import { ThreeJsGameViewSceneModel } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
-import { SceneObjectMetaModel } from "../../../common/game/engine/features/rendering/SceneObjectMeta";
+import { GameSceneObjectMetaModel } from "../../../common/game/engine/features/rendering/GameSceneObjectMeta";
 import { GravityUniverseModule } from "../features/model-calculation/gravity-universe/GravityUniverseModule";
 import { AtmosphereModule } from "../features/view-rendering/atmosphere/AtmosphereModule";
 import { GravitySceneRenderer } from "../features/view-rendering/gravity-scene-renderer/GravitySceneRenderer";
@@ -15,7 +15,7 @@ export class GravityGameViewPlugin implements ApplicationComponent {
 
   setApplication(application: ApplicationContainer) {
     application.registerComponent(new ThreeJsGameViewSceneModel());
-    application.registerComponent(new SceneObjectMetaModel());
+    application.registerComponent(new GameSceneObjectMetaModel());
 
     application.registerComponent(new GravityUniverseModule.VIEW());
     application.registerComponent(new AtmosphereModule());
