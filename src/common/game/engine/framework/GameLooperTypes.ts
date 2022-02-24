@@ -15,13 +15,13 @@ export enum GameLooperExecutionOrder {
 
 export abstract class BaseGameModelLooper extends BaseGameLooper {
   looperType(): TypeIdentifier<GameLooper> {
-      return TYPE_GameModelLooper
+    return TYPE_GameModelLooper;
   }
 }
 
 export abstract class BaseGameViewLooper extends BaseGameLooper {
   looperType(): TypeIdentifier<GameLooper> {
-      return TYPE_GameViewLooper
+    return TYPE_GameViewLooper;
   }
 }
 

@@ -61,7 +61,7 @@ export class GameEngine implements ApplicationComponent {
       this.gameViewCollection.list.flatMap((x) => x.container.getComponentList(TYPE_GameModelLooper)),
       this.application.getComponentList(TYPE_GameModelLooper),
       this.application.getComponentList(TYPE_GameViewLooper),
-    ])
+    ]);
 
     modelLooopers.forEach((looper) => {
       try {
@@ -71,15 +71,15 @@ export class GameEngine implements ApplicationComponent {
       }
     });
 
-    this.gameViewCollection.list.forEach(view => {
-      view.container.getComponentList(TYPE_GameViewLooper).forEach(looper =>{
+    this.gameViewCollection.list.forEach((view) => {
+      view.container.getComponentList(TYPE_GameViewLooper).forEach((looper) => {
         try {
           looper.execute(gameEvent);
         } catch (ex) {
           console.error("Game Engine", ex);
         }
-      })
-    })
+      });
+    });
   }
 
   async startNewGame(argumetns: LoadGameArgumentsObject) {
