@@ -2,9 +2,10 @@ import Stats from "stats.js";
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../app/ApplicationContainer";
 import { Introspection } from "../../app/lookup/Introspection";
+import { mixLoopers } from "../../utils/LooperUtils";
 import { GameLoader, TYPE_GameStarter } from "./core/GameLoader";
-import { GameLooper, TYPE_GameLooper } from "./core/GameLooper";
 import { LoadGameArgumentsModel, LoadGameArgumentsObject } from "./features/loader/LoadGameArgumentsModel";
+import { TYPE_GameModelLooper, TYPE_GameViewLooper } from "./framework/GameLooperTypes";
 import { GameEvent } from "./GameEvent";
 import { GameViewCollection } from "./ui/view/GameViewsCollection";
 
@@ -15,7 +16,6 @@ export class GameEngine implements ApplicationComponent {
   private gameViewCollection!: GameViewCollection;
   private lastTimeMills!: number;
   loadGameModel!: LoadGameArgumentsModel;
-  loopers!: GameLooper[];
   starters!: GameLoader[];
 
   constructor() {
@@ -29,7 +29,6 @@ export class GameEngine implements ApplicationComponent {
     this.loadGameModel = application.getComponent(LoadGameArgumentsModel);
 
     this.starters = application.getComponentList(TYPE_GameStarter);
-    this.loopers = application.getComponentList(TYPE_GameLooper);
   }
 
   start() {
@@ -58,18 +57,29 @@ export class GameEngine implements ApplicationComponent {
 
     gameEvent.application = this.application;
 
-    const viewLoopers = this.gameViewCollection.list.flatMap((x) => x.container.getComponentList(TYPE_GameLooper));
-    var allLoopers = viewLoopers.concat(this.loopers);
+    const modelLooopers = mixLoopers([
+      this.gameViewCollection.list.flatMap((x) => x.container.getComponentList(TYPE_GameModelLooper)),
+      this.application.getComponentList(TYPE_GameModelLooper),
+      this.application.getComponentList(TYPE_GameViewLooper),
+    ])
 
-    allLoopers.sort((a, b) => a.executionOrder() - b.executionOrder());
-
-    allLoopers.forEach((looper) => {
+    modelLooopers.forEach((looper) => {
       try {
         looper.execute(gameEvent);
       } catch (ex) {
         console.error("Game Engine", ex);
       }
     });
+
+    this.gameViewCollection.list.forEach(view => {
+      view.container.getComponentList(TYPE_GameViewLooper).forEach(looper =>{
+        try {
+          looper.execute(gameEvent);
+        } catch (ex) {
+          console.error("Game Engine", ex);
+        }
+      })
+    })
   }
 
   async startNewGame(argumetns: LoadGameArgumentsObject) {

@@ -1,13 +1,12 @@
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../app/ApplicationContainer";
 import { Introspection } from "../../../app/lookup/Introspection";
-import { typeIdentifier } from "../../../app/lookup/TypeIdentifier";
+import { TypeIdentifier, typeIdentifier } from "../../../app/lookup/TypeIdentifier";
 import { PACKAGE_AmidGeFramework } from "../../../package";
 import { GameLoaderExecutionOrder } from "../framework/GameLoaderTypes";
 import { GameEvent } from "../GameEvent";
 import { GameLoader, TYPE_GameStarter } from "./GameLoader";
 
-export const TYPE_GameLooper = typeIdentifier<GameLooper>("GameLooper", PACKAGE_AmidGeFramework);
 
 export interface GameLooper {
   executionOrder(): number;
@@ -16,7 +15,7 @@ export interface GameLooper {
 
 export abstract class BaseGameLooper implements GameLooper, GameLoader, ApplicationComponent {
   constructor() {
-    Introspection.bindInterfaceName(this, TYPE_GameLooper, {
+    Introspection.bindInterfaceName(this, this.looperType(), {
       executionOrder: this.executionOrder(),
     });
 
@@ -29,6 +28,8 @@ export abstract class BaseGameLooper implements GameLooper, GameLoader, Applicat
 
   startNewGame(): void | Promise<void> {}
   abstract executionOrder(): number;
+  
+  abstract looperType(): TypeIdentifier<GameLooper> 
   abstract autowire(application: ApplicationContainer): void;
   abstract execute(event: GameEvent): void;
 }

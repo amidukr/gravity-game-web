@@ -1,11 +1,11 @@
 import { Box3 } from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import { ApplicationContainer } from "../../../../app/ApplicationContainer";
-import { BaseGameSceneUpdateLooper } from "../../framework/GameLooperTypes";
+import { BaseGamePreRenderingLooper } from "../../framework/GameLooperTypes";
 import { ThreeJsGameRenderer } from "./ThreeJsGameRenderer";
 import { ThreeJsGameViewSceneModel } from "./ThreeJsGameViewScene";
 
-export class ThreeJsGameOrbitCamera extends BaseGameSceneUpdateLooper {
+export class ThreeJsGameOrbitCamera extends BaseGamePreRenderingLooper {
   private controls!: OrbitControls;
   viewSceneModel!: ThreeJsGameViewSceneModel;
   gameRenderer!: ThreeJsGameRenderer;

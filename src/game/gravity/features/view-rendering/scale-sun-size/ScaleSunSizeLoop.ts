@@ -1,13 +1,13 @@
 import { Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
-import { BaseGameSceneUpdateLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
+import { BaseGamePreRenderingLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../common/game/engine/GameEvent";
 import { expSteepness, smootStep } from "../../../../../common/utils/math";
 import { GravitySceneModel } from "../../model-calculation/gravity-universe/GravitySceneModel";
 import { PlayerControlModel } from "../../model-calculation/player-control/PlayerControlModel";
 
-export class ScaleSunSizeLoop extends BaseGameSceneUpdateLooper {
+export class ScaleSunSizeLoop extends BaseGamePreRenderingLooper {
   sceneModel!: GravitySceneModel;
   playerViewModel!: PlayerControlModel;
 
