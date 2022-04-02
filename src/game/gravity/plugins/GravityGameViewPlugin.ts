@@ -1,10 +1,7 @@
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../common/app/lookup/Introspection";
-import { ThreeJsGameViewSceneModel } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
-import { GameSceneObjectMetaModel } from "../../../common/game/engine/features/rendering/GameSceneObjectMeta";
-import { GravityUniverseModule } from "../features/model-calculation/gravity-universe/GravityUniverseModule";
-import { AtmosphereModule } from "../features/view-rendering/atmosphere/AtmosphereModule";
+import { GameConsoleViewBinder as DebugConsoleBinderView } from "../features/framework/debug/GameConsoleViewBinder";
 import { GravitySceneRenderer } from "../features/view-rendering/gravity-scene-renderer/GravitySceneRenderer";
 import { ScaleSunSizeLoop } from "../features/view-rendering/scale-sun-size/ScaleSunSizeLoop";
 
@@ -14,13 +11,10 @@ export class GravityGameViewPlugin implements ApplicationComponent {
   }
 
   setApplication(application: ApplicationContainer) {
-    application.registerComponent(new ThreeJsGameViewSceneModel());
-    application.registerComponent(new GameSceneObjectMetaModel());
-
-    application.registerComponent(new GravityUniverseModule.VIEW());
-    application.registerComponent(new AtmosphereModule());
     application.registerComponent(new ScaleSunSizeLoop());
 
     application.registerComponent(new GravitySceneRenderer());
+
+    application.registerComponent(new DebugConsoleBinderView());
   }
 }

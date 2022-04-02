@@ -10,8 +10,8 @@ export class GravityUniverseService extends BaseApplicationComponent {
     this.gravityUniverseModel = application.getComponent(GravityUniverseModel);
   }
 
-  recalculateUniverse(): GravityObject[]  {
-    return Object.values(this.gravityUniverseModel.object.gravityObjectsByName)
+  recalculateUniverse(): GravityObject[] {
+    return Object.values(this.gravityUniverseModel.object.gravityObjectsByName);
   }
 
   addFixedGravityObject(object: {

@@ -14,7 +14,9 @@ export class GravityUniverseLoader extends BaseGameModelLoader {
     this.gravityUniverseService = application.getComponent(GravityUniverseService);
   }
 
-  startNewGame(): void | Promise<void> {
+  loadGravityObjects(prefix: any, type: any) {}
+
+  startNewGame() {
     const prefixMap = {
       "Planet-": "planets",
       "Star-": "stars",

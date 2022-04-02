@@ -2,7 +2,6 @@ import { Quaternion, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { BaseGameModelLoader } from "../../../../../common/game/engine/framework/GameLoaderTypes";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../game-level/GravityGameLevelObject";
-import { GravitySceneModel } from "../gravity-universe/GravitySceneModel";
 import { PlayerControlModel } from "../player-control/PlayerControlModel";
 import { SpaceShipsModel } from "./SpaceShipsModel";
 
@@ -21,11 +20,6 @@ export class PlayerSpaceShipLoader extends BaseGameModelLoader {
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
     this.playerViewModel = application.getComponent(PlayerControlModel);
     this.spaceShipsModel = application.getComponent(SpaceShipsModel);
-
-    window.sceneModel = application.getComponent(GravitySceneModel);
-    window.playerViewModel = this.playerViewModel;
-    window.spaceShipsModel = this.spaceShipsModel;
-    window.gameLevel = this.gameLevel;
   }
 
   async startNewGame(): Promise<void> {

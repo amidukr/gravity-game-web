@@ -7,25 +7,15 @@ import { GravityUniversePositionLooper } from "./looper/GravityUniverseScenePosi
 import { GravityUniverseModel } from "./model/GravityUniverseModel";
 import { GravityUniverseService } from "./service/GravityUniverseService";
 
-class GravityUniverseCorePlugin extends BasePlugin {
+export class GravityUniversePlugin extends BasePlugin {
   registerComponents(application: ApplicationContainer): void {
     application.registerComponent(new GravityUniverseLoader());
     application.registerComponent(new GravityUniverseModel());
     application.registerComponent(new GravityUniverseService());
-    
+
     application.registerComponent(new GravityUniversePositionRecalculateLooper());
-    
-  }
-}
 
-class GravityUniverseViewPlugin extends BasePlugin {
-  registerComponents(application: ApplicationContainer): void {
     application.registerComponent(new GravityUniverseSceneLoader());
-    application.registerComponent(new GravityUniversePositionLooper())
+    application.registerComponent(new GravityUniversePositionLooper());
   }
-}
-
-export class GravityUniverseModule {
-  static CORE = GravityUniverseCorePlugin;
-  static VIEW = GravityUniverseViewPlugin;
 }
