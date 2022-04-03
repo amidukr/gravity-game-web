@@ -6,7 +6,7 @@ export function findObject3dParent(obj: Object3D, predicate: (x: Object3D) => bo
   while (parent != null) {
     if (predicate(parent)) return parent;
 
-    parent = obj.parent;
+    parent = parent.parent;
   }
 
   return null;

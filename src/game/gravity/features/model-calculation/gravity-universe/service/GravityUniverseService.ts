@@ -34,7 +34,7 @@ export class GravityUniverseService extends BaseApplicationComponent {
       orbitAngularVelocity: 0.0,
       orbitRotationAxis: new Vector3(0, 1, 0),
       lastCalculatedTimeMilliseconds: 0,
-      currentPosition: object.initialPosition,
+      currentPosition: object.initialPosition.clone(),
     });
   }
 
@@ -51,7 +51,7 @@ export class GravityUniverseService extends BaseApplicationComponent {
   ) {
     const parentObject = this.gravityUniverseModel.getGravityObject(parentId);
 
-    const G = 1.0;
+    const G = 1.0e15;
 
     const radius = child.initialPosition.length();
 
@@ -73,12 +73,12 @@ export class GravityUniverseService extends BaseApplicationComponent {
 
       mass: child.mass,
 
-      initialPosition: child.initialPosition,
-      orbitRotationAxis: orbitRotationAxis,
+      initialPosition: child.initialPosition.clone(),
+      orbitRotationAxis: orbitRotationAxis.normalize(),
       orbitAngularVelocity: orbitAngularVelocity,
 
       lastCalculatedTimeMilliseconds: 0,
-      currentPosition: child.initialPosition,
+      currentPosition: child.initialPosition.clone(),
     });
   }
 }

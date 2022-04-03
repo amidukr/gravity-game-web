@@ -70,11 +70,32 @@ export class ApplicationContainer {
       searchParent: true,
     }
   ): Array<T> {
-    const boundInterfaceArray = this.__componentByInterface[typeIdentifierName(descriptor)];
+    return this.getComponentListByName(typeIdentifierName(descriptor), params);
+  }
+
+  getComponent<T>(descriptor: TypeIdentifierAgument<T>): T {
+    const componentList = this.getComponentList(descriptor);
+
+    const length = componentList.length;
+
+    if (length == 0) {
+      throw Error(`Can't find component with descriptor: ${descriptor}`);
+    }
+
+    return componentList[length - 1];
+  }
+
+  getComponentListByName(
+    name: string,
+    params = {
+      searchParent: true,
+    }
+  ): Array<any> {
+    const boundInterfaceArray = this.__componentByInterface[name];
 
     if (!boundInterfaceArray) {
       if (this.parentContainer != null && params.searchParent) {
-        return this.parentContainer.getComponentList(descriptor);
+        return this.parentContainer.getComponentListByName(name);
       } else {
         return [];
       }
@@ -88,15 +109,13 @@ export class ApplicationContainer {
     return boundInterfaceArray.interfaces.map((x) => x.component);
   }
 
-  getComponent<T>(descriptor: TypeIdentifierAgument<T>): T {
-    const componentList = this.getComponentList(descriptor);
+  getComponentNameList(): string[] {
+    var componentNames = Object.keys(this.__componentByInterface);
 
-    const length = componentList.length;
-
-    if (length == 0) {
-      throw Error(`Can't find component with descriptor: ${descriptor}`);
+    if (this.parentContainer != null) {
+      componentNames = componentNames.concat(this.parentContainer.getComponentNameList());
     }
 
-    return componentList[length - 1];
+    return componentNames;
   }
 }

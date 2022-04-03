@@ -87,6 +87,7 @@ export class GameEngine implements ApplicationComponent {
 
     for (const starter of this.starters) {
       try {
+        console.debug("Executing starter:", starter);
         await starter.startNewGame();
       } catch (ex) {
         console.error("Game Engine", ex);

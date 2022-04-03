@@ -19,7 +19,6 @@ import { PlayerControlModel } from "../features/model-calculation/player-control
 import { DebugAltitudeLoop } from "../features/model-calculation/space-ships/DebugAltitudeLoop";
 import { PlayerSpaceShipLoader } from "../features/model-calculation/space-ships/PlayerSpaceShipLoader";
 import { SpaceShipsModel } from "../features/model-calculation/space-ships/SpaceShipsModel";
-import { AtmosphereModule } from "../features/view-rendering/atmosphere/AtmosphereModule";
 import { GravityGameStarter } from "../starters/GravityGameStarter";
 import { RootWidget } from "../ui/GravityGameRootWidget";
 
@@ -70,7 +69,7 @@ export class GravityGamePlugin implements ApplicationComponent {
     application.registerComponent(new GravityGameStarter());
 
     // Loopers
-    application.registerComponent(new AtmosphereModule());
+    // application.registerComponent(new AtmosphereModule());
 
     // Debug
     application.registerComponent(new DebugInfoModel());

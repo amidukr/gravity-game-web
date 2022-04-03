@@ -1,8 +1,10 @@
-import { Box3, Object3D, Scene, Vector3 } from "three";
+import { Object3D, Scene, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { GameLoaderExecutionOrder } from "../../../../../common/game/engine/framework/GameLoaderTypes";
 import { BaseGameView } from "../../../../../common/game/engine/framework/GameModelTypes";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../game-level/GravityGameLevelObject";
+
+// TODO: Remove this class
 
 export interface SceneComponent {
   object: Object3D;
@@ -42,7 +44,7 @@ export class GravitySceneModel extends BaseGameView<GravityScene> {
   }
 
   private buildSceneDictionary(sceneDictionary: SceneDictionary) {
-    const prefixMap = {
+    /*const prefixMap = {
       "Planet-": "planets",
       "Star-": "stars",
     };
@@ -67,7 +69,7 @@ export class GravitySceneModel extends BaseGameView<GravityScene> {
     });
 
     const firstStarName = Object.keys(sceneDictionary.stars)[0];
-    sceneDictionary.firstStar = sceneDictionary.stars[firstStarName];
+    sceneDictionary.firstStar = sceneDictionary.stars[firstStarName];*/
   }
 
   construtNewObject(): GravityScene {
