@@ -6,6 +6,8 @@ import { GravityGameLevel, TYPE_GravityGameLevel } from "../../game-level/Gravit
 import { GRAVITY_UNIVERSE_OBJECT } from "../GravityUniverse";
 import { GravityUniverseModel } from "../model/GravityUniverseModel";
 
+// TODO: remove this class
+
 export class GravityUniverseSceneLoader extends BaseGameSceneLoader {
   sceneModel!: ThreeJsGameViewSceneModel;
   gravityUniverseModel!: GravityUniverseModel;
@@ -28,7 +30,7 @@ export class GravityUniverseSceneLoader extends BaseGameSceneLoader {
     for (const gravityObject of gravityObjectList) {
       const sceneObject = levelScene.getObjectByName(gravityObject.objectId)!!.clone();
 
-      this.scenObjectMetaModel.addTypeToObject(sceneObject, GRAVITY_UNIVERSE_OBJECT);
+      this.scenObjectMetaModel.addTagToObject(sceneObject, GRAVITY_UNIVERSE_OBJECT);
 
       gameScene.add(sceneObject);
     }

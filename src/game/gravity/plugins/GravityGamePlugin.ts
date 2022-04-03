@@ -4,6 +4,8 @@ import { Introspection } from "../../../common/app/lookup/Introspection";
 import { ThreeJsGameLevelRepository } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameLevelRepository";
 import { ThreeJsGameRenderer } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameRenderer";
 import { ThreeJsGameViewSceneModel } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
+import { ThreeJsRootSceneLoader } from "../../../common/game/engine/3rd-party/threejs/ThreeJsRootSceneLoader";
+import { ThreeJsSceneMetaTagIndexer } from "../../../common/game/engine/3rd-party/threejs/ThreeJsSceneMetaTagIndexer";
 import { GameSceneObjectMetaModel } from "../../../common/game/engine/features/rendering/GameSceneObjectMeta";
 import { GameEnginePlugin } from "../../../common/game/engine/plugins/GameEnginePlugin";
 import { ReactStarter, TYPE_ReactRootWidget } from "../../../common/ui/ReactStarter";
@@ -49,6 +51,9 @@ export class GravityGamePlugin implements ApplicationComponent {
     // Register Gravity Game components
     application.registerComponent(new ThreeJsGameLevelRepository());
     application.registerComponent(new ThreeJsGameViewSceneModel());
+    application.registerComponent(new ThreeJsRootSceneLoader());
+    application.registerComponent(new ThreeJsSceneMetaTagIndexer());
+
     application.registerComponent(new GameSceneObjectMetaModel());
 
     // Loaders and Models

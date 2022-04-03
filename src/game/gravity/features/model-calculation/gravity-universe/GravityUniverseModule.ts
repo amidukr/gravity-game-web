@@ -1,7 +1,6 @@
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { BasePlugin } from "../../../../../common/app/utils/BasePlugin";
 import { GravityUniverseLoader } from "./loader/GravityUniverseLoader";
-import { GravityUniverseSceneLoader } from "./loader/GravityUniverseSceneLoader";
 import { GravityUniversePositionRecalculateLooper } from "./looper/GravityUniversePositionRecalculateLooper";
 import { GravityUniversePositionLooper } from "./looper/GravityUniverseScenePositionLooper";
 import { GravityUniverseModel } from "./model/GravityUniverseModel";
@@ -15,7 +14,8 @@ export class GravityUniversePlugin extends BasePlugin {
 
     application.registerComponent(new GravityUniversePositionRecalculateLooper());
 
-    application.registerComponent(new GravityUniverseSceneLoader());
+    // TODO: remove commented code
+    // application.registerComponent(new GravityUniverseSceneLoader());
     application.registerComponent(new GravityUniversePositionLooper());
   }
 }

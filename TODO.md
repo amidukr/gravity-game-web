@@ -3,6 +3,7 @@
 # BACKLOG
 
 Current
+   1. Check TODO in code and cleanup
    1. Animate planet circle moving
    1. Implement gravity for starship movement
       1. Make enabling/disabling gravity configurable

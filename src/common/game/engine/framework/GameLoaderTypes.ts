@@ -6,9 +6,11 @@ export enum GameLoaderExecutionOrder {
   GameLevelLoader = 200_000,
   GameModelLoader = 300_000,
   GameViewLoader = 400_000,
-  GameSceneLoader = 500_000,
+  GameRootSceneLoader = 500_000,
+  GameSceneIndexer = 600_000,
+  GameSceneLoader = 700_000,
 
-  GameLooperStarter = 600_000,
+  GameLooperStarter = 800_000,
 }
 
 export abstract class BaseGameLevelLoader extends BaseGameLoaderModule {

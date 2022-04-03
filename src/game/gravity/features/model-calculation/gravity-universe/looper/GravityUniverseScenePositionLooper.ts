@@ -18,7 +18,7 @@ export class GravityUniversePositionLooper extends BaseGamePreRenderingLooper {
   }
 
   execute(event: GameEvent): void {
-    const gravityUniverseObjects = this.scenObjectMetaModel.getObjectsByType(GRAVITY_UNIVERSE_OBJECT);
+    const gravityUniverseObjects = this.scenObjectMetaModel.getObjectsByTag(GRAVITY_UNIVERSE_OBJECT);
 
     this.gravityUniverseService.recalculateUniverse();
 

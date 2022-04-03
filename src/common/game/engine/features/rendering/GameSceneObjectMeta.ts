@@ -1,17 +1,17 @@
 import { BaseGameScene } from "../../framework/GameModelTypes";
 
-export function gameSceneObjectType<T>(name: string) {
-  return new GameSceneObjectType<T>(name);
+export function gameSceneObjectTag<T>(name: string) {
+  return new GameSceneObjectTag<T>(name);
 }
 
-export class GameSceneObjectType<T> {
+export class GameSceneObjectTag<T> {
   constructor(readonly name: string) {}
 }
 
 class GameSceneObjectMeta {
   weakRefCache = new WeakMap<object, WeakRef<object>>();
-  objectsByType: {
-    [typeName: string]: Set<WeakRef<object>>;
+  objectsByTag: {
+    [tagName: string]: Set<WeakRef<object>>;
   } = {};
 }
 
@@ -20,8 +20,8 @@ export class GameSceneObjectMetaModel extends BaseGameScene<GameSceneObjectMeta>
     return new GameSceneObjectMeta();
   }
 
-  addTypeToObject<T extends object>(o: T, ...types: GameSceneObjectType<T>[]) {
-    const objectsByType = this.object.objectsByType;
+  addTagToObject<T extends object>(o: T, ...tags: GameSceneObjectTag<T>[]) {
+    const objectsByTag = this.object.objectsByTag;
     const weakRefCache = this.object.weakRefCache;
 
     var weakRef = weakRefCache.get(o);
@@ -30,14 +30,14 @@ export class GameSceneObjectMetaModel extends BaseGameScene<GameSceneObjectMeta>
       weakRefCache.set(o, weakRef);
     }
 
-    types.forEach((type) => {
-      const set = objectsByType[type.name] || (objectsByType[type.name] = new Set());
+    tags.forEach((tag) => {
+      const set = objectsByTag[tag.name] || (objectsByTag[tag.name] = new Set());
       set.add(weakRef!!);
     });
   }
 
-  getObjectsByType<T extends object>(type: GameSceneObjectType<T>): T[] {
-    const set = this.object.objectsByType[type.name];
+  getObjectsByTag<T extends object>(tag: GameSceneObjectTag<T>): T[] {
+    const set = this.object.objectsByTag[tag.name];
 
     if (set) {
       const values = Array.from(set);

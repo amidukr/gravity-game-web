@@ -1,4 +1,4 @@
 import { Object3D } from "three";
-import { gameSceneObjectType } from "../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
+import { gameSceneObjectTag } from "../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
 
-export const GRAVITY_UNIVERSE_OBJECT = gameSceneObjectType<Object3D>("GRAVITY_UNIVERSE_OBJECT");
+export const GRAVITY_UNIVERSE_OBJECT = gameSceneObjectTag<Object3D>("GRAVITY_UNIVERSE_OBJECT");

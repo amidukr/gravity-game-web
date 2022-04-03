@@ -3,7 +3,7 @@ import { ApplicationContainer } from "../../../../../common/app/ApplicationConta
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
 import { BaseGameSceneLoader } from "../../../../../common/game/engine/framework/GameLoaderTypes";
 
-export class ThreeJsSameGameSceneLoader extends BaseGameSceneLoader {
+export class ThreeJsSampleGameSceneLoader extends BaseGameSceneLoader {
   sceneModel!: ThreeJsGameViewSceneModel;
 
   autowire(application: ApplicationContainer): void {
