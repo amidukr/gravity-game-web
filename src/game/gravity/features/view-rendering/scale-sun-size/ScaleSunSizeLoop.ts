@@ -1,12 +1,10 @@
-import { Box3, Vector3 } from "three";
+import { Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
-import { GameSceneObjectMetaModel } from "../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
 import { BaseGamePreRenderingLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../common/game/engine/GameEvent";
-import { filterNotNull } from "../../../../../common/utils/CollectionUtils";
 import { expSteepness, smootStep } from "../../../../../common/utils/math";
-import { PLANET_TAG, STAR_TAG } from "../../game-level/GravityGameTags";
+import { GravitySpaceObjectsService } from "../../model-calculation/gravity-universe/service/GravitySpaceObjectsService";
 import { PlayerControlModel } from "../../model-calculation/player-control/PlayerControlModel";
 
 export class ScaleSunSizeLoop extends BaseGamePreRenderingLooper {
@@ -16,17 +14,17 @@ export class ScaleSunSizeLoop extends BaseGamePreRenderingLooper {
   private planetMaxRadius!: number;
 
   private viewSceneModel!: ThreeJsGameViewSceneModel;
-  private sceneMetaModel!: GameSceneObjectMetaModel;
+  private gravitySpaceObjects!: GravitySpaceObjectsService;
 
   override autowire(application: ApplicationContainer): void {
-    this.sceneMetaModel = application.getComponent(GameSceneObjectMetaModel);
+    this.gravitySpaceObjects = application.getComponent(GravitySpaceObjectsService);
     this.playerViewModel = application.getComponent(PlayerControlModel);
     this.viewSceneModel = application.getComponent(ThreeJsGameViewSceneModel);
   }
 
   override startNewGame() {
-    const starList = filterNotNull(this.sceneMetaModel.getObjectsByTag(STAR_TAG).map((x) => x.parent));
-    const planetList = filterNotNull(this.sceneMetaModel.getObjectsByTag(PLANET_TAG).map((x) => x.parent));
+    const starList = this.gravitySpaceObjects.findStars();
+    const planetList = this.gravitySpaceObjects.findPlantes();
 
     starList.forEach((star) => {
       this.planetMinOrbit = Number.MAX_VALUE;
@@ -35,22 +33,18 @@ export class ScaleSunSizeLoop extends BaseGamePreRenderingLooper {
       const starPosition = star.getWorldPosition(new Vector3());
 
       for (const planet of planetList) {
-        const boundingBox = new Box3().setFromObject(planet);
-        const size = boundingBox.getSize(new Vector3());
-        const radius = Math.max(size.x, size.y, size.z) * 0.5;
-
         const planetPosition = planet.getWorldPosition(new Vector3());
 
         const distance = starPosition.distanceTo(planetPosition);
 
         this.planetMinOrbit = Math.min(distance, this.planetMinOrbit);
-        this.planetMaxRadius = Math.max(this.planetMaxRadius, radius);
+        this.planetMaxRadius = Math.max(this.planetMaxRadius, planet.userData.radius);
       }
     });
   }
 
   execute(event: GameEvent): void {
-    const starList = filterNotNull(this.sceneMetaModel.getObjectsByTag(STAR_TAG).map((x) => x.parent));
+    const starList = this.gravitySpaceObjects.findStars();
 
     const camera = this.viewSceneModel.object.camera;
 

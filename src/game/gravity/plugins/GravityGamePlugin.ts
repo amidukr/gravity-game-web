@@ -13,14 +13,15 @@ import { DebugConsoleCoreBinder as DebugConsoleBinderCore } from "../features/fr
 import { DebugInfoModel } from "../features/framework/debug/DebugInfoModel";
 import { DebugLoop } from "../features/framework/debug/DebugLoop";
 import { MainViewInputMappings } from "../features/input-mappings/GravityGameInputMappings";
-import { GravitySceneModel } from "../features/model-calculation/gravity-universe/GravitySceneModel";
-import { GravityUniversePlugin } from "../features/model-calculation/gravity-universe/GravityUniverseModule";
+import { GravitySpaceObjectsService } from "../features/model-calculation/gravity-universe/service/GravitySpaceObjectsService";
 import { PlayerControlModel } from "../features/model-calculation/player-control/PlayerControlModel";
 import { DebugAltitudeLoop } from "../features/model-calculation/space-ships/DebugAltitudeLoop";
 import { PlayerSpaceShipLoader } from "../features/model-calculation/space-ships/PlayerSpaceShipLoader";
 import { SpaceShipsModel } from "../features/model-calculation/space-ships/SpaceShipsModel";
 import { GravityGameStarter } from "../starters/GravityGameStarter";
 import { RootWidget } from "../ui/GravityGameRootWidget";
+import { AtmosphereModule } from "./AtmosphereModule";
+import { GravityUniversePlugin } from "./GravityUniverseModule";
 
 export class GravityGamePlugin implements ApplicationComponent {
   constructor() {
@@ -56,7 +57,7 @@ export class GravityGamePlugin implements ApplicationComponent {
     application.registerComponent(new GameSceneObjectMetaModel());
 
     // Loaders and Models
-    application.registerComponent(new GravitySceneModel());
+    application.registerComponent(new GravitySpaceObjectsService());
     application.registerComponent(new SpaceShipsModel());
     application.registerComponent(new PlayerControlModel());
     application.registerComponent(new PlayerSpaceShipLoader());
@@ -69,7 +70,7 @@ export class GravityGamePlugin implements ApplicationComponent {
     application.registerComponent(new GravityGameStarter());
 
     // Loopers
-    // application.registerComponent(new AtmosphereModule());
+    application.registerComponent(new AtmosphereModule());
 
     // Debug
     application.registerComponent(new DebugInfoModel());

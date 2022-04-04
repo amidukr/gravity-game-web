@@ -48,4 +48,8 @@ export class GameSceneObjectMetaModel extends BaseGameScene<GameSceneObjectMeta>
       return [];
     }
   }
+
+  getFirstObjectByTag<T extends object>(tag: GameSceneObjectTag<T>) {
+    return this.getObjectsByTag(tag)[0];
+  }
 }

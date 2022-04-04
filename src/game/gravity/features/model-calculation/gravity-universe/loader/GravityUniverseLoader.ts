@@ -5,21 +5,31 @@ import { BaseGameModelLoader } from "../../../../../../common/game/engine/framew
 import { filterNotNull, traverseNodeTreeUsingKey } from "../../../../../../common/utils/CollectionUtils";
 import { findObject3dParent } from "../../../../../../common/utils/ThreeJsUtils";
 import { GRAVITY_CENTER_MASS, GRAVITY_FIELD_TAG } from "../../../game-level/GravityGameTags";
+import { GravitySpaceObjectsService } from "../service/GravitySpaceObjectsService";
 import { GravityUniverseService } from "../service/GravityUniverseService";
 
 export class GravityUniverseLoader extends BaseGameModelLoader {
   gravityUniverseService!: GravityUniverseService;
   metaModel!: GameSceneObjectMetaModel;
+  gravitySpaceObjects!: GravitySpaceObjectsService;
 
   autowire(application: ApplicationContainer) {
     this.gravityUniverseService = application.getComponent(GravityUniverseService);
+    this.gravitySpaceObjects = application.getComponent(GravitySpaceObjectsService);
     this.metaModel = application.getComponent(GameSceneObjectMetaModel);
   }
 
   startNewGame() {
     const metaModel = this.metaModel;
 
-    // TODO: Rename to Tag:GravityCenterMass
+    this.gravitySpaceObjects.findPlantes().forEach((planet) => {
+      const boundingBox = new Box3().setFromObject(planet);
+      const size = boundingBox.getSize(new Vector3());
+      const radius = Math.max(size.x, size.y, size.z) * 0.5;
+
+      planet.userData.radius = radius;
+    });
+
     const gravityCenterBodies = metaModel.getObjectsByTag(GRAVITY_CENTER_MASS);
 
     const gravityFieldTagName = GRAVITY_FIELD_TAG.name;
