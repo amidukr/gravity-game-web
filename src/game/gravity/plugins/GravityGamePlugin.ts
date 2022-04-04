@@ -9,9 +9,9 @@ import { ThreeJsSceneMetaTagIndexer } from "../../../common/game/engine/3rd-part
 import { GameSceneObjectMetaModel } from "../../../common/game/engine/features/rendering/GameSceneObjectMeta";
 import { GameEnginePlugin } from "../../../common/game/engine/plugins/GameEnginePlugin";
 import { ReactStarter, TYPE_ReactRootWidget } from "../../../common/ui/ReactStarter";
+import { DebugConsoleCoreBinder as DebugConsoleBinderCore } from "../features/framework/debug/DebugConsoleCoreBinder";
 import { DebugInfoModel } from "../features/framework/debug/DebugInfoModel";
 import { DebugLoop } from "../features/framework/debug/DebugLoop";
-import { GameConsoleCoreBinder as DebugConsoleBinderCore } from "../features/framework/debug/GameConsoleCoreBinder";
 import { MainViewInputMappings } from "../features/input-mappings/GravityGameInputMappings";
 import { GravitySceneModel } from "../features/model-calculation/gravity-universe/GravitySceneModel";
 import { GravityUniversePlugin } from "../features/model-calculation/gravity-universe/GravityUniverseModule";

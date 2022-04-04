@@ -2,7 +2,7 @@ import { Object3D, Scene, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { GameLoaderExecutionOrder } from "../../../../../common/game/engine/framework/GameLoaderTypes";
 import { BaseGameView } from "../../../../../common/game/engine/framework/GameModelTypes";
-import { GravityGameLevel, TYPE_GravityGameLevel } from "../game-level/GravityGameLevelObject";
+import { GravityGameLevel, TYPE_GravityGameLevel } from "../../game-level/GravityGameLevelObject";
 
 // TODO: Remove this class
 

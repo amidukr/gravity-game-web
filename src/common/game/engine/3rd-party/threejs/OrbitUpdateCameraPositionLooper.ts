@@ -26,7 +26,6 @@ export class ThreeJsGameOrbitCamera extends BaseGamePreRenderingLooper {
     const boundBox = new Box3().setFromObject(scene);
 
     camera.position.set(boundBox.min.x, boundBox.min.y, boundBox.min.z);
-    this.controls.autoRotate = true;
     this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.13;
     this.controls.update();

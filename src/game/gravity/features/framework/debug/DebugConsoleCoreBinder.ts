@@ -1,11 +1,11 @@
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { BaseApplicationComponent } from "../../../../../common/app/utils/BaseApplicationComponent";
-import { TYPE_GravityGameLevel } from "../../model-calculation/game-level/GravityGameLevelObject";
+import { TYPE_GravityGameLevel } from "../../game-level/GravityGameLevelObject";
 import { GravitySceneModel } from "../../model-calculation/gravity-universe/GravitySceneModel";
 import { PlayerControlModel } from "../../model-calculation/player-control/PlayerControlModel";
 import { SpaceShipsModel } from "../../model-calculation/space-ships/SpaceShipsModel";
 
-export class GameConsoleCoreBinder extends BaseApplicationComponent {
+export class DebugConsoleCoreBinder extends BaseApplicationComponent {
   autowire?(application: ApplicationContainer): void {
     window.game = window.game || {};
 

@@ -2,7 +2,7 @@ import { ApplicationContainer } from "../../../../../common/app/ApplicationConta
 import { BaseApplicationComponent } from "../../../../../common/app/utils/BaseApplicationComponent";
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
 
-export class GameConsoleViewBinder extends BaseApplicationComponent {
+export class DebugConsoleViewBinder extends BaseApplicationComponent {
   autowire?(application: ApplicationContainer): void {
     window.game = window.game || {};
 

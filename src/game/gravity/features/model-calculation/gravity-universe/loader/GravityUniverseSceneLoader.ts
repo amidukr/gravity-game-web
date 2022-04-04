@@ -2,8 +2,8 @@ import { ApplicationContainer } from "../../../../../../common/app/ApplicationCo
 import { ThreeJsGameViewSceneModel } from "../../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
 import { GameSceneObjectMetaModel } from "../../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
 import { BaseGameSceneLoader } from "../../../../../../common/game/engine/framework/GameLoaderTypes";
-import { GravityGameLevel, TYPE_GravityGameLevel } from "../../game-level/GravityGameLevelObject";
-import { GRAVITY_UNIVERSE_OBJECT } from "../GravityUniverse";
+import { GravityGameLevel, TYPE_GravityGameLevel } from "../../../game-level/GravityGameLevelObject";
+import { GRAVITY_FIELD_TAG } from "../../../game-level/GravityGameTags";
 import { GravityUniverseModel } from "../model/GravityUniverseModel";
 
 // TODO: remove this class
@@ -30,7 +30,7 @@ export class GravityUniverseSceneLoader extends BaseGameSceneLoader {
     for (const gravityObject of gravityObjectList) {
       const sceneObject = levelScene.getObjectByName(gravityObject.objectId)!!.clone();
 
-      this.scenObjectMetaModel.addTagToObject(sceneObject, GRAVITY_UNIVERSE_OBJECT);
+      this.scenObjectMetaModel.addTagToObject(sceneObject, GRAVITY_FIELD_TAG);
 
       gameScene.add(sceneObject);
     }

@@ -1,9 +1,10 @@
-import { Box3, Object3D, Vector3 } from "three";
+import { Box3, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../../common/app/ApplicationContainer";
 import { GameSceneObjectMetaModel, gameSceneObjectTag } from "../../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
 import { BaseGameModelLoader } from "../../../../../../common/game/engine/framework/GameLoaderTypes";
-import { filterNull, traverseNodeTreeUsingKey } from "../../../../../../common/utils/CollectionUtils";
+import { filterNotNull, traverseNodeTreeUsingKey } from "../../../../../../common/utils/CollectionUtils";
 import { findObject3dParent } from "../../../../../../common/utils/ThreeJsUtils";
+import { GRAVITY_CENTER_MASS, GRAVITY_FIELD_TAG } from "../../../game-level/GravityGameTags";
 import { GravityUniverseService } from "../service/GravityUniverseService";
 
 export class GravityUniverseLoader extends BaseGameModelLoader {
@@ -19,16 +20,16 @@ export class GravityUniverseLoader extends BaseGameModelLoader {
     const metaModel = this.metaModel;
 
     // TODO: Rename to Tag:GravityCenterMass
-    const gravityCenterBodies = metaModel.getObjectsByTag(gameSceneObjectTag<Object3D>("Tag:GravityCenterBody"));
+    const gravityCenterBodies = metaModel.getObjectsByTag(GRAVITY_CENTER_MASS);
 
-    const gravityFieldTagName = "Tag:GravityField";
+    const gravityFieldTagName = GRAVITY_FIELD_TAG.name;
 
-    const gravityGraph = filterNull(
+    const gravityGraph = filterNotNull(
       gravityCenterBodies.map((x) => {
         const gravityFieldObject = findObject3dParent(x, (p) => p.userData.name && p.userData.name.startsWith(gravityFieldTagName));
 
         if (gravityFieldObject == null) {
-          console.error("Tag:GravityCenterBody without Tag:GravityField", x);
+          console.error("Tag:GravityCenterMass without Tag:GravityField", x);
           return;
         }
 
@@ -66,14 +67,14 @@ export class GravityUniverseLoader extends BaseGameModelLoader {
             objectId: gravityFieldObject.name,
             objectType: "Object3D",
             mass: mass,
-            initialPosition: gravityFieldObject.getWorldPosition(new Vector3()),
+            initialPosition: gravityFieldObject.position.clone(),
           });
         } else {
           this.gravityUniverseService.addBoundGravityObject(parentGravityFieldObject.name, {
             objectId: gravityFieldObject.name,
             objectType: "Object3D",
             mass: mass,
-            initialPosition: gravityFieldObject.getWorldPosition(new Vector3()),
+            initialPosition: gravityFieldObject.position.clone(),
           });
         }
       }

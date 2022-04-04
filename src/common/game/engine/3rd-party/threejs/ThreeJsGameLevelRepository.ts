@@ -1,7 +1,7 @@
 import { Promise } from "bluebird";
 import { CubeTextureLoader, EquirectangularReflectionMapping, TextureLoader } from "three";
 import { GLTF, GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-import { GravityGameLevelObject } from "../../../../../game/gravity/features/model-calculation/game-level/GravityGameLevelObject";
+import { GravityGameLevelObject } from "../../../../../game/gravity/features/game-level/GravityGameLevelObject";
 import { Introspection } from "../../../../app/lookup/Introspection";
 import { GameLevelRepository, TYPE_GameLevelRepository } from "../../features/level/GameLevelRepository";
 import { SimpleGameLevelDescriptor } from "../../features/level/implementation/SimpleGameLevelDescriptor";

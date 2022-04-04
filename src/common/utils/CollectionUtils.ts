@@ -1,4 +1,4 @@
-export function filterNull<T>(arr: (T | undefined)[]): T[] {
+export function filterNotNull<T>(arr: (T | undefined | null)[]): T[] {
   return arr.filter((x) => x != undefined) as any;
 }
 

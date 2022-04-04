@@ -3,7 +3,7 @@ import { ApplicationContainer } from "../../../../../common/app/ApplicationConta
 import { ThreeJsGameRenderer } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameRenderer";
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
 import { BaseGameRenderingLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
-import { GravityGameLevel, TYPE_GravityGameLevel } from "../../model-calculation/game-level/GravityGameLevelObject";
+import { GravityGameLevel, TYPE_GravityGameLevel } from "../../game-level/GravityGameLevelObject";
 
 export class GravitySceneRenderer extends BaseGameRenderingLooper {
   application!: ApplicationContainer;
