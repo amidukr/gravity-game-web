@@ -1,18 +1,19 @@
+import { LifecycleStage } from "../../../app/utils/LifecycleStage";
 import { BaseGameLoader as BaseGameLoaderModule } from "../core/GameLoader";
 
-export enum GameLoaderExecutionOrder {
-  GameObjectConstructor = 100_000,
+export const GameObjectConstructorStage = new LifecycleStage();
 
-  GameLevelLoader = 200_000,
+export abstract class GameLoaderExecutionOrder {
+  static GameLoaderRootStage = LifecycleStage.root();
 
-  GameRootSceneLoader = 300_000,
-  GameSceneIndexer = 400_000,
-
-  GameModelLoader = 500_000,
-  GameViewLoader = 600_000,
-  GameSceneLoader = 800_000,
-
-  GameLooperStarter = 800_000,
+  static GameObjectConstructor = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameLoaderRootStage);
+  static GameLevelLoader = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameObjectConstructor);
+  static GameRootSceneLoader = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameLevelLoader);
+  static GameSceneIndexer = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameRootSceneLoader);
+  static GameModelLoader = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameSceneIndexer);
+  static GameViewLoader = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameModelLoader);
+  static GameSceneLoader = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameViewLoader);
+  static GameLooperStarter = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameSceneLoader);
 }
 
 export abstract class BaseGameLevelLoader extends BaseGameLoaderModule {

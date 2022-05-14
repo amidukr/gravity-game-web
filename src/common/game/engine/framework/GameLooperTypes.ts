@@ -1,16 +1,19 @@
 import { TypeIdentifier, typeIdentifier } from "../../../app/lookup/TypeIdentifier";
+import { LifecycleStage } from "../../../app/utils/LifecycleStage";
 import { PACKAGE_AmidGeFramework } from "../../../package";
 import { BaseGameLooper, GameLooper } from "../core/GameLooper";
 
 export const TYPE_GameModelLooper = typeIdentifier<GameLooper>("GameProcessingLooper", PACKAGE_AmidGeFramework);
 export const TYPE_GameViewLooper = typeIdentifier<GameLooper>("GameViewLooper", PACKAGE_AmidGeFramework);
 
-export enum GameLooperExecutionOrder {
-  GameInputLooper = 100000,
-  GameCoreLooper = 200000,
-  GameModelProcessingLooper = 300000,
-  GamePreRenderingLooper = 400000,
-  GameRenderingLooper = 500000,
+export abstract class GameLooperExecutionOrder {
+  static GameLooperRootStage = LifecycleStage.root();
+
+  static GameInputLooper = LifecycleStage.runAfter(this.GameLooperRootStage);
+  static GameCoreLooper = LifecycleStage.runAfter(this.GameInputLooper);
+  static GameModelProcessingLooper = LifecycleStage.runAfter(this.GameCoreLooper);
+  static GamePreRenderingLooper = LifecycleStage.runAfter(this.GameModelProcessingLooper);
+  static GameRenderingLooper = LifecycleStage.runAfter(this.GamePreRenderingLooper);
 }
 
 export abstract class BaseGameModelLooper extends BaseGameLooper {

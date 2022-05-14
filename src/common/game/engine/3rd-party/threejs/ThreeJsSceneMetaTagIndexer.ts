@@ -1,5 +1,6 @@
 import { Event, Object3D } from "three";
 import { ApplicationContainer } from "../../../../app/ApplicationContainer";
+import { LifecycleStage } from "../../../../app/utils/LifecycleStage";
 import { GameSceneObjectMetaModel, gameSceneObjectTag } from "../../features/rendering/GameSceneObjectMeta";
 import { BaseGameSceneLoader, GameLoaderExecutionOrder } from "../../framework/GameLoaderTypes";
 import { ThreeJsGameLevel } from "./objects/ThreeJsGameLevelObject";
@@ -10,7 +11,7 @@ export class ThreeJsSceneMetaTagIndexer extends BaseGameSceneLoader {
   sceneModel!: ThreeJsGameViewSceneModel;
   metaModel!: GameSceneObjectMetaModel;
 
-  override executionOrder(): number {
+  override executionOrder(): LifecycleStage {
     return GameLoaderExecutionOrder.GameSceneIndexer;
   }
 

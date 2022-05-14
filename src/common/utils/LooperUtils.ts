@@ -8,5 +8,5 @@ export function mixLoopers(loopers: GameLooper[][]): GameLooper[] {
 }
 
 export function sortLoopers(loopers: GameLooper[]) {
-  loopers.sort((a, b) => a.executionOrder() - b.executionOrder());
+  loopers.sort((a, b) => a.executionOrder().getOrderIndex() - b.executionOrder().getOrderIndex());
 }

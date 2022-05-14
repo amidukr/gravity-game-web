@@ -1,4 +1,5 @@
 import { ApplicationContainer } from "../../../../app/ApplicationContainer";
+import { LifecycleStage } from "../../../../app/utils/LifecycleStage";
 import { BaseGameSceneLoader, GameLoaderExecutionOrder } from "../../framework/GameLoaderTypes";
 import { ThreeJsGameLevel, TYPE_ThreeJsGameLevel } from "./objects/ThreeJsGameLevelObject";
 import { ThreeJsGameViewSceneModel } from "./ThreeJsGameViewScene";
@@ -7,7 +8,7 @@ export class ThreeJsRootSceneLoader extends BaseGameSceneLoader {
   gameLevel!: ThreeJsGameLevel;
   sceneModel!: ThreeJsGameViewSceneModel;
 
-  override executionOrder(): number {
+  override executionOrder(): LifecycleStage {
     return GameLoaderExecutionOrder.GameRootSceneLoader;
   }
 
