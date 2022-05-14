@@ -1,25 +1,28 @@
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { GameView } from "../../../../../common/game/engine/ui/view/GameView";
+import { GravityGameViewPlugin } from "../../../plugins/GravityGameViewPlugin";
 import { FreeFlyButtonHandler } from "./FreeFlyButtonHandler";
 import { FreeFlyProcessingLoop } from "./FreeFlyProcessingLoop";
-import { FreeFlyRenderingLoop } from "./FreeFlyRenderingLoop";
 import { FreeFlySaveLoadHandler } from "./FreeFlySaveLoadHandler";
 import { FreeFlyThrottleControlLoop } from "./FreeFlyThrottleControlLoop";
+import { FreeFlyUpdateCamerPositionLooper } from "./FreeFlyUpdateCamerPositionLooper";
 
 export class FreeFlyGameView extends GameView {
   constructor(application: ApplicationContainer) {
-    const viewContainer = new ApplicationContainer({
+    const container = new ApplicationContainer({
       parentContainer: application,
     });
 
-    viewContainer.registerComponent(new FreeFlyButtonHandler());
-    viewContainer.registerComponent(new FreeFlySaveLoadHandler());
-    viewContainer.registerComponent(new FreeFlyThrottleControlLoop());
-    viewContainer.registerComponent(new FreeFlyProcessingLoop());
-    viewContainer.registerComponent(new FreeFlyRenderingLoop());
+    container.registerComponent(new GravityGameViewPlugin());
+
+    container.registerComponent(new FreeFlyButtonHandler());
+    container.registerComponent(new FreeFlySaveLoadHandler());
+    container.registerComponent(new FreeFlyThrottleControlLoop());
+    container.registerComponent(new FreeFlyProcessingLoop());
+    container.registerComponent(new FreeFlyUpdateCamerPositionLooper());
 
     super({
-      container: viewContainer,
+      container: container,
     });
   }
 }

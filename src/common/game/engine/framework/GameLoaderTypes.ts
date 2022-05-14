@@ -1,20 +1,19 @@
+import { LifecycleStage } from "../../../app/utils/LifecycleStage";
 import { BaseGameLoader as BaseGameLoaderModule } from "../core/GameLoader";
 
-export enum GameLoaderExecutionOrder {
-  GameLevelModelLoader = 100000,
-  GameLevelLoader = 200000,
+export const GameObjectConstructorStage = new LifecycleStage();
 
-  GameCoreModelLoader = 300000,
+export abstract class GameLoaderExecutionOrder {
+  static GameLoaderRootStage = LifecycleStage.root();
 
-  GameStateModelLoader = 400000,
-  GameStateLoader = 500000,
-
-  GameViewModelLoader = 600000,
-  GameViewLoader = 700000,
-
-  GameSceneLoader = 800000,
-
-  GameLooperStarter = 900000,
+  static GameObjectConstructor = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameLoaderRootStage);
+  static GameLevelLoader = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameObjectConstructor);
+  static GameRootSceneLoader = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameLevelLoader);
+  static GameSceneIndexer = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameRootSceneLoader);
+  static GameModelLoader = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameSceneIndexer);
+  static GameViewLoader = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameModelLoader);
+  static GameSceneLoader = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameViewLoader);
+  static GameLooperStarter = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameSceneLoader);
 }
 
 export abstract class BaseGameLevelLoader extends BaseGameLoaderModule {
@@ -23,20 +22,20 @@ export abstract class BaseGameLevelLoader extends BaseGameLoaderModule {
   }
 }
 
-export abstract class BaseGameStateModelLoader extends BaseGameLoaderModule {
+export abstract class BaseGameModelLoader extends BaseGameLoaderModule {
   override executionOrder() {
-    return GameLoaderExecutionOrder.GameStateModelLoader;
-  }
-}
-
-export abstract class BaseGameSceneLoader extends BaseGameLoaderModule {
-  override executionOrder() {
-    return GameLoaderExecutionOrder.GameSceneLoader;
+    return GameLoaderExecutionOrder.GameModelLoader;
   }
 }
 
 export abstract class BaseGameViewModelLoader extends BaseGameLoaderModule {
   override executionOrder() {
     return GameLoaderExecutionOrder.GameViewLoader;
+  }
+}
+
+export abstract class BaseGameSceneLoader extends BaseGameLoaderModule {
+  override executionOrder() {
+    return GameLoaderExecutionOrder.GameSceneLoader;
   }
 }

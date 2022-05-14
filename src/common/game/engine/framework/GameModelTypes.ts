@@ -1,26 +1,11 @@
-import { BaseGameModel } from "../core/GameModel";
-import { GameLoaderExecutionOrder } from "./GameLoaderTypes";
+import { BaseGameState } from "../core/GameModel";
 
-export abstract class BaseGameLevelModel<O> extends BaseGameModel<O> {
-  executionOrder() {
-    return GameLoaderExecutionOrder.GameLevelModelLoader;
-  }
-}
+export abstract class BaseGameLevel<O> extends BaseGameState<O> {}
 
-export abstract class BaseGameCoreModel<O> extends BaseGameModel<O> {
-  executionOrder() {
-    return GameLoaderExecutionOrder.GameCoreModelLoader;
-  }
-}
+export abstract class BaseGameCoreState<O> extends BaseGameState<O> {}
 
-export abstract class BaseGameStateModel<O> extends BaseGameModel<O> {
-  executionOrder() {
-    return GameLoaderExecutionOrder.GameStateModelLoader;
-  }
-}
+export abstract class BaseGameModel<O> extends BaseGameState<O> {}
 
-export abstract class BaseGameViewModel<O> extends BaseGameModel<O> {
-  executionOrder() {
-    return GameLoaderExecutionOrder.GameViewModelLoader;
-  }
-}
+export abstract class BaseGameScene<O> extends BaseGameState<O> {}
+
+export abstract class BaseGameView<O> extends BaseGameState<O> {}

@@ -1,13 +1,10 @@
-import { ApplicationContainer } from "../../../../app/ApplicationContainer";
-import { BaseGameCoreModel } from "../../framework/GameModelTypes";
+import { BaseGameCoreState } from "../../framework/GameModelTypes";
 
 export class GameTime {
   milliseconds: number = 0;
 }
 
-export class GameTimeModel extends BaseGameCoreModel<GameTime> {
-  autowire(application: ApplicationContainer): void {}
-
+export class GameTimeModel extends BaseGameCoreState<GameTime> {
   construtNewObject(): GameTime {
     return new GameTime();
   }

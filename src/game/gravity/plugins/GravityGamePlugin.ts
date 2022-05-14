@@ -1,24 +1,29 @@
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../common/app/lookup/Introspection";
-import { GameEngineThreeJsRenderer } from "../../../common/game/engine/3rd-party/threejs/GameEngineThreeJsRenderer";
 import { ThreeJsGameLevelRepository } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameLevelRepository";
+import { ThreeJsGameRenderer } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameRenderer";
+import { ThreeJsGameViewSceneModel } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
+import { ThreeJsRootSceneLoader } from "../../../common/game/engine/3rd-party/threejs/ThreeJsRootSceneLoader";
+import { ThreeJsSceneMetaTagIndexer } from "../../../common/game/engine/3rd-party/threejs/ThreeJsSceneMetaTagIndexer";
+import { GameSceneObjectMetaModel } from "../../../common/game/engine/features/rendering/GameSceneObjectMeta";
 import { GameEnginePlugin } from "../../../common/game/engine/plugins/GameEnginePlugin";
 import { ReactStarter, TYPE_ReactRootWidget } from "../../../common/ui/ReactStarter";
-import { MainViewInputMappings } from "../input/mappings/GravityGameInputMappings";
-import { AtmosphereModule } from "../loader/AtmosphereModule";
-import { GravityGameLoader } from "../loader/GravityGameLoader";
-import { DebugAltitudeLoop } from "../loops/debug/DebugAltitudeLoop";
-import { DebugLoop } from "../loops/debug/DebugLoop";
-import { ScaleSunSizeLoop } from "../loops/ScaleSunSizeLoop";
-import { DebugInfoModel } from "../model/DebugInfoModel";
-import { GravitySceneModel } from "../model/GravitySceneModel";
-import { PlayerViewModel } from "../model/PlayerControlModel";
-import { SpaceShipsModel } from "../model/SpaceShipsModel";
+import { DebugConsoleCoreBinder as DebugConsoleBinderCore } from "../features/framework/debug/DebugConsoleCoreBinder";
+import { DebugInfoModel } from "../features/framework/debug/DebugInfoModel";
+import { DebugLoop } from "../features/framework/debug/DebugLoop";
+import { MainViewInputMappings } from "../features/input-mappings/GravityGameInputMappings";
+import { GravitySpaceObjectsService } from "../features/model-calculation/gravity-universe/service/GravitySpaceObjectsService";
+import { PlayerControlModel } from "../features/model-calculation/player-control/PlayerControlModel";
+import { DebugAltitudeLoop } from "../features/model-calculation/space-ships/DebugAltitudeLoop";
+import { PlayerSpaceShipLoader } from "../features/model-calculation/space-ships/PlayerSpaceShipLoader";
+import { SpaceShipsModel } from "../features/model-calculation/space-ships/SpaceShipsModel";
 import { GravityGameStarter } from "../starters/GravityGameStarter";
 import { RootWidget } from "../ui/GravityGameRootWidget";
+import { AtmosphereModule } from "./AtmosphereModule";
+import { GravityUniversePlugin } from "./GravityUniverseModule";
 
-export class GravityGameEnginePlugin implements ApplicationComponent {
+export class GravityGamePlugin implements ApplicationComponent {
   constructor() {
     Introspection.bindInterfaceName(this, TYPE_ApplicationComponent);
   }
@@ -28,7 +33,7 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
     application.registerComponent(new GameEnginePlugin());
 
     application.registerComponent(
-      new GameEngineThreeJsRenderer({
+      new ThreeJsGameRenderer({
         webGlRenderingParameters: {
           antialias: true,
           preserveDrawingBuffer: true,
@@ -45,28 +50,32 @@ export class GravityGameEnginePlugin implements ApplicationComponent {
 
     // Register Gravity Game components
     application.registerComponent(new ThreeJsGameLevelRepository());
+    application.registerComponent(new ThreeJsGameViewSceneModel());
+    application.registerComponent(new ThreeJsRootSceneLoader());
+    application.registerComponent(new ThreeJsSceneMetaTagIndexer());
+
+    application.registerComponent(new GameSceneObjectMetaModel());
 
     // Loaders and Models
-    application.registerComponent(new GravitySceneModel());
+    application.registerComponent(new GravitySpaceObjectsService());
     application.registerComponent(new SpaceShipsModel());
-    application.registerComponent(new PlayerViewModel());
+    application.registerComponent(new PlayerControlModel());
+    application.registerComponent(new PlayerSpaceShipLoader());
 
-    application.registerComponent(new GravityGameLoader());
-    application.registerComponent(new AtmosphereModule());
+    application.registerComponent(new GravityUniversePlugin());
 
     application.registerComponent(new MainViewInputMappings());
 
     // Starter
     application.registerComponent(new GravityGameStarter());
 
-    // Loops
-    application.registerComponent(new ScaleSunSizeLoop());
+    // Loopers
+    application.registerComponent(new AtmosphereModule());
 
     // Debug
     application.registerComponent(new DebugInfoModel());
-
     application.registerComponent(new DebugAltitudeLoop());
-
     application.registerComponent(new DebugLoop());
+    application.registerComponent(new DebugConsoleBinderCore());
   }
 }

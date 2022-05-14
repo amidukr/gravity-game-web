@@ -4,20 +4,26 @@ import { MappedUserInput } from "../../../../../common/game/engine/features/inpu
 import { BaseGameInputLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../common/game/engine/GameEvent";
 import { GameView } from "../../../../../common/game/engine/ui/view/GameView";
-import { COMMON_GROUP, ROLL_LEFT_ACTION, ROLL_RIGHT_ACTION, THROTTLE_DOWN_ACTION, THROTTLE_UP_ACTION } from "../../../input/mappings/GravityGameInputMappings";
-import { PlayerViewModel } from "../../../model/PlayerControlModel";
-import { SpaceShipsModel } from "../../../model/SpaceShipsModel";
+import {
+  COMMON_GROUP,
+  ROLL_LEFT_ACTION,
+  ROLL_RIGHT_ACTION,
+  THROTTLE_DOWN_ACTION,
+  THROTTLE_UP_ACTION,
+} from "../../../features/input-mappings/GravityGameInputMappings";
+import { PlayerControlModel } from "../../../features/model-calculation/player-control/PlayerControlModel";
+import { SpaceShipsModel } from "../../../features/model-calculation/space-ships/SpaceShipsModel";
 
 export class FreeFlyThrottleControlLoop extends BaseGameInputLooper {
   gameView!: GameView;
   mappedUserInput!: MappedUserInput;
-  playerViewModel!: PlayerViewModel;
+  playerViewModel!: PlayerControlModel;
   spaceShipsModel!: SpaceShipsModel;
 
   autowire(application: ApplicationContainer): void {
     this.gameView = application.getComponent(GameView);
     this.mappedUserInput = application.getComponent(MappedUserInput);
-    this.playerViewModel = application.getComponent(PlayerViewModel);
+    this.playerViewModel = application.getComponent(PlayerControlModel);
     this.spaceShipsModel = application.getComponent(SpaceShipsModel);
   }
 

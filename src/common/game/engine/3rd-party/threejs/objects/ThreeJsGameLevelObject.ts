@@ -1,5 +1,10 @@
 import { Group, Texture } from "three";
-import { GameLevelObject } from "../../../features/level/GameLevel";
+import { resolveTypeIdentifier } from "../../../../../app/lookup/TypeIdentifier";
+import { GameLevel, GameLevelObject } from "../../../features/level/GameLevel";
+
+export const TYPE_ThreeJsGameLevel = resolveTypeIdentifier<ThreeJsGameLevel>(GameLevel);
+
+export type ThreeJsGameLevel = GameLevel<ThreeJsGameLevelObject>;
 
 export interface ThreeJsGameLevelObjectData {
   levelSceneFile: string;
