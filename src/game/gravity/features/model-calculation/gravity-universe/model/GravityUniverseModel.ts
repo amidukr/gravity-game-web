@@ -41,6 +41,10 @@ export class GravityUniverseModel extends BaseGameModel<GravityUniverse> {
     return this.object.gravityObjectsByName[name];
   }
 
+  getGravityChildren(parent: string): GravityObject[] {
+    return this.object.gravityObjectsChildren[parent];
+  }
+
   addGravityObject(gravityObject: GravityObject) {
     const gravityUniverse = this.object;
     gravityUniverse.gravityObjectsByName[gravityObject.objectId] = gravityObject;

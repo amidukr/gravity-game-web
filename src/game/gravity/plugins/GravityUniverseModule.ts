@@ -1,5 +1,7 @@
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { BasePlugin } from "../../../common/app/utils/BasePlugin";
+import { UniverseSublocationService } from "../features/commons/universe-sublocation/UniverseSublocationService";
+import { GravityUsslh } from "../features/model-calculation/gravity-sublocation/GravityUsslh";
 import { GravityUniverseLoader } from "../features/model-calculation/gravity-universe/loader/GravityUniverseLoader";
 import { GravityUniversePositionRecalculateLooper } from "../features/model-calculation/gravity-universe/looper/GravityUniversePositionRecalculateLooper";
 import { GravityUniversePositionLooper } from "../features/model-calculation/gravity-universe/looper/GravityUniverseScenePositionLooper";
@@ -15,5 +17,8 @@ export class GravityUniversePlugin extends BasePlugin {
     application.registerComponent(new GravityUniversePositionRecalculateLooper());
 
     application.registerComponent(new GravityUniversePositionLooper());
+
+    application.registerComponent(new UniverseSublocationService());
+    application.registerComponent(new GravityUsslh());
   }
 }

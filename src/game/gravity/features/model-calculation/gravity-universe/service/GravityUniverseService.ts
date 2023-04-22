@@ -3,6 +3,8 @@ import { ApplicationContainer } from "../../../../../../common/app/ApplicationCo
 import { BaseApplicationComponent } from "../../../../../../common/app/utils/BaseApplicationComponent";
 import { GravityObject, GravityUniverseModel, GRAVITY_OBJECT_UNIVERSE } from "../model/GravityUniverseModel";
 
+export const GRAVITY_CONSTANT = 1.0e15;
+
 export class GravityUniverseService extends BaseApplicationComponent {
   gravityUniverseModel!: GravityUniverseModel;
 
@@ -51,8 +53,6 @@ export class GravityUniverseService extends BaseApplicationComponent {
   ) {
     const parentObject = this.gravityUniverseModel.getGravityObject(parentId);
 
-    const G = 1.0e15;
-
     const radius = child.initialPosition.length();
 
     let orbitRotationAxis: Vector3;
@@ -60,7 +60,7 @@ export class GravityUniverseService extends BaseApplicationComponent {
 
     if (radius >= 0) {
       orbitRotationAxis = new Vector3(child.initialPosition.y, 0, child.initialPosition.x).cross(child.initialPosition);
-      orbitAngularVelocity = Math.sqrt(G * parentObject.mass) / Math.pow(radius, 1.5);
+      orbitAngularVelocity = Math.sqrt(GRAVITY_CONSTANT * parentObject.mass) / Math.pow(radius, 1.5);
     } else {
       orbitRotationAxis = new Vector3(0, 1, 0);
       orbitAngularVelocity = 0;
