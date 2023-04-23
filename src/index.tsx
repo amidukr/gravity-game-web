@@ -1,4 +1,5 @@
 import "core-js/stable";
+import "reflect-metadata";
 import "regenerator-runtime/runtime";
 import { ApplicationContainer } from "./common/app/ApplicationContainer";
 import { GravityGamePlugin } from "./game/gravity/plugins/GravityGamePlugin";
@@ -11,5 +12,8 @@ async function main() {
 
   await application.start();
 }
+
+console.error("Fix hack: if(gravityFieldObject.name == \"TagGravityFieldSun\") { ")
+console.error("Fix hack: return GRAVITY_CONSTANT * gravityObject.mass / (l * l) / 400;")
 
 main();

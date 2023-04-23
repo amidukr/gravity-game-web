@@ -70,7 +70,13 @@ export class GravityUniverseLoader extends BaseGameModelLoader {
         const size = boundingBox.getSize(new Vector3());
         const radius = Math.max(size.x, size.y, size.z) * 0.5;
 
-        const mass = radius;
+        const radiusF = radius/1000000
+        
+        var mass = radiusF * radiusF * radiusF;
+
+        if(gravityFieldObject.name == "TagGravityFieldSun") {
+          mass = mass * 1000
+        }
 
         if (parentGravityFieldObject == null) {
           this.gravityUniverseService.addFixedGravityObject({

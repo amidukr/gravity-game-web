@@ -25,8 +25,16 @@ export class DebugInfoPanel extends React.Component<DebugInfoPanelProps, DebugIn
       object: null,
     };
   }
+  
+  renderAsString(v: any): string {
+    if(typeof v == "string") return v
+    
+    return JSON.stringify(v)
+  }
 
   override render() {
+    const attributes = this.state.object?.attributes || {}
+
     return (
       <div
         style={{
@@ -36,7 +44,9 @@ export class DebugInfoPanel extends React.Component<DebugInfoPanelProps, DebugIn
           mixBlendMode: "difference",
         }}
       >
-        <div>Altitude: {this.state.object?.altitude}</div>
+        {
+          Object.keys(attributes ).map(p => <div key={p}>{p}: {this.renderAsString(attributes[p])}</div> )
+        }
       </div>
     );
   }

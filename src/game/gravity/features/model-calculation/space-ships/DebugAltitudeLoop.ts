@@ -18,7 +18,7 @@ export class DebugAltitudeLoop extends BaseGameModelProcessingLooper {
   }
 
   execute(event: GameEvent): void {
-    const shipPosition = this.shipModel.object.player.position;
+    const shipPosition = this.shipModel.object.player.globalCoordinate;
     const planet = this.gravitySpaceObjects.findClosestPlanet(shipPosition);
 
     if (planet == null) {
@@ -27,6 +27,6 @@ export class DebugAltitudeLoop extends BaseGameModelProcessingLooper {
 
     const distanceToPlanetCenter = planet.getWorldPosition(new Vector3()).distanceTo(shipPosition);
 
-    this.debugModel.object.altitude = distanceToPlanetCenter - planet.userData.radius;
+    this.debugModel.object.attributes["Altitude"] = distanceToPlanetCenter - planet.userData.radius;
   }
 }

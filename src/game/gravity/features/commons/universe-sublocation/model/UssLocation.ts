@@ -1,5 +1,5 @@
 export interface UssLocation {
   type: string;
-  parent: UssLocation;
+  parent: UssLocation | null;
   attributes: any;
 }

@@ -1,7 +1,6 @@
 import { UssIfrObject } from "./UssIfrObject";
 import { UssLocation } from "./UssLocation";
 
-export interface USSEntity {
+export interface UssCoordinate extends UssIfrObject {
   location: UssLocation;
-  object: UssIfrObject;
 }

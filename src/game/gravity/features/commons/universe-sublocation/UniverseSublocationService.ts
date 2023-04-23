@@ -1,46 +1,48 @@
 import { Vector3 } from "three";
 import { UssLocationHandler, USS_OBJECT_PRESENCE_THRESHOLD } from "./ext-api/UssLocationHandler";
-import { USSEntity } from "./model/UssEntity";
+import { UssCoordinate } from "./model/UssCoordinate";
 import { UssIfrObject } from "./model/UssIfrObject";
 import { UssLocation } from "./model/UssLocation";
 
 export class UniverseSublocationService {
   private handlers: { [k: string]: UssLocationHandler } = {};
 
-  normalizeCoordinate(entity: USSEntity): USSEntity {
+  normalizeCoordinate(entity: UssCoordinate): UssCoordinate {
     var newLocation: UssLocation | null;
     var commonParentLocation: UssLocation | null;
     if (this.isInBoundOfLocation(entity)) {
-      newLocation = this.findChildSublocation(entity.location, entity.object.position);
+      newLocation = this.findChildSublocation(entity.location, entity.position);
       commonParentLocation = entity.location;
     } else {
       newLocation = entity.location.parent;
       commonParentLocation = entity.location.parent;
     }
 
-    if (newLocation != null) {
+    if (newLocation != null && commonParentLocation != null) {
       return this.transformToLocationCoordinate(entity, newLocation, commonParentLocation);
     }
 
     return entity;
   }
 
-  transformToLocationCoordinate(entity: USSEntity, newLocation: UssLocation, commonParentLocation: UssLocation): USSEntity {
-    var resultObject = entity.object;
-    var resultLocation = entity.location;
+  transformToLocationCoordinate(entity: UssCoordinate, newLocation: UssLocation, commonParentLocation: UssLocation): UssCoordinate {
+    var resultObject: UssIfrObject = entity;
+    var resultLocation: UssLocation | null = entity.location;
 
-    while (newLocation != commonParentLocation) {
+    while (resultLocation != commonParentLocation && resultLocation != null) {
       resultObject = this.transformToParentCoordinates(resultObject, resultLocation);
       resultLocation = resultLocation.parent;
     }
 
     const transformationLocationArray: UssLocation[] = [];
-    var newLocationIterator = newLocation;
-    while (newLocationIterator != commonParentLocation) {
-      transformationLocationArray.push(resultLocation);
+    var newLocationIterator: UssLocation | null = newLocation;
+    while (newLocationIterator != commonParentLocation && newLocationIterator != null) {
+      transformationLocationArray.push(newLocationIterator);
       newLocationIterator = newLocationIterator.parent;
     }
-    transformationLocationArray.push(newLocationIterator);
+    if (newLocationIterator != null) {
+      transformationLocationArray.push(newLocationIterator);
+    }
 
     for (var i = transformationLocationArray.length - 1; i > 0; i--) {
       const childLocation = transformationLocationArray[i - 1];
@@ -49,7 +51,8 @@ export class UniverseSublocationService {
 
     return {
       location: newLocation,
-      object: resultObject,
+      position: resultObject.position,
+      velocity: resultObject.velocity,
     };
   }
 
@@ -78,9 +81,15 @@ export class UniverseSublocationService {
     return handler.findChildSublocation(location, position);
   }
 
-  isInBoundOfLocation(entity: USSEntity): Boolean {
+  isInBoundOfLocation(entity: UssCoordinate): Boolean {
     const handler = this.getLocationHandler(entity.location);
-    return handler.objectPreseneceFactor(entity.location, entity.object.position) >= USS_OBJECT_PRESENCE_THRESHOLD;
+    return handler.objectPreseneceFactor(entity.location, entity.position) >= USS_OBJECT_PRESENCE_THRESHOLD;
+  }
+
+  calculatePresenceFactor(ussCoordinate: UssCoordinate): any {
+    const location = ussCoordinate.location
+    const position = ussCoordinate.position
+    return this.getLocationHandler(location).objectPreseneceFactor(location, position) 
   }
 
   getLocationHandler(location: UssLocation): UssLocationHandler {
@@ -90,4 +99,5 @@ export class UniverseSublocationService {
   registerLocationHandler(locationType: string, handler: UssLocationHandler) {
     this.handlers[locationType] = handler;
   }
+
 }

@@ -32,7 +32,8 @@ export class PlayerSpaceShipLoader extends BaseGameModelLoader {
     const playerSpaceShip = this.spaceShipsModel.object.player;
 
     playerSpaceShip.throttle = this.gameLevel.object.data.spaceShips.player.throttle || 0.1;
-    playerSpaceShip.position = startPosition.getWorldPosition(new Vector3());
+    playerSpaceShip.ussPosition.position = startPosition.getWorldPosition(new Vector3());
+    playerSpaceShip.globalCoordinate = playerSpaceShip.ussPosition.position.clone();
     playerSpaceShip.orientation.copy(
       startPosition.getWorldQuaternion(new Quaternion()).multiply(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), -Math.PI / 2))
     );

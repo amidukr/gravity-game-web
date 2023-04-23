@@ -6,6 +6,8 @@ import { UssIfrObject } from "../../commons/universe-sublocation/model/UssIfrObj
 import { UssLocation } from "../../commons/universe-sublocation/model/UssLocation";
 import { UniverseSublocationService } from "../../commons/universe-sublocation/UniverseSublocationService";
 import { GravityObject, GravityUniverseModel, GRAVITY_OBJECT_UNIVERSE } from "../gravity-universe/model/GravityUniverseModel";
+import { DebugInfoModel } from "../../framework/debug/DebugInfoModel";
+import { GRAVITY_CONSTANT } from "../gravity-universe/service/GravityUniverseService";
 
 export const USSL_UNIVERSE = "Universe";
 export const USSL_SPACE_GRAVITY_OBJECT = "SpaceGravityObject";
@@ -20,24 +22,28 @@ export interface GravityUssLocation extends UssLocation {
 export class GravityUsslh extends BaseApplicationComponent implements UssLocationHandler {
   gravityUniverseModel!: GravityUniverseModel;
   sublocationService!: UniverseSublocationService;
+  debug!: DebugInfoModel;
 
   autowire?(application: ApplicationContainer): void {
     this.gravityUniverseModel = application.getComponent(GravityUniverseModel);
     this.sublocationService = application.getComponent(UniverseSublocationService);
+    this.debug = application.getComponent(DebugInfoModel)
 
     this.sublocationService.registerLocationHandler(USSL_UNIVERSE, this);
     this.sublocationService.registerLocationHandler(USSL_SPACE_GRAVITY_OBJECT, this);
   }
 
   findChildSublocation(location: UssLocation, position: Vector3): UssLocation | null {
-    var objects: GravityObject[];
+    var objects: GravityObject[] | null = null;
     if (location.type == USSL_UNIVERSE) {
       objects = this.gravityUniverseModel.getGravityChildren(GRAVITY_OBJECT_UNIVERSE);
     } else if (location.type == USSL_SPACE_GRAVITY_OBJECT) {
       const gul = location as GravityUssLocation;
       objects = this.gravityUniverseModel.getGravityChildren(gul.attributes.gravityObjectName);
-    } else {
-      return null;
+    } 
+
+    if(objects == null) {
+      return null
     }
 
     var bestSublocation: UssLocation | null = null;
@@ -46,14 +52,21 @@ export class GravityUsslh extends BaseApplicationComponent implements UssLocatio
     for (var i = 0; i < objects.length; i++) {
       const childSublocation = this.gravityObjectToSublocation(location, objects[i]);
       const childCoordinates = this.sublocationService.transformToChildCoordinates(ussIfrObject, childSublocation);
-      const presenceFactor = this.objectPreseneceFactor(location, childCoordinates.position);
+      const presenceFactor = this.objectPreseneceFactor(childSublocation, childCoordinates.position);
       if (presenceFactor > bestPresenceFactor) {
         bestPresenceFactor = presenceFactor;
         bestSublocation = childSublocation;
       }
     }
 
-    return bestSublocation;
+    this.debug.object.attributes["subLocation"] = `${bestSublocation?.attributes.gravityObjectName}: ${bestPresenceFactor}`
+
+    if(bestPresenceFactor > USS_OBJECT_PRESENCE_THRESHOLD) {
+      return bestSublocation;
+    } else {
+      return null
+    }
+    
   }
   gravityObjectToSublocation(parentLocation: UssLocation, object: GravityObject): GravityUssLocation {
     return {
@@ -91,7 +104,7 @@ export class GravityUsslh extends BaseApplicationComponent implements UssLocatio
       const gul = location as GravityUssLocation;
       const gravityObject = this.gravityUniverseModel.getGravityObject(gul.attributes.gravityObjectName);
       const l = position.length();
-      return gravityObject.mass / (l * l);
+      return GRAVITY_CONSTANT * gravityObject.mass / (l * l) / 400;
     } else {
       throw Error("Unsuported operation");
     }

@@ -1,7 +1,7 @@
 import { BaseGameCoreState } from "../../../../../common/game/engine/framework/GameModelTypes";
 
 export class DebugInfoObject {
-  altitude = 0;
+  attributes: any = {};
 }
 
 export class DebugInfoModel extends BaseGameCoreState<DebugInfoObject> {
