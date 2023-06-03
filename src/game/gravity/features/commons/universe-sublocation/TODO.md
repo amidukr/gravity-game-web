@@ -1,2 +1,0 @@
-- UssIfr object - is really physical object.
-- UssLocatio - is UssInertiaFrameReference
