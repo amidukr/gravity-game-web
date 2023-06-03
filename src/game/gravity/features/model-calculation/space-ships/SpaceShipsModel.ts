@@ -1,11 +1,11 @@
 import { Quaternion, Vector3 } from "three";
 import { BaseGameModel } from "../../../../../common/game/engine/framework/GameModelTypes";
-import { UssCoordinate } from "../../commons/universe-sublocation/model/UssCoordinate";
+import { UssObject } from "../../commons/universe-sublocation/model/UssObject";
 import { USSL_UNIVERSE } from "../gravity-sublocation/GravityUsslh";
 
 export interface SpaceShipCollection {
   player: {
-    ussPosition: UssCoordinate;
+    ussPosition: UssObject;
     globalCoordinate: Vector3;
     orientation: Quaternion;
     throttle: number;

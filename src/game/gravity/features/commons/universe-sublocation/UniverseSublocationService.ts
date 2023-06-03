@@ -1,13 +1,13 @@
 import { Vector3 } from "three";
 import { UssLocationHandler, USS_OBJECT_PRESENCE_THRESHOLD } from "./ext-api/UssLocationHandler";
-import { UssCoordinate } from "./model/UssCoordinate";
-import { UssIfrObject } from "./model/UssIfrObject";
+import { UssObject } from "./model/UssObject";
+import { UssPhysicalBody } from "./model/UssPhysicalBody";
 import { UssLocation } from "./model/UssLocation";
 
 export class UniverseSublocationService {
   private handlers: { [k: string]: UssLocationHandler } = {};
 
-  normalizeCoordinate(entity: UssCoordinate): UssCoordinate {
+  normalizeCoordinate(entity: UssObject): UssObject {
     var newLocation: UssLocation | null;
     var commonParentLocation: UssLocation | null;
     if (this.isInBoundOfLocation(entity)) {
@@ -25,8 +25,8 @@ export class UniverseSublocationService {
     return entity;
   }
 
-  transformToLocationCoordinate(entity: UssCoordinate, newLocation: UssLocation, commonParentLocation: UssLocation): UssCoordinate {
-    var resultObject: UssIfrObject = entity;
+  transformToLocationCoordinate(entity: UssObject, newLocation: UssLocation, commonParentLocation: UssLocation): UssObject {
+    var resultObject: UssPhysicalBody = entity;
     var resultLocation: UssLocation | null = entity.location;
 
     while (resultLocation != commonParentLocation && resultLocation != null) {
@@ -56,7 +56,7 @@ export class UniverseSublocationService {
     };
   }
 
-  transformToChildCoordinates(object: UssIfrObject, childLocation: UssLocation): UssIfrObject {
+  transformToChildCoordinates(object: UssPhysicalBody, childLocation: UssLocation): UssPhysicalBody {
     const handler = this.getLocationHandler(childLocation);
     const locationIfr = handler.locationAsIfrObject(childLocation);
 
@@ -66,7 +66,7 @@ export class UniverseSublocationService {
     };
   }
 
-  transformToParentCoordinates(object: UssIfrObject, childLocation: UssLocation): UssIfrObject {
+  transformToParentCoordinates(object: UssPhysicalBody, childLocation: UssLocation): UssPhysicalBody {
     const handler = this.getLocationHandler(childLocation);
     const locationIfr = handler.locationAsIfrObject(childLocation);
 
@@ -81,14 +81,14 @@ export class UniverseSublocationService {
     return handler.findChildSublocation(location, position);
   }
 
-  isInBoundOfLocation(entity: UssCoordinate): Boolean {
+  isInBoundOfLocation(entity: UssObject): Boolean {
     const handler = this.getLocationHandler(entity.location);
     return handler.objectPreseneceFactor(entity.location, entity.position) >= USS_OBJECT_PRESENCE_THRESHOLD;
   }
 
-  calculatePresenceFactor(ussCoordinate: UssCoordinate): any {
-    const location = ussCoordinate.location
-    const position = ussCoordinate.position
+  calculatePresenceFactor(UssObject: UssObject): any {
+    const location = UssObject.location
+    const position = UssObject.position
     return this.getLocationHandler(location).objectPreseneceFactor(location, position) 
   }
 

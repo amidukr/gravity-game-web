@@ -2,7 +2,7 @@ import { Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { BaseApplicationComponent } from "../../../../../common/app/utils/BaseApplicationComponent";
 import { UssLocationHandler, USS_OBJECT_PRESENCE_THRESHOLD } from "../../commons/universe-sublocation/ext-api/UssLocationHandler";
-import { UssIfrObject } from "../../commons/universe-sublocation/model/UssIfrObject";
+import { UssPhysicalBody } from "../../commons/universe-sublocation/model/UssPhysicalBody";
 import { UssLocation } from "../../commons/universe-sublocation/model/UssLocation";
 import { UniverseSublocationService } from "../../commons/universe-sublocation/UniverseSublocationService";
 import { GravityObject, GravityUniverseModel, GRAVITY_OBJECT_UNIVERSE } from "../gravity-universe/model/GravityUniverseModel";
@@ -48,10 +48,10 @@ export class GravityUsslh extends BaseApplicationComponent implements UssLocatio
 
     var bestSublocation: UssLocation | null = null;
     var bestPresenceFactor = 0;
-    const ussIfrObject: UssIfrObject = { position: position, velocity: new Vector3() };
+    const UssPhysicalBody: UssPhysicalBody = { position: position, velocity: new Vector3() };
     for (var i = 0; i < objects.length; i++) {
       const childSublocation = this.gravityObjectToSublocation(location, objects[i]);
-      const childCoordinates = this.sublocationService.transformToChildCoordinates(ussIfrObject, childSublocation);
+      const childCoordinates = this.sublocationService.transformToChildCoordinates(UssPhysicalBody, childSublocation);
       const presenceFactor = this.objectPreseneceFactor(childSublocation, childCoordinates.position);
       if (presenceFactor > bestPresenceFactor) {
         bestPresenceFactor = presenceFactor;
@@ -78,7 +78,7 @@ export class GravityUsslh extends BaseApplicationComponent implements UssLocatio
     };
   }
 
-  locationAsIfrObject(location: UssLocation): UssIfrObject {
+  locationAsIfrObject(location: UssLocation): UssPhysicalBody {
     if (location.type == USSL_UNIVERSE) {
       return {
         position: new Vector3(),

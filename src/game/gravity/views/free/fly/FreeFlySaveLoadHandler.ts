@@ -3,7 +3,7 @@ import { ApplicationContainer } from "../../../../../common/app/ApplicationConta
 import { MappedUserInput } from "../../../../../common/game/engine/features/input/MappedUserInput";
 import { InputButton } from "../../../../../common/game/engine/features/input/types/InputButton";
 import { BaseGameViewButtonHandler } from "../../../../../common/game/engine/ui/view/BaseGameViewButtonHandler";
-import { UssCoordinate } from "../../../features/commons/universe-sublocation/model/UssCoordinate";
+import { UssObject } from "../../../features/commons/universe-sublocation/model/UssObject";
 import { COMMON_GROUP, LOAD_GAME_ACTION, SAVE_GAME_ACTION } from "../../../features/input-mappings/GravityGameInputMappings";
 import { PlayerControlModel } from "../../../features/model-calculation/player-control/PlayerControlModel";
 import { SpaceShipsModel } from "../../../features/model-calculation/space-ships/SpaceShipsModel";
@@ -11,7 +11,7 @@ import  ESSerializer   from "esserializer";
 import { Vector3 } from "three";
 
 interface SavedGame {
-  position: UssCoordinate;
+  position: UssObject;
   orientation: number[];
   throttle: number;
 }
