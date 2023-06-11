@@ -9,6 +9,23 @@ export class UniverseSublocationService {
   private containerHandlers: { [k: string]: UssLocationContainerHandler } = {};
   private transformationHandlers: { [k: string]: UssLocationTransformationHandler } = {};
 
+  
+  getContainerHandler(location: UssLocation): UssLocationContainerHandler {
+    return this.containerHandlers[location.type];
+  }
+
+  registerContainerHandler(locationType: string, handler: UssLocationContainerHandler) {
+    this.containerHandlers[locationType] = handler;
+  }
+
+  getTransformationHandler(location: UssLocation): UssLocationTransformationHandler {
+    return this.transformationHandlers[location.type];
+  }
+
+  registerTransformationHandler(locationType: string, handler: UssLocationTransformationHandler) {
+    this.transformationHandlers[locationType] = handler;
+  }
+
   normalizeCoordinate(entity: UssObject): UssObject {
     var newLocation: UssLocation | null;
     var commonParentLocation: UssLocation | null;
@@ -66,12 +83,12 @@ export class UniverseSublocationService {
     return this.getTransformationHandler(childLocation).transformToParentCoordinates(childCoordinates, childLocation);
   }
 
-  findChildSublocation(location: UssLocation, position: Vector3): UssLocation | null {
+  private findChildSublocation(location: UssLocation, position: Vector3): UssLocation | null {
     const handler = this.getContainerHandler(location);
     return handler.findChildSublocation(location, position);
   }
 
-  isInBoundOfLocation(entity: UssObject): Boolean {
+  private isInBoundOfLocation(entity: UssObject): Boolean {
     const handler = this.getContainerHandler(entity.location);
     return handler.objectPreseneceFactor(entity.location, entity.position) >= USS_OBJECT_PRESENCE_THRESHOLD;
   }
@@ -80,21 +97,5 @@ export class UniverseSublocationService {
     const location = UssObject.location;
     const position = UssObject.position;
     return this.getContainerHandler(location).objectPreseneceFactor(location, position);
-  }
-
-  getContainerHandler(location: UssLocation): UssLocationContainerHandler {
-    return this.containerHandlers[location.type];
-  }
-
-  registerContainerHandler(locationType: string, handler: UssLocationContainerHandler) {
-    this.containerHandlers[locationType] = handler;
-  }
-
-  getTransformationHandler(location: UssLocation): UssLocationTransformationHandler {
-    return this.transformationHandlers[location.type];
-  }
-
-  registerTransformationHandler(locationType: string, handler: UssLocationTransformationHandler) {
-    this.transformationHandlers[locationType] = handler;
   }
 }

@@ -10,7 +10,9 @@ import { UniverseSublocationService } from "../../../features/commons/universe-s
 import { DebugInfoModel } from "../../../features/framework/debug/DebugInfoModel";
 import { USSL_UNIVERSE } from "../../../features/model-calculation/gravity-sublocation/GravityUsslContainerHandler";
 import { PlayerControlModel } from "../../../features/model-calculation/player-control/PlayerControlModel";
-import { SpaceShipsModel } from "../../../features/model-calculation/space-ships/SpaceShipsModel";
+import { PlayerSpaceShip, SpaceShipsModel } from "../../../features/model-calculation/space-ships/SpaceShipsModel";
+import { UssObject } from "../../../features/commons/universe-sublocation/model/UssObject";
+import { alignQuaternionToVector } from "../../../../../common/utils/ThreeJsUtils";
 
 export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
   axisInput!: AxisUserInput;
@@ -61,6 +63,15 @@ export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
     this.spaceShipsModel.object.player.orientation.multiply(mouseBasedTransformation).normalize();
   }
 
+  findRootLocation(playerSpaceShip: PlayerSpaceShip): UssLocation {
+    var rootLocation: UssLocation | null = playerSpaceShip.ussPosition.location;
+    while (rootLocation != null && rootLocation.type != USSL_UNIVERSE) rootLocation = rootLocation.parent;
+
+    if(rootLocation == null) throw Error("rootLocation unexpectedly null")
+
+    return rootLocation
+  }
+
   execute(event: GameEvent) {
     const playerSpaceShip = this.spaceShipsModel.object.player;
 
@@ -70,26 +81,30 @@ export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
       this.handleMouseEvent(event);
     }
 
-    playerSpaceShip.ussPosition.velocity = quanterionBaseVector().applyQuaternion(playerSpaceShip.orientation).normalize();
+    const rootLocation = this.findRootLocation(playerSpaceShip)
 
+    const globalVelocity = quanterionBaseVector().applyQuaternion(playerSpaceShip.orientation).normalize().clone();
+    globalVelocity.multiplyScalar(playerSpaceShip.throttle)
+
+    const playerGlobalPosition: UssObject = {
+        location: rootLocation,
+        position: playerSpaceShip.globalCoordinate,
+        velocity: globalVelocity
+    } 
+
+    const playerLocalPosition = this.sublocationService.transformToLocationCoordinate(playerGlobalPosition, playerSpaceShip.ussPosition.location, rootLocation)
+    
+    playerSpaceShip.ussPosition.velocity = playerLocalPosition.velocity.clone()
     playerSpaceShip.ussPosition.position.add(
-      playerSpaceShip.ussPosition.velocity.clone().multiplyScalar(playerSpaceShip.throttle * 0.0005 * event.elapsedTimeMills)
+      playerSpaceShip.ussPosition.velocity.clone().multiplyScalar(event.elapsedTimeMills)
     );
 
-    console.info("ussPosition pre-normalize", playerSpaceShip.ussPosition);
     playerSpaceShip.ussPosition = this.sublocationService.normalizeCoordinate(playerSpaceShip.ussPosition);
-    console.info("ussPosition normalized", playerSpaceShip.ussPosition);
 
-    var rootLocation: UssLocation | null = playerSpaceShip.ussPosition.location;
-    while (rootLocation != null && rootLocation.type != USSL_UNIVERSE) rootLocation = rootLocation.parent;
+    const ussGlobal = this.sublocationService.transformToLocationCoordinate(playerSpaceShip.ussPosition, rootLocation, rootLocation);
+    playerSpaceShip.globalCoordinate.copy(ussGlobal.position);
 
-    if (rootLocation) {
-      const ussGlobal = this.sublocationService.transformToLocationCoordinate(playerSpaceShip.ussPosition, rootLocation, rootLocation);
-      console.info("ussGlobal", ussGlobal);
-      playerSpaceShip.globalCoordinate.copy(ussGlobal.position);
-      //playerSpaceShip.globalCoordinate.copy(playerSpaceShip.ussPosition.position);
-    }
-
+    
     var normalized = playerSpaceShip.ussPosition;
     normalized = this.sublocationService.normalizeCoordinate(normalized);
     normalized = this.sublocationService.normalizeCoordinate(normalized);

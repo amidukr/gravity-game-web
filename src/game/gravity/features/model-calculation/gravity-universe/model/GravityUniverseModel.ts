@@ -12,11 +12,14 @@ export interface GravityObject {
 
   initialPosition: Vector3;
 
+  currentOrbitalRotateAngle: number,
   orbitAngularVelocity: number;
   orbitRotationAxis: Vector3;
+  orbitRadius: number,
 
   lastCalculatedTimeMilliseconds: number;
   currentPosition: Vector3;
+  currentVelocity: Vector3;
 }
 
 export class A {

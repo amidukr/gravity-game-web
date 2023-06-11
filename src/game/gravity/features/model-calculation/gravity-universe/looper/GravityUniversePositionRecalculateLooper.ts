@@ -3,9 +3,12 @@ import { GameTimeModel } from "../../../../../../common/game/engine/features/tim
 import { BaseGamePreRenderingLooper } from "../../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../../common/game/engine/GameEvent";
 import { GravityUniverseModel } from "../model/GravityUniverseModel";
+import { GravityUniverseService } from "../service/GravityUniverseService";
+import { calculateGravityObjectVelocity } from "../utils/GravityUniverseUtils";
 
 export class GravityUniversePositionRecalculateLooper extends BaseGamePreRenderingLooper {
   gravityUniverseModel!: GravityUniverseModel;
+  
   gameTimeModel!: GameTimeModel;
 
   autowire(application: ApplicationContainer): void {
@@ -22,7 +25,9 @@ export class GravityUniversePositionRecalculateLooper extends BaseGamePreRenderi
       const rotateAngle = (x.orbitAngularVelocity * currentMillisecondsTime) / 1000;
       x.lastCalculatedTimeMilliseconds = currentMillisecondsTime;
 
+      x.currentOrbitalRotateAngle = rotateAngle
       x.currentPosition.copy(x.initialPosition).applyAxisAngle(x.orbitRotationAxis, rotateAngle);
+      x.currentVelocity = calculateGravityObjectVelocity(x)
     });
   }
 }

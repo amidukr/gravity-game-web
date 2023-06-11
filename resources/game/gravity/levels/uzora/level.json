@@ -3,7 +3,7 @@
 
   "spaceShips": {
     "player": {
-      "throttle": "50000"
+      "throttle": "25"
     }
   },
 

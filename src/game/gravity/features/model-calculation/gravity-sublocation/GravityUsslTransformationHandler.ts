@@ -40,7 +40,7 @@ export class GravityUsslTransformationHandler extends BaseUssLocationTransformat
 
       return {
         position: gravityObject.currentPosition,
-        velocity: new Vector3(),
+        velocity: gravityObject.currentVelocity.clone(),
       };
     } else {
       throw Error(`Unsupported type ${location.type}`);

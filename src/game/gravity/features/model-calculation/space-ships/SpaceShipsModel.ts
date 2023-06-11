@@ -3,13 +3,15 @@ import { BaseGameModel } from "../../../../../common/game/engine/framework/GameM
 import { UssObject } from "../../commons/universe-sublocation/model/UssObject";
 import { USSL_UNIVERSE } from "../gravity-sublocation/GravityUsslContainerHandler";
 
+export interface PlayerSpaceShip {
+  ussPosition: UssObject;
+  globalCoordinate: Vector3;
+  orientation: Quaternion;
+  throttle: number;
+}
+
 export interface SpaceShipCollection {
-  player: {
-    ussPosition: UssObject;
-    globalCoordinate: Vector3;
-    orientation: Quaternion;
-    throttle: number;
-  };
+  player: PlayerSpaceShip
 }
 
 export class SpaceShipsModel extends BaseGameModel<SpaceShipCollection> {
