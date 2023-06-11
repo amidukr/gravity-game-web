@@ -9,7 +9,6 @@ export class UniverseSublocationService {
   private containerHandlers: { [k: string]: UssLocationContainerHandler } = {};
   private transformationHandlers: { [k: string]: UssLocationTransformationHandler } = {};
 
-  
   getContainerHandler(location: UssLocation): UssLocationContainerHandler {
     return this.containerHandlers[location.type];
   }

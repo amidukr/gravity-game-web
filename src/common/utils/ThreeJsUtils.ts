@@ -13,9 +13,8 @@ export function findObject3dParent(obj: Object3D, predicate: (x: Object3D) => bo
   return null;
 }
 
-
 export function alignQuaternionToVector(quaternion: Quaternion, newOrientation: Vector3): Quaternion {
-  const qVector = quanterionBaseVector().applyQuaternion(quaternion)
-  
-  return quaternion.copy(new Quaternion().setFromUnitVectors(qVector.normalize(), newOrientation.clone().normalize()).multiply(quaternion))
+  const qVector = quanterionBaseVector().applyQuaternion(quaternion);
+
+  return quaternion.copy(new Quaternion().setFromUnitVectors(qVector.normalize(), newOrientation.clone().normalize()).multiply(quaternion));
 }

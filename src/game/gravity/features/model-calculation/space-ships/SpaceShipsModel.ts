@@ -11,7 +11,7 @@ export interface PlayerSpaceShip {
 }
 
 export interface SpaceShipCollection {
-  player: PlayerSpaceShip
+  player: PlayerSpaceShip;
 }
 
 export class SpaceShipsModel extends BaseGameModel<SpaceShipCollection> {

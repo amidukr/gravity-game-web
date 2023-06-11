@@ -11,8 +11,6 @@ import { DebugInfoModel } from "../../../features/framework/debug/DebugInfoModel
 import { USSL_UNIVERSE } from "../../../features/model-calculation/gravity-sublocation/GravityUsslContainerHandler";
 import { PlayerControlModel } from "../../../features/model-calculation/player-control/PlayerControlModel";
 import { PlayerSpaceShip, SpaceShipsModel } from "../../../features/model-calculation/space-ships/SpaceShipsModel";
-import { UssObject } from "../../../features/commons/universe-sublocation/model/UssObject";
-import { alignQuaternionToVector } from "../../../../../common/utils/ThreeJsUtils";
 
 export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
   axisInput!: AxisUserInput;
@@ -67,9 +65,9 @@ export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
     var rootLocation: UssLocation | null = playerSpaceShip.ussPosition.location;
     while (rootLocation != null && rootLocation.type != USSL_UNIVERSE) rootLocation = rootLocation.parent;
 
-    if(rootLocation == null) throw Error("rootLocation unexpectedly null")
+    if (rootLocation == null) throw Error("rootLocation unexpectedly null");
 
-    return rootLocation
+    return rootLocation;
   }
 
   execute(event: GameEvent) {
@@ -81,32 +79,43 @@ export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
       this.handleMouseEvent(event);
     }
 
-    const rootLocation = this.findRootLocation(playerSpaceShip)
+    const rootLocation = this.findRootLocation(playerSpaceShip);
 
-    const globalVelocity = quanterionBaseVector().applyQuaternion(playerSpaceShip.orientation).normalize().clone();
-    globalVelocity.multiplyScalar(playerSpaceShip.throttle)
+    const globalOrientation = quanterionBaseVector().applyQuaternion(playerSpaceShip.orientation).normalize();
+    //globalVelocity.multiplyScalar(playerSpaceShip.throttle)
 
-    const playerGlobalPosition: UssObject = {
-        location: rootLocation,
-        position: playerSpaceShip.globalCoordinate,
-        velocity: globalVelocity
-    } 
+    //const playerGlobalPosition: UssObject = {
+    //     location: rootLocation,
+    //     position: playerSpaceShip.globalCoordinate,
+    //     velocity: globalVelocity
+    // }
 
-    const playerLocalPosition = this.sublocationService.transformToLocationCoordinate(playerGlobalPosition, playerSpaceShip.ussPosition.location, rootLocation)
-    
-    playerSpaceShip.ussPosition.velocity = playerLocalPosition.velocity.clone()
-    playerSpaceShip.ussPosition.velocity.setLength(playerSpaceShip.throttle)
-    playerSpaceShip.ussPosition.position.add(
-      playerSpaceShip.ussPosition.velocity.clone().multiplyScalar(event.elapsedTimeMills)
-    );
+    // const playerLocalPosition = this.sublocationService.transformToLocationCoordinate(playerGlobalPosition, playerSpaceShip.ussPosition.location, rootLocation)
+    console.info("throttle", playerSpaceShip.throttle);
+    playerSpaceShip.ussPosition.velocity = globalOrientation.clone();
+    playerSpaceShip.ussPosition.velocity.setLength(playerSpaceShip.throttle);
+    playerSpaceShip.ussPosition.position.add(playerSpaceShip.ussPosition.velocity.clone().multiplyScalar(event.elapsedTimeMills));
 
     playerSpaceShip.ussPosition = this.sublocationService.normalizeCoordinate(playerSpaceShip.ussPosition);
 
     const ussGlobal = this.sublocationService.transformToLocationCoordinate(playerSpaceShip.ussPosition, rootLocation, rootLocation);
     playerSpaceShip.globalCoordinate.copy(ussGlobal.position);
-    playerSpaceShip.throttle = (0.8 * playerSpaceShip.throttle + 0.2 * playerSpaceShip.ussPosition.velocity.length())
+  
+    //alignQuaternionToVector(playerSpaceShip.orientation, playerSpaceShip.ussPosition.velocity);
 
-    
+    // While velocity and view orientation is bound to much, jumping into another IFR velocity it pull view
+    // so better make movement not that smooth. When velocity and orientiation be decoupled movement can be more smother.  
+
+    // const q = new Quaternion().setFromAxisAngle(
+    //   globalOrientation.clone().cross(playerSpaceShip.ussPosition.velocity).normalize(),
+    //   playerSpaceShip.ussPosition.velocity.angleTo(globalOrientation)
+    // );
+
+    //playerSpaceShip.orientation.copy(q.multiply(playerSpaceShip.orientation));
+
+    //playerSpaceShip.throttle = Math.sign(playerSpaceShip.throttle) * playerSpaceShip.ussPosition.velocity.length();
+    playerSpaceShip.throttle = globalOrientation.dot(playerSpaceShip.ussPosition.velocity);
+
     var normalized = playerSpaceShip.ussPosition;
     normalized = this.sublocationService.normalizeCoordinate(normalized);
     normalized = this.sublocationService.normalizeCoordinate(normalized);

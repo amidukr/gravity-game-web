@@ -52,6 +52,7 @@ Technical Tasks
          - Check [Z-Fighting](./docs/z-fighting-performance-comparision.md) for more details
       1. Buffer is 24bit by default however fighting still happening
       1. logarithm looks like not an option, will force to shading for all faces
+   3. Align units system either to seconds or to miliseconds
 
 # DONE
 

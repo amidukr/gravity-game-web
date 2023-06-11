@@ -70,16 +70,14 @@ export class GravityUniverseService extends BaseApplicationComponent {
       orbitAngularVelocity = 0;
     }
 
-    orbitRotationAxis.normalize()
+    orbitRotationAxis.normalize();
 
-    const currentVelocity = calculateGravityObjectVelocity(
-      {
-        currentPosition: child.initialPosition,
-        orbitRotationAxis: orbitRotationAxis,
-        orbitAngularVelocity: orbitAngularVelocity,
-        orbitRadius: orbitRadius,
-      }
-    )
+    const currentVelocity = calculateGravityObjectVelocity({
+      currentPosition: child.initialPosition,
+      orbitRotationAxis: orbitRotationAxis,
+      orbitAngularVelocity: orbitAngularVelocity,
+      orbitRadius: orbitRadius,
+    });
 
     this.gravityUniverseModel.addGravityObject({
       objectId: child.objectId,

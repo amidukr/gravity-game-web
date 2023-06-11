@@ -1,12 +1,10 @@
 import { Quaternion, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
+import { quanterionBaseVector } from "../../../../../common/game/engine/3rd-party/threejs/Constants";
 import { BaseGameModelLoader } from "../../../../../common/game/engine/framework/GameLoaderTypes";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../../game-level/GravityGameLevelObject";
 import { PlayerControlModel } from "../player-control/PlayerControlModel";
 import { SpaceShipsModel } from "./SpaceShipsModel";
-import { setQuaternionFromProperEuler } from "three/src/math/MathUtils";
-import { alignQuaternionToVector } from "../../../../../common/utils/ThreeJsUtils";
-import { quanterionBaseVector } from "../../../../../common/game/engine/3rd-party/threejs/Constants";
 
 declare global {
   interface Window {
@@ -34,23 +32,21 @@ export class PlayerSpaceShipLoader extends BaseGameModelLoader {
 
     const playerSpaceShip = this.spaceShipsModel.object.player;
 
-    const orientation = startPosition.getWorldQuaternion(new Quaternion()).multiply(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), -Math.PI / 2)) 
+    const orientation = startPosition.getWorldQuaternion(new Quaternion()).multiply(new Quaternion().setFromAxisAngle(new Vector3(1, 0, 0), -Math.PI / 2));
     //orientation.slerpQuaternions(new Vector3(0, 0.0, 0.0), new Vector3(-1, 0, 0).normalize())
     //alignQuaternionToVector(orientation, new Vector3(-1,0.0, -0.3));
     //alignQuaternionToVector(orientation, new Vector3(-1,0, 0));
 
-    console.info("New Quaternion vector", quanterionBaseVector().applyQuaternion(orientation))
-    
-
+    console.info("New Quaternion vector", quanterionBaseVector().applyQuaternion(orientation));
 
     playerSpaceShip.throttle = this.gameLevel.object.data.spaceShips.player.throttle || 0.1;
-    
+
     playerSpaceShip.orientation.copy(orientation);
 
     playerSpaceShip.ussPosition.position = startPosition.getWorldPosition(new Vector3());
-    playerSpaceShip.ussPosition.velocity = quanterionBaseVector().applyQuaternion(orientation)
+    playerSpaceShip.ussPosition.velocity = quanterionBaseVector().applyQuaternion(orientation);
     playerSpaceShip.globalCoordinate = playerSpaceShip.ussPosition.position.clone();
 
-    console.info("Start location", playerSpaceShip.globalCoordinate.toArray())
+    console.info("Start location", playerSpaceShip.globalCoordinate.toArray());
   }
 }
