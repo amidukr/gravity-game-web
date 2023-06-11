@@ -13,7 +13,7 @@ async function main() {
   await application.start();
 }
 
-console.error("Fix hack: if(gravityFieldObject.name == \"TagGravityFieldSun\") { ")
-console.error("Fix hack: return GRAVITY_CONSTANT * gravityObject.mass / (l * l) / 400;")
+console.error('Fix hack: if(gravityFieldObject.name == "TagGravityFieldSun") { ');
+console.error("Fix hack: return GRAVITY_CONSTANT * gravityObject.mass / (l * l) / 400;");
 
 main();

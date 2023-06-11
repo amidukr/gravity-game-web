@@ -1,7 +1,7 @@
 import { Quaternion, Vector3 } from "three";
 import { BaseGameModel } from "../../../../../common/game/engine/framework/GameModelTypes";
 import { UssObject } from "../../commons/universe-sublocation/model/UssObject";
-import { USSL_UNIVERSE } from "../gravity-sublocation/GravityUsslh";
+import { USSL_UNIVERSE } from "../gravity-sublocation/GravityUsslContainerHandler";
 
 export interface SpaceShipCollection {
   player: {

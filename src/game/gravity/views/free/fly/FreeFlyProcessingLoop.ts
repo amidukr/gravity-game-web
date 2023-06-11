@@ -5,12 +5,12 @@ import { AxisUserInput } from "../../../../../common/game/engine/features/input/
 import { MouseDevice } from "../../../../../common/game/engine/features/input/devices/MouseDevice";
 import { BaseGameModelProcessingLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../common/game/engine/GameEvent";
+import { UssLocation } from "../../../features/commons/universe-sublocation/model/UssLocation";
+import { UniverseSublocationService } from "../../../features/commons/universe-sublocation/UniverseSublocationService";
+import { DebugInfoModel } from "../../../features/framework/debug/DebugInfoModel";
+import { USSL_UNIVERSE } from "../../../features/model-calculation/gravity-sublocation/GravityUsslContainerHandler";
 import { PlayerControlModel } from "../../../features/model-calculation/player-control/PlayerControlModel";
 import { SpaceShipsModel } from "../../../features/model-calculation/space-ships/SpaceShipsModel";
-import { DebugInfoModel } from "../../../features/framework/debug/DebugInfoModel";
-import { UniverseSublocationService } from "../../../features/commons/universe-sublocation/UniverseSublocationService";
-import { USSL_UNIVERSE } from "../../../features/model-calculation/gravity-sublocation/GravityUsslh";
-import { UssLocation } from "../../../features/commons/universe-sublocation/model/UssLocation";
 
 export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
   axisInput!: AxisUserInput;
@@ -28,8 +28,8 @@ export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
     this.axisInput = application.getComponent(AxisUserInput);
     this.playerViewModel = application.getComponent(PlayerControlModel);
     this.spaceShipsModel = application.getComponent(SpaceShipsModel);
-    this.debugModel = application.getComponent(DebugInfoModel)
-    this.sublocationService = application.getComponent(UniverseSublocationService)
+    this.debugModel = application.getComponent(DebugInfoModel);
+    this.sublocationService = application.getComponent(UniverseSublocationService);
   }
 
   private handleMouseEvent(event: GameEvent) {
@@ -76,28 +76,28 @@ export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
       playerSpaceShip.ussPosition.velocity.clone().multiplyScalar(playerSpaceShip.throttle * 0.0005 * event.elapsedTimeMills)
     );
 
-    console.info("ussPosition pre-normalize", playerSpaceShip.ussPosition)
-    playerSpaceShip.ussPosition = this.sublocationService.normalizeCoordinate(playerSpaceShip.ussPosition)
-    console.info("ussPosition normalized", playerSpaceShip.ussPosition)
+    console.info("ussPosition pre-normalize", playerSpaceShip.ussPosition);
+    playerSpaceShip.ussPosition = this.sublocationService.normalizeCoordinate(playerSpaceShip.ussPosition);
+    console.info("ussPosition normalized", playerSpaceShip.ussPosition);
 
-    var rootLocation : UssLocation | null = playerSpaceShip.ussPosition.location
-    while(rootLocation != null && rootLocation.type != USSL_UNIVERSE) rootLocation = rootLocation.parent;
-    
-    if(rootLocation) {
-      const ussGlobal = this.sublocationService.transformToLocationCoordinate(playerSpaceShip.ussPosition, rootLocation, rootLocation)
-      console.info("ussGlobal", ussGlobal)
+    var rootLocation: UssLocation | null = playerSpaceShip.ussPosition.location;
+    while (rootLocation != null && rootLocation.type != USSL_UNIVERSE) rootLocation = rootLocation.parent;
+
+    if (rootLocation) {
+      const ussGlobal = this.sublocationService.transformToLocationCoordinate(playerSpaceShip.ussPosition, rootLocation, rootLocation);
+      console.info("ussGlobal", ussGlobal);
       playerSpaceShip.globalCoordinate.copy(ussGlobal.position);
       //playerSpaceShip.globalCoordinate.copy(playerSpaceShip.ussPosition.position);
     }
 
-    var normalized = playerSpaceShip.ussPosition
-    normalized = this.sublocationService.normalizeCoordinate(normalized)
-    normalized = this.sublocationService.normalizeCoordinate(normalized)
-    normalized = this.sublocationService.normalizeCoordinate(normalized)
+    var normalized = playerSpaceShip.ussPosition;
+    normalized = this.sublocationService.normalizeCoordinate(normalized);
+    normalized = this.sublocationService.normalizeCoordinate(normalized);
+    normalized = this.sublocationService.normalizeCoordinate(normalized);
 
-    this.debugModel.object.attributes["ussPosition"] = JSON.stringify(playerSpaceShip.ussPosition)
-    this.debugModel.object.attributes["ussPositionNormalized"] = normalized
-    this.debugModel.object.attributes["presenceFactor"] = this.sublocationService.calculatePresenceFactor(playerSpaceShip.ussPosition)
-    this.debugModel.object.attributes["location"] = playerSpaceShip.ussPosition.location.attributes.gravityObjectName
+    this.debugModel.object.attributes["ussPosition"] = JSON.stringify(playerSpaceShip.ussPosition);
+    this.debugModel.object.attributes["ussPositionNormalized"] = normalized;
+    this.debugModel.object.attributes["presenceFactor"] = this.sublocationService.calculatePresenceFactor(playerSpaceShip.ussPosition);
+    this.debugModel.object.attributes["location"] = playerSpaceShip.ussPosition.location.attributes.gravityObjectName;
   }
 }

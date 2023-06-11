@@ -1,11 +1,13 @@
 import { Vector3 } from "three";
-import { UssLocationHandler, USS_OBJECT_PRESENCE_THRESHOLD } from "./ext-api/UssLocationHandler";
+import { UssLocationContainerHandler, USS_OBJECT_PRESENCE_THRESHOLD } from "./ext-api/UssLocationContainerHandler";
+import { UssLocationTransformationHandler } from "./ext-api/UssLocationTransformationHandler";
+import { UssLocation } from "./model/UssLocation";
 import { UssObject } from "./model/UssObject";
 import { UssPhysicalBody } from "./model/UssPhysicalBody";
-import { UssLocation } from "./model/UssLocation";
 
 export class UniverseSublocationService {
-  private handlers: { [k: string]: UssLocationHandler } = {};
+  private containerHandlers: { [k: string]: UssLocationContainerHandler } = {};
+  private transformationHandlers: { [k: string]: UssLocationTransformationHandler } = {};
 
   normalizeCoordinate(entity: UssObject): UssObject {
     var newLocation: UssLocation | null;
@@ -56,48 +58,43 @@ export class UniverseSublocationService {
     };
   }
 
-  transformToChildCoordinates(object: UssPhysicalBody, childLocation: UssLocation): UssPhysicalBody {
-    const handler = this.getLocationHandler(childLocation);
-    const locationIfr = handler.locationAsIfrObject(childLocation);
-
-    return {
-      position: object.position.clone().sub(locationIfr.position),
-      velocity: object.velocity.clone().sub(locationIfr.velocity),
-    };
+  transformToChildCoordinates(parentCoordinates: UssPhysicalBody, childLocation: UssLocation): UssPhysicalBody {
+    return this.getTransformationHandler(childLocation).transformToChildCoordinates(parentCoordinates, childLocation);
   }
 
-  transformToParentCoordinates(object: UssPhysicalBody, childLocation: UssLocation): UssPhysicalBody {
-    const handler = this.getLocationHandler(childLocation);
-    const locationIfr = handler.locationAsIfrObject(childLocation);
-
-    return {
-      position: object.position.clone().add(locationIfr.position),
-      velocity: object.velocity.clone().add(locationIfr.velocity),
-    };
+  transformToParentCoordinates(childCoordinates: UssPhysicalBody, childLocation: UssLocation): UssPhysicalBody {
+    return this.getTransformationHandler(childLocation).transformToParentCoordinates(childCoordinates, childLocation);
   }
 
   findChildSublocation(location: UssLocation, position: Vector3): UssLocation | null {
-    const handler = this.getLocationHandler(location);
+    const handler = this.getContainerHandler(location);
     return handler.findChildSublocation(location, position);
   }
 
   isInBoundOfLocation(entity: UssObject): Boolean {
-    const handler = this.getLocationHandler(entity.location);
+    const handler = this.getContainerHandler(entity.location);
     return handler.objectPreseneceFactor(entity.location, entity.position) >= USS_OBJECT_PRESENCE_THRESHOLD;
   }
 
   calculatePresenceFactor(UssObject: UssObject): any {
-    const location = UssObject.location
-    const position = UssObject.position
-    return this.getLocationHandler(location).objectPreseneceFactor(location, position) 
+    const location = UssObject.location;
+    const position = UssObject.position;
+    return this.getContainerHandler(location).objectPreseneceFactor(location, position);
   }
 
-  getLocationHandler(location: UssLocation): UssLocationHandler {
-    return this.handlers[location.type];
+  getContainerHandler(location: UssLocation): UssLocationContainerHandler {
+    return this.containerHandlers[location.type];
   }
 
-  registerLocationHandler(locationType: string, handler: UssLocationHandler) {
-    this.handlers[locationType] = handler;
+  registerContainerHandler(locationType: string, handler: UssLocationContainerHandler) {
+    this.containerHandlers[locationType] = handler;
   }
 
+  getTransformationHandler(location: UssLocation): UssLocationTransformationHandler {
+    return this.transformationHandlers[location.type];
+  }
+
+  registerTransformationHandler(locationType: string, handler: UssLocationTransformationHandler) {
+    this.transformationHandlers[locationType] = handler;
+  }
 }

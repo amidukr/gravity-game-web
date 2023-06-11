@@ -25,15 +25,15 @@ export class DebugInfoPanel extends React.Component<DebugInfoPanelProps, DebugIn
       object: null,
     };
   }
-  
+
   renderAsString(v: any): string {
-    if(typeof v == "string") return v
-    
-    return JSON.stringify(v)
+    if (typeof v == "string") return v;
+
+    return JSON.stringify(v);
   }
 
   override render() {
-    const attributes = this.state.object?.attributes || {}
+    const attributes = this.state.object?.attributes || {};
 
     return (
       <div
@@ -44,9 +44,11 @@ export class DebugInfoPanel extends React.Component<DebugInfoPanelProps, DebugIn
           mixBlendMode: "difference",
         }}
       >
-        {
-          Object.keys(attributes ).map(p => <div key={p}>{p}: {this.renderAsString(attributes[p])}</div> )
-        }
+        {Object.keys(attributes).map((p) => (
+          <div key={p}>
+            {p}: {this.renderAsString(attributes[p])}
+          </div>
+        ))}
       </div>
     );
   }
