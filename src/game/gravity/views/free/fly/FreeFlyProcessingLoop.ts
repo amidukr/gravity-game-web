@@ -95,6 +95,7 @@ export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
     const playerLocalPosition = this.sublocationService.transformToLocationCoordinate(playerGlobalPosition, playerSpaceShip.ussPosition.location, rootLocation)
     
     playerSpaceShip.ussPosition.velocity = playerLocalPosition.velocity.clone()
+    playerSpaceShip.ussPosition.velocity.setLength(playerSpaceShip.throttle)
     playerSpaceShip.ussPosition.position.add(
       playerSpaceShip.ussPosition.velocity.clone().multiplyScalar(event.elapsedTimeMills)
     );
@@ -103,6 +104,7 @@ export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
 
     const ussGlobal = this.sublocationService.transformToLocationCoordinate(playerSpaceShip.ussPosition, rootLocation, rootLocation);
     playerSpaceShip.globalCoordinate.copy(ussGlobal.position);
+    playerSpaceShip.throttle = (0.8 * playerSpaceShip.throttle + 0.2 * playerSpaceShip.ussPosition.velocity.length())
 
     
     var normalized = playerSpaceShip.ussPosition;
@@ -114,5 +116,6 @@ export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
     this.debugModel.object.attributes["ussPositionNormalized"] = normalized;
     this.debugModel.object.attributes["presenceFactor"] = this.sublocationService.calculatePresenceFactor(playerSpaceShip.ussPosition);
     this.debugModel.object.attributes["location"] = playerSpaceShip.ussPosition.location.attributes.gravityObjectName;
+    this.debugModel.object.attributes["throttle"] = playerSpaceShip.throttle;
   }
 }
