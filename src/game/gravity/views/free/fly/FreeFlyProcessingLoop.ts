@@ -100,11 +100,11 @@ export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
 
     const ussGlobal = this.sublocationService.transformToLocationCoordinate(playerSpaceShip.ussPosition, rootLocation, rootLocation);
     playerSpaceShip.globalCoordinate.copy(ussGlobal.position);
-  
+
     //alignQuaternionToVector(playerSpaceShip.orientation, playerSpaceShip.ussPosition.velocity);
 
     // While velocity and view orientation is bound to much, jumping into another IFR velocity it pull view
-    // so better make movement not that smooth. When velocity and orientiation be decoupled movement can be more smother.  
+    // so better make movement not that smooth. When velocity and orientiation be decoupled movement can be more smother.
 
     // const q = new Quaternion().setFromAxisAngle(
     //   globalOrientation.clone().cross(playerSpaceShip.ussPosition.velocity).normalize(),

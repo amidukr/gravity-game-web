@@ -30,7 +30,6 @@ export class GravitySceneRenderer extends BaseGameRenderingLooper {
 
     const scene = this.viewSceneModel.object.scene;
 
-    //scene.add(this.gameLevel.object.rootScene);
     scene.background = this.gameLevel.object.backhroundTexture;
 
     this.viewSceneModel.object.camera = new PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.000001, 1000);

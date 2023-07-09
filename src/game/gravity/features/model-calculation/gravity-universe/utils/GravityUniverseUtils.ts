@@ -14,5 +14,5 @@ export function calculateGravityObjectVelocity(gravityObject: {
     .clone()
     .setLength(scalarVelocity)
     .applyAxisAngle(gravityObject.orbitRotationAxis, Math.PI / 2)
-    .multiplyScalar(1.0/1000); // velocity is given in seconds
+    .multiplyScalar(1.0 / 1000); // velocity is given in seconds
 }
