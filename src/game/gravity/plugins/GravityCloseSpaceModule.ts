@@ -1,9 +1,7 @@
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { BasePlugin } from "../../../common/app/utils/BasePlugin";
-import {
-  ColorfulTaggedController,
-  PlaneSurfaceTaggedController,
-} from "../features/view-rendering/close-space-renderer/controllers/PlaneSurfaceTaggedController";
+import { ColorfulTaggedController } from "../features/view-rendering/close-space-renderer/controllers/ColorfulTaggedController";
+import { PlaneSurfaceTaggedController } from "../features/view-rendering/close-space-renderer/controllers/PlaneSurfaceTaggedController";
 import { GravityCloseSpaceLoop } from "../features/view-rendering/close-space-renderer/GravityCloseSpaceLoop";
 import { GravityCloseSpaceRenderer } from "../features/view-rendering/close-space-renderer/GravityCloseSpaceRenderer";
 

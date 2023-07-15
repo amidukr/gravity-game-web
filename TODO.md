@@ -1,9 +1,11 @@
 # IN-PROGRESS
+   1. Refactor ThreeJsSceneGraph into Framework
+   1. Refactor GravityCloseSpaceRenderer into Framework
 
 # BACKLOG
 
 Current
-   1. Animate planet circle moving
+   
    1. Implement gravity for starship movement
       1. Make enabling/disabling gravity configurable
    1. GFX: Terra generation
@@ -72,6 +74,7 @@ Technical Tasks
 1. Refactoring 
    1. Rebuilding Game Loading sequence
 1. Animate startship moving
+1. Animate planet circle moving
 1. GFX: Space background
 1. GameView/Input
    1. Free fly camera
