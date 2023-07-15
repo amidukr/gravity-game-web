@@ -42,3 +42,16 @@ export function traverseNodeTree<T>(nodeList: T[], parent: (t: T) => T | null, c
     }
   });
 }
+
+export interface ObjectList<T> {
+  [key: string]: T[];
+}
+export function addToObjectLst<T>(objectList: ObjectList<T>, key: string, value: T) {
+  var list = objectList[key];
+
+  if (list == undefined) {
+    objectList[key] = list = [];
+  }
+
+  list.push(value);
+}
