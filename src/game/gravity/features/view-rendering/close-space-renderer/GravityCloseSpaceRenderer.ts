@@ -4,7 +4,7 @@ import { LifecycleStage } from "../../../../../common/app/utils/LifecycleStage";
 import { ThreeJsGameRenderer } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameRenderer";
 import { BaseGameRenderingLooper, GameLooperExecutionOrder } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../common/game/engine/GameEvent";
-import { ThreeJsSceneGraph } from "../scene-graph-controller/ThreeJsSceneGraph";
+import { ThreeJsTaggedController } from "../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/ThreeJsTaggedController";
 
 export class GravityCloseSpaceRenderer extends BaseGameRenderingLooper {
   static ExecutionOrder = LifecycleStage.runAfter(GameLooperExecutionOrder.GamePreRenderingLooper);
@@ -12,7 +12,7 @@ export class GravityCloseSpaceRenderer extends BaseGameRenderingLooper {
   enabled: Boolean = false;
   scene: Scene = new Scene();
   camera!: Camera;
-  sceneGraphs!: ThreeJsSceneGraph;
+  taggedController!: ThreeJsTaggedController;
   engineRenderer!: ThreeJsGameRenderer;
 
   override executionOrder() {
@@ -21,9 +21,9 @@ export class GravityCloseSpaceRenderer extends BaseGameRenderingLooper {
 
   override autowire(application: ApplicationContainer): void {
     this.engineRenderer = application.getComponent(ThreeJsGameRenderer);
-    this.sceneGraphs = new ThreeJsSceneGraph();
+    this.taggedController = new ThreeJsTaggedController();
 
-    this.sceneGraphs.setup(application);
+    this.taggedController.setup(application);
   }
 
   override startNewGame(): void | Promise<void> {}
@@ -31,7 +31,7 @@ export class GravityCloseSpaceRenderer extends BaseGameRenderingLooper {
   override execute(event: GameEvent): void {
     if (!this.enabled) return;
 
-    this.sceneGraphs.preRender({
+    this.taggedController.preRender({
       scene: this.scene,
     });
 

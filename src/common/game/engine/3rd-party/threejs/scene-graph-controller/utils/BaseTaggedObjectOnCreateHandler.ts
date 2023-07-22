@@ -1,6 +1,7 @@
-import { Introspection } from "../../../../../../common/app/lookup/Introspection";
-import { BaseApplicationComponent } from "../../../../../../common/app/utils/BaseApplicationComponent";
-import { TaggedObject, TaggedObjectEvent } from "../handlers/TaggedObjectEvent";
+import { Introspection } from "../../../../../../app/lookup/Introspection";
+import { BaseApplicationComponent } from "../../../../../../app/utils/BaseApplicationComponent";
+import { TaggedObject } from "../../ThreeJsSceneTagIndex";
+import { TaggedObjectEvent } from "../handlers/TaggedObjectEvent";
 import { TaggedObjectOnCreate, TYPE_TaggedObjectOnCreate } from "../handlers/TaggedObjectOnCreate";
 
 export abstract class BaseTaggedObjectOnCreateHandler extends BaseApplicationComponent implements TaggedObjectOnCreate {

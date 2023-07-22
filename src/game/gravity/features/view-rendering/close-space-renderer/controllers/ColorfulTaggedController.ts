@@ -1,6 +1,6 @@
 import { Mesh, MeshBasicMaterial } from "three";
-import { TaggedObject } from "../../scene-graph-controller/handlers/TaggedObjectEvent";
-import { BaseTaggedObjectOnUpdateHandler } from "../../scene-graph-controller/utils/BaseTaggedObjectOnUpdateHandler";
+import { BaseTaggedObjectOnUpdateHandler } from "../../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/utils/BaseTaggedObjectOnUpdateHandler";
+import { TaggedObject } from "../../../../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTagIndex";
 
 export class ColorfulTaggedController extends BaseTaggedObjectOnUpdateHandler {
   tagSelector(): string[] {

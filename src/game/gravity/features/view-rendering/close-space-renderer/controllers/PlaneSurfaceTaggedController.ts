@@ -1,6 +1,6 @@
 import { BoxGeometry, Mesh, MeshBasicMaterial } from "three";
-import { TaggedObject } from "../../scene-graph-controller/handlers/TaggedObjectEvent";
-import { BaseTaggedObjectOnCreateHandler } from "../../scene-graph-controller/utils/BaseTaggedObjectOnCreateHandler";
+import { BaseTaggedObjectOnCreateHandler } from "../../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/utils/BaseTaggedObjectOnCreateHandler";
+import { TaggedObject } from "../../../../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTagIndex";
 
 export const TAG_PLANET_SURFACE = "Tag:PlanetSurface";
 
