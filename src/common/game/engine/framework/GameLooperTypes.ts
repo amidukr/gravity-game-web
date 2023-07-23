@@ -13,7 +13,8 @@ export abstract class GameLooperExecutionOrder {
   static GameCoreLooper = LifecycleStage.runAfter(this.GameInputLooper);
   static GameModelProcessingLooper = LifecycleStage.runAfter(this.GameCoreLooper);
   static GamePreRenderingLooper = LifecycleStage.runAfter(this.GameModelProcessingLooper);
-  static GameRenderingLooper = LifecycleStage.runAfter(this.GamePreRenderingLooper);
+  static GameSceneTaggingLooper = LifecycleStage.runAfter(this.GamePreRenderingLooper);
+  static GameRenderingLooper = LifecycleStage.runAfter(this.GameSceneTaggingLooper);
 }
 
 export abstract class BaseGameModelLooper extends BaseGameLooper {
@@ -49,6 +50,12 @@ export abstract class BaseGameModelProcessingLooper extends BaseGameModelLooper 
 export abstract class BaseGamePreRenderingLooper extends BaseGameViewLooper {
   executionOrder() {
     return GameLooperExecutionOrder.GamePreRenderingLooper;
+  }
+}
+
+export abstract class BaseGameSceneTaggingLooper extends BaseGameViewLooper {
+  executionOrder() {
+    return GameLooperExecutionOrder.GameSceneTaggingLooper;
   }
 }
 

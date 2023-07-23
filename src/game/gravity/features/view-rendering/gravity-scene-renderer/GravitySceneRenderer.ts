@@ -1,9 +1,7 @@
 import { Box3, PerspectiveCamera, Vector2 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
-import { SceneTaggedController } from "../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/SceneTaggedController";
 import { ThreeJsGameRenderer } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameRenderer";
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
-import { ThreeJsSceneTaggingModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTaggingModel";
 import { BaseGameRenderingLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../../game-level/GravityGameLevelObject";
 
@@ -16,22 +14,16 @@ export class GravitySceneRenderer extends BaseGameRenderingLooper {
   protected gameLevel!: GravityGameLevel;
 
   private clipPoints!: number[];
-  private taggedController!: SceneTaggedController;
-  private taggingModel!: ThreeJsSceneTaggingModel;
 
   override autowire(application: ApplicationContainer): void {
     this.application = application;
     this.viewSceneModel = application.getComponent(ThreeJsGameViewSceneModel);
     this.engineRenderer = application.getComponent(ThreeJsGameRenderer);
-    this.taggedController = application.getComponent(SceneTaggedController);
-    this.taggingModel = application.getComponent(ThreeJsSceneTaggingModel);
 
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
   }
 
   override startNewGame(): void {
-    const application = this.application;
-
     const threeJsRenderer = this.engineRenderer.getThreeJsWebGlRenderer();
 
     const scene = this.viewSceneModel.object.scene;
@@ -55,9 +47,6 @@ export class GravitySceneRenderer extends BaseGameRenderingLooper {
     const threeJsRenderer = this.engineRenderer.getThreeJsWebGlRenderer();
     const camera = this.viewSceneModel.object.camera as PerspectiveCamera;
     const scene = this.viewSceneModel.object.scene;
-
-    this.taggingModel.reindex(scene);
-    this.taggedController.preRender();
 
     threeJsRenderer.autoClear = false;
 
