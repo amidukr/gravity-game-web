@@ -1,6 +1,5 @@
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { GameView } from "../../../../../common/game/engine/ui/view/GameView";
-import { GravityCloseSpaceObjectModule } from "../../../plugins/GravityCloseSpaceModule";
 import { GravityGameViewPlugin } from "../../../plugins/GravityGameViewPlugin";
 import { FreeFlyButtonHandler } from "./FreeFlyButtonHandler";
 import { FreeFlyProcessingLoop } from "./FreeFlyProcessingLoop";
@@ -15,8 +14,6 @@ export class FreeFlyGameView extends GameView {
     });
 
     container.registerComponent(new GravityGameViewPlugin());
-
-    container.registerComponent(new GravityCloseSpaceObjectModule());
 
     container.registerComponent(new FreeFlyButtonHandler());
     container.registerComponent(new FreeFlySaveLoadHandler());

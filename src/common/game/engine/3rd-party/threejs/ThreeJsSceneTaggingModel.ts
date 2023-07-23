@@ -10,6 +10,10 @@ function collectTagList(o: Object3D): string[] {
   const tagList: string[] = [];
   const name: string = o.userData.name;
 
+  if (name != undefined && name.startsWith == undefined) {
+    console.info("Undefined name for object", o);
+  }
+
   if (!name || !name.startsWith("Tag:")) return tagList;
 
   const pointIndexOf = name.indexOf(".");
@@ -28,6 +32,10 @@ function getTagList(o: Object3D): string[] {
   }
 
   return tagList;
+}
+
+export function threeJsSetTagName<T extends Object3D>(o: T, tagName: SceneObjectTag<T>, name?: string) {
+  o.userData.name = name ? tagName.name + "." + name : tagName.name;
 }
 
 export class ThreeJsSceneTaggingModel implements SceneTaggingModel {

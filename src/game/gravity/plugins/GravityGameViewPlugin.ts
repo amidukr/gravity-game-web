@@ -4,6 +4,7 @@ import { Introspection } from "../../../common/app/lookup/Introspection";
 import { DebugConsoleViewBinder as DebugConsoleBinderView } from "../features/framework/debug/DebugConsoleViewBinder";
 import { GravitySceneRenderer } from "../features/view-rendering/gravity-scene-renderer/GravitySceneRenderer";
 import { ScaleSunSizeLoop } from "../features/view-rendering/scale-sun-size/ScaleSunSizeLoop";
+import { GravityCloseSpaceObjectModule } from "./GravityCloseSpaceModule";
 
 export class GravityGameViewPlugin implements ApplicationComponent {
   constructor() {
@@ -14,6 +15,7 @@ export class GravityGameViewPlugin implements ApplicationComponent {
     application.registerComponent(new ScaleSunSizeLoop());
 
     application.registerComponent(new GravitySceneRenderer());
+    application.registerComponent(new GravityCloseSpaceObjectModule());
 
     application.registerComponent(new DebugConsoleBinderView());
   }

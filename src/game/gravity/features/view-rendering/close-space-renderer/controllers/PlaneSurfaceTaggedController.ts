@@ -1,6 +1,8 @@
 import { BoxGeometry, Mesh, MeshBasicMaterial, Object3D } from "three";
 import { BaseTaggedObjectOnCreateHandler } from "../../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/utils/BaseTaggedObjectOnCreateHandler";
+import { threeJsSetTagName } from "../../../../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTaggingModel";
 import { sceneObjectTag, TaggedObject } from "../../../../../../common/game/engine/features/rendering/SceneTaggingModel";
+import { TAG_DancingColor } from "./ColorfulTaggedController";
 
 export const TAG_PLANET_SURFACE = sceneObjectTag("Tag:PlanetSurface");
 
@@ -14,7 +16,7 @@ export class PlaneSurfaceTaggedController extends BaseTaggedObjectOnCreateHandle
     const material = new MeshBasicMaterial({ color: 0x00ff00 });
     const cube = new Mesh(geometry, material);
 
-    cube.userData.name = "Tag:DancingColor";
+    threeJsSetTagName(cube, TAG_DancingColor, "close");
 
     object.object.add(cube);
   }

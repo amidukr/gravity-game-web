@@ -8,7 +8,7 @@ import { BaseGameRenderingLooper, GameLooperExecutionOrder } from "../../../../.
 import { GameEvent } from "../../../../../common/game/engine/GameEvent";
 
 export class GravityCloseSpaceRenderer extends BaseGameRenderingLooper {
-  static ExecutionOrder = LifecycleStage.runAfter(GameLooperExecutionOrder.GamePreRenderingLooper);
+  static ExecutionOrder = LifecycleStage.runAfter(GameLooperExecutionOrder.GameRenderingLooper);
 
   enabled: Boolean = false;
   scene: Scene = new Scene();

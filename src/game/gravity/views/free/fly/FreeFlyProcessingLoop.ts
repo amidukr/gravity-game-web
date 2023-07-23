@@ -91,7 +91,6 @@ export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
     // }
 
     // const playerLocalPosition = this.sublocationService.transformToLocationCoordinate(playerGlobalPosition, playerSpaceShip.ussPosition.location, rootLocation)
-    console.info("throttle", playerSpaceShip.throttle);
     playerSpaceShip.ussPosition.velocity = globalOrientation.clone();
     playerSpaceShip.ussPosition.velocity.setLength(playerSpaceShip.throttle);
     playerSpaceShip.ussPosition.position.add(playerSpaceShip.ussPosition.velocity.clone().multiplyScalar(event.elapsedTimeMills));
