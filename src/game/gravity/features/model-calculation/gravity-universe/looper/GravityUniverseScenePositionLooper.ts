@@ -23,7 +23,7 @@ export class GravityUniversePositionLooper extends BaseGamePreRenderingLooper {
     this.gravityUniverseService.recalculateUniverse();
 
     gravityUniverseObjects.forEach((x) => {
-      const gravityObject = this.gravityUniverseModel.getGravityObject(x.name);
+      const gravityObject = this.gravityUniverseModel.getGravityObject(x.object.name);
 
       x.object.position.copy(gravityObject.currentPosition);
     });

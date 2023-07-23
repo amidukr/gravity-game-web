@@ -7,7 +7,7 @@ const __tagCache: {
   [tag: string]: GameSceneObjectTag<any>;
 } = {};
 
-export function gameSceneObjectTag<T>(name: string) {
+export function gameSceneObjectTag<T>(name: string): GameSceneObjectTag<T> {
   var tag = __tagCache[name];
 
   if (tag == undefined) {

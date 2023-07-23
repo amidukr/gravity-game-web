@@ -29,7 +29,6 @@ export class AtmosphereLoader extends BaseTaggedObjectOnCreateHandler<Object3D> 
   override tagSelector() {
     return [PLANET_TAG];
   }
-
   override onCreateObject(): void {}
 
   override onCreate(event: TaggedObjectEvent<Object3D>): void {
@@ -55,7 +54,7 @@ export class AtmosphereLoader extends BaseTaggedObjectOnCreateHandler<Object3D> 
 
       const backMaterial = backMaterialPrototype.clone();
 
-      backMaterial.starPosition = starPosition;
+      backMaterial.starPosition = starPosition.clone();
 
       const backAtmosphereObject = new Mesh(backGeometry, backMaterial);
 
@@ -64,6 +63,8 @@ export class AtmosphereLoader extends BaseTaggedObjectOnCreateHandler<Object3D> 
       backMaterial.side = BackSide;
 
       planet.parent!!.add(backAtmosphereObject);
+
+      backAtmosphereObject.name = "Atmo" + planet.name;
 
       backMaterial.planetRadius = planetRadius;
       backMaterial.atmosphereHeight = atmosphereHeight;

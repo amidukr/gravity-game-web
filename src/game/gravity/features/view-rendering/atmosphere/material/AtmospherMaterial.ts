@@ -10,6 +10,8 @@ export class AtmospherShaderMaterial extends ShaderMaterial {
       vertexShader: preprocessShader(basicVertexShaderVs),
       fragmentShader: preprocessShader(backShaderFs),
     });
+
+    this.planetCenter = new Vector3();
   }
 
   set starPosition(value: Vector3) {
