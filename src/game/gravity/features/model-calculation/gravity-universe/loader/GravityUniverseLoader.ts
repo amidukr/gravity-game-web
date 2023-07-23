@@ -1,11 +1,7 @@
 import { Box3, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../../common/app/ApplicationContainer";
 import { ThreeJsGameLevel, TYPE_ThreeJsGameLevel } from "../../../../../../common/game/engine/3rd-party/threejs/objects/ThreeJsGameLevelObject";
-import {
-  GameSceneObjectMetaModel,
-  gameSceneObjectTag,
-  TYPE_GameSceneObjectMetaModel,
-} from "../../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
+import { sceneObjectTag, SceneTaggingModel, TYPE_GameSceneTaggingModel } from "../../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 import { BaseGameModelLoader } from "../../../../../../common/game/engine/framework/GameLoaderTypes";
 import { filterNotNull, traverseNodeTreeUsingKey } from "../../../../../../common/utils/CollectionUtils";
 import { findObject3dParent } from "../../../../../../common/utils/ThreeJsUtils";
@@ -15,14 +11,14 @@ import { GravityUniverseService } from "../service/GravityUniverseService";
 
 export class GravityUniverseLoader extends BaseGameModelLoader {
   gravityUniverseService!: GravityUniverseService;
-  metaModel!: GameSceneObjectMetaModel;
+  metaModel!: SceneTaggingModel;
   gravitySpaceObjects!: GravitySpaceObjectsService;
   gameLevel!: ThreeJsGameLevel;
 
   autowire(application: ApplicationContainer) {
     this.gravityUniverseService = application.getComponent(GravityUniverseService);
     this.gravitySpaceObjects = application.getComponent(GravitySpaceObjectsService);
-    this.metaModel = application.getComponent(TYPE_GameSceneObjectMetaModel);
+    this.metaModel = application.getComponent(TYPE_GameSceneTaggingModel);
     this.gameLevel = application.getComponent(TYPE_ThreeJsGameLevel);
   }
 
@@ -61,7 +57,7 @@ export class GravityUniverseLoader extends BaseGameModelLoader {
     );
 
     gravityGraph.forEach((x) => {
-      metaModel.addTagToObject(x.gravityField, gameSceneObjectTag(x.gravityField.name));
+      metaModel.addTagToObject(x.gravityField, sceneObjectTag(x.gravityField.name));
     });
 
     traverseNodeTreeUsingKey(

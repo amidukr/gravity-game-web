@@ -1,22 +1,18 @@
 import { Object3D, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../../common/app/ApplicationContainer";
 import { BaseApplicationComponent } from "../../../../../../common/app/utils/BaseApplicationComponent";
-import {
-  GameSceneObjectMetaModel,
-  GameSceneObjectTag,
-  TYPE_GameSceneObjectMetaModel,
-} from "../../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
+import { SceneObjectTag, SceneTaggingModel, TYPE_GameSceneTaggingModel } from "../../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 import { filterNotNull } from "../../../../../../common/utils/CollectionUtils";
 import { PLANET_TAG, STAR_TAG } from "../../../game-level/GravityGameTags";
 
 export class GravitySpaceObjectsService extends BaseApplicationComponent {
-  sceneMetaModel!: GameSceneObjectMetaModel;
+  sceneMetaModel!: SceneTaggingModel;
 
   autowire(application: ApplicationContainer) {
-    this.sceneMetaModel = application.getComponent(TYPE_GameSceneObjectMetaModel);
+    this.sceneMetaModel = application.getComponent(TYPE_GameSceneTaggingModel);
   }
 
-  findTagParentObjects(tag: GameSceneObjectTag<Object3D>): Object3D[] {
+  findTagParentObjects(tag: SceneObjectTag<Object3D>): Object3D[] {
     return filterNotNull(this.sceneMetaModel.getObjectsByTag(tag).map((x) => x.object.parent));
   }
 

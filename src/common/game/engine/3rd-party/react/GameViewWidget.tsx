@@ -4,7 +4,7 @@ import { AxisUserInput } from "../../features/input/AxisUserInput";
 import { ButtonUserInput } from "../../features/input/ButtonUserInput";
 import { KeyBoardDevice } from "../../features/input/devices/KeyboardDevice";
 import { MouseDevice } from "../../features/input/devices/MouseDevice";
-import { GameRenderer, TYPE_GameRenderer } from "../../features/rendering/GameRenderer";
+import { Renderer, TYPE_Renderer } from "../../features/rendering/Renderer";
 import { GameView } from "../../ui/view/GameView";
 import { TYPE_GameViewButtonHandler } from "../../ui/view/GameViewButtonHandler";
 import { GameViewCollection } from "../../ui/view/GameViewsCollection";
@@ -14,7 +14,7 @@ export interface GameViewWidgetProps {
 }
 
 export class GameViewWidget extends React.Component<GameViewWidgetProps, any> {
-  private renderer!: GameRenderer;
+  private renderer!: Renderer;
   private gameView!: GameView;
   private gameViewCollection!: GameViewCollection;
   private canvas?: HTMLCanvasElement;
@@ -41,7 +41,7 @@ export class GameViewWidget extends React.Component<GameViewWidgetProps, any> {
     if (newGameView) {
       this.gameViewCollection = this.gameView.container.getComponent(GameViewCollection);
 
-      this.renderer = this.gameView.container.getComponent(TYPE_GameRenderer);
+      this.renderer = this.gameView.container.getComponent(TYPE_Renderer);
 
       this.updateMouseCoordinate(1, 1, 2, 2);
 

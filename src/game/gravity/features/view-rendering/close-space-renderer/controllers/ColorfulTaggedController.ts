@@ -1,8 +1,8 @@
 import { Mesh, MeshBasicMaterial, Object3D } from "three";
 import { BaseTaggedObjectOnUpdateHandler } from "../../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/utils/BaseTaggedObjectOnUpdateHandler";
-import { gameSceneObjectTag, TaggedObject } from "../../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
+import { sceneObjectTag, TaggedObject } from "../../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 
-export const TAG_DancingColor = gameSceneObjectTag("Tag:DancingColor");
+export const TAG_DancingColor = sceneObjectTag("Tag:DancingColor");
 
 export class ColorfulTaggedController extends BaseTaggedObjectOnUpdateHandler<Object3D> {
   tagSelector() {

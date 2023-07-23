@@ -1,9 +1,9 @@
 import { Camera, Scene } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { LifecycleStage } from "../../../../../common/app/utils/LifecycleStage";
-import { ThreeJsTaggedController } from "../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/ThreeJsTaggedController";
+import { SceneTaggedController } from "../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/SceneTaggedController";
 import { ThreeJsGameRenderer } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameRenderer";
-import { ThreeJsSceneTagIndex } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTagIndex";
+import { ThreeJsSceneTaggingModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTaggingModel";
 import { BaseGameRenderingLooper, GameLooperExecutionOrder } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../common/game/engine/GameEvent";
 
@@ -13,7 +13,8 @@ export class GravityCloseSpaceRenderer extends BaseGameRenderingLooper {
   enabled: Boolean = false;
   scene: Scene = new Scene();
   camera!: Camera;
-  taggedController!: ThreeJsTaggedController;
+  taggedController!: SceneTaggedController;
+  taggingModel = new ThreeJsSceneTaggingModel();
   engineRenderer!: ThreeJsGameRenderer;
 
   override executionOrder() {
@@ -22,10 +23,10 @@ export class GravityCloseSpaceRenderer extends BaseGameRenderingLooper {
 
   override autowire(application: ApplicationContainer): void {
     this.engineRenderer = application.getComponent(ThreeJsGameRenderer);
-    this.taggedController = new ThreeJsTaggedController();
+    this.taggedController = new SceneTaggedController();
 
     this.taggedController.autowire(application);
-    this.taggedController.tagIndex = new ThreeJsSceneTagIndex();
+    this.taggedController.taggingModel = this.taggingModel;
   }
 
   override startNewGame(): void | Promise<void> {}
@@ -33,9 +34,8 @@ export class GravityCloseSpaceRenderer extends BaseGameRenderingLooper {
   override execute(event: GameEvent): void {
     if (!this.enabled) return;
 
-    this.taggedController.preRender({
-      scene: this.scene,
-    });
+    this.taggingModel.reindex(this.scene);
+    this.taggedController.preRender();
 
     const threeJsRenderer = this.engineRenderer.getThreeJsWebGlRenderer();
 

@@ -1,12 +1,6 @@
 import { Object3D } from "three";
 import { Introspection } from "../../../../app/lookup/Introspection";
-import {
-  GameSceneObjectMetaModel,
-  GameSceneObjectTag,
-  gameSceneObjectTag,
-  TaggedObject,
-  TYPE_GameSceneObjectMetaModel,
-} from "../../features/rendering/GameSceneObjectMeta";
+import { SceneObjectTag, sceneObjectTag, SceneTaggingModel, TaggedObject, TYPE_GameSceneTaggingModel } from "../../features/rendering/SceneTaggingModel";
 
 interface TaggedObjectContainer {
   [tag: string]: TaggedObject<any>[];
@@ -36,11 +30,12 @@ function getTagList(o: Object3D): string[] {
   return tagList;
 }
 
-export class ThreeJsSceneTagIndex implements GameSceneObjectMetaModel {
+export class ThreeJsSceneTaggingModel implements SceneTaggingModel {
   objectsByTag: TaggedObjectContainer = {};
+  private tags: SceneObjectTag<any>[] = [];
 
   constructor() {
-    Introspection.bindInterfaceName(this, TYPE_GameSceneObjectMetaModel);
+    Introspection.bindInterfaceName(this, TYPE_GameSceneTaggingModel);
   }
 
   reindex(root: Object3D) {
@@ -49,6 +44,11 @@ export class ThreeJsSceneTagIndex implements GameSceneObjectMetaModel {
     root.traverse((o) => {
       this.indexObject(o);
     });
+
+    this.tags = [];
+    for (const key in this.objectsByTag) {
+      this.tags.push(sceneObjectTag(key));
+    }
   }
 
   private indexObject(o: Object3D) {
@@ -68,13 +68,17 @@ export class ThreeJsSceneTagIndex implements GameSceneObjectMetaModel {
 
       objects.push({
         object: o,
-        tag: gameSceneObjectTag(tag),
+        tag: sceneObjectTag(tag),
         name: name,
       });
     }
   }
 
-  addTagToObject<T extends object>(o: T, ...tags: GameSceneObjectTag<T>[]): void {
+  getTags(): SceneObjectTag<any>[] {
+    return this.tags;
+  }
+
+  addTagToObject<T extends object>(o: T, ...tags: SceneObjectTag<T>[]): void {
     const objectTags = getTagList(o as Object3D);
     objectTags.push.apply(
       objectTags,
@@ -82,11 +86,11 @@ export class ThreeJsSceneTagIndex implements GameSceneObjectMetaModel {
     );
   }
 
-  getObjectsByTag<T extends object>(tag: GameSceneObjectTag<T>): TaggedObject<T>[] {
+  getObjectsByTag<T extends object>(tag: SceneObjectTag<T>): TaggedObject<T>[] {
     return this.objectsByTag[tag.name] || [];
   }
 
-  getFirstObjectByTag<T extends object>(tag: GameSceneObjectTag<T>): TaggedObject<T> {
+  getFirstObjectByTag<T extends object>(tag: SceneObjectTag<T>): TaggedObject<T> {
     return this.getObjectsByTag(tag)[0];
   }
 }

@@ -1,18 +1,18 @@
 import * as THREE from "three";
 import { WebGLRendererParameters } from "three";
 import { Introspection } from "../../../../app/lookup/Introspection";
-import { GameRenderer, TYPE_GameRenderer } from "../../features/rendering/GameRenderer";
+import { Renderer, TYPE_Renderer } from "../../features/rendering/Renderer";
 
 export interface ThreeJsRendererConfiguration {
   webGlRenderingParameters?: WebGLRendererParameters;
   keepCanvasWidnowsSize?: boolean;
 }
 
-export class ThreeJsGameRenderer implements GameRenderer {
+export class ThreeJsGameRenderer implements Renderer {
   private __renderer: THREE.WebGLRenderer;
 
   constructor(param?: ThreeJsRendererConfiguration) {
-    Introspection.bindInterfaceName(this, TYPE_GameRenderer);
+    Introspection.bindInterfaceName(this, TYPE_Renderer);
 
     this.__renderer = new THREE.WebGLRenderer(param?.webGlRenderingParameters);
 

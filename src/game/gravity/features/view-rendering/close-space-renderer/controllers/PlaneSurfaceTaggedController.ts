@@ -1,8 +1,8 @@
 import { BoxGeometry, Mesh, MeshBasicMaterial, Object3D } from "three";
 import { BaseTaggedObjectOnCreateHandler } from "../../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/utils/BaseTaggedObjectOnCreateHandler";
-import { gameSceneObjectTag, TaggedObject } from "../../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
+import { sceneObjectTag, TaggedObject } from "../../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 
-export const TAG_PLANET_SURFACE = gameSceneObjectTag("Tag:PlanetSurface");
+export const TAG_PLANET_SURFACE = sceneObjectTag("Tag:PlanetSurface");
 
 export class PlaneSurfaceTaggedController extends BaseTaggedObjectOnCreateHandler<Object3D> {
   override tagSelector() {

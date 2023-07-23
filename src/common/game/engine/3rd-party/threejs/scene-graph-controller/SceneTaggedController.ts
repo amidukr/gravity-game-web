@@ -2,7 +2,7 @@ import { Object3D } from "three";
 import { ApplicationContainer } from "../../../../../app/ApplicationContainer";
 import { BaseApplicationComponent } from "../../../../../app/utils/BaseApplicationComponent";
 import { addToObjectLst } from "../../../../../utils/CollectionUtils";
-import { ThreeJsSceneTagIndex } from "../ThreeJsSceneTagIndex";
+import { SceneTaggingModel, TYPE_GameSceneTaggingModel } from "../../../features/rendering/SceneTaggingModel";
 import { TaggedObjectOnCreate, TYPE_TaggedObjectOnCreate } from "./handlers/TaggedObjectOnCreate";
 import { TaggedObjectOnUpdate, TYPE_TaggedObjectOnUpdate } from "./handlers/TaggedObjectOnUpdate";
 
@@ -10,15 +10,15 @@ export interface RednererArguments {
   scene: Object3D;
 }
 
-export class ThreeJsTaggedController extends BaseApplicationComponent {
+export class SceneTaggedController extends BaseApplicationComponent {
   private knownObject: Set<Object3D> = new Set<Object3D>();
-  tagIndex = new ThreeJsSceneTagIndex();
+  taggingModel!: SceneTaggingModel;
 
   private onCreateListenerByTag: { [tag: string]: TaggedObjectOnCreate<any>[] } = {};
   private onUpdateListenersByTag: { [tag: string]: TaggedObjectOnUpdate<any>[] } = {};
 
   autowire(container: ApplicationContainer) {
-    this.tagIndex = container.getComponent(ThreeJsSceneTagIndex);
+    this.taggingModel = container.getComponent(TYPE_GameSceneTaggingModel);
     this.setupTagSelectorListener(this.onCreateListenerByTag, container.getComponentList(TYPE_TaggedObjectOnCreate));
     this.setupTagSelectorListener(this.onUpdateListenersByTag, container.getComponentList(TYPE_TaggedObjectOnUpdate));
   }
@@ -35,19 +35,20 @@ export class ThreeJsTaggedController extends BaseApplicationComponent {
     }
   }
 
-  preRender(args: RednererArguments) {
-    this.tagIndex.reindex(args.scene);
-
+  preRender() {
     this.handleOnCreate();
     this.handleOnUpdate();
   }
 
   private handleOnUpdate() {
-    for (let tag in this.tagIndex.objectsByTag) {
-      const listeners = this.onUpdateListenersByTag[tag];
+    const tagList = this.taggingModel.getTags();
+    for (let i = 0; i < tagList.length; i++) {
+      const tag = tagList[i];
+
+      const listeners = this.onUpdateListenersByTag[tag.name];
       if (!listeners) continue;
 
-      const objectList = this.tagIndex.objectsByTag[tag];
+      const objectList = this.taggingModel.getObjectsByTag(tag);
 
       if (objectList.length > 0) {
         for (let i = 0; i < listeners.length; i++)
@@ -61,11 +62,13 @@ export class ThreeJsTaggedController extends BaseApplicationComponent {
   private handleOnCreate() {
     const reindexedKnowObjects: Set<Object3D> = new Set();
 
-    for (let tag in this.tagIndex.objectsByTag) {
-      const listeners = this.onCreateListenerByTag[tag];
+    const tagList = this.taggingModel.getTags();
+    for (let i = 0; i < tagList.length; i++) {
+      const tag = tagList[i];
+      const listeners = this.onCreateListenerByTag[tag.name];
       if (!listeners || listeners.length == 0) continue;
 
-      const objecList = this.tagIndex.objectsByTag[tag];
+      const objecList = this.taggingModel.getObjectsByTag(tag);
       const newOjbectList = [];
 
       for (let i = 0; i < objecList.length; i++) {

@@ -3,11 +3,7 @@ import { ApplicationContainer } from "../../../../../common/app/ApplicationConta
 import { TaggedObjectEvent } from "../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/handlers/TaggedObjectEvent";
 import { BaseTaggedObjectOnCreateHandler } from "../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/utils/BaseTaggedObjectOnCreateHandler";
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
-import {
-  GameSceneObjectMetaModel,
-  gameSceneObjectTag,
-  TYPE_GameSceneObjectMetaModel,
-} from "../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
+import { sceneObjectTag, SceneTaggingModel, TYPE_GameSceneTaggingModel } from "../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../../game-level/GravityGameLevelObject";
 import { ATMOSPHERE_TAG, PLANET_TAG } from "../../game-level/GravityGameTags";
 import { GravitySpaceObjectsService } from "../../model-calculation/gravity-universe/service/GravitySpaceObjectsService";
@@ -16,12 +12,12 @@ import { AtmospherShaderMaterial } from "./material/AtmospherMaterial";
 export class AtmosphereLoader extends BaseTaggedObjectOnCreateHandler<Object3D> {
   gameLevel!: GravityGameLevel;
   viewSceneModel!: ThreeJsGameViewSceneModel;
-  sceneMetaModel!: GameSceneObjectMetaModel;
+  sceneMetaModel!: SceneTaggingModel;
   gravitySpaceObjects!: GravitySpaceObjectsService;
 
   autowire(application: ApplicationContainer) {
     this.gravitySpaceObjects = application.getComponent(GravitySpaceObjectsService);
-    this.sceneMetaModel = application.getComponent(TYPE_GameSceneObjectMetaModel);
+    this.sceneMetaModel = application.getComponent(TYPE_GameSceneTaggingModel);
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
     this.viewSceneModel = application.getComponent(ThreeJsGameViewSceneModel);
   }
@@ -70,7 +66,7 @@ export class AtmosphereLoader extends BaseTaggedObjectOnCreateHandler<Object3D> 
       backMaterial.atmosphereHeight = atmosphereHeight;
 
       this.sceneMetaModel.addTagToObject(backAtmosphereObject, ATMOSPHERE_TAG);
-      this.sceneMetaModel.addTagToObject(planet, gameSceneObjectTag(planet.name));
+      this.sceneMetaModel.addTagToObject(planet, sceneObjectTag(planet.name));
 
       backAtmosphereObject.userData.planeName = planet.name;
     });
