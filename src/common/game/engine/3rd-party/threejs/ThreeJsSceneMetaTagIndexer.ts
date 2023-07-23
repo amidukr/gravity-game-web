@@ -1,7 +1,7 @@
 import { Event, Object3D } from "three";
 import { ApplicationContainer } from "../../../../app/ApplicationContainer";
 import { LifecycleStage } from "../../../../app/utils/LifecycleStage";
-import { GameSceneObjectMetaModel, gameSceneObjectTag } from "../../features/rendering/GameSceneObjectMeta";
+import { GameSceneObjectMetaModel, gameSceneObjectTag, TYPE_GameSceneObjectMetaModel } from "../../features/rendering/GameSceneObjectMeta";
 import { BaseGameSceneLoader, GameLoaderExecutionOrder } from "../../framework/GameLoaderTypes";
 import { ThreeJsGameLevel } from "./objects/ThreeJsGameLevelObject";
 import { ThreeJsGameViewSceneModel } from "./ThreeJsGameViewScene";
@@ -17,7 +17,7 @@ export class ThreeJsSceneMetaTagIndexer extends BaseGameSceneLoader {
 
   autowire(application: ApplicationContainer): void {
     this.sceneModel = application.getComponent(ThreeJsGameViewSceneModel);
-    this.metaModel = application.getComponent(GameSceneObjectMetaModel);
+    this.metaModel = application.getComponent(TYPE_GameSceneObjectMetaModel);
   }
 
   startNewGame(): void {

@@ -1,12 +1,12 @@
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../common/app/lookup/Introspection";
+import { ThreeJsTaggedController } from "../../../common/game/engine/3rd-party/threejs/scene-graph-controller/ThreeJsTaggedController";
 import { ThreeJsGameLevelRepository } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameLevelRepository";
 import { ThreeJsGameRenderer } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameRenderer";
 import { ThreeJsGameViewSceneModel } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
 import { ThreeJsRootSceneLoader } from "../../../common/game/engine/3rd-party/threejs/ThreeJsRootSceneLoader";
-import { ThreeJsSceneMetaTagIndexer } from "../../../common/game/engine/3rd-party/threejs/ThreeJsSceneMetaTagIndexer";
-import { GameSceneObjectMetaModel } from "../../../common/game/engine/features/rendering/GameSceneObjectMeta";
+import { ThreeJsSceneTagIndex } from "../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTagIndex";
 import { GameEnginePlugin } from "../../../common/game/engine/plugins/GameEnginePlugin";
 import { ReactStarter, TYPE_ReactRootWidget } from "../../../common/ui/ReactStarter";
 import { DebugConsoleCoreBinder as DebugConsoleBinderCore } from "../features/framework/debug/DebugConsoleCoreBinder";
@@ -52,9 +52,11 @@ export class GravityGamePlugin implements ApplicationComponent {
     application.registerComponent(new ThreeJsGameLevelRepository());
     application.registerComponent(new ThreeJsGameViewSceneModel());
     application.registerComponent(new ThreeJsRootSceneLoader());
-    application.registerComponent(new ThreeJsSceneMetaTagIndexer());
 
-    application.registerComponent(new GameSceneObjectMetaModel());
+    application.registerComponent(new ThreeJsTaggedController());
+    application.registerComponent(new ThreeJsSceneTagIndex());
+
+    application.registerComponent(new ThreeJsSceneTagIndex());
 
     // Loaders and Models
     application.registerComponent(new GravitySpaceObjectsService());

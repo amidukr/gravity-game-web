@@ -1,14 +1,19 @@
-import { BackSide, Box3, IcosahedronGeometry, Mesh, Vector3 } from "three";
+import { BackSide, IcosahedronGeometry, Mesh, Object3D, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
+import { TaggedObjectEvent } from "../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/handlers/TaggedObjectEvent";
+import { BaseTaggedObjectOnCreateHandler } from "../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/utils/BaseTaggedObjectOnCreateHandler";
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
-import { GameSceneObjectMetaModel, gameSceneObjectTag } from "../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
-import { BaseGameSceneLoader } from "../../../../../common/game/engine/framework/GameLoaderTypes";
+import {
+  GameSceneObjectMetaModel,
+  gameSceneObjectTag,
+  TYPE_GameSceneObjectMetaModel,
+} from "../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../../game-level/GravityGameLevelObject";
-import { ATMOSPHERE_TAG } from "../../game-level/GravityGameTags";
+import { ATMOSPHERE_TAG, PLANET_TAG } from "../../game-level/GravityGameTags";
 import { GravitySpaceObjectsService } from "../../model-calculation/gravity-universe/service/GravitySpaceObjectsService";
 import { AtmospherShaderMaterial } from "./material/AtmospherMaterial";
 
-export class AtmosphereLoader extends BaseGameSceneLoader {
+export class AtmosphereLoader extends BaseTaggedObjectOnCreateHandler<Object3D> {
   gameLevel!: GravityGameLevel;
   viewSceneModel!: ThreeJsGameViewSceneModel;
   sceneMetaModel!: GameSceneObjectMetaModel;
@@ -16,12 +21,18 @@ export class AtmosphereLoader extends BaseGameSceneLoader {
 
   autowire(application: ApplicationContainer) {
     this.gravitySpaceObjects = application.getComponent(GravitySpaceObjectsService);
-    this.sceneMetaModel = application.getComponent(GameSceneObjectMetaModel);
+    this.sceneMetaModel = application.getComponent(TYPE_GameSceneObjectMetaModel);
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
     this.viewSceneModel = application.getComponent(ThreeJsGameViewSceneModel);
   }
 
-  startNewGame() {
+  override tagSelector() {
+    return [PLANET_TAG];
+  }
+
+  override onCreateObject(): void {}
+
+  override onCreate(event: TaggedObjectEvent<Object3D>): void {
     const backMaterialPrototype = new AtmospherShaderMaterial();
     const backGeometry = new IcosahedronGeometry(1, 10 * 2);
 
@@ -36,8 +47,6 @@ export class AtmosphereLoader extends BaseGameSceneLoader {
     backMaterialPrototype.starPosition = starPosition;
 
     this.gravitySpaceObjects.findPlantes().forEach((planet) => {
-      const boundingBox = new Box3().setFromObject(planet);
-
       (planet as any).material.flatShading = true;
 
       const planetRadius = planet.userData.radius;

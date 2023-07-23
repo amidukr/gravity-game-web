@@ -1,5 +1,5 @@
 import { ApplicationContainer } from "../../../../../../common/app/ApplicationContainer";
-import { GameSceneObjectMetaModel } from "../../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
+import { GameSceneObjectMetaModel, TYPE_GameSceneObjectMetaModel } from "../../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
 import { BaseGamePreRenderingLooper } from "../../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../../common/game/engine/GameEvent";
 import { GRAVITY_FIELD_TAG } from "../../../game-level/GravityGameTags";
@@ -12,7 +12,7 @@ export class GravityUniversePositionLooper extends BaseGamePreRenderingLooper {
   gravityUniverseModel!: GravityUniverseModel;
 
   autowire(application: ApplicationContainer): void {
-    this.scenObjectMetaModel = application.getComponent(GameSceneObjectMetaModel);
+    this.scenObjectMetaModel = application.getComponent(TYPE_GameSceneObjectMetaModel);
     this.gravityUniverseService = application.getComponent(GravityUniverseService);
     this.gravityUniverseModel = application.getComponent(GravityUniverseModel);
   }
@@ -25,7 +25,7 @@ export class GravityUniversePositionLooper extends BaseGamePreRenderingLooper {
     gravityUniverseObjects.forEach((x) => {
       const gravityObject = this.gravityUniverseModel.getGravityObject(x.name);
 
-      x.position.copy(gravityObject.currentPosition);
+      x.object.position.copy(gravityObject.currentPosition);
     });
   }
 }

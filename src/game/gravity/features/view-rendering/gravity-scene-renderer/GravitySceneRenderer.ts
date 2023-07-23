@@ -1,24 +1,27 @@
 import { Box3, PerspectiveCamera, Vector2 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
+import { ThreeJsTaggedController } from "../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/ThreeJsTaggedController";
 import { ThreeJsGameRenderer } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameRenderer";
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
 import { BaseGameRenderingLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../../game-level/GravityGameLevelObject";
 
 export class GravitySceneRenderer extends BaseGameRenderingLooper {
-  application!: ApplicationContainer;
+  private application!: ApplicationContainer;
 
-  viewSceneModel!: ThreeJsGameViewSceneModel;
+  private viewSceneModel!: ThreeJsGameViewSceneModel;
   protected engineRenderer!: ThreeJsGameRenderer;
 
   protected gameLevel!: GravityGameLevel;
 
   private clipPoints!: number[];
+  private taggedController!: ThreeJsTaggedController;
 
   override autowire(application: ApplicationContainer): void {
     this.application = application;
     this.viewSceneModel = application.getComponent(ThreeJsGameViewSceneModel);
     this.engineRenderer = application.getComponent(ThreeJsGameRenderer);
+    this.taggedController = application.getComponent(ThreeJsTaggedController);
 
     this.gameLevel = application.getComponent(TYPE_GravityGameLevel);
   }
@@ -49,6 +52,8 @@ export class GravitySceneRenderer extends BaseGameRenderingLooper {
     const threeJsRenderer = this.engineRenderer.getThreeJsWebGlRenderer();
     const camera = this.viewSceneModel.object.camera as PerspectiveCamera;
     const scene = this.viewSceneModel.object.scene;
+
+    this.taggedController.preRender(this.viewSceneModel.object);
 
     threeJsRenderer.autoClear = false;
 

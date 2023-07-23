@@ -1,5 +1,6 @@
 import { Object3D } from "three";
 import { ApplicationContainer } from "../../../../../app/ApplicationContainer";
+import { BaseApplicationComponent } from "../../../../../app/utils/BaseApplicationComponent";
 import { addToObjectLst } from "../../../../../utils/CollectionUtils";
 import { ThreeJsSceneTagIndex } from "../ThreeJsSceneTagIndex";
 import { TaggedObjectOnCreate, TYPE_TaggedObjectOnCreate } from "./handlers/TaggedObjectOnCreate";
@@ -9,26 +10,27 @@ export interface RednererArguments {
   scene: Object3D;
 }
 
-export class ThreeJsTaggedController {
+export class ThreeJsTaggedController extends BaseApplicationComponent {
   private knownObject: Set<Object3D> = new Set<Object3D>();
-  private tagIndex = new ThreeJsSceneTagIndex();
+  tagIndex = new ThreeJsSceneTagIndex();
 
-  private onCreateListenerByTag: { [tag: string]: TaggedObjectOnCreate[] } = {};
-  private onUpdateListenersByTag: { [tag: string]: TaggedObjectOnUpdate[] } = {};
+  private onCreateListenerByTag: { [tag: string]: TaggedObjectOnCreate<any>[] } = {};
+  private onUpdateListenersByTag: { [tag: string]: TaggedObjectOnUpdate<any>[] } = {};
 
-  setup(container: ApplicationContainer) {
+  autowire(container: ApplicationContainer) {
+    this.tagIndex = container.getComponent(ThreeJsSceneTagIndex);
     this.setupTagSelectorListener(this.onCreateListenerByTag, container.getComponentList(TYPE_TaggedObjectOnCreate));
     this.setupTagSelectorListener(this.onUpdateListenersByTag, container.getComponentList(TYPE_TaggedObjectOnUpdate));
   }
 
-  private setupTagSelectorListener<T extends TaggedObjectOnCreate | TaggedObjectOnUpdate>(listenerByTag: { [tag: string]: T[] }, listeners: T[]) {
+  private setupTagSelectorListener<T extends TaggedObjectOnCreate<any> | TaggedObjectOnUpdate<any>>(listenerByTag: { [tag: string]: T[] }, listeners: T[]) {
     for (let i = 0; i < listeners.length; i++) {
       const listener = listeners[i];
       const tagSelector = listener.tagSelector();
       for (let j = 0; j < tagSelector.length; j++) {
         const tag = tagSelector[j];
 
-        addToObjectLst(listenerByTag, tag, listener);
+        addToObjectLst(listenerByTag, tag.name, listener);
       }
     }
   }

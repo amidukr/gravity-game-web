@@ -1,5 +1,5 @@
-import { TaggedObject } from "../../ThreeJsSceneTagIndex";
+import { TaggedObject } from "../../../../features/rendering/GameSceneObjectMeta";
 
-export interface TaggedObjectEvent {
-  objectList: TaggedObject[];
+export interface TaggedObjectEvent<T> {
+  objectList: TaggedObject<T>[];
 }

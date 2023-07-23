@@ -1,6 +1,11 @@
 import { Box3, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../../common/app/ApplicationContainer";
-import { GameSceneObjectMetaModel, gameSceneObjectTag } from "../../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
+import { ThreeJsGameLevel, TYPE_ThreeJsGameLevel } from "../../../../../../common/game/engine/3rd-party/threejs/objects/ThreeJsGameLevelObject";
+import {
+  GameSceneObjectMetaModel,
+  gameSceneObjectTag,
+  TYPE_GameSceneObjectMetaModel,
+} from "../../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
 import { BaseGameModelLoader } from "../../../../../../common/game/engine/framework/GameLoaderTypes";
 import { filterNotNull, traverseNodeTreeUsingKey } from "../../../../../../common/utils/CollectionUtils";
 import { findObject3dParent } from "../../../../../../common/utils/ThreeJsUtils";
@@ -12,11 +17,13 @@ export class GravityUniverseLoader extends BaseGameModelLoader {
   gravityUniverseService!: GravityUniverseService;
   metaModel!: GameSceneObjectMetaModel;
   gravitySpaceObjects!: GravitySpaceObjectsService;
+  gameLevel!: ThreeJsGameLevel;
 
   autowire(application: ApplicationContainer) {
     this.gravityUniverseService = application.getComponent(GravityUniverseService);
     this.gravitySpaceObjects = application.getComponent(GravitySpaceObjectsService);
-    this.metaModel = application.getComponent(GameSceneObjectMetaModel);
+    this.metaModel = application.getComponent(TYPE_GameSceneObjectMetaModel);
+    this.gameLevel = application.getComponent(TYPE_ThreeJsGameLevel);
   }
 
   startNewGame() {
@@ -36,7 +43,7 @@ export class GravityUniverseLoader extends BaseGameModelLoader {
 
     const gravityGraph = filterNotNull(
       gravityCenterBodies.map((x) => {
-        const gravityFieldObject = findObject3dParent(x, (p) => p.userData.name && p.userData.name.startsWith(gravityFieldTagName));
+        const gravityFieldObject = findObject3dParent(x.object, (p) => p.userData.name && p.userData.name.startsWith(gravityFieldTagName));
 
         if (gravityFieldObject == null) {
           console.error("Tag:GravityCenterMass without Tag:GravityField", x);
@@ -63,7 +70,7 @@ export class GravityUniverseLoader extends BaseGameModelLoader {
       (x) => x.gravityFieldParent?.name || null,
       (x) => {
         const gravityFieldObject = x.gravityField;
-        const gravityFieldCenterMassObject = x.gravityFieldCenterMassTag.parent!!;
+        const gravityFieldCenterMassObject = x.gravityFieldCenterMassTag.object.parent!!;
         const parentGravityFieldObject = x.gravityFieldParent;
 
         const boundingBox = new Box3().setFromObject(gravityFieldCenterMassObject);

@@ -1,55 +1,34 @@
-import { BaseGameScene } from "../../framework/GameModelTypes";
+import { typeIdentifier } from "../../../../app/lookup/TypeIdentifier";
+import { PACKAGE_AmidGeFramework } from "../../../../package";
+
+export const TYPE_GameSceneObjectMetaModel = typeIdentifier<GameSceneObjectMetaModel>("GameSceneObjectMetaModel", PACKAGE_AmidGeFramework);
+
+const __tagCache: {
+  [tag: string]: GameSceneObjectTag<any>;
+} = {};
 
 export function gameSceneObjectTag<T>(name: string) {
-  return new GameSceneObjectTag<T>(name);
+  var tag = __tagCache[name];
+
+  if (tag == undefined) {
+    __tagCache[name] = tag = new GameSceneObjectTag<T>(name);
+  }
+
+  return tag;
 }
 
 export class GameSceneObjectTag<T> {
   constructor(readonly name: string) {}
 }
 
-class GameSceneObjectMeta {
-  weakRefCache = new WeakMap<object, WeakRef<object>>();
-  objectsByTag: {
-    [tagName: string]: Set<WeakRef<object>>;
-  } = {};
+export interface TaggedObject<T> {
+  object: T;
+  tag: GameSceneObjectTag<T>;
+  name: string;
 }
 
-export class GameSceneObjectMetaModel extends BaseGameScene<GameSceneObjectMeta> {
-  construtNewObject(): GameSceneObjectMeta {
-    return new GameSceneObjectMeta();
-  }
-
-  addTagToObject<T extends object>(o: T, ...tags: GameSceneObjectTag<T>[]) {
-    const objectsByTag = this.object.objectsByTag;
-    const weakRefCache = this.object.weakRefCache;
-
-    var weakRef = weakRefCache.get(o);
-    if (weakRef == undefined) {
-      weakRef = new WeakRef(o);
-      weakRefCache.set(o, weakRef);
-    }
-
-    tags.forEach((tag) => {
-      const set = objectsByTag[tag.name] || (objectsByTag[tag.name] = new Set());
-      set.add(weakRef!!);
-    });
-  }
-
-  getObjectsByTag<T extends object>(tag: GameSceneObjectTag<T>): T[] {
-    const set = this.object.objectsByTag[tag.name];
-
-    if (set) {
-      const values = Array.from(set);
-      values.filter((x) => x.deref == undefined).forEach((x) => set.delete(x));
-
-      return values.map((x) => x.deref()).filter((x) => x != undefined) as any;
-    } else {
-      return [];
-    }
-  }
-
-  getFirstObjectByTag<T extends object>(tag: GameSceneObjectTag<T>) {
-    return this.getObjectsByTag(tag)[0];
-  }
+export interface GameSceneObjectMetaModel {
+  addTagToObject<T extends object>(o: T, ...tags: GameSceneObjectTag<T>[]): void;
+  getObjectsByTag<T extends object>(tag: GameSceneObjectTag<T>): TaggedObject<T>[];
+  getFirstObjectByTag<T extends object>(tag: GameSceneObjectTag<T>): TaggedObject<T>;
 }

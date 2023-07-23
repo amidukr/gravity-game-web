@@ -1,7 +1,11 @@
 import { Object3D, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../../common/app/ApplicationContainer";
 import { BaseApplicationComponent } from "../../../../../../common/app/utils/BaseApplicationComponent";
-import { GameSceneObjectMetaModel, GameSceneObjectTag } from "../../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
+import {
+  GameSceneObjectMetaModel,
+  GameSceneObjectTag,
+  TYPE_GameSceneObjectMetaModel,
+} from "../../../../../../common/game/engine/features/rendering/GameSceneObjectMeta";
 import { filterNotNull } from "../../../../../../common/utils/CollectionUtils";
 import { PLANET_TAG, STAR_TAG } from "../../../game-level/GravityGameTags";
 
@@ -9,11 +13,11 @@ export class GravitySpaceObjectsService extends BaseApplicationComponent {
   sceneMetaModel!: GameSceneObjectMetaModel;
 
   autowire(application: ApplicationContainer) {
-    this.sceneMetaModel = application.getComponent(GameSceneObjectMetaModel);
+    this.sceneMetaModel = application.getComponent(TYPE_GameSceneObjectMetaModel);
   }
 
   findTagParentObjects(tag: GameSceneObjectTag<Object3D>): Object3D[] {
-    return filterNotNull(this.sceneMetaModel.getObjectsByTag(tag).map((x) => x.parent));
+    return filterNotNull(this.sceneMetaModel.getObjectsByTag(tag).map((x) => x.object.parent));
   }
 
   findPlantes(): Object3D[] {
@@ -29,7 +33,7 @@ export class GravitySpaceObjectsService extends BaseApplicationComponent {
   }
 
   findClosestPlanet(position: Vector3): Object3D | null {
-    const planetList = filterNotNull(this.sceneMetaModel.getObjectsByTag(PLANET_TAG).map((x) => x.parent));
+    const planetList = filterNotNull(this.sceneMetaModel.getObjectsByTag(PLANET_TAG).map((x) => x.object.parent));
 
     var foundDistance = Number.MAX_VALUE;
     var foundPlanet = null;

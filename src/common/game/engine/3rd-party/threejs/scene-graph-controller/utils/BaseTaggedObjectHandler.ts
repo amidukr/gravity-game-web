@@ -1,10 +1,11 @@
 import { Introspection } from "../../../../../../app/lookup/Introspection";
 import { BaseApplicationComponent } from "../../../../../../app/utils/BaseApplicationComponent";
+import { GameSceneObjectTag } from "../../../../features/rendering/GameSceneObjectMeta";
 import { TaggedObjectEvent } from "../handlers/TaggedObjectEvent";
 import { TaggedObjectOnCreate, TYPE_TaggedObjectOnCreate } from "../handlers/TaggedObjectOnCreate";
 import { TaggedObjectOnUpdate, TYPE_TaggedObjectOnUpdate } from "../handlers/TaggedObjectOnUpdate";
 
-export abstract class BaseTaggedObjectHandler extends BaseApplicationComponent implements TaggedObjectOnCreate, TaggedObjectOnUpdate {
+export abstract class BaseTaggedObjectHandler<T> extends BaseApplicationComponent implements TaggedObjectOnCreate<T>, TaggedObjectOnUpdate<T> {
   constructor() {
     super();
 
@@ -12,7 +13,7 @@ export abstract class BaseTaggedObjectHandler extends BaseApplicationComponent i
     Introspection.bindInterfaceName(this, TYPE_TaggedObjectOnUpdate);
   }
 
-  abstract tagSelector(): string[];
-  abstract onUpdate(event: TaggedObjectEvent): void;
-  abstract onCreate(event: TaggedObjectEvent): void;
+  abstract tagSelector(): GameSceneObjectTag<T>[];
+  abstract onUpdate(event: TaggedObjectEvent<T>): void;
+  abstract onCreate(event: TaggedObjectEvent<T>): void;
 }
