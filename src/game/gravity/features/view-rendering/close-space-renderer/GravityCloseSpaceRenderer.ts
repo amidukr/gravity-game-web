@@ -42,6 +42,6 @@ export class GravityCloseSpaceRenderer extends BaseGameRenderingLooper {
     threeJsRenderer.autoClear = false;
 
     threeJsRenderer.clearDepth();
-    threeJsRenderer.render(this.scene, this.camera);
+    //threeJsRenderer.render(this.scene, this.camera);
   }
 }

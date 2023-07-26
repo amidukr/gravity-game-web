@@ -2,37 +2,43 @@ import { Object3D } from "three";
 import { ApplicationContainer } from "../../../../../app/ApplicationContainer";
 import { BaseApplicationComponent } from "../../../../../app/utils/BaseApplicationComponent";
 import { addToObjectLst } from "../../../../../utils/CollectionUtils";
-import { SceneTaggingModel, TYPE_GameSceneTaggingModel } from "../../../features/rendering/SceneTaggingModel";
-import { TaggedObjectOnCreate, TYPE_TaggedObjectOnCreate } from "./handlers/TaggedObjectOnCreate";
-import { TaggedObjectOnUpdate, TYPE_TaggedObjectOnUpdate } from "./handlers/TaggedObjectOnUpdate";
+import { SceneObjectTag, SceneTaggingModel, TYPE_GameSceneTaggingModel } from "../../../features/rendering/SceneTaggingModel";
+import { TaggedObjectEvent } from "./handlers/TaggedObjectEvent";
+import { TYPE_TaggedObjectOnCreate } from "./handlers/TaggedObjectOnCreate";
+import { TYPE_TaggedObjectOnUpdate } from "./handlers/TaggedObjectOnUpdate";
+import { TYPE_TaggedObjectHandler } from "./utils/TaggedObjectHandler";
 
 export interface RednererArguments {
   scene: Object3D;
 }
 
+export type TaggedObjectEventCallback<T> = (event: TaggedObjectEvent<T>) => void;
+
 export class SceneTaggedController extends BaseApplicationComponent {
   private knownObject: Set<Object3D> = new Set<Object3D>();
   taggingModel!: SceneTaggingModel;
 
-  private onCreateListenerByTag: { [tag: string]: TaggedObjectOnCreate<any>[] } = {};
-  private onUpdateListenersByTag: { [tag: string]: TaggedObjectOnUpdate<any>[] } = {};
+  private onCreateListenerByTag: { [tag: string]: TaggedObjectEventCallback<any>[] } = {};
+  private onUpdateListenersByTag: { [tag: string]: TaggedObjectEventCallback<any>[] } = {};
 
   autowire(container: ApplicationContainer) {
     this.taggingModel = container.getComponent(TYPE_GameSceneTaggingModel);
-    this.setupTagSelectorListener(this.onCreateListenerByTag, container.getComponentList(TYPE_TaggedObjectOnCreate));
-    this.setupTagSelectorListener(this.onUpdateListenersByTag, container.getComponentList(TYPE_TaggedObjectOnUpdate));
+
+    container.getComponentList(TYPE_TaggedObjectOnCreate).forEach((x) => this.registerOnCreate(x.tagSelector(), x.onCreate.bind(x)));
+    container.getComponentList(TYPE_TaggedObjectOnUpdate).forEach((x) => this.registerOnUpdate(x.tagSelector(), x.onUpdate.bind(x)));
+
+    container.getComponentList(TYPE_TaggedObjectHandler).forEach((x) => {
+      x.taggedController = this;
+      x.subscribe();
+    });
   }
 
-  private setupTagSelectorListener<T extends TaggedObjectOnCreate<any> | TaggedObjectOnUpdate<any>>(listenerByTag: { [tag: string]: T[] }, listeners: T[]) {
-    for (let i = 0; i < listeners.length; i++) {
-      const listener = listeners[i];
-      const tagSelector = listener.tagSelector();
-      for (let j = 0; j < tagSelector.length; j++) {
-        const tag = tagSelector[j];
+  registerOnCreate<T>(tags: SceneObjectTag<T>[], handler: TaggedObjectEventCallback<T>): void {
+    tags.forEach((x) => addToObjectLst(this.onCreateListenerByTag, x.name, handler));
+  }
 
-        addToObjectLst(listenerByTag, tag.name, listener);
-      }
-    }
+  registerOnUpdate<T>(tags: SceneObjectTag<T>[], handler: TaggedObjectEventCallback<T>): void {
+    tags.forEach((x) => addToObjectLst(this.onUpdateListenersByTag, x.name, handler));
   }
 
   preRender() {
@@ -52,7 +58,7 @@ export class SceneTaggedController extends BaseApplicationComponent {
 
       if (objectList.length > 0) {
         for (let i = 0; i < listeners.length; i++)
-          listeners[i].onUpdate({
+          listeners[i]({
             objectList: objectList,
           });
       }
@@ -84,7 +90,7 @@ export class SceneTaggedController extends BaseApplicationComponent {
 
       if (newOjbectList.length > 0) {
         for (let i = 0; i < listeners.length; i++)
-          listeners[i].onCreate({
+          listeners[i]({
             objectList: newOjbectList,
           });
       }

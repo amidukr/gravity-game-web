@@ -18,7 +18,5 @@ export class ColorfulTaggedController extends BaseTaggedObjectOnUpdateHandler<Ob
     material.color.r = Math.min(Math.max(material.color.r, 0), 1);
     material.color.g = Math.min(Math.max(material.color.g, 0), 1);
     material.color.b = Math.min(Math.max(material.color.b, 0), 1);
-
-    console.info("Dancing color:", object.name);
   }
 }

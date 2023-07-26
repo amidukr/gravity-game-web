@@ -38,6 +38,11 @@ export function threeJsSetTagName<T extends Object3D>(o: T, tagName: SceneObject
   o.userData.name = name ? tagName.name + "." + name : tagName.name;
 }
 
+export function threeJsAddTag<T extends Object3D>(o: T, ...tags: SceneObjectTag<T>[]): void {
+  const objectTags = getTagList(o);
+  objectTags.push(...tags.map((t) => t.name));
+}
+
 export class ThreeJsSceneTaggingModel implements SceneTaggingModel {
   objectsByTag: TaggedObjectContainer = {};
   private tags: SceneObjectTag<any>[] = [];
@@ -87,11 +92,7 @@ export class ThreeJsSceneTaggingModel implements SceneTaggingModel {
   }
 
   addTagToObject<T extends object>(o: T, ...tags: SceneObjectTag<T>[]): void {
-    const objectTags = getTagList(o as Object3D);
-    objectTags.push.apply(
-      objectTags,
-      tags.map((t) => t.name)
-    );
+    threeJsAddTag(o as Object3D, ...tags);
   }
 
   getObjectsByTag<T extends object>(tag: SceneObjectTag<T>): TaggedObject<T>[] {

@@ -17,6 +17,7 @@ export class FreeFlyUpdateCamerPositionLooper extends BaseGamePreRenderingLooper
     const camera = this.viewSceneModel.object.camera;
     const playerShip = this.spaceShipsModel.object.player;
 
+    camera.position.setZ(-0.0001);
     camera.position.copy(playerShip.globalCoordinate);
     camera.setRotationFromQuaternion(new THREE.Quaternion().copy(playerShip.orientation).normalize());
   }

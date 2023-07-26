@@ -1,9 +1,13 @@
+import { Group } from "three";
 import { ApplicationContainer } from "../../../../app/ApplicationContainer";
 import { LifecycleStage } from "../../../../app/utils/LifecycleStage";
+import { sceneObjectTag } from "../../features/rendering/SceneTaggingModel";
 import { BaseGameSceneLoader, GameLoaderExecutionOrder } from "../../framework/GameLoaderTypes";
 import { ThreeJsGameLevel, TYPE_ThreeJsGameLevel } from "./objects/ThreeJsGameLevelObject";
 import { ThreeJsGameViewSceneModel } from "./ThreeJsGameViewScene";
 import { ThreeJsSceneTaggingModel } from "./ThreeJsSceneTaggingModel";
+
+export const TAG_GameLevelRoot = sceneObjectTag<Group>("Tag:GameLevelRoot");
 
 export class ThreeJsRootSceneLoader extends BaseGameSceneLoader {
   gameLevel!: ThreeJsGameLevel;
@@ -24,6 +28,8 @@ export class ThreeJsRootSceneLoader extends BaseGameSceneLoader {
     const scene = this.sceneModel.object.scene;
 
     scene.add(this.gameLevel.object.rootScene);
+
+    this.tagIndex.addTagToObject(this.gameLevel.object.rootScene, TAG_GameLevelRoot);
 
     this.tagIndex.reindex(scene);
   }
