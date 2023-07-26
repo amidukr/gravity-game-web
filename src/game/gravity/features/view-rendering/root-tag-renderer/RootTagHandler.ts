@@ -1,8 +1,8 @@
 import { BoxGeometry, Mesh, MeshBasicMaterial, Object3D } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
-import { TaggedObjectHandler } from "../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/utils/TaggedObjectHandler";
 import { TAG_GameLevelRoot } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsRootSceneLoader";
 import { threeJsAddTag, threeJsSetTagName } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTaggingModel";
+import { TaggedObjectHandler } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/utils/TaggedObjectHandler";
 import { sceneObjectTag } from "../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 import { SpaceShipsModel } from "../../model-calculation/space-ships/SpaceShipsModel";
 import { TAG_DancingColor } from "../close-space-renderer/controllers/ColorfulTaggedController";

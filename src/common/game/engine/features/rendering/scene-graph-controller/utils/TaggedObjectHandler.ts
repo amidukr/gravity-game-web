@@ -2,7 +2,7 @@ import { Introspection } from "../../../../../../app/lookup/Introspection";
 import { typeIdentifier } from "../../../../../../app/lookup/TypeIdentifier";
 import { BaseApplicationComponent } from "../../../../../../app/utils/BaseApplicationComponent";
 import { PACKAGE_AmidGeFramework } from "../../../../../../package";
-import { SceneObjectTag } from "../../../../features/rendering/SceneTaggingModel";
+import { SceneObjectTag } from "../../SceneTaggingModel";
 import { TaggedObjectEvent } from "../handlers/TaggedObjectEvent";
 import { SceneTaggedController, TaggedObjectEventCallback } from "../SceneTaggedController";
 

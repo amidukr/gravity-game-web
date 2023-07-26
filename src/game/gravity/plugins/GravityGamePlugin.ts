@@ -1,13 +1,13 @@
 import { ApplicationComponent, TYPE_ApplicationComponent } from "../../../common/app/api/ApplicationComponent";
 import { ApplicationContainer } from "../../../common/app/ApplicationContainer";
 import { Introspection } from "../../../common/app/lookup/Introspection";
-import { SceneTaggedController } from "../../../common/game/engine/3rd-party/threejs/scene-graph-controller/SceneTaggedController";
 import { ThreeJsGameLevelRepository } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameLevelRepository";
 import { ThreeJsGameRenderer } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameRenderer";
 import { ThreeJsGameViewSceneModel } from "../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
 import { ThreeJsRootSceneLoader } from "../../../common/game/engine/3rd-party/threejs/ThreeJsRootSceneLoader";
 import { ThreeJsTaggedScenePrerender } from "../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTaggingLooper";
 import { ThreeJsSceneTaggingModel } from "../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTaggingModel";
+import { SceneTaggedController } from "../../../common/game/engine/features/rendering/scene-graph-controller/SceneTaggedController";
 import { GameEnginePlugin } from "../../../common/game/engine/plugins/GameEnginePlugin";
 import { ReactStarter, TYPE_ReactRootWidget } from "../../../common/ui/ReactStarter";
 import { DebugConsoleCoreBinder as DebugConsoleBinderCore } from "../features/framework/debug/DebugConsoleCoreBinder";

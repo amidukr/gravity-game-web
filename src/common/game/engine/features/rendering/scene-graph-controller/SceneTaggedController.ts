@@ -2,7 +2,7 @@ import { Object3D } from "three";
 import { ApplicationContainer } from "../../../../../app/ApplicationContainer";
 import { BaseApplicationComponent } from "../../../../../app/utils/BaseApplicationComponent";
 import { addToObjectLst } from "../../../../../utils/CollectionUtils";
-import { SceneObjectTag, SceneTaggingModel, TYPE_GameSceneTaggingModel } from "../../../features/rendering/SceneTaggingModel";
+import { SceneObjectTag, SceneTaggingModel, TYPE_GameSceneTaggingModel } from "../SceneTaggingModel";
 import { TaggedObjectEvent } from "./handlers/TaggedObjectEvent";
 import { TYPE_TaggedObjectOnCreate } from "./handlers/TaggedObjectOnCreate";
 import { TYPE_TaggedObjectOnUpdate } from "./handlers/TaggedObjectOnUpdate";

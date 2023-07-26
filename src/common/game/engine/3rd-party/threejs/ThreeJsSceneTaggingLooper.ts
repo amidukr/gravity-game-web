@@ -1,7 +1,7 @@
 import { ApplicationContainer } from "../../../../app/ApplicationContainer";
+import { SceneTaggedController } from "../../features/rendering/scene-graph-controller/SceneTaggedController";
 import { BaseGameSceneTaggingLooper } from "../../framework/GameLooperTypes";
 import { GameEvent } from "../../GameEvent";
-import { SceneTaggedController } from "./scene-graph-controller/SceneTaggedController";
 import { ThreeJsGameViewSceneModel } from "./ThreeJsGameViewScene";
 import { ThreeJsSceneTaggingModel } from "./ThreeJsSceneTaggingModel";
 

@@ -1,6 +1,6 @@
 import { Introspection } from "../../../../../../app/lookup/Introspection";
 import { BaseApplicationComponent } from "../../../../../../app/utils/BaseApplicationComponent";
-import { SceneObjectTag, TaggedObject } from "../../../../features/rendering/SceneTaggingModel";
+import { SceneObjectTag, TaggedObject } from "../../SceneTaggingModel";
 import { TaggedObjectEvent } from "../handlers/TaggedObjectEvent";
 import { TaggedObjectOnUpdate, TYPE_TaggedObjectOnUpdate } from "../handlers/TaggedObjectOnUpdate";
 

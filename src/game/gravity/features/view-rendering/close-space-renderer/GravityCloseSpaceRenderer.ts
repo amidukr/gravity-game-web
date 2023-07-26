@@ -1,9 +1,9 @@
 import { Camera, Scene } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { LifecycleStage } from "../../../../../common/app/utils/LifecycleStage";
-import { SceneTaggedController } from "../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/SceneTaggedController";
 import { ThreeJsGameRenderer } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameRenderer";
 import { ThreeJsSceneTaggingModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTaggingModel";
+import { SceneTaggedController } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/SceneTaggedController";
 import { BaseGameRenderingLooper, GameLooperExecutionOrder } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../common/game/engine/GameEvent";
 

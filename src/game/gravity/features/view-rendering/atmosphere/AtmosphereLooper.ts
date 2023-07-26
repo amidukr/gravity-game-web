@@ -1,6 +1,6 @@
 import { Mesh, Object3D, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
-import { BaseTaggedObjectOnUpdateHandler } from "../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/utils/BaseTaggedObjectOnUpdateHandler";
+import { BaseTaggedObjectOnUpdateHandler } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/utils/BaseTaggedObjectOnUpdateHandler";
 import {
   SceneObjectTag,
   sceneObjectTag,

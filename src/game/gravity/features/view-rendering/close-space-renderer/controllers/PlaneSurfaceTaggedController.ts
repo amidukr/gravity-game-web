@@ -1,6 +1,6 @@
 import { BoxGeometry, Mesh, MeshBasicMaterial, Object3D } from "three";
-import { BaseTaggedObjectOnCreateHandler } from "../../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/utils/BaseTaggedObjectOnCreateHandler";
 import { threeJsSetTagName } from "../../../../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTaggingModel";
+import { BaseTaggedObjectOnCreateHandler } from "../../../../../../common/game/engine/features/rendering/scene-graph-controller/utils/BaseTaggedObjectOnCreateHandler";
 import { sceneObjectTag, TaggedObject } from "../../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 import { TAG_DancingColor } from "./ColorfulTaggedController";
 

@@ -1,8 +1,8 @@
 import { BackSide, IcosahedronGeometry, Mesh, Object3D, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
-import { TaggedObjectEvent } from "../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/handlers/TaggedObjectEvent";
-import { BaseTaggedObjectOnCreateHandler } from "../../../../../common/game/engine/3rd-party/threejs/scene-graph-controller/utils/BaseTaggedObjectOnCreateHandler";
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
+import { TaggedObjectEvent } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/handlers/TaggedObjectEvent";
+import { BaseTaggedObjectOnCreateHandler } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/utils/BaseTaggedObjectOnCreateHandler";
 import { sceneObjectTag, SceneTaggingModel, TYPE_GameSceneTaggingModel } from "../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../../game-level/GravityGameLevelObject";
 import { ATMOSPHERE_TAG, PLANET_TAG } from "../../game-level/GravityGameTags";
