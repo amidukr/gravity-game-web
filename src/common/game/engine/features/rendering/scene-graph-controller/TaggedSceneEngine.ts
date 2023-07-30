@@ -140,7 +140,6 @@ export class TaggedSceneEngine extends BaseApplicationComponent {
 
   private handleOnTagUpdate(tagCache: TagCache) {
     for (let tagName in tagCache) {
-      console.info("upd", tagName);
       const listeners = this.onTagUpdateListenersByTag[tagName];
       if (!listeners || listeners.length == 0) continue;
 

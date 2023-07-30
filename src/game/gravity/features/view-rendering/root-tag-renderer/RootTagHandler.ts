@@ -81,7 +81,6 @@ export class RootTagHandler extends TaggedSceneController {
   }
 
   onUniverseRootUpdate(o: TaggedObject<Object3D>) {
-    console.info("onUniverseRootUpdate");
     const object = o.object;
     const playerShip = this.spaceShipsModel.object.player;
 

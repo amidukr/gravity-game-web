@@ -31,7 +31,7 @@ export class AtmosphereController extends TaggedSceneController {
 
   override subscribe(ctx: SceneSubscribeContext): void {
     ctx.registerOnAdd([PLANET_TAG], this.onPlanetAdd.bind(this));
-    ctx.registerOnAddEach([ATMOSPHERE_TAG], this.onAtmosphereUpdate.bind(this));
+    ctx.registerOnUpdateEach([ATMOSPHERE_TAG], this.onAtmosphereUpdate.bind(this));
   }
 
   onAtmosphereUpdate(object: TaggedObject<Mesh>): void {
