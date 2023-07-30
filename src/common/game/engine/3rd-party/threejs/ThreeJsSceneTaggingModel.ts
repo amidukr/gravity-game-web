@@ -43,6 +43,10 @@ export function threeJsAddTag<T extends Object3D>(o: T, ...tags: SceneObjectTag<
   objectTags.push(...tags.map((t) => t.name));
 }
 
+export function threeJsIsTaggged<T extends Object3D>(o: T, tag: SceneObjectTag<T>): boolean {
+  return getTagList(o).includes(tag.name);
+}
+
 export class ThreeJsSceneTaggingModel implements SceneTaggingModel {
   objectsByTag: TaggedObjectContainer = {};
   private tags: SceneObjectTag<any>[] = [];
@@ -99,7 +103,7 @@ export class ThreeJsSceneTaggingModel implements SceneTaggingModel {
     return this.objectsByTag[tag.name] || [];
   }
 
-  getFirstObjectByTag<T extends object>(tag: SceneObjectTag<T>): TaggedObject<T> {
+  getFirstObjectByTag<T extends object>(tag: SceneObjectTag<T>): TaggedObject<T> | undefined {
     return this.getObjectsByTag(tag)[0];
   }
 }

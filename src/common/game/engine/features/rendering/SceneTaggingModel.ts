@@ -17,7 +17,7 @@ export interface SceneTaggingModel {
   addTagToObject<T extends object>(o: T, ...tags: SceneObjectTag<T>[]): void;
   getTags(): SceneObjectTag<any>[];
   getObjectsByTag<T extends object>(tag: SceneObjectTag<T>): TaggedObject<T>[];
-  getFirstObjectByTag<T extends object>(tag: SceneObjectTag<T>): TaggedObject<T>;
+  getFirstObjectByTag<T extends object>(tag: SceneObjectTag<T>): TaggedObject<T> | undefined;
 }
 
 const __tagCache: {

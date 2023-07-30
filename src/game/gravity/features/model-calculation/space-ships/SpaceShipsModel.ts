@@ -5,6 +5,9 @@ import { USSL_UNIVERSE } from "../gravity-sublocation/GravityUsslContainerHandle
 
 export interface PlayerSpaceShip {
   ussPosition: UssObject;
+  coordinateSet: {
+    [type: string]: UssObject;
+  };
   globalCoordinate: Vector3;
   orientation: Quaternion;
   throttle: number;
@@ -21,12 +24,14 @@ export class SpaceShipsModel extends BaseGameModel<SpaceShipCollection> {
         ussPosition: {
           location: {
             type: USSL_UNIVERSE,
+            name: USSL_UNIVERSE,
             parent: null,
             attributes: null,
           },
           position: new Vector3(),
           velocity: new Vector3(),
         },
+        coordinateSet: {},
         globalCoordinate: new Vector3(),
         orientation: new Quaternion(),
         throttle: 0.01,

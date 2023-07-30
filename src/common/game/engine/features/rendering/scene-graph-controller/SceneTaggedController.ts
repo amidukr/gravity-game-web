@@ -28,8 +28,7 @@ export class SceneTaggedController extends BaseApplicationComponent {
     container.getComponentList(TYPE_TaggedObjectOnUpdate).forEach((x) => this.registerOnUpdate(x.tagSelector(), x.onUpdate.bind(x)));
 
     container.getComponentList(TYPE_TaggedObjectHandler).forEach((x) => {
-      x.taggedController = this;
-      x.subscribe();
+      x.onNewController(this);
     });
   }
 
@@ -60,6 +59,7 @@ export class SceneTaggedController extends BaseApplicationComponent {
         for (let i = 0; i < listeners.length; i++)
           listeners[i]({
             objectList: objectList,
+            sceneTagModel: this.taggingModel,
           });
       }
     }
@@ -92,6 +92,7 @@ export class SceneTaggedController extends BaseApplicationComponent {
         for (let i = 0; i < listeners.length; i++)
           listeners[i]({
             objectList: newOjbectList,
+            sceneTagModel: this.taggingModel,
           });
       }
     }

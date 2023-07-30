@@ -6,6 +6,7 @@ import { MouseDevice } from "../../../../../common/game/engine/features/input/de
 import { BaseGameModelProcessingLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../common/game/engine/GameEvent";
 import { UssLocation } from "../../../features/commons/universe-sublocation/model/UssLocation";
+import { UssObject } from "../../../features/commons/universe-sublocation/model/UssObject";
 import { UniverseSublocationService } from "../../../features/commons/universe-sublocation/UniverseSublocationService";
 import { DebugInfoModel } from "../../../features/framework/debug/DebugInfoModel";
 import { USSL_UNIVERSE } from "../../../features/model-calculation/gravity-sublocation/GravityUsslContainerHandler";
@@ -79,18 +80,17 @@ export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
       this.handleMouseEvent(event);
     }
 
+    // To make movement between smoother, velocity and view should be detached
+    // So user can change camera without chaning velocity
+    // And then once use hit up button, velocity will start adjusting to view direction
+
+    // While velocity and view orientation is bound to much, jumping into another IFR velocity it pull view
+    // so better make movement not that smooth. When velocity and orientiation be decoupled movement can be more smother.
+
     const rootLocation = this.findRootLocation(playerSpaceShip);
 
     const globalOrientation = quanterionBaseVector().applyQuaternion(playerSpaceShip.orientation).normalize();
-    //globalVelocity.multiplyScalar(playerSpaceShip.throttle)
 
-    //const playerGlobalPosition: UssObject = {
-    //     location: rootLocation,
-    //     position: playerSpaceShip.globalCoordinate,
-    //     velocity: globalVelocity
-    // }
-
-    // const playerLocalPosition = this.sublocationService.transformToLocationCoordinate(playerGlobalPosition, playerSpaceShip.ussPosition.location, rootLocation)
     playerSpaceShip.ussPosition.velocity = globalOrientation.clone();
     playerSpaceShip.ussPosition.velocity.setLength(playerSpaceShip.throttle);
     playerSpaceShip.ussPosition.position.add(playerSpaceShip.ussPosition.velocity.clone().multiplyScalar(event.elapsedTimeMills));
@@ -100,20 +100,25 @@ export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
     const ussGlobal = this.sublocationService.transformToLocationCoordinate(playerSpaceShip.ussPosition, rootLocation, rootLocation);
     playerSpaceShip.globalCoordinate.copy(ussGlobal.position);
 
-    //alignQuaternionToVector(playerSpaceShip.orientation, playerSpaceShip.ussPosition.velocity);
-
-    // While velocity and view orientation is bound to much, jumping into another IFR velocity it pull view
-    // so better make movement not that smooth. When velocity and orientiation be decoupled movement can be more smother.
-
-    // const q = new Quaternion().setFromAxisAngle(
-    //   globalOrientation.clone().cross(playerSpaceShip.ussPosition.velocity).normalize(),
-    //   playerSpaceShip.ussPosition.velocity.angleTo(globalOrientation)
-    // );
-
-    //playerSpaceShip.orientation.copy(q.multiply(playerSpaceShip.orientation));
-
-    //playerSpaceShip.throttle = Math.sign(playerSpaceShip.throttle) * playerSpaceShip.ussPosition.velocity.length();
     playerSpaceShip.throttle = globalOrientation.dot(playerSpaceShip.ussPosition.velocity);
+
+    const coordinateSet: { [type: string]: UssObject } = {};
+
+    var ussObject: UssObject | undefined = playerSpaceShip.ussPosition;
+    while (ussObject != undefined) {
+      coordinateSet[ussObject.location.name] = ussObject;
+
+      const parentLocation = ussObject.location.parent;
+      if (parentLocation != null) {
+        ussObject = this.sublocationService.transformToLocationCoordinate(ussObject, parentLocation, parentLocation);
+      } else {
+        ussObject = undefined;
+      }
+    }
+
+    playerSpaceShip.coordinateSet = coordinateSet;
+
+    console.info(coordinateSet);
 
     var normalized = playerSpaceShip.ussPosition;
     normalized = this.sublocationService.normalizeCoordinate(normalized);

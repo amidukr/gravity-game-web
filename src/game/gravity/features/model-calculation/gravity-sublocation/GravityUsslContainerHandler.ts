@@ -45,6 +45,7 @@ export class GravityUsslContainerHandler extends BaseUssLocationContainerHandler
     return {
       type: USSL_SPACE_GRAVITY_OBJECT,
       parent: parentLocation,
+      name: USSL_SPACE_GRAVITY_OBJECT + ":" + object.objectId,
       attributes: {
         gravityObjectName: object.objectId,
       },

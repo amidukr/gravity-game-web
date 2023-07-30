@@ -1,7 +1,10 @@
 import { Introspection } from "../../../../../../app/lookup/Introspection";
 import { typeIdentifier } from "../../../../../../app/lookup/TypeIdentifier";
 import { BaseApplicationComponent } from "../../../../../../app/utils/BaseApplicationComponent";
+import { LifecycleStage } from "../../../../../../app/utils/LifecycleStage";
 import { PACKAGE_AmidGeFramework } from "../../../../../../package";
+import { GameLoader, TYPE_GameStarter } from "../../../../core/GameLoader";
+import { GameLoaderExecutionOrder } from "../../../../framework/GameLoaderTypes";
 import { SceneObjectTag } from "../../SceneTaggingModel";
 import { TaggedObjectEvent } from "../handlers/TaggedObjectEvent";
 import { SceneTaggedController, TaggedObjectEventCallback } from "../SceneTaggedController";
@@ -16,15 +19,8 @@ function handleEvent<T>(e: TaggedObjectEvent<T>, handler: TaggedObjectEventEachC
   }
 }
 
-export abstract class TaggedObjectHandler extends BaseApplicationComponent {
-  taggedController!: SceneTaggedController;
-
-  constructor() {
-    super();
-    Introspection.bindInterfaceName(this, TYPE_TaggedObjectHandler);
-  }
-
-  abstract subscribe(): void;
+export class SubscribeContext {
+  constructor(readonly taggedController: SceneTaggedController) {}
 
   registerOnCreate<T>(tags: SceneObjectTag<T>[], handler: TaggedObjectEventCallback<T>): void {
     this.taggedController.registerOnCreate(tags, handler);
@@ -41,4 +37,24 @@ export abstract class TaggedObjectHandler extends BaseApplicationComponent {
   registerOnUpdateEach<T>(tags: SceneObjectTag<T>[], handler: TaggedObjectEventEachCallback<T>): void {
     this.registerOnUpdate(tags, (e) => handleEvent(e, handler));
   }
+}
+
+export abstract class TaggedObjectHandler extends BaseApplicationComponent implements GameLoader {
+  constructor() {
+    super();
+    Introspection.bindInterfaceName(this, TYPE_TaggedObjectHandler);
+    Introspection.bindInterfaceName(this, TYPE_GameStarter);
+  }
+
+  executionOrder(): LifecycleStage {
+    return GameLoaderExecutionOrder.TagHandlersStarter;
+  }
+
+  startNewGame(): void | Promise<void> {}
+
+  onNewController(controller: SceneTaggedController) {
+    this.subscribe(new SubscribeContext(controller));
+  }
+
+  abstract subscribe(ctx: SubscribeContext): void;
 }

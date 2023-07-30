@@ -29,7 +29,7 @@ export class AtmosphereLooper extends BaseTaggedObjectOnUpdateHandler<Mesh> {
     const atmosphereObject = object.object;
 
     const star = this.gravitySpaceObjects.findFirstStar();
-    const planet = this.sceneMetaModel.getFirstObjectByTag(sceneObjectTag<Object3D>(atmosphereObject.userData.planeName)).object;
+    const planet = this.sceneMetaModel.getFirstObjectByTag(sceneObjectTag<Object3D>(atmosphereObject.userData.planeName))!!.object;
 
     const backMaterial = atmosphereObject.material as AtmospherShaderMaterial;
 
