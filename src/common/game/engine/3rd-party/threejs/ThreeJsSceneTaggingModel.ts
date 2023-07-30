@@ -29,6 +29,9 @@ function getTagList(o: Object3D): string[] {
   var tagList = o.userData.__tagList;
   if (tagList == undefined) {
     o.userData.__tagList = tagList = collectTagList(o);
+  }
+
+  if (!(o.userData.__tagSet instanceof Set)) {
     o.userData.__tagSet = new Set(tagList);
   }
 
@@ -37,6 +40,12 @@ function getTagList(o: Object3D): string[] {
 
 export function threeJsSetTagName<T extends Object3D>(o: T, tagName: SceneObjectTag<T>, name?: string) {
   o.userData.name = name ? tagName.name + "." + name : tagName.name;
+}
+
+export function threeJsCleanTags(o: Object3D) {
+  delete o.userData["name"];
+  delete o.userData["__tagList"];
+  delete o.userData["__tagSet"];
 }
 
 export function threeJsAddTag<T extends Object3D>(o: T, ...tags: SceneObjectTag<T>[]): void {

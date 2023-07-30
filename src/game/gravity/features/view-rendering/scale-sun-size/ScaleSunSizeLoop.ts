@@ -4,6 +4,7 @@ import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd
 import { BaseGamePreRenderingLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../common/game/engine/GameEvent";
 import { expSteepness, smootStep } from "../../../../../common/utils/math";
+import { getPlanetRadius } from "../../model-calculation/gravity-scene-model/UnvirseSceneModel";
 import { GravitySpaceObjectsService } from "../../model-calculation/gravity-universe/service/GravitySpaceObjectsService";
 
 export class ScaleSunSizeLoop extends BaseGamePreRenderingLooper {
@@ -35,7 +36,7 @@ export class ScaleSunSizeLoop extends BaseGamePreRenderingLooper {
         const distance = starPosition.distanceTo(planetPosition);
 
         this.planetMinOrbit = Math.min(distance, this.planetMinOrbit);
-        this.planetMaxRadius = Math.max(this.planetMaxRadius, planet.userData.radius);
+        this.planetMaxRadius = Math.max(this.planetMaxRadius, getPlanetRadius(planet));
       }
     });
 

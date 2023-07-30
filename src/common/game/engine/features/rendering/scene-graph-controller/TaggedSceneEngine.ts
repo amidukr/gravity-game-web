@@ -1,9 +1,9 @@
 import { Object3D } from "three";
 import { ApplicationContainer } from "../../../../../app/ApplicationContainer";
 import { typeIdentifier } from "../../../../../app/lookup/TypeIdentifier";
-import { BaseApplicationComponent } from "../../../../../app/utils/BaseApplicationComponent";
 import { PACKAGE_AmidGeFramework } from "../../../../../package";
 import { addToObjectLst } from "../../../../../utils/CollectionUtils";
+import { BaseGameSceneIndexerLoader } from "../../../framework/GameLoaderTypes";
 import { SceneObjectTag, SceneTaggingModel, TaggedObject, TYPE_GameSceneTaggingModel } from "../SceneTaggingModel";
 import { TaggedObjectEvent } from "./TaggedObjectEvent";
 
@@ -39,8 +39,8 @@ interface TagCache {
   };
 }
 
-export class TaggedSceneEngine extends BaseApplicationComponent {
-  private previousRun: TagCache = {};
+export class TaggedSceneEngine extends BaseGameSceneIndexerLoader {
+  private previousRun!: TagCache;
 
   taggingModel!: SceneTaggingModel;
 
@@ -64,6 +64,10 @@ export class TaggedSceneEngine extends BaseApplicationComponent {
     tagList.push(...Object.keys(this.onTagUpdateListenersByTag));
 
     this.tagCacheFilter = new Set(tagList);
+  }
+
+  override startNewGame(): void {
+    this.previousRun = {};
   }
 
   registerOnDelete<T>(tags: SceneObjectTag<T>[], handler: TaggedObjectEventHandlerArgument<T>): void {

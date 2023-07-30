@@ -40,3 +40,9 @@ export abstract class BaseGameSceneLoader extends BaseGameLoaderModule {
     return GameLoaderExecutionOrder.GameSceneLoader;
   }
 }
+
+export abstract class BaseGameSceneIndexerLoader extends BaseGameLoaderModule {
+  override executionOrder() {
+    return GameLoaderExecutionOrder.GameSceneIndexer;
+  }
+}

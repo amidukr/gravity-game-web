@@ -1,7 +1,7 @@
 import { Mesh, MeshBasicMaterial, Object3D } from "three";
-import { SceneSubscribeContext } from "../../../../../../common/game/engine/features/rendering/scene-graph-controller/SceneSubscribeContext";
-import { TaggedSceneController } from "../../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedSceneController";
-import { sceneObjectTag, TaggedObject } from "../../../../../../common/game/engine/features/rendering/SceneTaggingModel";
+import { SceneSubscribeContext } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/SceneSubscribeContext";
+import { TaggedSceneController } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedSceneController";
+import { sceneObjectTag, TaggedObject } from "../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 
 export const TAG_DancingColor = sceneObjectTag("Tag:DancingColor");
 

@@ -13,6 +13,7 @@ import {
 import { GravityConfiguration } from "../../../configuration/GravityConfiguration";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../../game-level/GravityGameLevelObject";
 import { ATMOSPHERE_TAG, PLANET_TAG } from "../../game-level/GravityGameTags";
+import { getPlanetRadius } from "../../model-calculation/gravity-scene-model/UnvirseSceneModel";
 import { GravitySpaceObjectsService } from "../../model-calculation/gravity-universe/service/GravitySpaceObjectsService";
 import { AtmospherShaderMaterial } from "./material/AtmospherMaterial";
 
@@ -38,7 +39,7 @@ export class AtmosphereController extends TaggedSceneController {
     const atmosphereObject = object.object;
 
     const star = this.gravitySpaceObjects.findFirstStar();
-    const planet = this.sceneMetaModel.getFirstObjectByTag(sceneObjectTag<Object3D>(atmosphereObject.userData.planeName))!!.object;
+    const planet = this.sceneMetaModel.getFirstObjectByTag(sceneObjectTag<Object3D>(atmosphereObject.userData.plantUuid))!!.object;
 
     const backMaterial = atmosphereObject.material as AtmospherShaderMaterial;
 
@@ -60,16 +61,19 @@ export class AtmosphereController extends TaggedSceneController {
 
     backMaterialPrototype.starPosition = starPosition;
 
-    this.gravitySpaceObjects.findPlantes().forEach((planet) => {
-      (planet as any).material.flatShading = true;
+    console.info("atmo planets", event.objectList);
 
-      const planetRadius = planet.userData.radius;
+    event.objectList.forEach((planetTagged) => {
+      const planet: Object3D = planetTagged.object.parent as Object3D;
+      const material = (planet as any).material;
+
+      material.flatShading = true;
+
+      const planetRadius = getPlanetRadius(planet);
 
       const atmosphereHeight = planetRadius * 0.05 * 0.5;
 
       const backMaterial = backMaterialPrototype.clone();
-
-      backMaterial.starPosition = starPosition.clone();
 
       const backAtmosphereObject = new Mesh(backGeometry, backMaterial);
 
@@ -85,13 +89,14 @@ export class AtmosphereController extends TaggedSceneController {
 
       backAtmosphereObject.name = "Atmo" + planet.name;
 
+      backMaterial.starPosition = starPosition.clone();
       backMaterial.planetRadius = planetRadius;
       backMaterial.atmosphereHeight = atmosphereHeight;
 
       this.sceneMetaModel.addTagToObject(backAtmosphereObject, ATMOSPHERE_TAG);
-      this.sceneMetaModel.addTagToObject(planet, sceneObjectTag(planet.name));
+      this.sceneMetaModel.addTagToObject(planet, sceneObjectTag(planet.uuid));
 
-      backAtmosphereObject.userData.planeName = planet.name;
+      backAtmosphereObject.userData.plantUuid = planet.uuid;
     });
   }
 }

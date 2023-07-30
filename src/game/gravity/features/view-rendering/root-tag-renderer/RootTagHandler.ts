@@ -10,7 +10,7 @@ import { sceneObjectTag, TaggedObject } from "../../../../../common/game/engine/
 import { GravityConfiguration } from "../../../configuration/GravityConfiguration";
 import { USSL_UNIVERSE } from "../../model-calculation/gravity-sublocation/GravityUsslContainerHandler";
 import { SpaceShipsModel } from "../../model-calculation/space-ships/SpaceShipsModel";
-import { TAG_DancingColor } from "../close-space-renderer/controllers/ColorfulTaggedController";
+import { TAG_DancingColor } from "../common/ColorfulTaggedController";
 
 export const TAG_UniverseRoot = sceneObjectTag<Object3D>("Tag:UniverseRoot");
 export const TAG_CloseSpaceScene = sceneObjectTag<Object3D>("Tag:CloseSpaceScene");

@@ -3,6 +3,7 @@ import { ApplicationContainer } from "../../../../../common/app/ApplicationConta
 import { BaseGameModelProcessingLooper } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../common/game/engine/GameEvent";
 import { DebugInfoModel } from "../../framework/debug/DebugInfoModel";
+import { getPlanetRadius } from "../gravity-scene-model/UnvirseSceneModel";
 import { GravitySpaceObjectsService } from "../gravity-universe/service/GravitySpaceObjectsService";
 import { SpaceShipsModel } from "./SpaceShipsModel";
 
@@ -27,6 +28,6 @@ export class DebugAltitudeLoop extends BaseGameModelProcessingLooper {
 
     const distanceToPlanetCenter = planet.getWorldPosition(new Vector3()).distanceTo(shipPosition);
 
-    this.debugModel.object.attributes["Altitude"] = distanceToPlanetCenter - planet.userData.radius;
+    this.debugModel.object.attributes["Altitude"] = distanceToPlanetCenter - getPlanetRadius(planet);
   }
 }

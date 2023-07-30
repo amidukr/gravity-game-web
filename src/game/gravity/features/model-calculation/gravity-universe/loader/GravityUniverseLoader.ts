@@ -4,8 +4,8 @@ import { ThreeJsGameLevel, TYPE_ThreeJsGameLevel } from "../../../../../../commo
 import { sceneObjectTag, SceneTaggingModel, TYPE_GameSceneTaggingModel } from "../../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 import { BaseGameModelLoader } from "../../../../../../common/game/engine/framework/GameLoaderTypes";
 import { filterNotNull, traverseNodeTreeUsingKey } from "../../../../../../common/utils/CollectionUtils";
-import { findObject3dParent } from "../../../../../../common/utils/ThreeJsUtils";
-import { GRAVITY_CENTER_MASS, GRAVITY_FIELD_TAG } from "../../../game-level/GravityGameTags";
+import { GRAVITY_CENTER_MASS } from "../../../game-level/GravityGameTags";
+import { findParentGravityField, saveOriginalObjectTemplate, setGravityFieldPlanet, setPlanetRadius } from "../../gravity-scene-model/UnvirseSceneModel";
 import { GravitySpaceObjectsService } from "../service/GravitySpaceObjectsService";
 import { GravityUniverseService } from "../service/GravityUniverseService";
 
@@ -30,24 +30,28 @@ export class GravityUniverseLoader extends BaseGameModelLoader {
       const size = boundingBox.getSize(new Vector3());
       const radius = Math.max(size.x, size.y, size.z) * 0.5;
 
-      planet.userData.radius = radius;
+      setPlanetRadius(planet, radius);
+
+      const parentGravityField = findParentGravityField(planet);
+
+      if (parentGravityField) {
+        setGravityFieldPlanet(parentGravityField, planet);
+        saveOriginalObjectTemplate(parentGravityField);
+      }
     });
 
     const gravityCenterBodies = metaModel.getObjectsByTag(GRAVITY_CENTER_MASS);
 
-    const gravityFieldTagName = GRAVITY_FIELD_TAG.name;
-
     const gravityGraph = filterNotNull(
       gravityCenterBodies.map((x) => {
-        const gravityFieldObject = findObject3dParent(x.object, (p) => p.userData.name && p.userData.name.startsWith(gravityFieldTagName));
+        const gravityFieldObject = findParentGravityField(x.object);
 
         if (gravityFieldObject == null) {
           console.error("Tag:GravityCenterMass without Tag:GravityField", x);
           return;
         }
 
-        const gravityFieldObjectParent = findObject3dParent(gravityFieldObject, (p) => p.userData.name && p.userData.name.startsWith(gravityFieldTagName));
-
+        const gravityFieldObjectParent = findParentGravityField(gravityFieldObject);
         return {
           gravityFieldCenterMassTag: x,
           gravityField: gravityFieldObject,
