@@ -21,6 +21,16 @@ export interface RednererArguments {
 
 export type TaggedObjectEventCallback<T> = (event: TaggedObjectEvent<T>) => void;
 
+export interface TaggedObjectEventHandlerArgument<T> {
+  executionOrder: number;
+  callback: TaggedObjectEventCallback<T>;
+}
+
+type CallQueue = {
+  executionOrder: number;
+  callback: () => void;
+}[];
+
 interface TagCache {
   [tag: string]: {
     tag: SceneObjectTag<any>;
@@ -34,9 +44,9 @@ export class TaggedSceneEngine extends BaseApplicationComponent {
 
   taggingModel!: SceneTaggingModel;
 
-  private onTagDeleteListenerByTag: { [tag: string]: TaggedObjectEventCallback<any>[] } = {};
-  private onTagAddListenerByTag: { [tag: string]: TaggedObjectEventCallback<any>[] } = {};
-  private onTagUpdateListenersByTag: { [tag: string]: TaggedObjectEventCallback<any>[] } = {};
+  private onTagDeleteListenerByTag: { [tag: string]: TaggedObjectEventHandlerArgument<any>[] } = {};
+  private onTagAddListenerByTag: { [tag: string]: TaggedObjectEventHandlerArgument<any>[] } = {};
+  private onTagUpdateListenersByTag: { [tag: string]: TaggedObjectEventHandlerArgument<any>[] } = {};
 
   private tagCacheFilter: Set<string> = new Set<string>();
 
@@ -56,24 +66,27 @@ export class TaggedSceneEngine extends BaseApplicationComponent {
     this.tagCacheFilter = new Set(tagList);
   }
 
-  registerOnDelete<T>(tags: SceneObjectTag<T>[], handler: TaggedObjectEventCallback<T>): void {
+  registerOnDelete<T>(tags: SceneObjectTag<T>[], handler: TaggedObjectEventHandlerArgument<T>): void {
     tags.forEach((x) => addToObjectLst(this.onTagDeleteListenerByTag, x.name, handler));
   }
 
-  registerOnAdd<T>(tags: SceneObjectTag<T>[], handler: TaggedObjectEventCallback<T>): void {
+  registerOnAdd<T>(tags: SceneObjectTag<T>[], handler: TaggedObjectEventHandlerArgument<T>): void {
     tags.forEach((x) => addToObjectLst(this.onTagAddListenerByTag, x.name, handler));
   }
 
-  registerOnUpdate<T>(tags: SceneObjectTag<T>[], handler: TaggedObjectEventCallback<T>): void {
+  registerOnUpdate<T>(tags: SceneObjectTag<T>[], handler: TaggedObjectEventHandlerArgument<T>): void {
     tags.forEach((x) => addToObjectLst(this.onTagUpdateListenersByTag, x.name, handler));
   }
 
   preRender() {
     const taggedCache = this.buildTagCache();
+    const callQueue: CallQueue = [];
 
-    this.handlerOnTagDelete(taggedCache);
-    this.handleOnTagAdd(taggedCache);
-    this.handleOnTagUpdate(taggedCache);
+    this.handlerOnTagDelete(callQueue, taggedCache);
+    this.handleOnTagAdd(callQueue, taggedCache);
+    this.handleOnTagUpdate(callQueue, taggedCache);
+
+    callQueue.sort((a, b) => a.executionOrder - b.executionOrder).forEach((x) => x.callback());
 
     this.previousRun = this.buildTagCache();
   }
@@ -98,7 +111,7 @@ export class TaggedSceneEngine extends BaseApplicationComponent {
     return tagCache;
   }
 
-  private handlerOnTagDelete(tagCache: TagCache) {
+  private handlerOnTagDelete(callQueue: CallQueue, tagCache: TagCache) {
     const emptySet = new Set();
 
     for (let tagName in this.previousRun) {
@@ -114,12 +127,17 @@ export class TaggedSceneEngine extends BaseApplicationComponent {
           sceneTagModel: this.taggingModel,
         };
 
-        listeners.forEach((l) => l(event));
+        callQueue.push(
+          ...listeners.map((l) => ({
+            executionOrder: l.executionOrder,
+            callback: () => l.callback(event),
+          }))
+        );
       }
     }
   }
 
-  private handleOnTagAdd(tagCache: TagCache) {
+  private handleOnTagAdd(callQueue: CallQueue, tagCache: TagCache) {
     for (let tagName in tagCache) {
       const listeners = this.onTagAddListenerByTag[tagName];
       if (!listeners || listeners.length == 0) continue;
@@ -133,12 +151,17 @@ export class TaggedSceneEngine extends BaseApplicationComponent {
           sceneTagModel: this.taggingModel,
         };
 
-        listeners.forEach((l) => l(event));
+        callQueue.push(
+          ...listeners.map((l) => ({
+            executionOrder: l.executionOrder,
+            callback: () => l.callback(event),
+          }))
+        );
       }
     }
   }
 
-  private handleOnTagUpdate(tagCache: TagCache) {
+  private handleOnTagUpdate(callQueue: CallQueue, tagCache: TagCache) {
     for (let tagName in tagCache) {
       const listeners = this.onTagUpdateListenersByTag[tagName];
       if (!listeners || listeners.length == 0) continue;
@@ -148,7 +171,12 @@ export class TaggedSceneEngine extends BaseApplicationComponent {
         sceneTagModel: this.taggingModel,
       };
 
-      listeners.forEach((l) => l(event));
+      callQueue.push(
+        ...listeners.map((l) => ({
+          executionOrder: l.executionOrder,
+          callback: () => l.callback(event),
+        }))
+      );
     }
   }
 }

@@ -15,11 +15,11 @@ import { TAG_DancingColor } from "../close-space-renderer/controllers/ColorfulTa
 export const TAG_UniverseRoot = sceneObjectTag<Object3D>("Tag:UniverseRoot");
 export const TAG_CloseSpaceScene = sceneObjectTag<Object3D>("Tag:CloseSpaceScene");
 
-export function getCloseSceneUssName(o: Object3D): String {
+export function getCloseSceneUssName(o: Object3D): string {
   return o.userData.ussName;
 }
 
-export function setCloseSceneUssName(o: Object3D, ussName: String) {
+export function setCloseSceneUssName(o: Object3D, ussName: string) {
   o.userData.ussName = ussName;
 }
 
