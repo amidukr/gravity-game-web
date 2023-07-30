@@ -4,6 +4,7 @@ import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd
 import { TaggedObjectEvent } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/handlers/TaggedObjectEvent";
 import { BaseTaggedObjectOnCreateHandler } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/utils/BaseTaggedObjectOnCreateHandler";
 import { sceneObjectTag, SceneTaggingModel, TYPE_GameSceneTaggingModel } from "../../../../../common/game/engine/features/rendering/SceneTaggingModel";
+import { GravityConfiguration } from "../../../configuration/GravityConfiguration";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../../game-level/GravityGameLevelObject";
 import { ATMOSPHERE_TAG, PLANET_TAG } from "../../game-level/GravityGameTags";
 import { GravitySpaceObjectsService } from "../../model-calculation/gravity-universe/service/GravitySpaceObjectsService";
@@ -59,6 +60,10 @@ export class AtmosphereLoader extends BaseTaggedObjectOnCreateHandler<Object3D> 
       backMaterial.side = BackSide;
 
       planet.parent!!.add(backAtmosphereObject);
+
+      if (GravityConfiguration.hidePlanets) {
+        planet.visible = false;
+      }
 
       backAtmosphereObject.name = "Atmo" + planet.name;
 

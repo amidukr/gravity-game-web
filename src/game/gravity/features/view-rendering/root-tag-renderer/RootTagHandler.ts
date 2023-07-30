@@ -4,6 +4,7 @@ import { TAG_GameLevelRoot } from "../../../../../common/game/engine/3rd-party/t
 import { threeJsAddTag, threeJsSetTagName } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTaggingModel";
 import { TaggedObjectHandler } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/utils/TaggedObjectHandler";
 import { sceneObjectTag } from "../../../../../common/game/engine/features/rendering/SceneTaggingModel";
+import { GravityConfiguration } from "../../../configuration/GravityConfiguration";
 import { SpaceShipsModel } from "../../model-calculation/space-ships/SpaceShipsModel";
 import { TAG_DancingColor } from "../close-space-renderer/controllers/ColorfulTaggedController";
 
@@ -40,7 +41,11 @@ export class RootTagHandler extends TaggedObjectHandler {
   onUniverseRootUpdate(o: Object3D) {
     const playerShip = this.spaceShipsModel.object.player;
 
-    //o.position.copy(playerShip.globalCoordinate);
-    //o.position.negate();
+    if (GravityConfiguration.worldRelativeToCamera) {
+      o.position.copy(playerShip.globalCoordinate);
+      o.position.negate();
+    } else {
+      o.position.set(0, 0, 0);
+    }
   }
 }

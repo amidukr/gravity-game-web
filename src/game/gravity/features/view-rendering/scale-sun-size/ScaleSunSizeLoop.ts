@@ -5,20 +5,17 @@ import { BaseGamePreRenderingLooper } from "../../../../../common/game/engine/fr
 import { GameEvent } from "../../../../../common/game/engine/GameEvent";
 import { expSteepness, smootStep } from "../../../../../common/utils/math";
 import { GravitySpaceObjectsService } from "../../model-calculation/gravity-universe/service/GravitySpaceObjectsService";
-import { PlayerControlModel } from "../../model-calculation/player-control/PlayerControlModel";
 
 export class ScaleSunSizeLoop extends BaseGamePreRenderingLooper {
-  playerViewModel!: PlayerControlModel;
-
   private planetMinOrbit!: number;
   private planetMaxRadius!: number;
+  private freeOrbit!: number;
 
   private viewSceneModel!: ThreeJsGameViewSceneModel;
   private gravitySpaceObjects!: GravitySpaceObjectsService;
 
   override autowire(application: ApplicationContainer): void {
     this.gravitySpaceObjects = application.getComponent(GravitySpaceObjectsService);
-    this.playerViewModel = application.getComponent(PlayerControlModel);
     this.viewSceneModel = application.getComponent(ThreeJsGameViewSceneModel);
   }
 
@@ -41,6 +38,8 @@ export class ScaleSunSizeLoop extends BaseGamePreRenderingLooper {
         this.planetMaxRadius = Math.max(this.planetMaxRadius, planet.userData.radius);
       }
     });
+
+    this.freeOrbit = this.planetMinOrbit - this.planetMaxRadius;
   }
 
   execute(event: GameEvent): void {
@@ -55,13 +54,13 @@ export class ScaleSunSizeLoop extends BaseGamePreRenderingLooper {
 
       const distanceToStar = starPosition.distanceTo(cameraPosition);
 
-      const freeOrbit = this.planetMinOrbit - this.planetMaxRadius;
+      const distanceToStarFactor = smootStep(expSteepness(1.0 - distanceToStar / this.freeOrbit, 1), 0.0, 0.7);
 
-      const distanceToStarFactor = smootStep(expSteepness(1.0 - distanceToStar / freeOrbit, 1), 0.0, 0.7);
+      const starWorldCoordinate = star.getWorldPosition(new Vector3());
 
-      const projectionScale = new Vector3().copy(star.position).project(camera).add(new Vector3(0, 0.125, 0)).unproject(camera).sub(star.position);
+      const projectionScale = starWorldCoordinate.clone().project(camera).add(new Vector3(0, 0.125, 0)).unproject(camera).sub(starWorldCoordinate);
 
-      const starScalar = Math.min(projectionScale.length(), 0.5 * (this.planetMinOrbit - this.planetMaxRadius)) + 0.05 * freeOrbit * distanceToStarFactor;
+      const starScalar = Math.min(projectionScale.length(), 0.5 * this.freeOrbit) + 0.05 * this.freeOrbit * distanceToStarFactor;
 
       star.scale.setScalar(starScalar);
     });
