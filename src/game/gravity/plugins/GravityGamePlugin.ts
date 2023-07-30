@@ -7,7 +7,7 @@ import { ThreeJsGameViewSceneModel } from "../../../common/game/engine/3rd-party
 import { ThreeJsRootSceneLoader } from "../../../common/game/engine/3rd-party/threejs/ThreeJsRootSceneLoader";
 import { ThreeJsTaggedScenePrerender } from "../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTaggingLooper";
 import { ThreeJsSceneTaggingModel } from "../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTaggingModel";
-import { SceneTaggedController } from "../../../common/game/engine/features/rendering/scene-graph-controller/SceneTaggedController";
+import { TaggedSceneEngine } from "../../../common/game/engine/features/rendering/scene-graph-controller/TaggedSceneEngine";
 import { GameEnginePlugin } from "../../../common/game/engine/plugins/GameEnginePlugin";
 import { ReactStarter, TYPE_ReactRootWidget } from "../../../common/ui/ReactStarter";
 import { DebugConsoleCoreBinder as DebugConsoleBinderCore } from "../features/framework/debug/DebugConsoleCoreBinder";
@@ -53,7 +53,7 @@ export class GravityGamePlugin implements ApplicationComponent {
     application.registerComponent(RootWidget);
 
     // Register Gravity Game engine components
-    application.registerComponent(new SceneTaggedController());
+    application.registerComponent(new TaggedSceneEngine());
 
     application.registerComponent(new ThreeJsGameLevelRepository());
     application.registerComponent(new ThreeJsGameViewSceneModel());

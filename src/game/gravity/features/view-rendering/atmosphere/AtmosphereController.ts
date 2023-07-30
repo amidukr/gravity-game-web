@@ -1,16 +1,22 @@
 import { BackSide, IcosahedronGeometry, Mesh, Object3D, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
-import { TaggedObjectEvent } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/handlers/TaggedObjectEvent";
-import { BaseTaggedObjectOnCreateHandler } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/utils/BaseTaggedObjectOnCreateHandler";
-import { sceneObjectTag, SceneTaggingModel, TYPE_GameSceneTaggingModel } from "../../../../../common/game/engine/features/rendering/SceneTaggingModel";
+import { SceneSubscribeContext } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/SceneSubscribeContext";
+import { TaggedObjectEvent } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedObjectEvent";
+import { TaggedSceneController } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedSceneController";
+import {
+  sceneObjectTag,
+  SceneTaggingModel,
+  TaggedObject,
+  TYPE_GameSceneTaggingModel,
+} from "../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 import { GravityConfiguration } from "../../../configuration/GravityConfiguration";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../../game-level/GravityGameLevelObject";
 import { ATMOSPHERE_TAG, PLANET_TAG } from "../../game-level/GravityGameTags";
 import { GravitySpaceObjectsService } from "../../model-calculation/gravity-universe/service/GravitySpaceObjectsService";
 import { AtmospherShaderMaterial } from "./material/AtmospherMaterial";
 
-export class AtmosphereLoader extends BaseTaggedObjectOnCreateHandler<Object3D> {
+export class AtmosphereController extends TaggedSceneController {
   gameLevel!: GravityGameLevel;
   viewSceneModel!: ThreeJsGameViewSceneModel;
   sceneMetaModel!: SceneTaggingModel;
@@ -23,12 +29,24 @@ export class AtmosphereLoader extends BaseTaggedObjectOnCreateHandler<Object3D> 
     this.viewSceneModel = application.getComponent(ThreeJsGameViewSceneModel);
   }
 
-  override tagSelector() {
-    return [PLANET_TAG];
+  override subscribe(ctx: SceneSubscribeContext): void {
+    ctx.registerOnAdd([PLANET_TAG], this.onPlanetAdd.bind(this));
+    ctx.registerOnAddEach([ATMOSPHERE_TAG], this.onAtmosphereUpdate.bind(this));
   }
-  override onCreateObject(): void {}
 
-  override onCreate(event: TaggedObjectEvent<Object3D>): void {
+  onAtmosphereUpdate(object: TaggedObject<Mesh>): void {
+    const atmosphereObject = object.object;
+
+    const star = this.gravitySpaceObjects.findFirstStar();
+    const planet = this.sceneMetaModel.getFirstObjectByTag(sceneObjectTag<Object3D>(atmosphereObject.userData.planeName))!!.object;
+
+    const backMaterial = atmosphereObject.material as AtmospherShaderMaterial;
+
+    backMaterial.planetCenter = planet.getWorldPosition(new Vector3());
+    backMaterial.starPosition = star.getWorldPosition(new Vector3());
+  }
+
+  onPlanetAdd(event: TaggedObjectEvent<Object3D>): void {
     const backMaterialPrototype = new AtmospherShaderMaterial();
     const backGeometry = new IcosahedronGeometry(1, 10 * 2);
 

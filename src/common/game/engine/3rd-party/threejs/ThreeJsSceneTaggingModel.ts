@@ -29,6 +29,7 @@ function getTagList(o: Object3D): string[] {
   var tagList = o.userData.__tagList;
   if (tagList == undefined) {
     o.userData.__tagList = tagList = collectTagList(o);
+    o.userData.__tagSet = new Set(tagList);
   }
 
   return tagList;
@@ -40,11 +41,16 @@ export function threeJsSetTagName<T extends Object3D>(o: T, tagName: SceneObject
 
 export function threeJsAddTag<T extends Object3D>(o: T, ...tags: SceneObjectTag<T>[]): void {
   const objectTags = getTagList(o);
-  objectTags.push(...tags.map((t) => t.name));
+  const tagNames = tags.map((t) => t.name);
+  objectTags.push(...tagNames);
+  const tagSet = o.userData.__tagSet;
+  tags.forEach(tagSet.add.bind(tagSet), tagNames);
 }
 
 export function threeJsIsTaggged<T extends Object3D>(o: T, tag: SceneObjectTag<T>): boolean {
-  return getTagList(o).includes(tag.name);
+  getTagList(o);
+
+  return o.userData.__tagSet.has(tag.name);
 }
 
 export class ThreeJsSceneTaggingModel implements SceneTaggingModel {

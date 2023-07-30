@@ -118,15 +118,13 @@ export class FreeFlyProcessingLoop extends BaseGameModelProcessingLooper {
 
     playerSpaceShip.coordinateSet = coordinateSet;
 
-    console.info(coordinateSet);
-
     var normalized = playerSpaceShip.ussPosition;
     normalized = this.sublocationService.normalizeCoordinate(normalized);
     normalized = this.sublocationService.normalizeCoordinate(normalized);
     normalized = this.sublocationService.normalizeCoordinate(normalized);
 
-    this.debugModel.object.attributes["ussPosition"] = JSON.stringify(playerSpaceShip.ussPosition);
-    this.debugModel.object.attributes["ussPositionNormalized"] = normalized;
+    //this.debugModel.object.attributes["ussPosition"] = JSON.stringify(playerSpaceShip.ussPosition);
+    //this.debugModel.object.attributes["ussPositionNormalized"] = normalized;
     this.debugModel.object.attributes["presenceFactor"] = this.sublocationService.calculatePresenceFactor(playerSpaceShip.ussPosition);
     this.debugModel.object.attributes["location"] = playerSpaceShip.ussPosition.location.attributes.gravityObjectName;
     this.debugModel.object.attributes["throttle"] = playerSpaceShip.throttle;

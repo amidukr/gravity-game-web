@@ -1,12 +1,13 @@
 import { Mesh, MeshBasicMaterial, Object3D } from "three";
-import { BaseTaggedObjectOnUpdateHandler } from "../../../../../../common/game/engine/features/rendering/scene-graph-controller/utils/BaseTaggedObjectOnUpdateHandler";
+import { SceneSubscribeContext } from "../../../../../../common/game/engine/features/rendering/scene-graph-controller/SceneSubscribeContext";
+import { TaggedSceneController } from "../../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedSceneController";
 import { sceneObjectTag, TaggedObject } from "../../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 
 export const TAG_DancingColor = sceneObjectTag("Tag:DancingColor");
 
-export class ColorfulTaggedController extends BaseTaggedObjectOnUpdateHandler<Object3D> {
-  tagSelector() {
-    return [TAG_DancingColor];
+export class ColorfulTaggedController extends TaggedSceneController {
+  override subscribe(ctx: SceneSubscribeContext): void {
+    ctx.registerOnUpdateEach([TAG_DancingColor], this.onUpdateObject.bind(this));
   }
 
   onUpdateObject(object: TaggedObject<Object3D>): void {

@@ -3,7 +3,7 @@ import { ApplicationContainer } from "../../../../../common/app/ApplicationConta
 import { LifecycleStage } from "../../../../../common/app/utils/LifecycleStage";
 import { ThreeJsGameRenderer } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameRenderer";
 import { ThreeJsSceneTaggingModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTaggingModel";
-import { SceneTaggedController } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/SceneTaggedController";
+import { TaggedSceneEngine } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedSceneEngine";
 import { BaseGameRenderingLooper, GameLooperExecutionOrder } from "../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../common/game/engine/GameEvent";
 
@@ -13,7 +13,7 @@ export class GravityCloseSpaceRenderer extends BaseGameRenderingLooper {
   enabled: Boolean = false;
   scene: Scene = new Scene();
   camera!: Camera;
-  taggedController!: SceneTaggedController;
+  taggedController!: TaggedSceneEngine;
   taggingModel = new ThreeJsSceneTaggingModel();
   engineRenderer!: ThreeJsGameRenderer;
 
@@ -23,7 +23,7 @@ export class GravityCloseSpaceRenderer extends BaseGameRenderingLooper {
 
   override autowire(application: ApplicationContainer): void {
     this.engineRenderer = application.getComponent(ThreeJsGameRenderer);
-    this.taggedController = new SceneTaggedController();
+    this.taggedController = new TaggedSceneEngine();
 
     this.taggedController.autowire(application);
     this.taggedController.taggingModel = this.taggingModel;

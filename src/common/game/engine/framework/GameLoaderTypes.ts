@@ -14,7 +14,7 @@ export abstract class GameLoaderExecutionOrder {
   static GameViewLoader = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameModelLoader);
   static GameSceneLoader = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameViewLoader);
   static GameLooperStarter = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameSceneLoader);
-  static TagHandlersStarter = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameLooperStarter);
+  static TaggedSceneControllerStarter = LifecycleStage.runAfter(GameLoaderExecutionOrder.GameLooperStarter);
 }
 
 export abstract class BaseGameLevelLoader extends BaseGameLoaderModule {

@@ -1,4 +1,4 @@
-import { SceneTaggingModel, TaggedObject } from "../../SceneTaggingModel";
+import { SceneTaggingModel, TaggedObject } from "../SceneTaggingModel";
 
 export interface TaggedObjectEvent<T> {
   objectList: TaggedObject<T>[];
