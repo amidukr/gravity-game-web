@@ -3,7 +3,7 @@ import { SceneSubscribeContext } from "../../../../../common/game/engine/feature
 import { TaggedSceneController } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedSceneController";
 import { sceneObjectTag, TaggedObject } from "../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 
-export const TAG_DancingColor = sceneObjectTag("Tag:DancingColor");
+export const TAG_DancingColor = sceneObjectTag<Object3D>("Tag:DancingColor");
 
 export class ColorfulTaggedController extends TaggedSceneController {
   override subscribe(ctx: SceneSubscribeContext): void {

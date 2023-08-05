@@ -1,8 +1,9 @@
 import { Camera, Scene } from "three";
 import { BaseGameState } from "../../core/GameModel";
 import { sceneObjectTag } from "../../features/rendering/SceneTaggingModel";
+import { threeJsSetTagName } from "./ThreeJsSceneTaggingModel";
 
-export const TAG_Root = sceneObjectTag("Tag:Root");
+export const TAG_Root = sceneObjectTag<Scene>("Tag:Root");
 
 export class ThreeJsGameViewSceneObject {
   scene = new Scene();
@@ -12,8 +13,8 @@ export class ThreeJsGameViewSceneObject {
 export class ThreeJsGameViewSceneModel extends BaseGameState<ThreeJsGameViewSceneObject> {
   construtNewObject() {
     const sceneObject = new ThreeJsGameViewSceneObject();
+    threeJsSetTagName(sceneObject.scene, TAG_Root);
     sceneObject.scene.name = "TagRoot";
-    sceneObject.scene.userData.name = TAG_Root.tagName;
 
     return sceneObject;
   }

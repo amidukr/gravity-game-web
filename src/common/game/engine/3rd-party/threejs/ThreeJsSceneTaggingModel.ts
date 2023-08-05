@@ -1,6 +1,13 @@
 import { Object3D } from "three";
 import { Introspection } from "../../../../app/lookup/Introspection";
-import { SceneObjectTag, sceneObjectTag, SceneTaggingModel, TaggedObject, TYPE_GameSceneTaggingModel } from "../../features/rendering/SceneTaggingModel";
+import {
+  ObjectContextArgument,
+  SceneObjectTag,
+  sceneObjectTag,
+  SceneTaggingModel,
+  TaggedObject,
+  TYPE_GameSceneTaggingModel,
+} from "../../features/rendering/SceneTaggingModel";
 
 interface TaggedObjectContainer {
   [tag: string]: TaggedObject<any>[];
@@ -38,7 +45,7 @@ function getTagList(o: Object3D): string[] {
   return tagList;
 }
 
-export function threeJsSetTagName<T extends Object3D>(o: T, tagName: SceneObjectTag<T>, name?: string) {
+export function threeJsSetTagName<T extends Object3D, O extends T>(o: O, tagName: SceneObjectTag<T>, name?: string) {
   o.userData.name = name ? tagName.tagName + "." + name : tagName.tagName;
 }
 
@@ -48,7 +55,7 @@ export function threeJsCleanTags(o: Object3D) {
   delete o.userData["__tagSet"];
 }
 
-export function threeJsAddTag<T extends Object3D>(o: T, ...tags: SceneObjectTag<T>[]): void {
+export function threeJsAddTag<T extends Object3D, O extends T>(o: O, ...tags: SceneObjectTag<T>[]): void {
   const objectTags = getTagList(o);
   const tagNames = tags.map((t) => t.tagName);
   objectTags.push(...tagNames);
@@ -56,7 +63,7 @@ export function threeJsAddTag<T extends Object3D>(o: T, ...tags: SceneObjectTag<
   tags.forEach(tagSet.add.bind(tagSet), tagNames);
 }
 
-export function threeJsIsTaggged<T extends Object3D>(o: T, tag: SceneObjectTag<T>): boolean {
+export function threeJsIsTaggged<T extends Object3D, O extends T>(o: O, tag: SceneObjectTag<T>): boolean {
   getTagList(o);
 
   return o.userData.__tagSet.has(tag.tagName);
@@ -110,15 +117,19 @@ export class ThreeJsSceneTaggingModel implements SceneTaggingModel {
     return this.tags;
   }
 
-  addTagToObject<T extends object>(o: T, ...tags: SceneObjectTag<T>[]): void {
-    threeJsAddTag(o as Object3D, ...tags);
+  addTagToObject<T, O extends T>(o: O, ...tags: SceneObjectTag<T>[]): void {
+    threeJsAddTag(o as any, ...(tags as any));
   }
 
-  getObjectsByTag<T extends object>(tag: SceneObjectTag<T>): TaggedObject<T>[] {
+  getObjectsByTag<T>(tag: SceneObjectTag<T>): TaggedObject<T>[] {
     return this.objectsByTag[tag.tagName] || [];
   }
 
-  getFirstObjectByTag<T extends object>(tag: SceneObjectTag<T>): TaggedObject<T> | undefined {
+  getFirstObjectByTag<T>(tag: SceneObjectTag<T>): TaggedObject<T> | undefined {
     return this.getObjectsByTag(tag)[0];
+  }
+
+  getContextArgument<T, V>(o: T, argument: ObjectContextArgument<T, V>): V {
+    throw new Error("Method not implemented.");
   }
 }
