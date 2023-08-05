@@ -19,8 +19,9 @@ import { PlayerControlModel } from "../features/model-calculation/player-control
 import { DebugAltitudeLoop } from "../features/model-calculation/space-ships/DebugAltitudeLoop";
 import { PlayerSpaceShipLoader } from "../features/model-calculation/space-ships/PlayerSpaceShipLoader";
 import { SpaceShipsModel } from "../features/model-calculation/space-ships/SpaceShipsModel";
-import { ColorfulTaggedController } from "../features/view-rendering/common/ColorfulTaggedController";
-import { RootTagHandler } from "../features/view-rendering/root-tag-renderer/RootTagHandler";
+import { ColorfulTaggedController } from "../features/view-rendering/common/ColorfulTagController";
+import { GridShaderTagController } from "../features/view-rendering/common/GridShaderTagController";
+import { RootTagController } from "../features/view-rendering/root-tag-renderer/RootTagController";
 import { GravityGameStarter } from "../starters/GravityGameStarter";
 import { RootWidget } from "../ui/GravityGameRootWidget";
 import { GravityUniversePlugin } from "./GravityUniverseModule";
@@ -82,8 +83,9 @@ export class GravityGamePlugin implements ApplicationComponent {
     application.registerComponent(new TerraGenerationModule());
 
     // Tag handlers
-    application.registerComponent(new RootTagHandler());
+    application.registerComponent(new RootTagController());
     application.registerComponent(new ColorfulTaggedController());
+    application.registerComponent(new GridShaderTagController());
 
     // Debug
     application.registerComponent(new DebugInfoModel());

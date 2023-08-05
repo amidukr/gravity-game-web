@@ -15,7 +15,7 @@ import { sceneObjectContext, sceneObjectTag, TaggedObject } from "../../../../..
 import { GravityConfiguration } from "../../../configuration/GravityConfiguration";
 import { USSL_UNIVERSE } from "../../model-calculation/gravity-sublocation/GravityUsslContainerHandler";
 import { SpaceShipsModel } from "../../model-calculation/space-ships/SpaceShipsModel";
-import { TAG_DancingColor } from "../common/ColorfulTaggedController";
+import { TAG_DancingColor } from "../common/ColorfulTagController";
 
 export const TAG_UniverseRoot = sceneObjectTag<Object3D>("Tag:UniverseRoot");
 export const TAG_CloseSpaceScene = sceneObjectTag<Object3D>("Tag:CloseSpaceScene");
@@ -29,7 +29,7 @@ export function setCloseSceneUssName(o: Object3D, ussName: string) {
   threeJsSetContextArgument(o, CONTEXT_UssName, ussName);
 }
 
-export class RootTagHandler extends TaggedSceneController {
+export class RootTagController extends TaggedSceneController {
   spaceShipsModel!: SpaceShipsModel;
 
   autowire(application: ApplicationContainer): void {
@@ -44,7 +44,6 @@ export class RootTagHandler extends TaggedSceneController {
   }
 
   onGameLevelRootCreate(o: TaggedObject<Object3D>) {
-    console.info("onGameLevelRootCreate");
     threeJsAddTag(o.object, TAG_UniverseRoot);
   }
 

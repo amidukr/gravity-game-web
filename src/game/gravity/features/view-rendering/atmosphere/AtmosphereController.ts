@@ -1,11 +1,7 @@
 import { BackSide, IcosahedronGeometry, Mesh, Object3D, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
-import { LifecycleStage } from "../../../../../common/app/utils/LifecycleStage";
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
-import {
-  SceneSubscribeContext,
-  TaggedControllerExecutionOrder,
-} from "../../../../../common/game/engine/features/rendering/scene-graph-controller/SceneSubscribeContext";
+import { SceneSubscribeContext } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/SceneSubscribeContext";
 import { TaggedObjectEvent } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedObjectEvent";
 import { TaggedSceneController } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedSceneController";
 import {
@@ -21,9 +17,7 @@ import { getPlanetRadius } from "../../model-calculation/gravity-scene-model/Unv
 import { GravitySpaceObjectsService } from "../../model-calculation/gravity-universe/service/GravitySpaceObjectsService";
 import { AtmospherShaderMaterial } from "./material/AtmospherMaterial";
 
-export const STAGE_OnAtmosphereUpdateStage = LifecycleStage.runAfter(TaggedControllerExecutionOrder.Update);
-
-export class AtmosphereController extends TaggedSceneController {
+export class AtmosphereTagController extends TaggedSceneController {
   gameLevel!: GravityGameLevel;
   viewSceneModel!: ThreeJsGameViewSceneModel;
   sceneMetaModel!: SceneTaggingModel;
@@ -38,7 +32,7 @@ export class AtmosphereController extends TaggedSceneController {
 
   override subscribe(ctx: SceneSubscribeContext): void {
     ctx.registerOnAdd([TAG_Planet], this.onPlanetAdd.bind(this));
-    ctx.registerOnUpdateEach([TAG_Atmosphere], this.onAtmosphereUpdate.bind(this), { executionOrder: STAGE_OnAtmosphereUpdateStage });
+    ctx.registerOnUpdateEach([TAG_Atmosphere], this.onAtmosphereUpdate.bind(this));
   }
 
   onAtmosphereUpdate(object: TaggedObject<Mesh>): void {
@@ -66,8 +60,6 @@ export class AtmosphereController extends TaggedSceneController {
     }
 
     backMaterialPrototype.starPosition = starPosition;
-
-    console.info("atmo planets", event.objectList);
 
     event.objectList.forEach((planetTagged) => {
       const planet: Object3D = planetTagged.object.parent as Object3D;

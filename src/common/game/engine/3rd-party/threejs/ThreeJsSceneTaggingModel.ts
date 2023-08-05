@@ -1,5 +1,6 @@
 import { Object3D } from "three";
 import { Introspection } from "../../../../app/lookup/Introspection";
+import { findObject3dParent } from "../../../../utils/ThreeJsUtils";
 import {
   SceneObjectContext,
   SceneObjectTag,
@@ -60,7 +61,7 @@ export function threeJsAddTag<T extends Object3D, O extends T>(o: O, ...tags: Sc
   const tagNames = tags.map((t) => t.tagName);
   objectTags.push(...tagNames);
   const tagSet = o.userData.__tagSet;
-  tags.forEach(tagSet.add.bind(tagSet), tagNames);
+  tagNames.forEach(tagSet.add.bind(tagSet));
 }
 
 export function threeJsIsTaggged<T extends Object3D, O extends T>(o: O, tag: SceneObjectTag<T>): boolean {
@@ -91,6 +92,9 @@ export function threeJsGetContextArgument<T extends Object3D, V>(o: T, argument:
   return undefined;
 }
 
+export function threeJsFindTaggedParent<T>(object: Object3D, tag: SceneObjectTag<T>): T | null {
+  return findObject3dParent(object, (p) => threeJsIsTaggged(p as any, tag as any)) as any;
+}
 export class ThreeJsSceneTaggingModel implements SceneTaggingModel {
   root!: Object3D;
   objectsByTag: TaggedObjectContainer = {};

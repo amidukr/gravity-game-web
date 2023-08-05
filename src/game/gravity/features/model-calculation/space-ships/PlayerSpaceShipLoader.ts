@@ -37,8 +37,6 @@ export class PlayerSpaceShipLoader extends BaseGameModelLoader {
     //alignQuaternionToVector(orientation, new Vector3(-1,0.0, -0.3));
     //alignQuaternionToVector(orientation, new Vector3(-1,0, 0));
 
-    console.info("New Quaternion vector", quanterionBaseVector().applyQuaternion(orientation));
-
     playerSpaceShip.throttle = this.gameLevel.object.data.spaceShips.player.throttle || 0.1;
 
     playerSpaceShip.orientation.copy(orientation);
@@ -46,7 +44,5 @@ export class PlayerSpaceShipLoader extends BaseGameModelLoader {
     playerSpaceShip.ussPosition.position = startPosition.getWorldPosition(new Vector3());
     playerSpaceShip.ussPosition.velocity = quanterionBaseVector().applyQuaternion(orientation);
     playerSpaceShip.globalCoordinate = playerSpaceShip.ussPosition.position.clone();
-
-    console.info("Start location", playerSpaceShip.globalCoordinate.toArray());
   }
 }

@@ -1,14 +1,14 @@
 import { ShaderMaterial, Vector3 } from "three";
+import vertexShaderVs from "../../../../../../common/materials/glsl/BasicVertexShader.vs";
 import { preprocessShader } from "../../../../../../common/utils/ShaderUtils";
-import backShaderFs from "./glsl/BackShader.fs";
-import basicVertexShaderVs from "./glsl/BasicVertexShader.vs";
+import fragmentShader from "./glsl/BackShader.fs";
 
 export class AtmospherShaderMaterial extends ShaderMaterial {
   constructor() {
     super({
       transparent: true,
-      vertexShader: preprocessShader(basicVertexShaderVs),
-      fragmentShader: preprocessShader(backShaderFs),
+      vertexShader: preprocessShader(vertexShaderVs),
+      fragmentShader: preprocessShader(fragmentShader),
     });
 
     this.planetCenter = new Vector3();

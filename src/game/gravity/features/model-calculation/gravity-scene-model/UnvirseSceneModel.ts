@@ -27,11 +27,9 @@ export function getPlanetRadius(planet: Object3D): number {
 }
 
 export function saveOriginalObjectTemplate(object: Object3D) {
-  console.info("Save template", object);
   planetTemplateMap.set(object, object.clone());
 }
 
 export function loadOriginalObjectTemplate(object: Object3D): Object3D {
-  console.info("Load template", object);
   return planetTemplateMap.get(object)!!.clone();
 }

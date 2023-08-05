@@ -1,16 +1,22 @@
 import { Object3D } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
+import { LifecycleStage } from "../../../../../common/app/utils/LifecycleStage";
 import { threeJsCleanTags } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTaggingModel";
-import { SceneSubscribeContext } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/SceneSubscribeContext";
+import {
+  SceneSubscribeContext,
+  TaggedControllerExecutionOrder,
+} from "../../../../../common/game/engine/features/rendering/scene-graph-controller/SceneSubscribeContext";
 import { TaggedObjectEvent } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedObjectEvent";
 import { TaggedSceneController } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedSceneController";
 import { sceneObjectTag, TaggedObject } from "../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 import { UssObject } from "../../commons/universe-sublocation/model/UssObject";
 import { getGravityFieldPlanet, loadOriginalObjectTemplate } from "../../model-calculation/gravity-scene-model/UnvirseSceneModel";
 import { SpaceShipsModel } from "../../model-calculation/space-ships/SpaceShipsModel";
-import { getCloseSceneUssName, TAG_CloseSpaceScene } from "./RootTagHandler";
+import { getCloseSceneUssName, TAG_CloseSpaceScene } from "./RootTagController";
 
-export class CloseSpaceSceneTagHandler extends TaggedSceneController {
+export const STAGE_UpdateCloseSpace = LifecycleStage.runBefore(TaggedControllerExecutionOrder.Update);
+
+export class CloseSpaceSceneTagController extends TaggedSceneController {
   spaceShipModel!: SpaceShipsModel;
   closeScenToGravityField = new WeakMap<Object3D, WeakRef<Object3D>>();
 
@@ -20,7 +26,7 @@ export class CloseSpaceSceneTagHandler extends TaggedSceneController {
 
   override subscribe(ctx: SceneSubscribeContext): void {
     ctx.registerOnAddEach([TAG_CloseSpaceScene], this.onCloseSpaceSceneCreate.bind(this));
-    ctx.registerOnUpdateEach([TAG_CloseSpaceScene], this.onCloseSpaceSceneUpdate.bind(this));
+    ctx.registerOnUpdateEach([TAG_CloseSpaceScene], this.onCloseSpaceSceneUpdate.bind(this), { executionOrder: STAGE_UpdateCloseSpace });
     ctx.registerOnDeleteEach([TAG_CloseSpaceScene], this.onCloseSpaceSceneDelete.bind(this));
   }
 
@@ -59,8 +65,6 @@ export class CloseSpaceSceneTagHandler extends TaggedSceneController {
     threeJsCleanTags(gravityFieldClone);
     gravityFieldClone.position.set(0, 0, 0);
     closeSpaceRoot.add(gravityFieldClone);
-
-    console.info();
   }
 
   onCloseSpaceSceneUpdate(o: TaggedObject<Object3D>) {
