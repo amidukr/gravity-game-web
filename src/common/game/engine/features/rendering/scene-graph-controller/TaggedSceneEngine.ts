@@ -83,16 +83,28 @@ export class TaggedSceneEngine extends BaseGameSceneIndexerLoader {
   }
 
   preRender() {
-    const taggedCache = this.buildTagCache();
-    const callQueue: CallQueue = [];
+    var taggedCache: TagCache;
+    var callQueue: CallQueue;
 
-    this.handlerOnTagDelete(callQueue, taggedCache);
-    this.handleOnTagAdd(callQueue, taggedCache);
+    var counter = 10;
+
+    do {
+      this.taggingModel.reindex();
+      taggedCache = this.buildTagCache();
+      callQueue = [];
+      this.handlerOnTagDelete(callQueue, taggedCache);
+      this.handleOnTagAdd(callQueue, taggedCache);
+
+      callQueue.sort((a, b) => a.executionOrder - b.executionOrder).forEach((x) => x.callback());
+
+      this.previousRun = this.buildTagCache();
+    } while (counter-- > 0 && callQueue.length > 0);
+
+    console.info("counter", counter);
+
+    callQueue = [];
     this.handleOnTagUpdate(callQueue, taggedCache);
-
     callQueue.sort((a, b) => a.executionOrder - b.executionOrder).forEach((x) => x.callback());
-
-    this.previousRun = this.buildTagCache();
   }
 
   private buildTagCache(): TagCache {

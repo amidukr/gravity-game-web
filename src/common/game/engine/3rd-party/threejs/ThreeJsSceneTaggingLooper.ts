@@ -17,7 +17,6 @@ export class ThreeJsTaggedScenePrerender extends BaseGameSceneTaggingLooper {
   }
 
   override execute(event: GameEvent): void {
-    this.taggingModel.reindex(this.viewSceneModel.object.scene);
     this.sceneTaggedController.preRender();
   }
 }

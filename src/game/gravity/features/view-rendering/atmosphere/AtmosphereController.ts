@@ -1,7 +1,11 @@
 import { BackSide, IcosahedronGeometry, Mesh, Object3D, Vector3 } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
+import { LifecycleStage } from "../../../../../common/app/utils/LifecycleStage";
 import { ThreeJsGameViewSceneModel } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
-import { SceneSubscribeContext } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/SceneSubscribeContext";
+import {
+  SceneSubscribeContext,
+  TaggedControllerExecutionOrder,
+} from "../../../../../common/game/engine/features/rendering/scene-graph-controller/SceneSubscribeContext";
 import { TaggedObjectEvent } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedObjectEvent";
 import { TaggedSceneController } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedSceneController";
 import {
@@ -16,6 +20,8 @@ import { ATMOSPHERE_TAG, PLANET_TAG } from "../../game-level/GravityGameTags";
 import { getPlanetRadius } from "../../model-calculation/gravity-scene-model/UnvirseSceneModel";
 import { GravitySpaceObjectsService } from "../../model-calculation/gravity-universe/service/GravitySpaceObjectsService";
 import { AtmospherShaderMaterial } from "./material/AtmospherMaterial";
+
+export const STAGE_OnAtmosphereUpdateStage = LifecycleStage.runAfter(TaggedControllerExecutionOrder.Update);
 
 export class AtmosphereController extends TaggedSceneController {
   gameLevel!: GravityGameLevel;
@@ -32,7 +38,7 @@ export class AtmosphereController extends TaggedSceneController {
 
   override subscribe(ctx: SceneSubscribeContext): void {
     ctx.registerOnAdd([PLANET_TAG], this.onPlanetAdd.bind(this));
-    ctx.registerOnUpdateEach([ATMOSPHERE_TAG], this.onAtmosphereUpdate.bind(this));
+    ctx.registerOnUpdateEach([ATMOSPHERE_TAG], this.onAtmosphereUpdate.bind(this), { executionOrder: STAGE_OnAtmosphereUpdateStage });
   }
 
   onAtmosphereUpdate(object: TaggedObject<Mesh>): void {

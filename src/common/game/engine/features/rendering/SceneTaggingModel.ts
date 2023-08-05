@@ -20,6 +20,8 @@ export interface SceneObjectContext<T, V> {
 }
 
 export interface SceneTaggingModel {
+  reindex(): void;
+
   addTagToObject<T, O extends T>(o: O, ...tags: SceneObjectTag<T>[]): void;
   getTags(): SceneObjectTag<any>[];
   getObjectsByTag<T>(tag: SceneObjectTag<T>): TaggedObject<T>[];

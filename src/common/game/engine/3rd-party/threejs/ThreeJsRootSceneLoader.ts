@@ -31,6 +31,7 @@ export class ThreeJsRootSceneLoader extends BaseGameSceneLoader {
 
     this.tagIndex.addTagToObject(this.gameLevel.object.rootScene, TAG_GameLevelRoot);
 
-    this.tagIndex.reindex(scene);
+    this.tagIndex.root = scene;
+    this.tagIndex.reindex();
   }
 }

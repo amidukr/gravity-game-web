@@ -92,6 +92,7 @@ export function threeJsGetContextArgument<T extends Object3D, V>(o: T, argument:
 }
 
 export class ThreeJsSceneTaggingModel implements SceneTaggingModel {
+  root!: Object3D;
   objectsByTag: TaggedObjectContainer = {};
   private tags: SceneObjectTag<any>[] = [];
 
@@ -99,10 +100,10 @@ export class ThreeJsSceneTaggingModel implements SceneTaggingModel {
     Introspection.bindInterfaceName(this, TYPE_GameSceneTaggingModel);
   }
 
-  reindex(root: Object3D) {
+  reindex() {
     this.objectsByTag = {};
 
-    root.traverse((o) => {
+    this.root.traverse((o) => {
       this.indexObject(o);
     });
 
