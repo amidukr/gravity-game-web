@@ -12,7 +12,7 @@ out vec4 fragColor;
 precision highp float;
 
 
-in vec3 _position;
+in vec3 surfaceWorldPosition;
 
 uniform vec3 planetCenter;
 uniform float planetRadius;
@@ -138,10 +138,10 @@ void main()	{
 
     // CODE
     
-    vec3 cameraToSurface = _position - cameraPosition;
-    vec3 surfaceToCore = planetCenter - _position;
+    vec3 cameraToSurface = surfaceWorldPosition - cameraPosition;
+    vec3 surfaceToCore = planetCenter - surfaceWorldPosition;
     
-    vec3 surfaceToStar = starPosition - _position;
+    vec3 surfaceToStar = starPosition - surfaceWorldPosition;
     vec3 coreToStar = starPosition - planetCenter;
 
     vec3 cameraToSurfaceNormalized = normalize(cameraToSurface);

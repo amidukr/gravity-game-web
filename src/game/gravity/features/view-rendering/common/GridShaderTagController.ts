@@ -1,4 +1,4 @@
-import { Mesh, Vector3 } from "three";
+import { Box3, Mesh, Vector3 } from "three";
 import { SceneSubscribeContext } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/SceneSubscribeContext";
 import { TaggedSceneController } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedSceneController";
 import { sceneObjectTag, TaggedObject } from "../../../../../common/game/engine/features/rendering/SceneTaggingModel";
@@ -13,7 +13,11 @@ export class GridShaderTagController extends TaggedSceneController {
   }
 
   onGridTagAdd(o: TaggedObject<Mesh>): void {
-    o.object.material = new GridShaderMaterial();
+    const material = new GridShaderMaterial();
+
+    material.objectWorldScale = o.object.getWorldScale(new Vector3())
+
+    o.object.material = material;
   }
 
   onGridTagUpdate(o: TaggedObject<Mesh>): void {
