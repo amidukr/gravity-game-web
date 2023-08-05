@@ -14,7 +14,7 @@ export interface TaggedObject<T> {
   objectName: string;
 }
 
-export interface ObjectContextArgument<T, V> {
+export interface SceneObjectContext<T, V> {
   phantom?: { t: T; v: V };
   argumentName: string;
 }
@@ -24,7 +24,9 @@ export interface SceneTaggingModel {
   getTags(): SceneObjectTag<any>[];
   getObjectsByTag<T>(tag: SceneObjectTag<T>): TaggedObject<T>[];
   getFirstObjectByTag<T>(tag: SceneObjectTag<T>): TaggedObject<T> | undefined;
-  getContextArgument<T, V>(o: T, argument: ObjectContextArgument<T, V>): V;
+
+  setContextArgument<T, V>(o: T, argument: SceneObjectContext<T, V>, value: V): void;
+  getContextArgument<T, V>(o: T, argument: SceneObjectContext<T, V>): V | undefined;
 }
 
 const __tagCache: {
@@ -41,15 +43,15 @@ export function sceneObjectTag<T>(tagName: string): SceneObjectTag<T> {
   return tag;
 }
 
-const __objectContextArgumentCache: {
-  [tag: string]: ObjectContextArgument<any, any>;
+const __sceneObjectContextCache: {
+  [tag: string]: SceneObjectContext<any, any>;
 } = {};
 
-export function objectContextArgument<T, V>(argumentName: string): ObjectContextArgument<T, V> {
-  var argument = __objectContextArgumentCache[argumentName];
+export function sceneObjectContext<T, V>(argumentName: string): SceneObjectContext<T, V> {
+  var argument = __sceneObjectContextCache[argumentName];
 
   if (argument == undefined) {
-    __objectContextArgumentCache[argumentName] = argument = { argumentName: argumentName };
+    __sceneObjectContextCache[argumentName] = argument = { argumentName: argumentName };
   }
 
   return argument;

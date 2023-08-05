@@ -5,6 +5,7 @@ import { SceneSubscribeContext } from "../../../../../common/game/engine/feature
 import { TaggedObjectEvent } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedObjectEvent";
 import { TaggedSceneController } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedSceneController";
 import { sceneObjectTag, TaggedObject } from "../../../../../common/game/engine/features/rendering/SceneTaggingModel";
+import { UssObject } from "../../commons/universe-sublocation/model/UssObject";
 import { getGravityFieldPlanet, loadOriginalObjectTemplate } from "../../model-calculation/gravity-scene-model/UnvirseSceneModel";
 import { SpaceShipsModel } from "../../model-calculation/space-ships/SpaceShipsModel";
 import { getCloseSceneUssName, TAG_CloseSpaceScene } from "./RootTagHandler";
@@ -23,14 +24,18 @@ export class CloseSpaceSceneTagHandler extends TaggedSceneController {
     ctx.registerOnDeleteEach([TAG_CloseSpaceScene], this.onCloseSpaceSceneDelete.bind(this));
   }
 
-  lookupCoordinate(closeSceneObject: Object3D) {
+  lookupCoordinate(closeSceneObject: Object3D): UssObject | undefined {
     const ussName = getCloseSceneUssName(closeSceneObject);
+
+    if (ussName == undefined) return undefined;
 
     return this.spaceShipModel.object.player.coordinateSet[ussName];
   }
 
   lookupGravityField(closeSceneObject: Object3D, event: TaggedObjectEvent<Object3D>): Object3D | undefined {
     const coordinate = this.lookupCoordinate(closeSceneObject);
+
+    if (coordinate == undefined) return undefined;
 
     const gravityObjectName: string = coordinate.location.attributes.gravityObjectName;
 
@@ -62,8 +67,10 @@ export class CloseSpaceSceneTagHandler extends TaggedSceneController {
     const object = o.object;
     const coordiante = this.lookupCoordinate(object);
 
-    object.position.copy(coordiante.position);
-    object.position.negate();
+    if (coordiante) {
+      object.position.copy(coordiante.position);
+      object.position.negate();
+    }
   }
 
   onCloseSpaceSceneDelete(o: TaggedObject<Object3D>, event: TaggedObjectEvent<Object3D>) {

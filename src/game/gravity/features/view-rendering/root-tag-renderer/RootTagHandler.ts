@@ -2,11 +2,16 @@ import { BoxGeometry, Mesh, MeshBasicMaterial, Object3D } from "three";
 import { ApplicationContainer } from "../../../../../common/app/ApplicationContainer";
 import { TAG_Root } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsGameViewScene";
 import { TAG_GameLevelRoot } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsRootSceneLoader";
-import { threeJsAddTag, threeJsSetTagName } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTaggingModel";
+import {
+  threeJsAddTag,
+  threeJsGetContextArgument,
+  threeJsSetContextArgument,
+  threeJsSetTagName,
+} from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTaggingModel";
 import { SceneSubscribeContext } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/SceneSubscribeContext";
 import { TaggedObjectEvent } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedObjectEvent";
 import { TaggedSceneController } from "../../../../../common/game/engine/features/rendering/scene-graph-controller/TaggedSceneController";
-import { sceneObjectTag, TaggedObject } from "../../../../../common/game/engine/features/rendering/SceneTaggingModel";
+import { sceneObjectContext, sceneObjectTag, TaggedObject } from "../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 import { GravityConfiguration } from "../../../configuration/GravityConfiguration";
 import { USSL_UNIVERSE } from "../../model-calculation/gravity-sublocation/GravityUsslContainerHandler";
 import { SpaceShipsModel } from "../../model-calculation/space-ships/SpaceShipsModel";
@@ -14,13 +19,14 @@ import { TAG_DancingColor } from "../common/ColorfulTaggedController";
 
 export const TAG_UniverseRoot = sceneObjectTag<Object3D>("Tag:UniverseRoot");
 export const TAG_CloseSpaceScene = sceneObjectTag<Object3D>("Tag:CloseSpaceScene");
+export const CONTEXT_UssName = sceneObjectContext<Object3D, string>("CTX:UssName");
 
-export function getCloseSceneUssName(o: Object3D): string {
-  return o.userData.ussName;
+export function getCloseSceneUssName(o: Object3D): string | undefined {
+  return threeJsGetContextArgument(o, CONTEXT_UssName);
 }
 
 export function setCloseSceneUssName(o: Object3D, ussName: string) {
-  o.userData.ussName = ussName;
+  threeJsSetContextArgument(o, CONTEXT_UssName, ussName);
 }
 
 export class RootTagHandler extends TaggedSceneController {

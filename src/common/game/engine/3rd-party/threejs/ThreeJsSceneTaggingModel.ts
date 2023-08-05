@@ -1,7 +1,7 @@
 import { Object3D } from "three";
 import { Introspection } from "../../../../app/lookup/Introspection";
 import {
-  ObjectContextArgument,
+  SceneObjectContext,
   SceneObjectTag,
   sceneObjectTag,
   SceneTaggingModel,
@@ -69,6 +69,28 @@ export function threeJsIsTaggged<T extends Object3D, O extends T>(o: O, tag: Sce
   return o.userData.__tagSet.has(tag.tagName);
 }
 
+export function threeJsSetContextArgument<T extends Object3D, V>(o: T, argument: SceneObjectContext<T, V>, value: V): void {
+  var context = o.userData.__context;
+  if (context == undefined) {
+    o.userData.__context = context = {};
+  }
+
+  context[argument.argumentName] = value;
+}
+
+export function threeJsGetContextArgument<T extends Object3D, V>(o: T, argument: SceneObjectContext<T, V>): V | undefined {
+  const argumentName = argument.argumentName;
+  var nextObject: Object3D | null = o;
+  while (nextObject) {
+    const context = nextObject.userData.__context;
+    if (context && context.hasOwnProperty(argumentName)) return context[argumentName];
+
+    nextObject = nextObject.parent;
+  }
+
+  return undefined;
+}
+
 export class ThreeJsSceneTaggingModel implements SceneTaggingModel {
   objectsByTag: TaggedObjectContainer = {};
   private tags: SceneObjectTag<any>[] = [];
@@ -129,7 +151,11 @@ export class ThreeJsSceneTaggingModel implements SceneTaggingModel {
     return this.getObjectsByTag(tag)[0];
   }
 
-  getContextArgument<T, V>(o: T, argument: ObjectContextArgument<T, V>): V {
-    throw new Error("Method not implemented.");
+  setContextArgument<T, V>(o: T, argument: SceneObjectContext<T, V>, value: V): void {
+    threeJsSetContextArgument(o as any, argument as any, value);
+  }
+
+  getContextArgument<T, V>(o: T, argument: SceneObjectContext<T, V>): V | undefined {
+    return threeJsGetContextArgument(o as any, argument);
   }
 }
