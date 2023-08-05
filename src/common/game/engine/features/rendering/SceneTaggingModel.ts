@@ -4,13 +4,13 @@ import { PACKAGE_AmidGeFramework } from "../../../../package";
 export const TYPE_GameSceneTaggingModel = typeIdentifier<SceneTaggingModel>("GameSceneTaggingModel", PACKAGE_AmidGeFramework);
 
 export interface SceneObjectTag<T> {
-  name: string;
+  tagName: string;
 }
 
 export interface TaggedObject<T> {
   object: T;
   tag: SceneObjectTag<T>;
-  name: string;
+  objectName: string;
 }
 
 export interface SceneTaggingModel {
@@ -24,11 +24,11 @@ const __tagCache: {
   [tag: string]: SceneObjectTag<any>;
 } = {};
 
-export function sceneObjectTag<T>(name: string): SceneObjectTag<T> {
-  var tag = __tagCache[name];
+export function sceneObjectTag<T>(tagName: string): SceneObjectTag<T> {
+  var tag = __tagCache[tagName];
 
   if (tag == undefined) {
-    __tagCache[name] = tag = { name: name };
+    __tagCache[tagName] = tag = { tagName: tagName };
   }
 
   return tag;

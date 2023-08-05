@@ -39,7 +39,7 @@ function getTagList(o: Object3D): string[] {
 }
 
 export function threeJsSetTagName<T extends Object3D>(o: T, tagName: SceneObjectTag<T>, name?: string) {
-  o.userData.name = name ? tagName.name + "." + name : tagName.name;
+  o.userData.name = name ? tagName.tagName + "." + name : tagName.tagName;
 }
 
 export function threeJsCleanTags(o: Object3D) {
@@ -50,7 +50,7 @@ export function threeJsCleanTags(o: Object3D) {
 
 export function threeJsAddTag<T extends Object3D>(o: T, ...tags: SceneObjectTag<T>[]): void {
   const objectTags = getTagList(o);
-  const tagNames = tags.map((t) => t.name);
+  const tagNames = tags.map((t) => t.tagName);
   objectTags.push(...tagNames);
   const tagSet = o.userData.__tagSet;
   tags.forEach(tagSet.add.bind(tagSet), tagNames);
@@ -59,7 +59,7 @@ export function threeJsAddTag<T extends Object3D>(o: T, ...tags: SceneObjectTag<
 export function threeJsIsTaggged<T extends Object3D>(o: T, tag: SceneObjectTag<T>): boolean {
   getTagList(o);
 
-  return o.userData.__tagSet.has(tag.name);
+  return o.userData.__tagSet.has(tag.tagName);
 }
 
 export class ThreeJsSceneTaggingModel implements SceneTaggingModel {
@@ -101,7 +101,7 @@ export class ThreeJsSceneTaggingModel implements SceneTaggingModel {
       objects.push({
         object: o,
         tag: sceneObjectTag(tag),
-        name: name,
+        objectName: name,
       });
     }
   }
@@ -115,7 +115,7 @@ export class ThreeJsSceneTaggingModel implements SceneTaggingModel {
   }
 
   getObjectsByTag<T extends object>(tag: SceneObjectTag<T>): TaggedObject<T>[] {
-    return this.objectsByTag[tag.name] || [];
+    return this.objectsByTag[tag.tagName] || [];
   }
 
   getFirstObjectByTag<T extends object>(tag: SceneObjectTag<T>): TaggedObject<T> | undefined {

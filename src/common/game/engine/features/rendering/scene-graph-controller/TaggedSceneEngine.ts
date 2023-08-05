@@ -71,15 +71,15 @@ export class TaggedSceneEngine extends BaseGameSceneIndexerLoader {
   }
 
   registerOnDelete<T>(tags: SceneObjectTag<T>[], handler: TaggedObjectEventHandlerArgument<T>): void {
-    tags.forEach((x) => addToObjectLst(this.onTagDeleteListenerByTag, x.name, handler));
+    tags.forEach((x) => addToObjectLst(this.onTagDeleteListenerByTag, x.tagName, handler));
   }
 
   registerOnAdd<T>(tags: SceneObjectTag<T>[], handler: TaggedObjectEventHandlerArgument<T>): void {
-    tags.forEach((x) => addToObjectLst(this.onTagAddListenerByTag, x.name, handler));
+    tags.forEach((x) => addToObjectLst(this.onTagAddListenerByTag, x.tagName, handler));
   }
 
   registerOnUpdate<T>(tags: SceneObjectTag<T>[], handler: TaggedObjectEventHandlerArgument<T>): void {
-    tags.forEach((x) => addToObjectLst(this.onTagUpdateListenersByTag, x.name, handler));
+    tags.forEach((x) => addToObjectLst(this.onTagUpdateListenersByTag, x.tagName, handler));
   }
 
   preRender() {
@@ -99,7 +99,7 @@ export class TaggedSceneEngine extends BaseGameSceneIndexerLoader {
     const tagCache: TagCache = {};
 
     this.taggingModel.getTags().forEach((tag) => {
-      const tagName = tag.name;
+      const tagName = tag.tagName;
 
       if (!this.tagCacheFilter.has(tagName)) return;
 

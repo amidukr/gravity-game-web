@@ -13,7 +13,7 @@ export class ThreeJsGameViewSceneModel extends BaseGameState<ThreeJsGameViewScen
   construtNewObject() {
     const sceneObject = new ThreeJsGameViewSceneObject();
     sceneObject.scene.name = "TagRoot";
-    sceneObject.scene.userData.name = TAG_Root.name;
+    sceneObject.scene.userData.name = TAG_Root.tagName;
 
     return sceneObject;
   }
