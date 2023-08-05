@@ -3,7 +3,7 @@ import { ApplicationContainer } from "../../../../../../common/app/ApplicationCo
 import { BaseApplicationComponent } from "../../../../../../common/app/utils/BaseApplicationComponent";
 import { SceneObjectTag, SceneTaggingModel, TYPE_GameSceneTaggingModel } from "../../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 import { filterNotNull } from "../../../../../../common/utils/CollectionUtils";
-import { PLANET_TAG, STAR_TAG } from "../../../game-level/GravityGameTags";
+import { TAG_Planet, TAG_Star } from "../../../game-level/GravityGameTags";
 
 export class GravitySpaceObjectsService extends BaseApplicationComponent {
   sceneMetaModel!: SceneTaggingModel;
@@ -17,11 +17,11 @@ export class GravitySpaceObjectsService extends BaseApplicationComponent {
   }
 
   findPlantes(): Object3D[] {
-    return this.findTagParentObjects(PLANET_TAG);
+    return this.findTagParentObjects(TAG_Planet);
   }
 
   findStars(): Object3D[] {
-    return this.findTagParentObjects(STAR_TAG);
+    return this.findTagParentObjects(TAG_Star);
   }
 
   findFirstStar(): Object3D {
@@ -29,7 +29,7 @@ export class GravitySpaceObjectsService extends BaseApplicationComponent {
   }
 
   findClosestPlanet(position: Vector3): Object3D | null {
-    const planetList = filterNotNull(this.sceneMetaModel.getObjectsByTag(PLANET_TAG).map((x) => x.object.parent));
+    const planetList = filterNotNull(this.sceneMetaModel.getObjectsByTag(TAG_Planet).map((x) => x.object.parent));
 
     var foundDistance = Number.MAX_VALUE;
     var foundPlanet = null;

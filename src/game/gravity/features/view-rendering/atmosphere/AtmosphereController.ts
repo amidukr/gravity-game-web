@@ -16,7 +16,7 @@ import {
 } from "../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 import { GravityConfiguration } from "../../../configuration/GravityConfiguration";
 import { GravityGameLevel, TYPE_GravityGameLevel } from "../../game-level/GravityGameLevelObject";
-import { ATMOSPHERE_TAG, PLANET_TAG } from "../../game-level/GravityGameTags";
+import { TAG_Atmosphere, TAG_Planet } from "../../game-level/GravityGameTags";
 import { getPlanetRadius } from "../../model-calculation/gravity-scene-model/UnvirseSceneModel";
 import { GravitySpaceObjectsService } from "../../model-calculation/gravity-universe/service/GravitySpaceObjectsService";
 import { AtmospherShaderMaterial } from "./material/AtmospherMaterial";
@@ -37,8 +37,8 @@ export class AtmosphereController extends TaggedSceneController {
   }
 
   override subscribe(ctx: SceneSubscribeContext): void {
-    ctx.registerOnAdd([PLANET_TAG], this.onPlanetAdd.bind(this));
-    ctx.registerOnUpdateEach([ATMOSPHERE_TAG], this.onAtmosphereUpdate.bind(this), { executionOrder: STAGE_OnAtmosphereUpdateStage });
+    ctx.registerOnAdd([TAG_Planet], this.onPlanetAdd.bind(this));
+    ctx.registerOnUpdateEach([TAG_Atmosphere], this.onAtmosphereUpdate.bind(this), { executionOrder: STAGE_OnAtmosphereUpdateStage });
   }
 
   onAtmosphereUpdate(object: TaggedObject<Mesh>): void {
@@ -99,7 +99,7 @@ export class AtmosphereController extends TaggedSceneController {
       backMaterial.planetRadius = planetRadius;
       backMaterial.atmosphereHeight = atmosphereHeight;
 
-      this.sceneMetaModel.addTagToObject(backAtmosphereObject, ATMOSPHERE_TAG);
+      this.sceneMetaModel.addTagToObject(backAtmosphereObject, TAG_Atmosphere);
       this.sceneMetaModel.addTagToObject(planet, sceneObjectTag(planet.uuid));
 
       backAtmosphereObject.userData.plantUuid = planet.uuid;

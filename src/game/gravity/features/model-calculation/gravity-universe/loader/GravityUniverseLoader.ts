@@ -4,7 +4,7 @@ import { ThreeJsGameLevel, TYPE_ThreeJsGameLevel } from "../../../../../../commo
 import { sceneObjectTag, SceneTaggingModel, TYPE_GameSceneTaggingModel } from "../../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 import { BaseGameModelLoader } from "../../../../../../common/game/engine/framework/GameLoaderTypes";
 import { filterNotNull, traverseNodeTreeUsingKey } from "../../../../../../common/utils/CollectionUtils";
-import { GRAVITY_CENTER_MASS } from "../../../game-level/GravityGameTags";
+import { TAG_GravityCenterMass } from "../../../game-level/GravityGameTags";
 import { findParentGravityField, saveOriginalObjectTemplate, setGravityFieldPlanet, setPlanetRadius } from "../../gravity-scene-model/UnvirseSceneModel";
 import { GravitySpaceObjectsService } from "../service/GravitySpaceObjectsService";
 import { GravityUniverseService } from "../service/GravityUniverseService";
@@ -40,7 +40,7 @@ export class GravityUniverseLoader extends BaseGameModelLoader {
       }
     });
 
-    const gravityCenterBodies = metaModel.getObjectsByTag(GRAVITY_CENTER_MASS);
+    const gravityCenterBodies = metaModel.getObjectsByTag(TAG_GravityCenterMass);
 
     const gravityGraph = filterNotNull(
       gravityCenterBodies.map((x) => {

@@ -100,8 +100,6 @@ export class TaggedSceneEngine extends BaseGameSceneIndexerLoader {
       this.previousRun = this.buildTagCache();
     } while (counter-- > 0 && callQueue.length > 0);
 
-    console.info("counter", counter);
-
     callQueue = [];
     this.handleOnTagUpdate(callQueue, taggedCache);
     callQueue.sort((a, b) => a.executionOrder - b.executionOrder).forEach((x) => x.callback());

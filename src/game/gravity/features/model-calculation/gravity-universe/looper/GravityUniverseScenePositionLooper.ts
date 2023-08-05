@@ -2,7 +2,7 @@ import { ApplicationContainer } from "../../../../../../common/app/ApplicationCo
 import { SceneTaggingModel, TYPE_GameSceneTaggingModel } from "../../../../../../common/game/engine/features/rendering/SceneTaggingModel";
 import { BaseGamePreRenderingLooper } from "../../../../../../common/game/engine/framework/GameLooperTypes";
 import { GameEvent } from "../../../../../../common/game/engine/GameEvent";
-import { GRAVITY_FIELD_TAG } from "../../../game-level/GravityGameTags";
+import { TAG_GravityField } from "../../../game-level/GravityGameTags";
 import { GravityUniverseModel } from "../model/GravityUniverseModel";
 import { GravityUniverseService } from "../service/GravityUniverseService";
 
@@ -18,7 +18,7 @@ export class GravityUniversePositionLooper extends BaseGamePreRenderingLooper {
   }
 
   execute(event: GameEvent): void {
-    const gravityUniverseObjects = this.scenObjectMetaModel.getObjectsByTag(GRAVITY_FIELD_TAG);
+    const gravityUniverseObjects = this.scenObjectMetaModel.getObjectsByTag(TAG_GravityField);
 
     this.gravityUniverseService.recalculateUniverse();
 

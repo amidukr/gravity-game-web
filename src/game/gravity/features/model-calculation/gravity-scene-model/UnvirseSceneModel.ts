@@ -1,13 +1,13 @@
 import { Object3D } from "three";
 import { threeJsIsTaggged } from "../../../../../common/game/engine/3rd-party/threejs/ThreeJsSceneTaggingModel";
 import { findObject3dParent } from "../../../../../common/utils/ThreeJsUtils";
-import { GRAVITY_FIELD_TAG } from "../../game-level/GravityGameTags";
+import { TAG_GravityField } from "../../game-level/GravityGameTags";
 
 const gravityFieldObjectMap = new WeakMap<Object3D, WeakRef<Object3D>>();
 const planetTemplateMap = new WeakMap<Object3D, Object3D>();
 
 export function findParentGravityField(object: Object3D): Object3D | null {
-  return findObject3dParent(object, (p) => threeJsIsTaggged(p, GRAVITY_FIELD_TAG));
+  return findObject3dParent(object, (p) => threeJsIsTaggged(p, TAG_GravityField));
 }
 
 export function getGravityFieldPlanet(gravityFieldObject: Object3D): Object3D | undefined {

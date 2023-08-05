@@ -23,9 +23,10 @@ import { ColorfulTaggedController } from "../features/view-rendering/common/Colo
 import { RootTagHandler } from "../features/view-rendering/root-tag-renderer/RootTagHandler";
 import { GravityGameStarter } from "../starters/GravityGameStarter";
 import { RootWidget } from "../ui/GravityGameRootWidget";
-import { AtmosphereModule } from "./AtmosphereModule";
-import { GravityCloseSpaceObjectModule } from "./GravityCloseSpaceModule";
 import { GravityUniversePlugin } from "./GravityUniverseModule";
+import { AtmosphereModule } from "./modules/AtmosphereModule";
+import { GravityCloseSpaceObjectModule } from "./modules/GravityCloseSpaceModule";
+import { TerraGenerationModule } from "./modules/TerraGenerationModule";
 
 export class GravityGamePlugin implements ApplicationComponent {
   constructor() {
@@ -72,14 +73,13 @@ export class GravityGamePlugin implements ApplicationComponent {
 
     application.registerComponent(new MainViewInputMappings());
 
-    // Modules
-    application.registerComponent(new GravityCloseSpaceObjectModule());
-
     // Starter
     application.registerComponent(new GravityGameStarter());
 
-    // Loopers
+    // Modules
+    application.registerComponent(new GravityCloseSpaceObjectModule());
     application.registerComponent(new AtmosphereModule());
+    application.registerComponent(new TerraGenerationModule());
 
     // Tag handlers
     application.registerComponent(new RootTagHandler());
